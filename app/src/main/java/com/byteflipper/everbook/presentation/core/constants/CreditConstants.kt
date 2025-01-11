@@ -1,17 +1,16 @@
 package com.byteflipper.everbook.presentation.core.constants
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import com.byteflipper.everbook.R
-import com.byteflipper.everbook.domain.model.Credit
-import com.byteflipper.everbook.domain.util.UIText
+import com.byteflipper.everbook.domain.about.Credit
+import com.byteflipper.everbook.domain.ui.UIText
+import com.byteflipper.everbook.domain.ui.UIText.StringResource
 
 fun Constants.provideCredits() = listOf(
     Credit(
         name = "Acclorite/book-story",
         source = "This app is based on a fork of the Acclorite/book-story project. The original project is available under the GPL-3.0 license.",
         credits = listOf(),
-        website = "https://www.github.com/Acclorite/story-book"
+        website = "https://github.com/Acclorite/book-story"
     ),
     Credit(
         name = "Tachiyomi (Mihon)",
@@ -31,6 +30,14 @@ fun Constants.provideCredits() = listOf(
             UIText.StringResource(R.string.credits_ideas)
         ),
         website = "https://www.github.com/Drumber/Kitsune"
+    ),
+    Credit(
+        name = "Voyager",
+        source = "Voyager website",
+        credits = listOf(
+            UIText.StringResource(R.string.credits_ideas)
+        ),
+        website = "https://voyager.adriel.cafe/"
     ),
     Credit(
         name = "Material Design Icons",
@@ -57,5 +64,4 @@ fun Constants.provideCredits() = listOf(
         ),
         website = "https://hosted.weblate.org/projects/book-story"
     ),
-
 )

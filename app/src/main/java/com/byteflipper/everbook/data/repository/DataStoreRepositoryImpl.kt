@@ -9,7 +9,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import com.byteflipper.everbook.data.local.data_store.DataStore
 import com.byteflipper.everbook.domain.repository.DataStoreRepository
-import com.byteflipper.everbook.presentation.data.MainState
+import com.byteflipper.everbook.ui.main.MainState
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton

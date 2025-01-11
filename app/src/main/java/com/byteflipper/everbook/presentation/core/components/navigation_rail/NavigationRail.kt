@@ -15,37 +15,26 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
-import com.byteflipper.everbook.domain.util.Route
-import com.byteflipper.everbook.presentation.core.constants.Constants
-import com.byteflipper.everbook.presentation.core.constants.provideNavigationItems
-import com.byteflipper.everbook.presentation.core.navigation.LocalNavigatorInstance
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.byteflipper.everbook.domain.navigator.NavigatorItem
+import com.byteflipper.everbook.presentation.navigator.LocalNavigator
 
-/**
- * Navigation Rail. It is used to be shown on Tablets.
- */
 @Composable
-fun NavigationRail() {
-    var currentScreen: Route? by remember { mutableStateOf(null) }
-    val navigator = LocalNavigatorInstance.current
+fun NavigationRail(tabs: List<NavigatorItem>) {
+    val navigator = LocalNavigator.current
     val layoutDirection = LocalLayoutDirection.current
+    val lastItem = navigator.lastItem.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        navigator.currentScreen.collect { route ->
-            if (
-                Constants.provideNavigationItems().any {
-                    navigator.run { it.screen.getRoute() } == route
-                }
-            ) {
-                currentScreen = route
-            }
+    val currentTab = remember { mutableStateOf(lastItem.value) }
+    LaunchedEffect(lastItem.value) {
+        if (tabs.any { it.screen::class == lastItem.value::class }) {
+            currentTab.value = lastItem.value
         }
     }
 
@@ -71,12 +60,12 @@ fun NavigationRail() {
             verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Constants.provideNavigationItems().forEach {
+            tabs.forEach { tab ->
                 NavigationRailItem(
-                    item = it,
-                    isSelected = currentScreen == navigator.run { it.screen.getRoute() }
+                    item = tab,
+                    isSelected = currentTab.value::class == tab.screen::class
                 ) {
-                    navigator.navigate(it.screen, false)
+                    navigator.push(tab.screen)
                 }
             }
         }

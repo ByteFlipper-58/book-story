@@ -1,0 +1,25 @@
+package com.byteflipper.everbook.presentation.settings.reader.misc.components
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.byteflipper.everbook.R
+import com.byteflipper.everbook.presentation.core.components.settings.SwitchWithTitle
+import com.byteflipper.everbook.ui.main.MainEvent
+import com.byteflipper.everbook.ui.main.MainModel
+
+@Composable
+fun HideBarsOnFastScrollOption() {
+    val mainModel = hiltViewModel<MainModel>()
+    val state = mainModel.state.collectAsStateWithLifecycle()
+
+    SwitchWithTitle(
+        selected = state.value.hideBarsOnFastScroll,
+        title = stringResource(id = R.string.hide_bars_on_fast_scroll_option)
+    ) {
+        mainModel.onEvent(
+            MainEvent.OnChangeHideBarsOnFastScroll(!state.value.hideBarsOnFastScroll)
+        )
+    }
+}

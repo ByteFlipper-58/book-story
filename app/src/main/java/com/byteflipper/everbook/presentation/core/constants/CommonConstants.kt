@@ -3,10 +3,10 @@
 package com.byteflipper.everbook.presentation.core.constants
 
 import androidx.compose.ui.graphics.Color
-import com.byteflipper.everbook.domain.model.Book
-import com.byteflipper.everbook.domain.model.Category
-import com.byteflipper.everbook.domain.model.ColorPreset
-import com.byteflipper.everbook.domain.util.UIText
+import com.byteflipper.everbook.domain.library.book.Book
+import com.byteflipper.everbook.domain.library.category.Category
+import com.byteflipper.everbook.domain.reader.ColorPreset
+import com.byteflipper.everbook.domain.ui.UIText
 
 // Main State
 fun Constants.provideMainState() = "main_state"
@@ -17,7 +17,6 @@ fun Constants.provideEmptyBook() = Book(
     title = "",
     author = UIText.StringValue(""),
     description = null,
-    textPath = "",
     filePath = "",
     coverImage = null,
     scrollIndex = 0,

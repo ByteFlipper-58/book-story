@@ -1,6 +1,6 @@
 package com.byteflipper.everbook.domain.repository
 
-import com.byteflipper.everbook.domain.model.History
+import com.byteflipper.everbook.domain.history.History
 
 interface HistoryRepository {
 

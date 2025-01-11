@@ -2,10 +2,10 @@ package com.byteflipper.everbook.data.parser.txt
 
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.parser.FileParser
-import com.byteflipper.everbook.domain.model.Book
-import com.byteflipper.everbook.domain.model.BookWithCover
-import com.byteflipper.everbook.domain.model.Category
-import com.byteflipper.everbook.domain.util.UIText
+import com.byteflipper.everbook.domain.library.book.Book
+import com.byteflipper.everbook.domain.library.book.BookWithCover
+import com.byteflipper.everbook.domain.library.category.Category
+import com.byteflipper.everbook.domain.ui.UIText
 import java.io.File
 import javax.inject.Inject
 
@@ -21,7 +21,6 @@ class TxtFileParser @Inject constructor() : FileParser {
                     title = title,
                     author = author,
                     description = null,
-                    textPath = "",
                     scrollIndex = 0,
                     scrollOffset = 0,
                     progress = 0f,

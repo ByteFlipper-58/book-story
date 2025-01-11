@@ -2,7 +2,7 @@ package com.byteflipper.everbook.data.mapper.color_preset
 
 import androidx.compose.ui.graphics.Color
 import com.byteflipper.everbook.data.local.dto.ColorPresetEntity
-import com.byteflipper.everbook.domain.model.ColorPreset
+import com.byteflipper.everbook.domain.reader.ColorPreset
 import javax.inject.Inject
 
 class ColorPresetMapperImpl @Inject constructor() : ColorPresetMapper {

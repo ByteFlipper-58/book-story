@@ -5,10 +5,10 @@ import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.parser.FileParser
-import com.byteflipper.everbook.domain.model.Book
-import com.byteflipper.everbook.domain.model.BookWithCover
-import com.byteflipper.everbook.domain.model.Category
-import com.byteflipper.everbook.domain.util.UIText
+import com.byteflipper.everbook.domain.library.book.Book
+import com.byteflipper.everbook.domain.library.book.BookWithCover
+import com.byteflipper.everbook.domain.library.category.Category
+import com.byteflipper.everbook.domain.ui.UIText
 import java.io.File
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ class PdfFileParser @Inject constructor(
                 if (isNullOrBlank()) UIText.StringResource(R.string.unknown_author)
                 else UIText.StringValue(this)
             }
-            val description = document.documentInformation.subject ?: null
+            val description = document.documentInformation.subject
 
             document.close()
 
@@ -36,7 +36,6 @@ class PdfFileParser @Inject constructor(
                     title = title,
                     author = author,
                     description = description,
-                    textPath = "",
                     scrollIndex = 0,
                     scrollOffset = 0,
                     progress = 0f,

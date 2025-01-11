@@ -6,17 +6,14 @@ import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.local.room.BookDao
 import com.byteflipper.everbook.data.mapper.book.BookMapper
 import com.byteflipper.everbook.data.parser.FileParser
-import com.byteflipper.everbook.data.parser.TextParser
-import com.byteflipper.everbook.domain.model.BookWithTextAndCover
-import com.byteflipper.everbook.domain.model.NullableBook
-import com.byteflipper.everbook.domain.model.NullableBook.NotNull
-import com.byteflipper.everbook.domain.model.NullableBook.Null
-import com.byteflipper.everbook.domain.model.SelectableFile
+import com.byteflipper.everbook.domain.browse.SelectableFile
+import com.byteflipper.everbook.domain.library.book.NullableBook
+import com.byteflipper.everbook.domain.library.book.NullableBook.NotNull
+import com.byteflipper.everbook.domain.library.book.NullableBook.Null
 import com.byteflipper.everbook.domain.repository.FileSystemRepository
-import com.byteflipper.everbook.domain.util.Resource
-import com.byteflipper.everbook.domain.util.UIText
+import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.presentation.core.constants.Constants
-import com.byteflipper.everbook.presentation.core.constants.provideSupportedExtensions
+import com.byteflipper.everbook.presentation.core.constants.provideExtensions
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,11 +28,8 @@ private const val GET_FILES_FROM_DEVICE = "FILES FROM DEVICE, REPO"
 @Singleton
 class FileSystemRepositoryImpl @Inject constructor(
     private val database: BookDao,
-
     private val bookMapper: BookMapper,
-
-    private val fileParser: FileParser,
-    private val textParser: TextParser,
+    private val fileParser: FileParser
 ) : FileSystemRepository {
 
     /**
@@ -48,7 +42,7 @@ class FileSystemRepositoryImpl @Inject constructor(
         val existingBooks = database
             .searchBooks("")
             .map { bookMapper.toBook(it) }
-        val supportedExtensions = Constants.provideSupportedExtensions()
+        val supportedExtensions = Constants.provideExtensions()
 
         fun File.isValid(): Boolean {
             if (!exists()) {
@@ -155,26 +149,7 @@ class FileSystemRepositoryImpl @Inject constructor(
             )
         }
 
-        val parsedText = textParser.parse(file)
-        if (parsedText is Resource.Error) {
-            Log.e(GET_BOOK_FROM_FILE, "Parsed text(${file.name}) has error.")
-            return Null(
-                file.name,
-                parsedText.message
-            )
-        }
-
         Log.i(GET_BOOK_FROM_FILE, "Successfully got book from file.")
-        return NotNull(
-            bookWithTextAndCover = BookWithTextAndCover(
-                book = parsedBook.book.copy(
-                    chapters = parsedText.data!!.map { it.chapter }
-                ),
-                coverImage = parsedBook.coverImage,
-                text = parsedText.data.map {
-                    it.text
-                }.flatten()
-            )
-        )
+        return NotNull(bookWithCover = parsedBook)
     }
 }

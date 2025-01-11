@@ -1,6 +1,6 @@
 package com.byteflipper.everbook.domain.repository
 
-import com.byteflipper.everbook.domain.model.ColorPreset
+import com.byteflipper.everbook.domain.reader.ColorPreset
 
 interface ColorPresetRepository {
 

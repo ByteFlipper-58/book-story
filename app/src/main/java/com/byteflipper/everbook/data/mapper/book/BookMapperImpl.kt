@@ -3,8 +3,8 @@ package com.byteflipper.everbook.data.mapper.book
 import android.net.Uri
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.local.dto.BookEntity
-import com.byteflipper.everbook.domain.model.Book
-import com.byteflipper.everbook.domain.util.UIText
+import com.byteflipper.everbook.domain.library.book.Book
+import com.byteflipper.everbook.domain.ui.UIText
 import javax.inject.Inject
 
 class BookMapperImpl @Inject constructor() : BookMapper {
@@ -17,11 +17,9 @@ class BookMapperImpl @Inject constructor() : BookMapper {
             scrollOffset = book.scrollOffset,
             progress = book.progress,
             author = book.author.getAsString(),
-            textPath = book.textPath,
             description = book.description,
             image = book.coverImage?.toString(),
-            category = book.category,
-            chapters = book.chapters
+            category = book.category
         )
     }
 
@@ -36,12 +34,10 @@ class BookMapperImpl @Inject constructor() : BookMapper {
             scrollIndex = bookEntity.scrollIndex,
             scrollOffset = bookEntity.scrollOffset,
             progress = bookEntity.progress,
-            textPath = bookEntity.textPath,
             filePath = bookEntity.filePath,
             lastOpened = null,
             category = bookEntity.category,
-            coverImage = if (bookEntity.image != null) Uri.parse(bookEntity.image) else null,
-            chapters = bookEntity.chapters
+            coverImage = if (bookEntity.image != null) Uri.parse(bookEntity.image) else null
         )
     }
 }

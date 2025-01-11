@@ -13,21 +13,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.byteflipper.everbook.domain.model.NavigationItem
+import com.byteflipper.everbook.domain.navigator.NavigatorItem
 import com.byteflipper.everbook.presentation.core.components.common.Tooltip
 
-/**
- * Navigation Bar Item.
- *
- * @param modifier Modifier.
- * @param item [NavigationItem].
- * @param isSelected Whether this screen is currently selected.
- * @param onClick OnClick callback.
- */
 @Composable
 fun RowScope.NavigationBarItem(
     modifier: Modifier = Modifier,
-    item: NavigationItem,
+    item: NavigatorItem,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {

@@ -1,7 +1,7 @@
 package com.byteflipper.everbook.data.mapper.history
 
 import com.byteflipper.everbook.data.local.dto.HistoryEntity
-import com.byteflipper.everbook.domain.model.History
+import com.byteflipper.everbook.domain.history.History
 import javax.inject.Inject
 
 class HistoryMapperImpl @Inject constructor() : HistoryMapper {

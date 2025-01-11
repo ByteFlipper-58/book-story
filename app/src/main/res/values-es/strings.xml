@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.0.0</string>
+    <string name="app_version" translatable="false">1.1.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Predeterminado</string>
     <string name="random_string">Aleatorio</string>
@@ -20,7 +20,7 @@
     <string name="library_screen">Biblioteca</string>
     <string name="history_screen">Historial</string>
     <string name="browse_screen">Explorar</string>
-    <string name="settings_screen">Ajustes</string>
+    <string name="settings_screen">Configuración</string>
     <string name="about_screen">Acerca de la app</string>
     <string name="help_screen">Ayuda</string>
 
@@ -28,64 +28,51 @@
     <string name="storage_permission">¿Conceder permiso?</string>
     <string name="add_books">¿Añadir libros?</string>
     <string name="move_books">¿Mover libros?</string>
-    <string name="delete_books">¿Eliminar libros?</string>
-    <string name="delete_book">¿Eliminar libro?</string>
+    <string name="delete_books">¿Borrar libros?</string>
+    <string name="delete_book">¿Borrar libro?</string>
     <string name="move_book">¿Mover libro?</string>
-    <string name="delete_history">¿Eliminar el historial de lectura?</string>
-    <string name="confirm_update">¿Confirmar actualización?</string>
-    <string name="enable_check_for_updates">¿Habilitar la verificación de actualizaciones?</string>
-    <string name="update_book">¿Actualizar libro?</string>
+    <string name="delete_history">¿Borrar historial de lectura?</string>
+    <string name="enable_check_for_updates">¿Activar comprobación de actualizaciones?</string>
 
     <!-- Dialog Descriptions -->
     <string name="storage_permission_description">
         Necesitamos permiso de almacenamiento para escanear tu dispositivo en busca de libros.
-        Sin este permiso, no podrás añadir un libro.
+        Sin este permiso, no podrás añadir ningún libro.
     </string>
     <string name="add_books_description">
         Puedes elegir qué libros quieres añadir.
-        Puedes editar el título y la imagen de la portada del libro más tarde.
+        Podrás editar el título y la imagen de portada del libro más adelante.
         El proceso de carga puede tardar varios minutos.
     </string>
     <string name="move_books_description">
-        Elige la categoría a la que quieres mover todos los libros seleccionados (%1$s).
-        Todos los libros seleccionados se moverán a la categoría seleccionada.
+        Elige la categoría a la que quieres mover todos los libros seleccionados(%1$s).
+        Todos los libros seleccionados serán movidos a la categoría seleccionada.
     </string>
     <string name="delete_books_description">
-        Eliminará todos los libros seleccionados (%1$s) de la base de datos.
-        No eliminará los libros seleccionados de tu dispositivo.
+        Esto borrará todos los libros seleccionados(%1$s) de la base de datos.
+        No borrará los libros seleccionados de tu dispositivo.
     </string>
     <string name="delete_book_description">
-        Eliminará este libro de la base de datos.
-        No eliminará este libro de tu dispositivo.
+        Esto borrará este libro de la base de datos.
+        No borrará este libro de tu dispositivo.
     </string>
     <string name="move_book_description">
         Elige la categoría a la que quieres mover este libro.
-        Este libro se moverá a la categoría seleccionada.
+        Este libro será movido a la categoría seleccionada.
     </string>
     <string name="delete_history_description">
-        Eliminará todo el historial de la base de datos.
-        Después de eliminar todo el historial, se restablecerá el orden de los libros.
-    </string>
-    <string name="confirm_update_description">
-        Actualiza el texto y los capítulos de este libro.
-        El progreso debería permanecer sin cambios a menos que se haya cambiado el orden de los párrafos.
+        Esto borrará todo el historial de la base de datos.
+        Tras borrar todo el historial, el orden de los libros se restablecerá.
     </string>
     <string name="update_app_description">
         Se ha encontrado una nueva versión de la app.
-        ¿Quieres proceder e ir a la página de lanzamiento?
+        ¿Quieres continuar e ir a la página de lanzamiento?
     </string>
     <string name="enable_check_for_updates_description">
-        Al habilitar «Verificar actualizaciones»,
+        Al activar «Buscar actualizaciones»,
         la app recuperará la información de la última versión de «api.github.com» cada vez
-        que se inicie la app.
-        ¿Quieres proceder y habilitar «Verificar actualizaciones»?
-    </string>
-    <string name="update_book_description">
-        Se ha encontrado una actualización del texto.
-        Es necesaria una actualización para asegurar que se utilizan los últimos métodos de análisis.
-        Es un proceso sin conexión.
-        Tu progreso no se verá afectado a menos que se produzcan grandes cambios.
-        ¿Quieres proceder con la actualización?
+        que la app se inicie.
+        ¿Quieres continuar y activar «Buscar actualizaciones»?
     </string>
 
     <!-- Errors -->
@@ -98,18 +85,12 @@
     <string name="error_something_went_wrong">
         Algo salió mal.
     </string>
-    <string name="error_something_went_wrong_with_file">
-        Algo salió mal. Comprueba si el archivo de este libro no está dañado.
-    </string>
-    <string name="error_wrong_file_format">Formato de archivo incorrecto.</string>
-    <string name="error_query">Error: %1$s</string>
-    <string name="error_file_empty">Este archivo está vacío o dañado.</string>
     <string name="error_no_translator">No se encontró ninguna app de traducción.</string>
     <string name="error_no_dictionary">No se encontró ninguna app de diccionario.</string>
     <string name="error_no_browser">No se encontró ninguna app de navegador.</string>
     <string name="error_no_share_app">No se encontró ninguna app para compartir.</string>
-    <string name="error_no_text">
-        El contenido del libro está vacío. Por favor, asegúrate de que el contenido del libro no esté vacío y actualízalo.
+    <string name="error_could_not_get_text">
+        El archivo está vacío, dañado o no existe. Por favor, verifica e inténtalo de nuevo.
     </string>
     <string name="error_check_internet">
         Algo salió mal.
@@ -123,7 +104,7 @@
         Buscar…
     </string>
     <string name="browse_empty">
-        Amplía la colección de libros de la biblioteca con tus descargas
+        Expande la colección de libros de la biblioteca con tus descargas
     </string>
     <string name="library_empty">
         Lee tus libros favoritos y ordénalos entre categorías
@@ -136,7 +117,7 @@
     <string name="selected_items_count_query">%1$s seleccionados</string>
     <string name="file_path_query">Ruta del archivo: %1$s</string>
     <string name="update_query">Actualizar %1$s</string>
-    <string name="color_preset_query">Preajuste %1$s</string>
+    <string name="color_preset_query">Preestablecido %1$s</string>
     <string name="color_preset_selected_query">Seleccionado «%1$s»</string>
 
     <!-- Action Texts -->
@@ -147,8 +128,8 @@
     <string name="add">Añadir</string>
     <string name="add_book">Añadir un libro</string>
     <string name="move">Mover</string>
-    <string name="delete">Eliminar</string>
-    <string name="start">Comenzar</string>
+    <string name="delete">Borrar</string>
+    <string name="start">Empezar</string>
     <string name="continue_read">Continuar</string>
     <string name="never">Nunca</string>
     <string name="go_back">Volver</string>
@@ -156,38 +137,36 @@
     <string name="copy">Copiar</string>
     <string name="translate">Traducir</string>
     <string name="dictionary">Diccionario</string>
-    <string name="retry">Reintentar</string>
-    <string name="confirm">Confirmar</string>
     <string name="next">Siguiente</string>
-    <string name="yes_go_to_help">Sí, ir a Ayuda</string>
+    <string name="yes_go_to_help">Sí, ir a la Ayuda</string>
     <string name="no">No</string>
     <string name="done">Hecho</string>
-    <string name="enable">Habilitar</string>
+    <string name="enable">Activar</string>
     <string name="web_search">Búsqueda web</string>
     <string name="share">Compartir</string>
-    <string name="proceed">Proceder</string>
+    <string name="proceed">Continuar</string>
 
     <!-- Book -->
     <string name="unknown_author">Desconocido</string>
     <string name="read_more">¡Necesitas leer más!</string>
     <string name="read_keep">¡Sigue así!</string>
     <string name="read_done">¡Bien hecho, has leído todo el libro!</string>
-    <string name="reset_cover">Restablecer la imagen de portada</string>
+    <string name="reset_cover">Restablecer imagen de portada</string>
     <string name="reset_cover_desc">Restablecer la imagen de portada del libro a la predeterminada</string>
-    <string name="change_cover">Cambiar la imagen de portada</string>
-    <string name="change_cover_desc">Elige una nueva portada de tus fotos</string>
-    <string name="delete_cover">Eliminar la imagen de portada</string>
-    <string name="delete_cover_desc">Eliminar la imagen de portada actual del libro</string>
+    <string name="change_cover">Cambiar imagen de portada</string>
+    <string name="change_cover_desc">Elegir nueva portada de tus fotos</string>
+    <string name="delete_cover">Borrar imagen de portada</string>
+    <string name="delete_cover_desc">Borrar la imagen de portada actual del libro</string>
     <string name="author">Autor</string>
 
     <!-- Tabs -->
     <string name="reading_tab">Leyendo</string>
     <string name="already_read_tab">Ya leído</string>
-    <string name="planning_tab">Planificando</string>
+    <string name="planning_tab">Planeando</string>
     <string name="dropped_tab">Abandonado</string>
     <string name="general_tab">General</string>
     <string name="color_tab">Colores</string>
-    <string name="filter_tab">Filtro</string>
+    <string name="filter_tab">Filtrar</string>
     <string name="sort_tab">Ordenar</string>
     <string name="reader_tab">Lector</string>
 
@@ -205,14 +184,17 @@
     <string name="font_reader_settings">Fuente</string>
     <string name="text_reader_settings">Texto</string>
     <string name="translator_reader_settings">Traductor</string>
-    <string name="padding_reader_settings">Relleno</string>
+    <string name="padding_reader_settings">Márgenes</string>
     <string name="misc_reader_settings">Varios</string>
     <string name="reading_speed_reader_settings">Velocidad de lectura</string>
+    <string name="reading_mode_reader_settings">Modo de lectura</string>
     <string name="system_reader_settings">Sistema</string>
+    <string name="chapters_reader_settings">Capítulos</string>
+    <string name="images_reader_settings">Imágenes</string>
     <string name="theme_appearance_settings">Preferencias del tema</string>
     <string name="colors_appearance_settings">Colores</string>
     <string name="general_browse_settings">General</string>
-    <string name="filter_browse_settings">Filtro</string>
+    <string name="filter_browse_settings">Filtrar</string>
     <string name="sort_browse_settings">Ordenar</string>
 
     <!-- Settings options -->
@@ -224,10 +206,10 @@
     <string name="absolute_dark_option_desc">Cambiar el color de fondo para que sea completamente negro</string>
     <string name="theme_contrast_option">Contraste del tema</string>
     <string name="app_theme_option">Tema de la app</string>
-    <string name="check_for_updates_option">Verificar actualizaciones</string>
-    <string name="check_for_updates_option_desc">Verificar si hay una versión más reciente de la app al inicio</string>
-    <string name="double_press_exit_option">Doble pulsación para salir</string>
-    <string name="double_press_exit_option_desc">Presiona atrás dos veces para salir de la app</string>
+    <string name="check_for_updates_option">Buscar actualizaciones</string>
+    <string name="check_for_updates_option_desc">Buscar una versión más nueva de la app al iniciar</string>
+    <string name="double_press_exit_option">Doble pulsación de retroceso para salir</string>
+    <string name="double_press_exit_option_desc">Pulsa dos veces atrás para salir de la app</string>
 
     <!-- Reader -->
     <string name="font_family_option">Familia de fuentes</string>
@@ -236,51 +218,60 @@
     <string name="line_height_option">Altura de línea</string>
     <string name="paragraph_height_option">Altura de párrafo</string>
     <string name="paragraph_indentation_option">Sangría de párrafo</string>
-    <string name="color_preset_option">Preajuste de color</string>
+    <string name="color_preset_option">Preestablecido de color</string>
     <string name="background_color_option">Color de fondo</string>
     <string name="font_color_option">Color de fuente</string>
-    <string name="side_padding_option">Relleno lateral</string>
-    <string name="vertical_padding_option">Relleno vertical</string>
+    <string name="side_padding_option">Márgenes laterales</string>
+    <string name="vertical_padding_option">Márgenes verticales</string>
     <string name="double_click_translation_option">Traducción con doble clic</string>
     <string name="double_click_translation_option_desc">Haz doble clic en un párrafo para traducirlo</string>
-    <string name="fast_color_preset_change_option">Cambio rápido de preajuste de color</string>
-    <string name="fast_color_preset_change_option_desc">Desliza la barra superior hacia la izquierda o la derecha para cambiar el preajuste de color</string>
-    <string name="text_alignment_option">Alineación del texto</string>
+    <string name="fast_color_preset_change_option">Cambio rápido de preestablecido de color</string>
+    <string name="fast_color_preset_change_option_desc">Desliza la barra superior hacia la izquierda o la derecha para cambiar el preestablecido de color</string>
+    <string name="text_alignment_option">Alineación de texto</string>
+    <string name="chapter_title_alignment_option">Alineación del título del capítulo</string>
     <string name="letter_spacing_option">Espaciado entre letras</string>
-    <string name="cutout_padding_option">Relleno de recorte</string>
-    <string name="cutout_padding_option_desc">Aplicar relleno al área de recorte</string>
+    <string name="cutout_padding_option">Margen de recorte</string>
+    <string name="cutout_padding_option_desc">Aplicar margen al área de recorte</string>
     <string name="fullscreen_option">Pantalla completa</string>
-    <string name="fullscreen_option_desc">Ocultar las barras del sistema y eliminar el relleno</string>
+    <string name="fullscreen_option_desc">Ocultar barras de sistema y márgenes</string>
     <string name="keep_screen_on_option">Mantener la pantalla encendida</string>
-    <string name="hide_bars_on_fast_scroll_option">Ocultar las barras en desplazamiento rápido</string>
+    <string name="hide_bars_on_fast_scroll_option">Ocultar barras al desplazar rápidamente</string>
     <string name="perception_expander_option">Expansor de percepción</string>
     <string name="perception_expander_option_desc">
         Aumenta tu velocidad de lectura enfocándote en el centro
     </string>
-    <string name="perception_expander_padding_option">Relleno de línea del expansor de percepción</string>
-    <string name="perception_expander_thickness_option">Grosor de línea del expansor de percepción</string>
-    <string name="check_for_text_update_option">Verificar actualizaciones de texto</string>
-    <string name="check_for_text_update_option_desc">Verificar automáticamente si hay una actualización de texto</string>
-    <string name="check_for_text_update_toast_option">Mostrar notificación de «texto actualizado»</string>
-    <string name="screen_orientation_option">Orientación de la pantalla</string>
+    <string name="perception_expander_padding_option">Margen lateral de línea</string>
+    <string name="perception_expander_thickness_option">Grosor de línea</string>
+    <string name="screen_orientation_option">Orientación de pantalla</string>
     <string name="custom_screen_brightness_option">Brillo personalizado</string>
     <string name="screen_brightness_option">Brillo</string>
-
+    <string name="horizontal_gesture_option">Gesto horizontal</string>
+    <string name="horizontal_gesture_scroll_option">Fracción de desplazamiento</string>
+    <string name="horizontal_gesture_sensitivity_option">Sensibilidad</string>
+    <string name="bottom_bar_padding_option">Margen de la barra inferior</string>
+    <string name="highlighted_reading_option">Resaltar palabras</string>
+    <string name="highlighted_reading_option_desc">Resaltar el principio de cada palabra</string>
+    <string name="highlighted_reading_thickness_option">Grosor del resaltado</string>
+    <string name="images_option">Imágenes</string>
+    <string name="images_option_desc">Mostrar imágenes junto con sus leyendas</string>
+    <string name="images_corners_roundness_option">Redondez de las esquinas</string>
+    <string name="images_alignment_option">Alineación</string>
+    <string name="images_width_option">Tamaño</string>
 
     <!-- Browse -->
     <string name="browse_files_structure_option">Estructura de archivos</string>
     <string name="browse_layout_option">Modo de visualización</string>
     <string name="browse_grid_size_option">Tamaño de la cuadrícula</string>
-    <string name="browse_pin_favorite_directories_option">Anclar directorios favoritos</string>
+    <string name="browse_pin_favorite_directories_option">Fijar directorios favoritos</string>
     <string name="browse_pin_favorite_directories_option_desc">
-        Anclar tus directorios favoritos en la parte superior de la pantalla
+        Fija tus directorios favoritos en la parte superior de la pantalla
     </string>
 
     <!-- Color presets -->
     <string name="red_color">Rojo</string>
     <string name="green_color">Verde</string>
     <string name="blue_color">Azul</string>
-    <string name="color_preset_placeholder">Nombra un preajuste...</string>
+    <string name="color_preset_placeholder">Ponle nombre a un preestablecido…</string>
 
     <!-- Dark Theme properties -->
     <string name="dark_theme_off">Desactivado</string>
@@ -290,11 +281,11 @@
     <!-- Pure Dark properties -->
     <string name="pure_dark_off">Desactivado</string>
     <string name="pure_dark_on">Activado</string>
-    <string name="pure_dark_power_saver">Ahorro</string>
+    <string name="pure_dark_power_saver">Ahorrador</string>
 
     <!-- Theme Contrast properties -->
     <string name="theme_contrast_standard">Estándar</string>
-    <string name="theme_contrast_medium">Medio</string>
+    <string name="theme_contrast_medium">Mediano</string>
     <string name="theme_contrast_high">Alto</string>
 
     <!-- Font Style properties -->
@@ -318,20 +309,28 @@
     <string name="browse_sort_order_file_format">Formato de archivo</string>
     <string name="browse_sort_order_file_type">Tipo de archivo</string>
     <string name="browse_sort_order_last_modified">Última modificación</string>
-    <string name="browse_sort_order_file_size">Tamaño de archivo</string>
+    <string name="browse_sort_order_file_size">Tamaño del archivo</string>
 
-    <!-- Text Alignment properties -->
-    <string name="text_alignment_start">Inicio</string>
-    <string name="text_alignment_justify">Justificar</string>
-    <string name="text_alignment_center">Centro</string>
-    <string name="text_alignment_end">Fin</string>
+    <!-- Alignment properties -->
+    <string name="alignment_start">Inicio</string>
+    <string name="alignment_justify">Justificar</string>
+    <string name="alignment_center">Centro</string>
+    <string name="alignment_end">Fin</string>
 
     <!-- Screen Orientation properties -->
     <string name="screen_orientation_free">Libre</string>
     <string name="screen_orientation_portrait">Vertical</string>
     <string name="screen_orientation_landscape">Horizontal</string>
-    <string name="screen_orientation_locked_portrait">Vertical bloqueado</string>
-    <string name="screen_orientation_locked_landscape">Horizontal bloqueado</string>
+    <string name="screen_orientation_locked_portrait">Vertical bloqueada</string>
+    <string name="screen_orientation_locked_landscape">Horizontal bloqueada</string>
+
+    <!-- Horizontal Gesture properties -->
+    <string name="horizontal_gesture_off">Apagado</string>
+    <string name="horizontal_gesture_on">Encendido</string>
+    <string name="horizontal_gesture_inverse">Encendido (Inverso)</string>
+
+    <!-- Highlighted Reading properties -->
+    <string name="highlighted_reading_level">nivel</string>
 
     <!-- Themes -->
     <string name="dynamic_theme">Mercurio</string>
@@ -341,41 +340,39 @@
     <string name="gray_theme">Calisto</string>
     <string name="purple_theme">Júpiter</string>
     <string name="pink_theme">Saturno</string>
-    <string name="pink2_theme">Ganimedes</string>
+    <string name="pink2_theme">Ganímedes</string>
     <string name="lavender_theme">Eris</string>
     <string name="marsh_theme">Plutón</string>
     <string name="yellow_theme">Venus</string>
+    <string name="yellow2_theme">Makemake</string>
     <string name="aqua_theme">Urano</string>
 
     <!-- Toast messages -->
-    <string name="press_again_toast">Presiona atrás de nuevo para salir</string>
-    <string name="books_added">Todos los libros seleccionados se han añadido correctamente.</string>
-    <string name="books_moved">Todos los libros seleccionados se han movido correctamente.</string>
-    <string name="books_deleted">Todos los libros seleccionados se han eliminado correctamente.</string>
+    <string name="press_again_toast">Pulsa atrás de nuevo para salir</string>
+    <string name="books_added">Todos los libros seleccionados se añadieron correctamente.</string>
+    <string name="books_moved">Todos los libros seleccionados se movieron correctamente.</string>
+    <string name="books_deleted">Todos los libros seleccionados se borraron correctamente.</string>
     <string name="cover_image_changed">La imagen de portada se ha cambiado correctamente.</string>
-    <string name="cover_image_deleted">La imagen de portada se ha eliminado correctamente.</string>
-    <string name="book_deleted">Este libro se ha eliminado correctamente.</string>
+    <string name="cover_image_deleted">La imagen de portada se ha borrado correctamente.</string>
+    <string name="book_deleted">Este libro se ha borrado correctamente.</string>
     <string name="book_moved">Este libro se ha movido correctamente.</string>
     <string name="copied">Copiado</string>
-    <string name="history_deleted">El historial se ha eliminado correctamente.</string>
-    <string name="no_updates">Ya está instalada la última versión de la app.</string>
+    <string name="history_deleted">El historial se ha borrado correctamente.</string>
+    <string name="no_updates">La última versión de la app ya está instalada.</string>
     <string name="cover_reset">La imagen de portada se ha restablecido correctamente.</string>
 
     <!-- Snackbar messages -->
-    <string name="history_element_deleted">El elemento del historial se ha eliminado correctamente.</string>
-    <string name="file_not_found">No se encontró el archivo \"%1$s\".</string>
-    <string name="book_updated">El texto del libro se ha actualizado correctamente.</string>
-    <string name="nothing_changed">El texto está actualizado.</string>
+    <string name="history_element_deleted">El elemento del historial se ha borrado correctamente.</string>
 
     <!-- DropDown properties -->
     <string name="move_this_book">Mover</string>
-    <string name="delete_this_book">Eliminar</string>
+    <string name="delete_this_book">Borrar</string>
     <string name="details_book">Detalles</string>
 
     <!-- BookInfo details -->
     <string name="file_name">Nombre del archivo</string>
     <string name="file_path">Ruta del archivo</string>
-    <string name="file_last_opened">Última apertura del archivo</string>
+    <string name="file_last_opened">Archivo abierto por última vez</string>
     <string name="file_size">Tamaño del archivo</string>
     <string name="unknown">Desconocido</string>
 
@@ -389,12 +386,12 @@
     <!-- About -->
     <string name="app_version_option">Versión de la app</string>
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
-    <string name="app_version_option_desc_2">Haz clic para verificar si hay actualizaciones</string>
+    <string name="app_version_option_desc_2">Haz clic para buscar actualizaciones</string>
     <string name="report_bug_option">Informar de un error</string>
     <string name="whats_new_option">Novedades</string>
     <string name="licenses_option">Licencias de código abierto</string>
     <string name="credits_option">Créditos</string>
-    <string name="help_translate_option">Ayudar a traducir</string>
+    <string name="help_translate_option">Ayuda a traducir</string>
     <string name="contributors_option">Colaboradores</string>
     <string name="slava_ukraini">¡Slava Ukraini!</string>
 
@@ -408,173 +405,157 @@
     <string name="credits_ideas">Ideas</string>
 
     <!-- Help -->
-    <string name="help_clickable_note_1">Ten en cuenta que</string>
-    <string name="help_clickable_note_2">este texto resaltado</string>
-    <string name="help_clickable_note_3">
-        se puede hacer clic.
-        También puedes ocultar esta nota haciendo clic en el icono, ¡pruébalo!
-    </string>
-    <string name="help_clickable_note_action">¡Se puede hacer clic en mí!</string>
-
     <string name="help_title_how_to_add_books">¿Cómo añado libros a la Biblioteca?</string>
     <string name="help_desc_how_to_add_books_1">Ve a</string>
     <string name="help_desc_how_to_add_books_2">Explorar</string>
     <string name="help_desc_how_to_add_books_3">
         Si no ves los libros descargados, intenta actualizar la lista arrastrándola hacia abajo.
-        Asegúrate de que tus libros tengan un formato de archivo compatible.
-        Luego haz clic en el libro para seleccionarlo o mantenlo presionado para mostrar su ubicación.
-        Después de que hayas seleccionado todos los libros que deseas, haz clic en el icono de marca de verificación en la esquina superior derecha,
-        espera a que se carguen todos los libros y haz clic en «Añadir».
+        Asegúrate de que tus libros tienen un formato de archivo compatible.
+        Luego haz clic en el libro para seleccionarlo o mantenlo pulsado para mostrar su ubicación.
+        Tras seleccionar todos los libros que quieras, haz clic en el icono de verificación en la esquina superior derecha,
+        espera a que todos los libros se carguen y haz clic en «Añadir».
         Ahora deberías ver todos los libros que has añadido en la
     </string>
     <string name="help_desc_how_to_add_books_4">Biblioteca</string>
 
     <string name="help_title_how_to_customize_app">¿Cómo personalizo la app?</string>
     <string name="help_desc_how_to_customize_app_1">Ve a</string>
-    <string name="help_desc_how_to_customize_app_2">Ajustes</string>
+    <string name="help_desc_how_to_customize_app_2">Configuración</string>
     <string name="help_desc_how_to_customize_app_3">
         Puedes hacer esto desde las pantallas de Biblioteca, Historial y Explorar
-        haciendo clic en los tres puntos en la esquina superior derecha
-        y seleccionando «Ajustes» en el menú desplegable.
+        haciendo clic en los tres puntos de la esquina superior derecha
+        y seleccionando «Configuración» en el menú desplegable.
         Entonces verás todos los ajustes disponibles para esta app.
         ¡No dudes en experimentar con ellos!
     </string>
 
-    <string name="help_title_how_to_move_or_delete_books">¿Cómo muevo o elimino libros?</string>
+    <string name="help_title_how_to_move_or_delete_books">¿Cómo muevo o borro libros?</string>
     <string name="help_desc_how_to_move_or_delete_books_1">Ve a</string>
     <string name="help_desc_how_to_move_or_delete_books_2">Biblioteca</string>
     <string name="help_desc_how_to_move_or_delete_books_3">
-        Mantén presionada la imagen de la portada del primer libro hasta que se seleccione,
-        ahora puedes simplemente hacer clic en todas las imágenes de las portadas de los libros que quieras seleccionar.
+        Mantén pulsada la imagen de portada del primer libro hasta que se seleccione,
+        ahora puedes hacer clic simplemente en todas las imágenes de portada de los libros que quieras seleccionar.
         También puedes seleccionar libros en varias categorías.
-        Después de que hayas elegido todos los libros deseados, puedes hacer clic en el icono de flecha para mover
-        y en el icono de papelera para eliminar libros.
+        Después de haber elegido todos los libros deseados, puedes hacer clic en el icono de flecha para mover
+        y en el icono de la papelera para borrar los libros.
     </string>
 
     <string name="help_title_how_to_edit_book">¿Cómo edito un libro?</string>
     <string name="help_desc_how_to_edit_book_1">Ve a</string>
     <string name="help_desc_how_to_edit_book_2">Biblioteca</string>
     <string name="help_desc_how_to_edit_book_3">
-        y haz clic en la imagen de la portada del libro para ver los detalles del libro.
-        Ahora puedes mantener presionado el título del libro, el autor o la descripción para editarlo
-        o la imagen de la portada para cambiar, restablecer o eliminar la imagen de la portada.
+        y haz clic en la imagen de portada del libro para ver los detalles del libro.
+        Ahora puedes mantener pulsado el título, el autor o la descripción del libro para editarlos
+        o la imagen de portada para cambiarla, restablecerla o borrarla.
     </string>
 
     <string name="help_title_how_to_read_book">¿Cómo leo un libro?</string>
     <string name="help_desc_how_to_read_book_1">Ve a</string>
     <string name="help_desc_how_to_read_book_2">Biblioteca</string>
     <string name="help_desc_how_to_read_book_3">
-        Para empezar a leer el libro, haz clic en el botón en la esquina inferior derecha del libro que quieras leer.
-        También puedes empezar a leer el libro haciendo clic en la imagen de su portada
-        para ver los detalles del libro y luego haz clic en el botón en la esquina inferior derecha.
-        El progreso se guardará y restaurará automáticamente.
-        Puedes mostrar las barras superior e inferior haciendo clic en cualquier lugar de la pantalla.
+        Para empezar a leer el libro, haz clic en el botón de la esquina inferior derecha del libro que quieres leer.
+        También puedes empezar a leer el libro haciendo clic en su imagen de portada
+        para ver los detalles del libro y luego hacer clic en el botón de la esquina inferior derecha.
+        El progreso se guardará y se restaurará automáticamente.
+        Puedes mostrar las barras superior e inferior haciendo clic en cualquier parte de la pantalla.
         Al hacer clic en el título del libro, serás transferido a los detalles del libro.
         Al hacer clic en el icono de engranaje, verás los ajustes del Lector.
-        Puedes utilizar el control deslizante de la barra inferior para cambiar el progreso.
+        Puedes usar el deslizador de la barra inferior para cambiar el progreso.
     </string>
 
     <string name="help_title_how_to_customize_reader">¿Cómo personalizo el Lector?</string>
     <string name="help_desc_how_to_customize_reader_1">
-        Empieza a leer el libro (consulta: ¿Cómo leo un libro?),
-        después de eso, muestra las barras superior e inferior haciendo clic en cualquier lugar de la pantalla.
+        Empieza a leer el libro(véase: ¿Cómo leo un libro?),
+        después de eso, muestra las barras superior e inferior haciendo clic en cualquier parte de la pantalla.
         Luego haz clic en el icono de engranaje en la esquina superior derecha.
         Esto mostrará todos los ajustes del Lector.
         La segunda forma es ir a
     </string>
     <string name="help_desc_how_to_customize_reader_2">
-        Ajustes
+        Configuración
     </string>
     <string name="help_desc_how_to_customize_reader_3">
-        y selecciona la categoría Lector para personalizar los ajustes generales,
-        o la categoría Apariencia para personalizar los ajustes de Colores.
-    </string>
-
-    <string name="help_title_how_to_update_book">¿Cómo actualizo un libro?</string>
-    <string name="help_desc_how_to_update_book_1">Ve a</string>
-    <string name="help_desc_how_to_update_book_2">Biblioteca</string>
-    <string name="help_desc_how_to_update_book_3">
-        y haz clic en la imagen de la portada del libro para ver los detalles del libro.
-        Arrastra la pantalla hacia abajo o haz clic en el icono de actualización en la esquina superior derecha para actualizar el libro.
-        Si el archivo del libro ha cambiado, puedes confirmar y actualizar el libro o cancelar la actualización.
+         y seleccionar la categoría Lector para personalizar los ajustes generales,
+         o la categoría Apariencia para personalizar los ajustes de Colores.
     </string>
 
     <string name="help_title_how_to_manage_history">¿Cómo gestiono el historial?</string>
     <string name="help_desc_how_to_manage_history_1">Ve a</string>
     <string name="help_desc_how_to_manage_history_2">Historial</string>
     <string name="help_desc_how_to_manage_history_3">
-        Al hacer clic en el botón de eliminar a la derecha del elemento del historial, se eliminará.
-        El historial afecta el orden de los libros en la Biblioteca,
-        al eliminar un elemento del historial, también se reordenará un libro.
-        El último libro abierto siempre es el primero en la Biblioteca y el Historial.
+        Al hacer clic en el botón de borrado a la derecha del elemento del historial, se borrará.
+        El historial afecta al orden de los libros en la Biblioteca,
+        al borrar un elemento del historial también se reordenará un libro.
+        El último libro abierto es siempre el primero en la Biblioteca y en el Historial.
     </string>
 
-    <string name="help_title_how_to_use_tooltip">¿Cómo uso las descripciones emergentes?</string>
+    <string name="help_title_how_to_use_tooltip">¿Cómo uso los tooltips?</string>
     <string name="help_desc_how_to_use_tooltip_1">
-        La mayoría de los botones con iconos tienen descripciones emergentes, pueden ayudarte si no sabes lo que hace un botón con icono.
-        Para mostrar una descripción emergente puedes mantener presionado un botón con icono.
+        La mayoría de los botones de icono tienen tooltips, pueden ayudarte si no sabes qué hace un botón de icono.
+        Para mostrar un tooltip, puedes mantener pulsado un botón de icono.
     </string>
 
     <string name="help_title_how_to_use_double_click_translation">
         ¿Cómo uso la traducción con doble clic?
     </string>
     <string name="help_desc_how_to_use_double_click_translation_1">
-        En primer lugar, ve a los ajustes del Lector (consulta: ¿Cómo personalizo el Lector?),
+        En primer lugar, ve a los ajustes del Lector (véase: ¿Cómo personalizo el Lector?),
         luego activa el ajuste correspondiente. Después de eso,
-        empieza a leer el libro (consulta: ¿Cómo leo un libro?).
+        empieza a leer el libro (véase: ¿Cómo leo un libro?).
         Ahora, si haces doble clic en el párrafo deseado,
         se abrirá un traductor externo con el texto del párrafo.
     </string>
 
     <string name="help_title_how_to_create_color_presets">
-        ¿Cómo creo y modifico los preajustes de color?
+         ¿Cómo creo y modifico preestablecidos de color?
     </string>
     <string name="help_desc_how_to_create_color_presets_1">
-        Ve a los ajustes de Apariencia (consulta: ¿Cómo personalizo el Lector?).
-        Puedes modificar todos los ajustes de los preajustes de color en el cuadro bajo «Preajuste de color» en la subcategoría «Colores».
-        Para crear un nuevo preajuste de color, haz clic en el botón con icono «Añadir».
-        Hay varias formas de modificar un preajuste de color:
-        al hacer clic en el campo de texto puedes cambiar el nombre del preajuste de color,
-        al mover los controles deslizantes puedes cambiar los colores del preajuste de color,
-        al hacer clic en el botón con icono «Mezclar» puedes mezclar todos los colores.
-        Si quieres eliminar un preajuste de color, haz clic en el botón con icono «Eliminar».
+        Ve a los ajustes de Apariencia (véase: ¿Cómo personalizo el Lector?).
+        Puedes modificar todos los ajustes de los preestablecidos de color en la casilla debajo de «Preestablecido de color» en la subcategoría «Colores».
+        Para crear un nuevo preestablecido de color, haz clic en el botón de icono «Añadir».
+        Hay varias formas de modificar un preestablecido de color:
+        al hacer clic en el campo de texto, puedes cambiar el nombre del preestablecido de color,
+        al mover los deslizadores, puedes cambiar los colores del preestablecido de color,
+        al hacer clic en el botón de icono «Mezclar», puedes mezclar todos los colores.
+        Si quieres borrar un preestablecido de color, haz clic en el botón de icono «Borrar».
     </string>
 
     <string name="help_title_how_to_use_color_presets">
-        ¿Cómo uso los preajustes de color?
+        ¿Cómo uso los preestablecidos de color?
     </string>
     <string name="help_desc_how_to_use_color_presets_1">
-        Ve a los ajustes de Apariencia (consulta: ¿Cómo personalizo el Lector?).
-        Puedes elegir qué preajuste de color usar en el ajuste «Preajuste de color».
-        Haz clic en el preajuste de color deseado para seleccionarlo, esto también cambiará tus colores en el Lector.
-        Si quieres reordenar un preajuste de color, selecciónalo y mantén presionado el botón con icono «Control»,
+        Ve a los ajustes de Apariencia (véase: ¿Cómo personalizo el Lector?).
+        Puedes elegir qué preestablecido de color usar en el ajuste «Preestablecido de color».
+        Haz clic en el preestablecido de color deseado para seleccionarlo, esto también cambiará tus colores en el Lector.
+        Si quieres reordenar los preestablecidos de color, selecciónalos y mantén pulsado el botón de icono «Mango»,
         luego muévelo a la posición deseada.
-        Puedes cambiar rápidamente los preajustes de color activando el ajuste correspondiente
+        Puedes cambiar rápidamente los preestablecidos de color activando el ajuste correspondiente
         en la subcategoría «Colores» de los ajustes de Apariencia, luego deslizando la barra superior hacia la izquierda o la derecha en el Lector,
-        para cambiar rápidamente elpreajuste de color.
+        para cambiar rápidamente el preestablecido de color.
     </string>
+
     <string name="help_title_how_to_use_perception_expander">
-    ¿Qué es y cómo uso el expansor de percepción?
-</string>
+        ¿Qué es y cómo uso el expansor de percepción?
+    </string>
     <string name="help_title_how_to_use_perception_expander_1">
-    El expansor de percepción puede ayudarte a leer más rápido.
-    Primero, actívalo en los ajustes del Lector (consulta: ¿Cómo personalizo el Lector?).
-    Una vez activado, aparecerán dos líneas verticales a cada lado del Lector.
-    Para optimizar aún más tu velocidad de lectura,
-    ajusta el relleno para crear menos espacio alrededor del centro.
-    Para usarlo, enfócate en el centro de la pantalla mientras
-    permitas que tu visión periférica capte el texto de los lados.
-    Mientras lees, mantén tu enfoque en el centro sin mirar directamente
-    los lados después de cada línea.
-</string>
+        El expansor de percepción puede ayudarte a leer más rápido.
+        Primero, actívalo en los ajustes del Lector (véase: ¿Cómo personalizo el Lector?).
+        Una vez activado, aparecerán dos líneas verticales a cada lado del Lector.
+        Para optimizar aún más tu velocidad de lectura,
+        ajusta el margen para crear menos espacio alrededor del centro.
+        Para usarlo, enfócate en el centro de la pantalla mientras
+        permitas que tu visión periférica capte el texto de los lados.
+        Mientras lees, mantén tu enfoque en el centro sin mirar directamente
+        a los lados después de cada línea.
+    </string>
 
     <!-- Start -->
     <string name="start_welcome">¡Bienvenido a EverBook!</string>
     <string name="start_welcome_desc">
-    ¡A un mundo donde las palabras encantan,
-    enseñan y conducen a increíbles aventuras!
-    ¡Configuremos algunas cosas!
-</string>
+        ¡A un mundo donde las palabras encantan,
+         enseñan y conducen a aventuras increíbles!
+        ¡Vamos a configurar algunas cosas!
+    </string>
     <string name="start_language_preferences">Preferencias de idioma</string>
     <string name="start_theme_preferences">Preferencias de tema</string>
     <string name="start_permissions_preferences">Permisos</string>
@@ -582,21 +563,21 @@
     <string name="start_permissions_storage">Permiso de almacenamiento</string>
     <string name="start_permissions_storage_desc">Necesario para escanear tu dispositivo y encontrar libros</string>
     <string name="start_permissions_notifications">Permiso de notificaciones</string>
-    <string name="start_permissions_notifications_desc">Necesario para verificar si hay una versión más reciente de la app</string>
+    <string name="start_permissions_notifications_desc">Necesario para buscar una versión más nueva de la app</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
-    <string name="start_fork_info_desc">Esta app se basa en una bifurcación del proyecto Acclorite/book-story. El proyecto original está disponible bajo la licencia GPL-3.0.</string>
-    <string name="start_done">¡Todo está hecho!</string>
+    <string name="start_fork_info_desc">Esta app está basada en un fork del proyecto Acclorite/book-story. El proyecto original está disponible bajo la licencia GPL-3.0.</string>
+    <string name="start_source_code">Código fuente</string>
+    <string name="start_done">¡Todo listo!</string>
     <string name="start_done_desc">
-    Has completado correctamente la configuración básica de la app.
-    ¿Te gustaría aprender a usar la app leyendo la pantalla de Ayuda?
-</string>
+        Has completado correctamente la configuración básica de la app.
+        ¿Te gustaría aprender a usar la app leyendo la pantalla de Ayuda?
+    </string>
 
     <!-- History -->
     <string name="today">Hoy</string>
     <string name="yesterday">Ayer</string>
 
     <!-- Content description -->
-    <string name="refresh_book_content_desc">Actualizar libro</string>
     <string name="continue_reading_content_desc">Continuar leyendo</string>
     <string name="go_back_content_desc">Volver</string>
     <string name="cover_image_content_desc">Imagen de portada</string>
@@ -611,28 +592,27 @@
     <string name="apply_changes_content_desc">Aplicar cambios</string>
     <string name="error_content_desc">Error</string>
     <string name="search_content_desc">Buscar</string>
-    <string name="clear_selected_items_content_desc">Limpiar elementos seleccionados</string>
+    <string name="clear_selected_items_content_desc">Borrar elementos seleccionados</string>
     <string name="add_files_content_desc">Añadir archivos</string>
     <string name="select_all_files_content_desc">Seleccionar todos los archivos</string>
     <string name="exit_search_content_desc">Salir de la búsqueda</string>
-    <string name="delete_whole_history_content_desc">Eliminar todo el historial</string>
+    <string name="delete_whole_history_content_desc">Borrar todo el historial</string>
     <string name="move_books_content_desc">Mover libros seleccionados</string>
-    <string name="delete_books_content_desc">Eliminar libros seleccionados</string>
+    <string name="delete_books_content_desc">Borrar libros seleccionados</string>
     <string name="revert_content_desc">Revertir</string>
     <string name="selected_content_desc">Seleccionado</string>
     <string name="app_icon_content_desc">Icono de la app</string>
-    <string name="note_content_desc">Nota</string>
-    <string name="delete_history_element_content_desc">Eliminar elemento del historial</string>
+    <string name="delete_history_element_content_desc">Borrar elemento del historial</string>
     <string name="library_content_desc">Tu biblioteca</string>
     <string name="history_content_desc">Historial de lectura</string>
     <string name="browse_content_desc">Añadir libros</string>
     <string name="arrow_content_desc">Flecha</string>
-    <string name="required_content_desc">Necesario</string>
+    <string name="required_content_desc">Requerido</string>
     <string name="reset_start_content_desc">Restablecer guía de inicio</string>
     <string name="exit_editing_content_desc">Salir del modo de edición</string>
     <string name="open_in_web_content_desc">Abrir en la web</string>
-    <string name="delete_color_preset_content_desc">Eliminar preajuste de color</string>
-    <string name="create_color_preset_content_desc">Crear nuevo preajuste de color</string>
+    <string name="delete_color_preset_content_desc">Borrar preestablecido de color</string>
+    <string name="create_color_preset_content_desc">Crear nuevo preestablecido de color</string>
     <string name="shuffle_color_preset_content_desc">Mezclar colores</string>
     <string name="x_content_desc" translatable="false">X</string>
     <string name="reddit_content_desc" translatable="false">Reddit</string>
@@ -640,10 +620,9 @@
     <string name="tryzub_content_desc">Tryzub</string>
     <string name="github_profile_content_desc">Perfil de GitHub</string>
     <string name="drag_content_desc">Arrastrar</string>
-    <string name="filter_content_desc">Filtro</string>
-    <string name="checkpoint_back_content_desc">Punto de control atrás</string>
-    <string name="checkpoint_forward_content_desc">Punto de control adelante</string>
+    <string name="filter_content_desc">Filtrar</string>
+    <string name="checkpoint_back_content_desc">Retroceder punto de control</string>
+    <string name="checkpoint_forward_content_desc">Avanzar punto de control</string>
     <string name="chapters_content_desc">Capítulos</string>
-    <string name="update_text_content_desc">Actualizar texto</string>
     <string name="more_content_desc">Más</string>
 </resources>

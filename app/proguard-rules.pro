@@ -46,3 +46,17 @@
 -keepclassmembernames class org.xmlpull.** { *; }
 -keepnames class kotlin.reflect.jvm.internal.impl.builtins.PrimitiveType { values(); }
 -keepnames class * implements android.os.Parcelable { ** CREATOR; }
+
+# Firebase
+-keep class com.google.firebase.** { *; }
+-dontwarn com.google.firebase.**
+
+# gRPC
+-keep class io.grpc.** { *; }
+-dontwarn io.grpc.**
+
+# RxJava
+#-dontwarn io.reactivex.**
+#-keepclassmembers class * {
+#    @io.reactivex.annotations.NonNull *;
+#}

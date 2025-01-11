@@ -14,7 +14,7 @@
 
     <!-- Removing DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION, which is not used -->
     <uses-permission
-        android:name="ua.acclorite.book_story.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="com.byteflipper.everbook.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         tools:node="remove" />
 
     <application
@@ -33,7 +33,7 @@
         tools:ignore="DataExtractionRules">
 
         <activity
-            android:name=".Activity"
+            android:name=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|locale|density|uiMode"
             android:exported="true"

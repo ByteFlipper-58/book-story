@@ -1,12 +1,9 @@
 package com.byteflipper.everbook.domain.repository
 
-import androidx.compose.ui.text.AnnotatedString
-import com.byteflipper.everbook.domain.model.Book
-import com.byteflipper.everbook.domain.model.BookWithText
-import com.byteflipper.everbook.domain.model.BookWithTextAndCover
-import com.byteflipper.everbook.domain.model.Chapter
+import com.byteflipper.everbook.domain.library.book.Book
+import com.byteflipper.everbook.domain.library.book.BookWithCover
+import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.util.CoverImage
-import com.byteflipper.everbook.domain.util.Resource
 
 interface BookRepository {
 
@@ -19,22 +16,16 @@ interface BookRepository {
     ): List<Book>
 
     suspend fun getBookText(
-        textPath: String
-    ): List<AnnotatedString>
-
-    suspend fun checkForTextUpdate(bookId: Int): Resource<Pair<List<String>, List<Chapter>>?>
+        bookId: Int
+    ): List<ReaderText>
 
     suspend fun insertBook(
-        bookWithTextAndCover: BookWithTextAndCover
+        bookWithCover: BookWithCover
     ): Boolean
 
     suspend fun updateBook(
         book: Book
     )
-
-    suspend fun updateBookWithText(
-        bookWithText: BookWithText
-    ): Boolean
 
     suspend fun updateCoverImageOfBook(
         bookWithOldCover: Book,

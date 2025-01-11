@@ -1,6 +1,6 @@
 package com.byteflipper.everbook.data.parser
 
-import com.byteflipper.everbook.domain.model.BookWithCover
+import com.byteflipper.everbook.domain.library.book.BookWithCover
 import java.io.File
 
 

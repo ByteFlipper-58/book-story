@@ -31,19 +31,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.core.components.common.IconButton
-import com.byteflipper.everbook.presentation.screens.settings.components.SettingsCategoryTitle
+import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategoryTitle
 
-/**
- * Color picker with title.
- *
- * @param modifier Modifier.
- * @param value Target [Color].
- * @param presetId Current Color Preset id(to trigger initial value change).
- * @param title Title.
- * @param horizontalPadding Horizontal item padding.
- * @param verticalPadding Vertical item padding.
- * @param onValueChange Callback when target color changes.
- */
 @OptIn(FlowPreview::class)
 @Composable
 fun ColorPickerWithTitle(
@@ -71,7 +60,7 @@ fun ColorPickerWithTitle(
             .fillMaxWidth()
             .padding(vertical = verticalPadding, horizontal = horizontalPadding)
     ) {
-        SettingsCategoryTitle(
+        SettingsSubcategoryTitle(
             title = title,
             padding = 0.dp
         )

@@ -3,7 +3,7 @@ package com.byteflipper.everbook.presentation.core.constants
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import com.byteflipper.everbook.R
-import com.byteflipper.everbook.domain.model.Badge
+import com.byteflipper.everbook.domain.about.Badge
 
 fun Constants.provideAboutBadges() = listOf(
     Badge(

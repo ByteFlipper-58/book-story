@@ -2,7 +2,7 @@ package com.byteflipper.everbook.data.repository
 
 import com.byteflipper.everbook.data.local.room.BookDao
 import com.byteflipper.everbook.data.mapper.color_preset.ColorPresetMapper
-import com.byteflipper.everbook.domain.model.ColorPreset
+import com.byteflipper.everbook.domain.reader.ColorPreset
 import com.byteflipper.everbook.domain.repository.ColorPresetRepository
 import javax.inject.Inject
 import javax.inject.Singleton

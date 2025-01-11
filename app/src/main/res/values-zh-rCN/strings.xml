@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.0.0</string>
+    <string name="app_version" translatable="false">1.1.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">默认</string>
     <string name="random_string">随机</string>
@@ -18,7 +18,7 @@
 
     <!-- Screens -->
     <string name="library_screen">图书馆</string>
-    <string name="history_screen">历史</string>
+    <string name="history_screen">历史记录</string>
     <string name="browse_screen">浏览</string>
     <string name="settings_screen">设置</string>
     <string name="about_screen">关于应用</string>
@@ -32,87 +32,68 @@
     <string name="delete_book">删除书籍？</string>
     <string name="move_book">移动书籍？</string>
     <string name="delete_history">删除阅读历史？</string>
-    <string name="confirm_update">确认更新？</string>
     <string name="enable_check_for_updates">启用检查更新？</string>
-    <string name="update_book">更新书籍？</string>
 
     <!-- Dialog Descriptions -->
     <string name="storage_permission_description">
-        我们需要存储权限来扫描您的设备以查找书籍。
+        我们需要存储权限来扫描您的设备中的书籍。
         没有此权限，您将无法添加书籍。
     </string>
     <string name="add_books_description">
         您可以选择要添加的书籍。
-        您可以稍后编辑书的标题和封面图像。
+        您可以在稍后编辑书的标题和封面图像。
         加载过程可能需要几分钟。
     </string>
     <string name="move_books_description">
         选择要将所有选定书籍（%1$s）移动到的类别。
-        所有选定书籍将移动到选定的类别。
+        所有选定的书籍将移动到选定的类别。
     </string>
     <string name="delete_books_description">
         它将从数据库中删除所有选定的书籍（%1$s）。
         它不会从您的设备中删除选定的书籍。
     </string>
     <string name="delete_book_description">
-        它将从数据库中删除此书。
-        它不会从您的设备中删除此书。
+        它将从数据库中删除这本书。
+        它不会从您的设备中删除这本书。
     </string>
     <string name="move_book_description">
-        选择要将此书移动到的类别。
-        此书将移动到选定的类别。
+        选择要将这本书移动到的类别。
+        这本书将移动到选定的类别。
     </string>
     <string name="delete_history_description">
         它将从数据库中删除整个历史记录。
         删除整个历史记录后，书籍的顺序将重置。
     </string>
-    <string name="confirm_update_description">
-        更新本书的文本和章节。
-        除非段落的顺序发生更改，否则进度应保持不变。
-    </string>
     <string name="update_app_description">
-        发现了新的应用程序版本。
+        发现新的应用程序版本。
         您要继续并转到发布页面吗？
     </string>
     <string name="enable_check_for_updates_description">
-        通过启用“检查更新”，
-        该应用程序每次启动时都会从“api.github.com”检索最新的发布信息。
-        您要继续并启用“检查更新”吗？
-    </string>
-    <string name="update_book_description">
-        已发现文本更新。
-        需要更新以确保使用最新的解析器方法。
-        这是一个离线过程。
-        除非发生重大更改，否则您的进度不会受到影响。
-        您要继续进行更新吗？
+        通过启用«检查更新»，
+        应用程序将在每次应用程序启动时从 «api.github.com»检索最新版本信息。
+        您要继续并启用 «检查更新» 吗？
     </string>
 
     <!-- Errors -->
     <string name="error_permission">
-        我们需要存储权限来扫描您的设备以查找书籍
+        我们需要存储权限来扫描您的设备中的书籍
     </string>
     <string name="error_no_description">
         没有描述。
     </string>
     <string name="error_something_went_wrong">
-        出错了。
+        出了点问题。
     </string>
-    <string name="error_something_went_wrong_with_file">
-        出错了。请检查本书的文件是否损坏。
-    </string>
-    <string name="error_wrong_file_format">错误的文件格式。</string>
-    <string name="error_query">错误：%1$s</string>
-    <string name="error_file_empty">此文件为空或已损坏。</string>
-    <string name="error_no_translator">未找到翻译器应用程序。</string>
-    <string name="error_no_dictionary">未找到词典应用程序。</string>
+    <string name="error_no_translator">未找到翻译应用程序。</string>
+    <string name="error_no_dictionary">未找到字典应用程序。</string>
     <string name="error_no_browser">未找到浏览器应用程序。</string>
-    <string name="error_no_share_app">未找到分享应用程序。</string>
-    <string name="error_no_text">
-        书籍内容为空。请确保书籍内容不为空并更新它。
+    <string name="error_no_share_app">未找到可共享的应用程序。</string>
+    <string name="error_could_not_get_text">
+        文件为空、已损坏或不存在。请验证并重试。
     </string>
     <string name="error_check_internet">
-        出错了。
-        请稍后再试。
+        出了点问题。
+        请稍后重试。
     </string>
     <string name="error_could_not_reset_cover">无法重置封面图像。</string>
     <string name="error_closed_source">闭源</string>
@@ -122,21 +103,21 @@
         搜索…
     </string>
     <string name="browse_empty">
-        使用您的下载扩展图书馆的书籍收藏
+        通过下载来扩展图书馆的藏书
     </string>
     <string name="library_empty">
-        阅读您最喜欢的书籍，并在类别之间对它们进行排序
+        阅读您喜欢的书籍，并在类别之间进行排序
     </string>
     <string name="history_empty">
-        让您上次阅读的书籍打开您的阅读旅程中新的伟大故事的篇章
+        让您最后阅读的书打开阅读旅程中新的伟大故事的篇章
     </string>
 
     <!-- Query strings -->
-    <string name="selected_items_count_query">已选择 %1$s</string>
+    <string name="selected_items_count_query">%1$s 已选择</string>
     <string name="file_path_query">文件路径：%1$s</string>
     <string name="update_query">更新 %1$s</string>
     <string name="color_preset_query">预设 %1$s</string>
-    <string name="color_preset_selected_query">已选择“%1$s”</string>
+    <string name="color_preset_selected_query">已选择«%1$s»</string>
 
     <!-- Action Texts -->
     <string name="cancel">取消</string>
@@ -144,7 +125,7 @@
     <string name="grant_permission">授予权限</string>
     <string name="get_help">我需要帮助</string>
     <string name="add">添加</string>
-    <string name="add_book">添加书籍</string>
+    <string name="add_book">添加一本书</string>
     <string name="move">移动</string>
     <string name="delete">删除</string>
     <string name="start">开始</string>
@@ -155,22 +136,20 @@
     <string name="copy">复制</string>
     <string name="translate">翻译</string>
     <string name="dictionary">词典</string>
-    <string name="retry">重试</string>
-    <string name="confirm">确认</string>
-    <string name="next">下一步</string>
-    <string name="yes_go_to_help">是，前往帮助</string>
+    <string name="next">下一个</string>
+    <string name="yes_go_to_help">是的，转到帮助</string>
     <string name="no">否</string>
     <string name="done">完成</string>
     <string name="enable">启用</string>
-    <string name="web_search">网页搜索</string>
+    <string name="web_search">网络搜索</string>
     <string name="share">分享</string>
     <string name="proceed">继续</string>
 
     <!-- Book -->
     <string name="unknown_author">未知</string>
-    <string name="read_more">您需要阅读更多！</string>
-    <string name="read_keep">继续加油！</string>
-    <string name="read_done">做得好，您已经读完了整本书！</string>
+    <string name="read_more">你需要阅读更多！</string>
+    <string name="read_keep">继续保持！</string>
+    <string name="read_done">做得好，您已读完整本书！</string>
     <string name="reset_cover">重置封面图像</string>
     <string name="reset_cover_desc">将本书的封面图像重置为默认值</string>
     <string name="change_cover">更改封面图像</string>
@@ -182,11 +161,11 @@
     <!-- Tabs -->
     <string name="reading_tab">正在阅读</string>
     <string name="already_read_tab">已读完</string>
-    <string name="planning_tab">计划</string>
-    <string name="dropped_tab">放弃</string>
+    <string name="planning_tab">计划中</string>
+    <string name="dropped_tab">已放弃</string>
     <string name="general_tab">常规</string>
     <string name="color_tab">颜色</string>
-    <string name="filter_tab">筛选器</string>
+    <string name="filter_tab">过滤器</string>
     <string name="sort_tab">排序</string>
     <string name="reader_tab">阅读器</string>
 
@@ -198,35 +177,38 @@
     <string name="reader_settings">阅读器</string>
     <string name="reader_settings_desc">字体、文本、翻译器</string>
     <string name="browse_settings">浏览</string>
-    <string name="browse_settings_desc">常规、筛选器、排序</string>
+    <string name="browse_settings_desc">常规、过滤器、排序</string>
 
     <!-- Settings subcategories -->
     <string name="font_reader_settings">字体</string>
     <string name="text_reader_settings">文本</string>
     <string name="translator_reader_settings">翻译器</string>
-    <string name="padding_reader_settings">内边距</string>
-    <string name="misc_reader_settings">杂项</string>
+    <string name="padding_reader_settings">边距</string>
+    <string name="misc_reader_settings">其他</string>
     <string name="reading_speed_reader_settings">阅读速度</string>
+    <string name="reading_mode_reader_settings">阅读模式</string>
     <string name="system_reader_settings">系统</string>
-    <string name="theme_appearance_settings">主题首选项</string>
+    <string name="chapters_reader_settings">章节</string>
+    <string name="images_reader_settings">图像</string>
+    <string name="theme_appearance_settings">主题偏好设置</string>
     <string name="colors_appearance_settings">颜色</string>
     <string name="general_browse_settings">常规</string>
-    <string name="filter_browse_settings">筛选器</string>
+    <string name="filter_browse_settings">过滤器</string>
     <string name="sort_browse_settings">排序</string>
 
     <!-- Settings options -->
     <!-- General -->
     <string name="language_option">应用语言</string>
     <string name="dark_theme_option">深色主题</string>
-    <string name="pure_dark_option">纯深色 (OLED)</string>
-    <string name="absolute_dark_option">绝对深色</string>
+    <string name="pure_dark_option">纯黑（OLED）</string>
+    <string name="absolute_dark_option">绝对黑暗</string>
     <string name="absolute_dark_option_desc">将背景颜色更改为完全黑色</string>
     <string name="theme_contrast_option">主题对比度</string>
     <string name="app_theme_option">应用主题</string>
     <string name="check_for_updates_option">检查更新</string>
-    <string name="check_for_updates_option_desc">启动时检查较新的应用程序版本</string>
-    <string name="double_press_exit_option">双击返回退出</string>
-    <string name="double_press_exit_option_desc">按两次返回键退出应用</string>
+    <string name="check_for_updates_option_desc">启动时检查是否有较新的应用程序版本</string>
+    <string name="double_press_exit_option">双击后退键退出</string>
+    <string name="double_press_exit_option_desc">按两次后退键退出应用程序</string>
 
     <!-- Reader -->
     <string name="font_family_option">字体系列</string>
@@ -238,32 +220,42 @@
     <string name="color_preset_option">颜色预设</string>
     <string name="background_color_option">背景颜色</string>
     <string name="font_color_option">字体颜色</string>
-    <string name="side_padding_option">侧面内边距</string>
-    <string name="vertical_padding_option">垂直内边距</string>
+    <string name="side_padding_option">侧边距</string>
+    <string name="vertical_padding_option">垂直边距</string>
     <string name="double_click_translation_option">双击翻译</string>
     <string name="double_click_translation_option_desc">双击段落进行翻译</string>
     <string name="fast_color_preset_change_option">快速更改颜色预设</string>
-    <string name="fast_color_preset_change_option_desc">向左或向右滑动顶部栏以更改颜色预设</string>
+    <string name="fast_color_preset_change_option_desc">在顶部栏上向左或向右滑动以更改颜色预设</string>
     <string name="text_alignment_option">文本对齐</string>
+    <string name="chapter_title_alignment_option">章节标题对齐方式</string>
     <string name="letter_spacing_option">字母间距</string>
-    <string name="cutout_padding_option">切口内边距</string>
-    <string name="cutout_padding_option_desc">将内边距应用于切口区域</string>
+    <string name="cutout_padding_option">切口边距</string>
+    <string name="cutout_padding_option_desc">将边距应用于切口区域</string>
     <string name="fullscreen_option">全屏</string>
-    <string name="fullscreen_option_desc">隐藏系统栏并删除内边距</string>
+    <string name="fullscreen_option_desc">隐藏系统栏和边距</string>
     <string name="keep_screen_on_option">保持屏幕开启</string>
     <string name="hide_bars_on_fast_scroll_option">快速滚动时隐藏栏</string>
     <string name="perception_expander_option">感知扩展器</string>
     <string name="perception_expander_option_desc">
         通过专注于中心来提高您的阅读速度
     </string>
-    <string name="perception_expander_padding_option">感知扩展器行内边距</string>
-    <string name="perception_expander_thickness_option">感知扩展器线粗细</string>
-    <string name="check_for_text_update_option">检查文本更新</string>
-    <string name="check_for_text_update_option_desc">自动检查是否有文本更新</string>
-    <string name="check_for_text_update_toast_option">显示“文本是最新的”提示</string>
+    <string name="perception_expander_padding_option">线条侧边距</string>
+    <string name="perception_expander_thickness_option">线条粗细</string>
     <string name="screen_orientation_option">屏幕方向</string>
     <string name="custom_screen_brightness_option">自定义亮度</string>
     <string name="screen_brightness_option">亮度</string>
+    <string name="horizontal_gesture_option">水平手势</string>
+    <string name="horizontal_gesture_scroll_option">滚动比例</string>
+    <string name="horizontal_gesture_sensitivity_option">灵敏度</string>
+    <string name="bottom_bar_padding_option">底部栏边距</string>
+    <string name="highlighted_reading_option">突出显示单词</string>
+    <string name="highlighted_reading_option_desc">突出显示每个单词的开头</string>
+    <string name="highlighted_reading_thickness_option">突出显示粗细</string>
+    <string name="images_option">图像</string>
+    <string name="images_option_desc">显示图像及其标题</string>
+    <string name="images_corners_roundness_option">拐角圆度</string>
+    <string name="images_alignment_option">对齐</string>
+    <string name="images_width_option">大小</string>
 
     <!-- Browse -->
     <string name="browse_files_structure_option">文件结构</string>
@@ -271,7 +263,7 @@
     <string name="browse_grid_size_option">网格大小</string>
     <string name="browse_pin_favorite_directories_option">固定收藏目录</string>
     <string name="browse_pin_favorite_directories_option_desc">
-        将您最喜欢的目录固定到屏幕顶部
+        将您喜欢的目录固定到屏幕顶部
     </string>
 
     <!-- Color presets -->
@@ -318,11 +310,11 @@
     <string name="browse_sort_order_last_modified">上次修改时间</string>
     <string name="browse_sort_order_file_size">文件大小</string>
 
-    <!-- Text Alignment properties -->
-    <string name="text_alignment_start">开始</string>
-    <string name="text_alignment_justify">两端对齐</string>
-    <string name="text_alignment_center">居中</string>
-    <string name="text_alignment_end">结尾</string>
+    <!-- Alignment properties -->
+    <string name="alignment_start">开始</string>
+    <string name="alignment_justify">两端对齐</string>
+    <string name="alignment_center">居中</string>
+    <string name="alignment_end">结束</string>
 
     <!-- Screen Orientation properties -->
     <string name="screen_orientation_free">自由</string>
@@ -330,6 +322,14 @@
     <string name="screen_orientation_landscape">横向</string>
     <string name="screen_orientation_locked_portrait">锁定纵向</string>
     <string name="screen_orientation_locked_landscape">锁定横向</string>
+
+    <!-- Horizontal Gesture properties -->
+    <string name="horizontal_gesture_off">关闭</string>
+    <string name="horizontal_gesture_on">开启</string>
+    <string name="horizontal_gesture_inverse">开启（反向）</string>
+
+    <!-- Highlighted Reading properties -->
+    <string name="highlighted_reading_level">级别</string>
 
     <!-- Themes -->
     <string name="dynamic_theme">水星</string>
@@ -340,9 +340,10 @@
     <string name="purple_theme">木星</string>
     <string name="pink_theme">土星</string>
     <string name="pink2_theme">木卫三</string>
-    <string name="lavender_theme">厄里斯</string>
+    <string name="lavender_theme">阋神星</string>
     <string name="marsh_theme">冥王星</string>
     <string name="yellow_theme">金星</string>
+    <string name="yellow2_theme">玛卡玛卡</string>
     <string name="aqua_theme">天王星</string>
 
     <!-- Toast messages -->
@@ -352,8 +353,8 @@
     <string name="books_deleted">所有选定的书籍已成功删除。</string>
     <string name="cover_image_changed">封面图像已成功更改。</string>
     <string name="cover_image_deleted">封面图像已成功删除。</string>
-    <string name="book_deleted">此书已成功删除。</string>
-    <string name="book_moved">此书已成功移动。</string>
+    <string name="book_deleted">本书已成功删除。</string>
+    <string name="book_moved">本书已成功移动。</string>
     <string name="copied">已复制</string>
     <string name="history_deleted">历史记录已成功删除。</string>
     <string name="no_updates">已安装最新版本的应用程序。</string>
@@ -361,9 +362,6 @@
 
     <!-- Snackbar messages -->
     <string name="history_element_deleted">历史记录元素已成功删除。</string>
-    <string name="file_not_found">未找到文件“%1$s”。</string>
-    <string name="book_updated">书籍的文本已成功更新。</string>
-    <string name="nothing_changed">文本是最新的。</string>
 
     <!-- DropDown properties -->
     <string name="move_this_book">移动</string>
@@ -394,7 +392,7 @@
     <string name="credits_option">鸣谢</string>
     <string name="help_translate_option">帮助翻译</string>
     <string name="contributors_option">贡献者</string>
-    <string name="slava_ukraini">荣耀归于乌克兰！</string>
+    <string name="slava_ukraini">光荣属于乌克兰！</string>
 
     <!-- Credits -->
     <string name="credits_design">设计</string>
@@ -406,35 +404,26 @@
     <string name="credits_ideas">想法</string>
 
     <!-- Help -->
-    <string name="help_clickable_note_1">请注意，</string>
-    <string name="help_clickable_note_2">此类突出显示的文本</string>
-    <string name="help_clickable_note_3">
-        可以点击。
-        您也可以通过点击图标隐藏此注释，试试看！
-    </string>
-    <string name="help_clickable_note_action">我是可点击的！</string>
-
     <string name="help_title_how_to_add_books">如何将书籍添加到图书馆？</string>
     <string name="help_desc_how_to_add_books_1">转到</string>
     <string name="help_desc_how_to_add_books_2">浏览</string>
     <string name="help_desc_how_to_add_books_3">
         如果您没有看到下载的书籍，请尝试下拉刷新列表。
         确保您的书籍具有支持的文件格式。
-        然后单击该书以选择它，或按住以显示其位置。
-        选择所有要添加的书籍后，单击右上角的复选标记图标，
-        等待所有书籍加载并单击“添加”。
-        现在您应该在
+        然后单击该书以选择它或按住以显示其位置。
+        在选择完所有想要的书籍后，单击右上角的复选标记图标，
+        等待所有书籍加载并单击«添加»。
+        现在您应该在以下位置看到所有添加的书籍：
     </string>
-    <string name="help_desc_how_to_add_books_4">图书馆</string>中看到您添加的所有书籍
+    <string name="help_desc_how_to_add_books_4">图书馆</string>
 
-    <string name="help_title_how_to_customize_app">如何自定义应用？</string>
+    <string name="help_title_how_to_customize_app">如何自定义应用程序？</string>
     <string name="help_desc_how_to_customize_app_1">转到</string>
     <string name="help_desc_how_to_customize_app_2">设置</string>
     <string name="help_desc_how_to_customize_app_3">
-        您可以从“图书馆”、“历史记录”和“浏览”屏幕执行此操作，
-        方法是单击右上角的三个点
-        并从下拉菜单中选择“设置”。
-        然后您将看到此应用的所有可用设置。
+        您可以通过单击右上角的三个点来从“图书馆”、“历史记录”和“浏览”屏幕执行此操作
+        并从下拉菜单中选择«设置»。
+        然后您将看到此应用程序的所有可用设置。
         请随意尝试这些设置！
     </string>
 
@@ -442,11 +431,11 @@
     <string name="help_desc_how_to_move_or_delete_books_1">转到</string>
     <string name="help_desc_how_to_move_or_delete_books_2">图书馆</string>
     <string name="help_desc_how_to_move_or_delete_books_3">
-        按住第一本书的封面图像直到选中，
-        现在您可以简单地单击要选择的所有书籍的封面图像。
-        您也可以选择多个类别中的书籍。
-        选择完所有需要的书籍后，您可以单击箭头图标移动
-        并单击垃圾箱图标删除书籍。
+        按住第一本书的封面图像，直到它被选中，
+        现在您可以简单地单击想要选择的书籍的所有封面图像。
+        您还可以在多个类别中选择书籍。
+        选择完所有想要的书籍后，您可以单击箭头图标移动
+        并单击垃圾桶图标以删除书籍。
     </string>
 
     <string name="help_title_how_to_edit_book">如何编辑书籍？</string>
@@ -454,20 +443,20 @@
     <string name="help_desc_how_to_edit_book_2">图书馆</string>
     <string name="help_desc_how_to_edit_book_3">
         并单击书籍的封面图像以查看书籍的详细信息。
-        现在您可以按住书籍的标题、作者或描述来编辑它
-        或按住封面图像来更改、重置或删除封面图像。
+        现在您可以按住书的标题、作者或描述来编辑它，
+        或按住封面图像以更改、重置或删除封面图像。
     </string>
 
     <string name="help_title_how_to_read_book">如何阅读书籍？</string>
     <string name="help_desc_how_to_read_book_1">转到</string>
     <string name="help_desc_how_to_read_book_2">图书馆</string>
     <string name="help_desc_how_to_read_book_3">
-        要开始阅读书籍，请单击要阅读的书籍右下角的按钮。
-        您还可以通过单击书籍的封面图像来开始阅读书籍，
+        要开始阅读书籍，请单击您要阅读的书籍右下角的按钮。
+        您也可以通过单击其封面图像来开始阅读该书
         以查看书籍的详细信息，然后单击右下角的按钮。
         进度将自动保存和恢复。
-        您可以通过单击屏幕上的任意位置来显示顶部和底部栏。
-        通过单击书名，您将被转移到书籍的详细信息。
+        您可以通过单击屏幕上的任意位置来调出顶部和底部栏。
+        通过单击书的标题，您将被转移到书的详细信息。
         通过单击齿轮图标，您将看到阅读器设置。
         您可以使用底部栏的滑块来更改进度。
     </string>
@@ -475,7 +464,7 @@
     <string name="help_title_how_to_customize_reader">如何自定义阅读器？</string>
     <string name="help_desc_how_to_customize_reader_1">
         开始阅读书籍（请参阅：如何阅读书籍？），
-        之后通过单击屏幕上的任意位置来显示顶部和底部栏。
+        之后单击屏幕上的任意位置以调出顶部和底部栏。
         然后单击右上角的齿轮图标。
         这将显示所有阅读器设置。
         第二种方法是转到
@@ -488,22 +477,13 @@
         或选择“外观”类别以自定义“颜色”设置。
     </string>
 
-    <string name="help_title_how_to_update_book">如何更新书籍？</string>
-    <string name="help_desc_how_to_update_book_1">转到</string>
-    <string name="help_desc_how_to_update_book_2">图书馆</string>
-    <string name="help_desc_how_to_update_book_3">
-        并单击书籍的封面图像以查看书籍的详细信息。
-        下拉屏幕或单击右上角的刷新图标以更新书籍。
-        如果书籍的文件已更改，您可以确认并更新书籍或取消更新。
-    </string>
-
     <string name="help_title_how_to_manage_history">如何管理历史记录？</string>
     <string name="help_desc_how_to_manage_history_1">转到</string>
     <string name="help_desc_how_to_manage_history_2">历史记录</string>
     <string name="help_desc_how_to_manage_history_3">
-        通过单击历史记录元素右侧的删除按钮，将删除该元素。
-        历史记录会影响“图书馆”中书籍的顺序，
-        通过删除历史记录元素，它也会重新排序书籍。
+        通过单击历史记录元素右侧的删除按钮，它将被删除。
+        历史记录会影响库中书籍的顺序，
+        删除历史记录元素也会重新排序书籍。
         上次打开的书籍始终是“图书馆”和“历史记录”中的第一本。
     </string>
 
@@ -517,38 +497,37 @@
         如何使用双击翻译？
     </string>
     <string name="help_desc_how_to_use_double_click_translation_1">
-        首先，转到“阅读器设置”（请参阅：如何自定义阅读器？），
+        首先，转到阅读器设置（请参阅：如何自定义阅读器？），
         然后打开相应的设置。之后，
         开始阅读书籍（请参阅：如何阅读书籍？）。
         现在，如果您双击所需的段落，
-        将打开带有该段落文本的外部翻译器。
+        将打开带有段落文本的外部翻译器。
     </string>
 
     <string name="help_title_how_to_create_color_presets">
         如何创建和修改颜色预设？
     </string>
     <string name="help_desc_how_to_create_color_presets_1">
-        转到“外观设置”（请参阅：如何自定义阅读器？）。
-        您可以在“颜色”子类别中“颜色预设”下的框中修改所有颜色预设的设置。
-        要创建新的颜色预设，请单击“添加”图标按钮。
+        转到“外观”设置（请参阅：如何自定义阅读器？）。
+        您可以在“颜色”子类别中的“颜色预设”下的框中修改所有颜色预设的设置。
+        要创建新的颜色预设，请单击«添加»图标按钮。
         有多种方法可以修改颜色预设：
         通过单击文本字段，您可以更改颜色预设的名称，
         通过移动滑块，您可以更改颜色预设的颜色，
-        通过单击“随机播放”图标按钮，您可以随机播放所有颜色。
-        如果您想删除颜色预设，请单击“删除”图标按钮。
+        通过单击 «随机» 图标按钮，您可以随机播放所有颜色。
+        如果您想删除颜色预设，请单击«删除»图标按钮。
     </string>
 
     <string name="help_title_how_to_use_color_presets">
         如何使用颜色预设？
     </string>
     <string name="help_desc_how_to_use_color_presets_1">
-        转到“外观设置”（请参阅：如何自定义阅读器？）。
-        您可以在“颜色预设”设置中选择要使用的颜色预设。
-        单击所需的颜色预设以选择它，这也将更改您在阅读器中的颜色。
-        如果要重新排序颜色预设，请选择它并按住“手柄”图标按钮，
+        转到“外观”设置（请参阅：如何自定义阅读器？）。
+        您可以在 «颜色预设» 设置中选择要使用的颜色预设。
+        单击所需的颜色预设以选择它，这也将更改阅读器中的颜色。
+        如果要重新排序颜色预设，请选择它并按住 «手柄» 图标按钮，
         然后将其移动到所需的位置。
-        您可以通过启用“外观”设置的“颜色”子类别中的相应设置来快速更改颜色预设，
-        然后在阅读器中向左或向右滑动顶部栏，
+        您可以通过在“外观”设置的“颜色”子类别中启用相应的设置来快速更改颜色预设，然后在阅读器中向左或向右滑动顶部栏，
         以快速更改颜色预设。
     </string>
 
@@ -556,27 +535,26 @@
         什么是感知扩展器以及如何使用它？
     </string>
     <string name="help_title_how_to_use_perception_expander_1">
-        感知扩展器可以帮助您更快地阅读。
-        首先，在“阅读器设置”中启用它（请参阅：如何自定义阅读器？）。
-        启用后，阅读器的两侧会出现两条垂直线。
+        感知扩展器可能会帮助您更快地阅读。
+        首先，在阅读器设置中启用它（请参阅：如何自定义阅读器？）。
+        启用后，阅读器的两侧将出现两条垂直线。
         为了进一步优化您的阅读速度，
-        调整内边距以在中心周围创建更少的空间。
+        调整边距以在中心周围创建更少的空间。
         要使用它，请专注于屏幕中心，同时
-        让您的周边视觉捕捉到侧面的文本。
-        在阅读时，保持对中心的关注，而无需直接
-        在每行之后查看侧面。
+        允许您的周边视觉接收两侧的文本。
+        阅读时，保持对中心的关注，而不要直接
+        每行后看向两侧。
     </string>
-
 
     <!-- Start -->
-    <string name="start_welcome">欢迎来到书籍的故事！</string>
+    <string name="start_welcome">欢迎来到 EverBook！</string>
     <string name="start_welcome_desc">
         进入一个文字充满魅力、
-        教导和引领开启不可思议的冒险的世界！
-        让我们设置一些东西！
+        教导和带领您进行不可思议的冒险的世界！
+        让我们做一些设置吧！
     </string>
-    <string name="start_language_preferences">语言偏好</string>
-    <string name="start_theme_preferences">主题偏好</string>
+    <string name="start_language_preferences">语言偏好设置</string>
+    <string name="start_theme_preferences">主题偏好设置</string>
     <string name="start_permissions_preferences">权限</string>
     <string name="start_permissions_granted">已授予</string>
     <string name="start_permissions_storage">存储权限</string>
@@ -584,11 +562,12 @@
     <string name="start_permissions_notifications">通知权限</string>
     <string name="start_permissions_notifications_desc">需要检查较新的应用程序版本</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
-    <string name="start_fork_info_desc">此应用程序基于 Acclorite/book-story 项目的分支。原始项目在 GPL-3.0 许可证下可用。</string>
-    <string name="start_done">一切就绪！</string>
+    <string name="start_fork_info_desc">此应用程序基于 Acclorite/book-story 项目的一个分支。原始项目在 GPL-3.0 许可下提供。</string>
+    <string name="start_source_code">源代码</string>
+    <string name="start_done">一切都完成了！</string>
     <string name="start_done_desc">
         您已成功完成应用程序的基本设置。
-        您想通过阅读“帮助”屏幕来了解如何使用该应用程序吗？
+        您想通过阅读“帮助”屏幕来学习如何使用该应用程序吗？
     </string>
 
     <!-- History -->
@@ -596,7 +575,6 @@
     <string name="yesterday">昨天</string>
 
     <!-- Content description -->
-    <string name="refresh_book_content_desc">刷新书籍</string>
     <string name="continue_reading_content_desc">继续阅读</string>
     <string name="go_back_content_desc">返回</string>
     <string name="cover_image_content_desc">封面图像</string>
@@ -611,24 +589,23 @@
     <string name="apply_changes_content_desc">应用更改</string>
     <string name="error_content_desc">错误</string>
     <string name="search_content_desc">搜索</string>
-    <string name="clear_selected_items_content_desc">清除选定项</string>
+    <string name="clear_selected_items_content_desc">清除选定的项目</string>
     <string name="add_files_content_desc">添加文件</string>
     <string name="select_all_files_content_desc">选择所有文件</string>
     <string name="exit_search_content_desc">退出搜索</string>
     <string name="delete_whole_history_content_desc">删除整个历史记录</string>
     <string name="move_books_content_desc">移动选定的书籍</string>
     <string name="delete_books_content_desc">删除选定的书籍</string>
-    <string name="revert_content_desc">还原</string>
+    <string name="revert_content_desc">恢复</string>
     <string name="selected_content_desc">已选择</string>
-    <string name="app_icon_content_desc">应用图标</string>
-    <string name="note_content_desc">注释</string>
+    <string name="app_icon_content_desc">应用程序图标</string>
     <string name="delete_history_element_content_desc">删除历史记录元素</string>
     <string name="library_content_desc">您的图书馆</string>
-    <string name="history_content_desc">阅读历史</string>
+    <string name="history_content_desc">阅读历史记录</string>
     <string name="browse_content_desc">添加书籍</string>
     <string name="arrow_content_desc">箭头</string>
-    <string name="required_content_desc">必填</string>
-    <string name="reset_start_content_desc">重置起始指南</string>
+    <string name="required_content_desc">必需</string>
+    <string name="reset_start_content_desc">重置启动指南</string>
     <string name="exit_editing_content_desc">退出编辑模式</string>
     <string name="open_in_web_content_desc">在网络中打开</string>
     <string name="delete_color_preset_content_desc">删除颜色预设</string>
@@ -640,10 +617,9 @@
     <string name="tryzub_content_desc">三叉戟</string>
     <string name="github_profile_content_desc">GitHub 个人资料</string>
     <string name="drag_content_desc">拖动</string>
-    <string name="filter_content_desc">筛选器</string>
-    <string name="checkpoint_back_content_desc">检查点后退</string>
-    <string name="checkpoint_forward_content_desc">检查点前进</string>
+    <string name="filter_content_desc">过滤器</string>
+    <string name="checkpoint_back_content_desc">后检查点</string>
+    <string name="checkpoint_forward_content_desc">前检查点</string>
     <string name="chapters_content_desc">章节</string>
-    <string name="update_text_content_desc">更新文本</string>
     <string name="more_content_desc">更多</string>
 </resources>

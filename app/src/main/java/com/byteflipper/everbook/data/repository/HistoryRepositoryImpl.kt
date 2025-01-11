@@ -2,7 +2,7 @@ package com.byteflipper.everbook.data.repository
 
 import com.byteflipper.everbook.data.local.room.BookDao
 import com.byteflipper.everbook.data.mapper.history.HistoryMapper
-import com.byteflipper.everbook.domain.model.History
+import com.byteflipper.everbook.domain.history.History
 import com.byteflipper.everbook.domain.repository.HistoryRepository
 import javax.inject.Inject
 import javax.inject.Singleton

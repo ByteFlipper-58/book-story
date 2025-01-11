@@ -1,7 +1,7 @@
 package com.byteflipper.everbook.domain.repository
 
-import com.byteflipper.everbook.domain.model.NullableBook
-import com.byteflipper.everbook.domain.model.SelectableFile
+import com.byteflipper.everbook.domain.browse.SelectableFile
+import com.byteflipper.everbook.domain.library.book.NullableBook
 import java.io.File
 
 interface FileSystemRepository {

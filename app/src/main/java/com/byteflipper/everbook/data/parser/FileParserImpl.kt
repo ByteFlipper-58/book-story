@@ -6,7 +6,7 @@ import com.byteflipper.everbook.data.parser.fb2.Fb2FileParser
 import com.byteflipper.everbook.data.parser.html.HtmlFileParser
 import com.byteflipper.everbook.data.parser.pdf.PdfFileParser
 import com.byteflipper.everbook.data.parser.txt.TxtFileParser
-import com.byteflipper.everbook.domain.model.BookWithCover
+import com.byteflipper.everbook.domain.library.book.BookWithCover
 import java.io.File
 import javax.inject.Inject
 

@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.0.0</string>
+    <string name="app_version" translatable="false">1.1.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Default</string>
     <string name="random_string">Random</string>
@@ -32,9 +32,7 @@
     <string name="delete_book">Delete book?</string>
     <string name="move_book">Move book?</string>
     <string name="delete_history">Delete reading history?</string>
-    <string name="confirm_update">Confirm update?</string>
     <string name="enable_check_for_updates">Enable check for updates?</string>
-    <string name="update_book">Update book?</string>
 
     <!-- Dialog Descriptions -->
     <string name="storage_permission_description">
@@ -66,10 +64,6 @@
         It will delete the whole history from the database.
         After deleting the whole history, the order of the books will be reset.
     </string>
-    <string name="confirm_update_description">
-        Update this book\'s text and chapters.
-        The progress should remain unchanged unless the order of paragraphs was changed.
-    </string>
     <string name="update_app_description">
         New app version was found.
         Do you want to proceed and go to the release page?
@@ -79,13 +73,6 @@
         the app will retrieve latest release information from «api.github.com» each time
         when app starts.
         Do you want to proceed and enable «Check for updates»?
-    </string>
-    <string name="update_book_description">
-        Update of the text has been found.
-        Update is needed to ensure latest parser methods are used.
-        It is offline process.
-        Your progress will not be affected unless big changes occur.
-        Do you want to proceed with update?
     </string>
 
     <!-- Errors -->
@@ -98,18 +85,12 @@
     <string name="error_something_went_wrong">
         Something went wrong.
     </string>
-    <string name="error_something_went_wrong_with_file">
-        Something went wrong. Please check whether this book\'s file is not corrupted.
-    </string>
-    <string name="error_wrong_file_format">Wrong file format.</string>
-    <string name="error_query">Error: %1$s</string>
-    <string name="error_file_empty">This file is empty or corrupted.</string>
     <string name="error_no_translator">No translator app found.</string>
     <string name="error_no_dictionary">No dictionary app found.</string>
     <string name="error_no_browser">No browser app found.</string>
     <string name="error_no_share_app">No app to share found.</string>
-    <string name="error_no_text">
-        The book content is empty. Please, make sure that the book content is not empty and update it.
+    <string name="error_could_not_get_text">
+        File is empty, corrupted, or does not exist. Please verify and try again.
     </string>
     <string name="error_check_internet">
         Something went wrong.
@@ -156,8 +137,6 @@
     <string name="copy">Copy</string>
     <string name="translate">Translate</string>
     <string name="dictionary">Dictionary</string>
-    <string name="retry">Retry</string>
-    <string name="confirm">Confirm</string>
     <string name="next">Next</string>
     <string name="yes_go_to_help">Yes, go to Help</string>
     <string name="no">No</string>
@@ -205,10 +184,13 @@
     <string name="font_reader_settings">Font</string>
     <string name="text_reader_settings">Text</string>
     <string name="translator_reader_settings">Translator</string>
-    <string name="padding_reader_settings">Padding</string>
+    <string name="padding_reader_settings">Margins</string>
     <string name="misc_reader_settings">Misc</string>
     <string name="reading_speed_reader_settings">Reading speed</string>
+    <string name="reading_mode_reader_settings">Reading mode</string>
     <string name="system_reader_settings">System</string>
+    <string name="chapters_reader_settings">Chapters</string>
+    <string name="images_reader_settings">Images</string>
     <string name="theme_appearance_settings">Theme preferences</string>
     <string name="colors_appearance_settings">Colors</string>
     <string name="general_browse_settings">General</string>
@@ -239,32 +221,42 @@
     <string name="color_preset_option">Color preset</string>
     <string name="background_color_option">Background color</string>
     <string name="font_color_option">Font color</string>
-    <string name="side_padding_option">Side padding</string>
-    <string name="vertical_padding_option">Vertical padding</string>
+    <string name="side_padding_option">Side margins</string>
+    <string name="vertical_padding_option">Vertical margins</string>
     <string name="double_click_translation_option">Double click translation</string>
     <string name="double_click_translation_option_desc">Double click on paragraph to translate it</string>
     <string name="fast_color_preset_change_option">Fast color preset change</string>
     <string name="fast_color_preset_change_option_desc">Swipe top bar left or right to change color preset</string>
     <string name="text_alignment_option">Text alignment</string>
+    <string name="chapter_title_alignment_option">Chapter title alignment</string>
     <string name="letter_spacing_option">Letter spacing</string>
-    <string name="cutout_padding_option">Cutout padding</string>
-    <string name="cutout_padding_option_desc">Apply padding to cutout area</string>
+    <string name="cutout_padding_option">Cutout margin</string>
+    <string name="cutout_padding_option_desc">Apply margin to the cutout area</string>
     <string name="fullscreen_option">Fullscreen</string>
-    <string name="fullscreen_option_desc">Hide system bars and remove padding</string>
+    <string name="fullscreen_option_desc">Hide system bars and margins</string>
     <string name="keep_screen_on_option">Keep screen on</string>
     <string name="hide_bars_on_fast_scroll_option">Hide bars on fast scroll</string>
     <string name="perception_expander_option">Perception expander</string>
     <string name="perception_expander_option_desc">
         Increase your reading speed by focusing on center
     </string>
-    <string name="perception_expander_padding_option">Perception expander line padding</string>
-    <string name="perception_expander_thickness_option">Perception expander line thickness</string>
-    <string name="check_for_text_update_option">Check for text update</string>
-    <string name="check_for_text_update_option_desc">Automatically check whether there is text update</string>
-    <string name="check_for_text_update_toast_option">Show \"text is up-to-date\" toast</string>
+    <string name="perception_expander_padding_option">Line side margin</string>
+    <string name="perception_expander_thickness_option">Line thickness</string>
     <string name="screen_orientation_option">Screen orientation</string>
     <string name="custom_screen_brightness_option">Custom brightness</string>
     <string name="screen_brightness_option">Brightness</string>
+    <string name="horizontal_gesture_option">Horizontal gesture</string>
+    <string name="horizontal_gesture_scroll_option">Scroll fraction</string>
+    <string name="horizontal_gesture_sensitivity_option">Sensitivity</string>
+    <string name="bottom_bar_padding_option">Bottom bar margin</string>
+    <string name="highlighted_reading_option">Highlight words</string>
+    <string name="highlighted_reading_option_desc">Highlight the beginning of each word</string>
+    <string name="highlighted_reading_thickness_option">Highlight thickness</string>
+    <string name="images_option">Images</string>
+    <string name="images_option_desc">Display images along with their captions</string>
+    <string name="images_corners_roundness_option">Corners roundness</string>
+    <string name="images_alignment_option">Alignment</string>
+    <string name="images_width_option">Size</string>
 
     <!-- Browse -->
     <string name="browse_files_structure_option">Files structure</string>
@@ -319,11 +311,11 @@
     <string name="browse_sort_order_last_modified">Last modified</string>
     <string name="browse_sort_order_file_size">File size</string>
 
-    <!-- Text Alignment properties -->
-    <string name="text_alignment_start">Start</string>
-    <string name="text_alignment_justify">Justify</string>
-    <string name="text_alignment_center">Center</string>
-    <string name="text_alignment_end">End</string>
+    <!-- Alignment properties -->
+    <string name="alignment_start">Start</string>
+    <string name="alignment_justify">Justify</string>
+    <string name="alignment_center">Center</string>
+    <string name="alignment_end">End</string>
 
     <!-- Screen Orientation properties -->
     <string name="screen_orientation_free">Free</string>
@@ -331,6 +323,14 @@
     <string name="screen_orientation_landscape">Landscape</string>
     <string name="screen_orientation_locked_portrait">Locked portrait</string>
     <string name="screen_orientation_locked_landscape">Locked landscape</string>
+
+    <!-- Horizontal Gesture properties -->
+    <string name="horizontal_gesture_off">Off</string>
+    <string name="horizontal_gesture_on">On</string>
+    <string name="horizontal_gesture_inverse">On (Inverse)</string>
+
+    <!-- Highlighted Reading properties -->
+    <string name="highlighted_reading_level">level</string>
 
     <!-- Themes -->
     <string name="dynamic_theme">Mercury</string>
@@ -344,6 +344,7 @@
     <string name="lavender_theme">Eris</string>
     <string name="marsh_theme">Pluto</string>
     <string name="yellow_theme">Venus</string>
+    <string name="yellow2_theme">Makemake</string>
     <string name="aqua_theme">Uranus</string>
 
     <!-- Toast messages -->
@@ -362,9 +363,6 @@
 
     <!-- Snackbar messages -->
     <string name="history_element_deleted">History element was successfully deleted.</string>
-    <string name="file_not_found">File \"%1$s\" was not found.</string>
-    <string name="book_updated">Book\'s text was successfully updated.</string>
-    <string name="nothing_changed">Text is up-to-date.</string>
 
     <!-- DropDown properties -->
     <string name="move_this_book">Move</string>
@@ -407,14 +405,6 @@
     <string name="credits_ideas">Ideas</string>
 
     <!-- Help -->
-    <string name="help_clickable_note_1">Please note, that</string>
-    <string name="help_clickable_note_2">such highlighted text</string>
-    <string name="help_clickable_note_3">
-        can be clicked.
-        Also you can hide this note by clicking the icon, try it out!
-    </string>
-    <string name="help_clickable_note_action">I\'m clickable!</string>
-
     <string name="help_title_how_to_add_books">How do I add books to the Library?</string>
     <string name="help_desc_how_to_add_books_1">Go to the</string>
     <string name="help_desc_how_to_add_books_2">Browse</string>
@@ -489,15 +479,6 @@
         or Appearance category to customize Colors settings.
     </string>
 
-    <string name="help_title_how_to_update_book">How do I update a book?</string>
-    <string name="help_desc_how_to_update_book_1">Go to the</string>
-    <string name="help_desc_how_to_update_book_2">Library</string>
-    <string name="help_desc_how_to_update_book_3">
-        and click the book\'s cover image to see book\'s details.
-        Pull down the screen or click the refresh icon in the upper right corner to update the book.
-        If book\'s file changed you may confirm and update the book or cancel update.
-    </string>
-
     <string name="help_title_how_to_manage_history">How do I manage history?</string>
     <string name="help_desc_how_to_manage_history_1">Go to the</string>
     <string name="help_desc_how_to_manage_history_2">History</string>
@@ -561,7 +542,7 @@
         First, enable it in the Reader settings(see: How do I customize the Reader?).
         Once enabled, two vertical lines will appear on either side of the Reader.
         To optimize your reading speed further,
-        adjust the padding to create less space around the center.
+        adjust the margin to create less space around the center.
         To use it, focus on the center of the screen while
         allowing your peripheral vision to pick up the text on the sides.
         As you read, maintain your focus on the center without directly
@@ -586,6 +567,7 @@
     <string name="start_permissions_notifications_desc">Required to check for newer app version</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">This app is based on a fork of the Acclorite/book-story project. The original project is available under the GPL-3.0 license.</string>
+    <string name="start_source_code">Source code</string>
     <string name="start_done">Everything\'s done!</string>
     <string name="start_done_desc">
         You\'re successfully done basic setting of the app.
@@ -597,7 +579,6 @@
     <string name="yesterday">Yesterday</string>
 
     <!-- Content description -->
-    <string name="refresh_book_content_desc">Refresh book</string>
     <string name="continue_reading_content_desc">Continue reading</string>
     <string name="go_back_content_desc">Go back</string>
     <string name="cover_image_content_desc">Cover image</string>
@@ -622,7 +603,6 @@
     <string name="revert_content_desc">Revert</string>
     <string name="selected_content_desc">Selected</string>
     <string name="app_icon_content_desc">App icon</string>
-    <string name="note_content_desc">Note</string>
     <string name="delete_history_element_content_desc">Delete history element</string>
     <string name="library_content_desc">Your library</string>
     <string name="history_content_desc">Reading history</string>
@@ -645,7 +625,5 @@
     <string name="checkpoint_back_content_desc">Checkpoint back</string>
     <string name="checkpoint_forward_content_desc">Checkpoint forward</string>
     <string name="chapters_content_desc">Chapters</string>
-    <string name="update_text_content_desc">Update text</string>
     <string name="more_content_desc">More</string>
-
 </resources>

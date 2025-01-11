@@ -48,20 +48,18 @@ _You can find more screenshots in [assets](https://github.com/ByteFlipper-58/boo
 
 <!------------ Download guide ------------>
 
-## ✈️ Download (Coming soon)
+## ✈️ Download
 - _Please note, that the app supports Android versions only from Android 8.0_
 
 <div align="left">
 
-[<img src="https://raw.githubusercontent.com/ismartcoding/plain-app/main/assets/get-it-on-github.png" alt='Get it on GitHub' height="80">](https://github.com/ByteFlipper-58/book-story/releases/latest)
+[<img src="https://raw.githubusercontent.com/ismartcoding/plain-app/main/assets/get-it-on-github.png" alt='Get it on GitHub' height="80">](https://github.com/ByteFlipper-58/book-story/releases/download/v1.0.0/app-release.apk)
 </div>
 
 Don't see your favorite app store? Create an [Issue](https://github.com/ByteFlipper-58/book-story/issues)!
 
 ### 📲 How to download and install
-- _**Install from Github**_: Click on the "Get it on GitHub" badge above, scroll down and download **book-story.apk** or download the last apk from GitHub [here](https://github.com/ByteFlipper-58/book-story/releases/latest/download/book-story.apk). After that, find downloaded APK and install it.
-- _**Install from F-Droid**_: Click on the "Get it on F-Droid" badge above, scroll down and click "Download APK" under desired Release Version to download the APK file. After that, find downloaded APK and install it.
-- _**Install from IzzyOnDroid**_: Click on the "Get it on IzzyOnDroid" badge above, scroll down and click "Download" to download the last APK from IzzyOnDroid. After that, find downloaded APK and install it.
+- _**Install from Github**_: Click on the "Get it on GitHub" badge above, scroll down and download **book-story.apk** or download the last apk from GitHub [here](https://github.com/ByteFlipper-58/book-story/releases/download/v1.0.0/app-release.apk). After that, find downloaded APK and install it.
 - If you don't know how to install APK file, follow [this guide](https://www.lifewire.com/install-apk-on-android-4177185).
 
 ### 🧭 Afterwards

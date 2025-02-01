@@ -28,10 +28,8 @@ import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.ReaderText
-import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
 import com.byteflipper.everbook.domain.util.Direction
 import com.byteflipper.everbook.presentation.core.components.common.IconButton
-import com.byteflipper.everbook.presentation.core.util.calculateProgress
 import com.byteflipper.everbook.presentation.core.util.noRippleClickable
 import com.byteflipper.everbook.ui.reader.ReaderEvent
 import com.byteflipper.everbook.ui.theme.Colors
@@ -40,34 +38,16 @@ import com.byteflipper.everbook.ui.theme.HorizontalExpandingTransition
 @Composable
 fun ReaderBottomBar(
     book: Book,
+    progress: String,
     text: List<ReaderText>,
     listState: LazyListState,
     lockMenu: Boolean,
-    currentChapter: Chapter?,
-    currentChapterProgress: Float,
     checkpoint: Checkpoint,
     bottomBarPadding: Dp,
     restoreCheckpoint: (ReaderEvent.OnRestoreCheckpoint) -> Unit,
     scroll: (ReaderEvent.OnScroll) -> Unit,
     changeProgress: (ReaderEvent.OnChangeProgress) -> Unit
 ) {
-    val bookProgress = remember(book.progress) {
-        derivedStateOf {
-            "${book.progress.calculateProgress(2)}%"
-        }
-    }
-    val chapterProgress = remember(currentChapter, currentChapterProgress) {
-        derivedStateOf {
-            if (currentChapter == null) return@derivedStateOf ""
-            " (${currentChapterProgress.calculateProgress(2)}%)"
-        }
-    }
-    val progress = remember(bookProgress.value, chapterProgress.value) {
-        derivedStateOf {
-            "${bookProgress.value}${chapterProgress.value}"
-        }
-    }
-
     val arrowDirection = remember(checkpoint.index, listState.firstVisibleItemIndex) {
         derivedStateOf {
             val checkpointIndex = checkpoint.index
@@ -99,7 +79,7 @@ fun ReaderBottomBar(
         Spacer(Modifier.height(16.dp))
 
         Text(
-            text = progress.value,
+            text = progress,
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleLarge
         )

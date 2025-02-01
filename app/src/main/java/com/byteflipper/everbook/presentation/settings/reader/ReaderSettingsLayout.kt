@@ -1,5 +1,6 @@
 package com.byteflipper.everbook.presentation.settings.reader
 
+import ReaderSettingsCategory
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding

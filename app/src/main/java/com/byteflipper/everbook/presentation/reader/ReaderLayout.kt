@@ -1,7 +1,12 @@
 package com.byteflipper.everbook.presentation.reader
 
 import android.os.Build
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -27,6 +32,7 @@ import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
 import com.byteflipper.everbook.domain.reader.ReaderImagesAlignment
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
+import com.byteflipper.everbook.presentation.core.components.common.AnimatedVisibility
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.components.common.SelectionContainer
 import com.byteflipper.everbook.presentation.core.components.common.SpacedItem
@@ -46,6 +52,8 @@ fun ReaderLayout(
     horizontalGestureSensitivity: Dp,
     highlightedReading: Boolean,
     highlightedReadingThickness: FontWeight,
+    progress: String,
+    progressBar: Boolean,
     paragraphHeight: Dp,
     sidePadding: Dp,
     backgroundColor: Color,
@@ -116,10 +124,8 @@ fun ReaderLayout(
             )
         }
     ) { toolbarHidden ->
-        LazyColumnWithScrollbar(
-            state = listState,
-            enableScrollbar = false,
-            modifier = Modifier
+        Column(
+            Modifier
                 .fillMaxSize()
                 .background(backgroundColor)
                 .then(
@@ -146,57 +152,75 @@ fun ReaderLayout(
                     horizontalGestureScroll = horizontalGestureScroll,
                     horizontalGestureSensitivity = horizontalGestureSensitivity,
                     isLoading = isLoading
-                ),
-            contentPadding = PaddingValues(
-                top = (WindowInsets.displayCutout.asPaddingValues()
-                    .calculateTopPadding() + paragraphHeight)
-                    .coerceAtLeast(18.dp),
-                bottom = (WindowInsets.displayCutout.asPaddingValues()
-                    .calculateBottomPadding() + paragraphHeight)
-                    .coerceAtLeast(18.dp),
-            )
+                )
         ) {
-            itemsIndexed(
-                text,
-                key = { index, entry -> index }
-            ) { index, entry ->
-                when {
-                    !images && entry is ReaderText.Image -> return@itemsIndexed
-                    else -> {
-                        SpacedItem(
-                            index = index,
-                            spacing = paragraphHeight
-                        ) {
-                            ReaderLayoutText(
-                                activity = activity,
-                                showMenu = showMenu,
-                                entry = entry,
-                                imagesCornersRoundness = imagesCornersRoundness,
-                                imagesAlignment = imagesAlignment,
-                                imagesWidth = imagesWidth,
-                                imagesColorEffects = imagesColorEffects,
-                                fontFamily = fontFamily,
-                                fontColor = fontColor,
-                                lineHeight = lineHeight,
-                                fontStyle = fontStyle,
-                                chapterTitleAlignment = chapterTitleAlignment,
-                                textAlignment = textAlignment,
-                                horizontalAlignment = horizontalAlignment,
-                                fontSize = fontSize,
-                                letterSpacing = letterSpacing,
-                                sidePadding = sidePadding,
-                                paragraphIndentation = paragraphIndentation,
-                                fullscreenMode = fullscreenMode,
-                                doubleClickTranslation = doubleClickTranslation,
-                                highlightedReading = highlightedReading,
-                                highlightedReadingThickness = highlightedReadingThickness,
-                                toolbarHidden = toolbarHidden,
-                                openTranslator = openTranslator,
-                                menuVisibility = menuVisibility
-                            )
+            LazyColumnWithScrollbar(
+                state = listState,
+                enableScrollbar = false,
+                parentModifier = Modifier.weight(1f),
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(
+                    top = (WindowInsets.displayCutout.asPaddingValues()
+                        .calculateTopPadding() + paragraphHeight)
+                        .coerceAtLeast(18.dp),
+                    bottom = (WindowInsets.displayCutout.asPaddingValues()
+                        .calculateBottomPadding() + paragraphHeight)
+                        .coerceAtLeast(18.dp),
+                )
+            ) {
+                itemsIndexed(
+                    text,
+                    key = { index, entry -> index }
+                ) { index, entry ->
+                    when {
+                        !images && entry is ReaderText.Image -> return@itemsIndexed
+                        else -> {
+                            SpacedItem(
+                                index = index,
+                                spacing = paragraphHeight
+                            ) {
+                                ReaderLayoutText(
+                                    activity = activity,
+                                    showMenu = showMenu,
+                                    entry = entry,
+                                    imagesCornersRoundness = imagesCornersRoundness,
+                                    imagesAlignment = imagesAlignment,
+                                    imagesWidth = imagesWidth,
+                                    imagesColorEffects = imagesColorEffects,
+                                    fontFamily = fontFamily,
+                                    fontColor = fontColor,
+                                    lineHeight = lineHeight,
+                                    fontStyle = fontStyle,
+                                    chapterTitleAlignment = chapterTitleAlignment,
+                                    textAlignment = textAlignment,
+                                    horizontalAlignment = horizontalAlignment,
+                                    fontSize = fontSize,
+                                    letterSpacing = letterSpacing,
+                                    sidePadding = sidePadding,
+                                    paragraphIndentation = paragraphIndentation,
+                                    fullscreenMode = fullscreenMode,
+                                    doubleClickTranslation = doubleClickTranslation,
+                                    highlightedReading = highlightedReading,
+                                    highlightedReadingThickness = highlightedReadingThickness,
+                                    toolbarHidden = toolbarHidden,
+                                    openTranslator = openTranslator,
+                                    menuVisibility = menuVisibility
+                                )
+                            }
                         }
                     }
                 }
+            }
+
+            AnimatedVisibility(
+                visible = !showMenu && progressBar,
+                enter = slideInVertically { it } + expandVertically(),
+                exit = slideOutVertically { it } + shrinkVertically()
+            ) {
+                ReaderProgressBar(
+                    progress = progress,
+                    fontColor = fontColor
+                )
             }
         }
     }

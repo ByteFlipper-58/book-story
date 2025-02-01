@@ -28,6 +28,7 @@ import com.byteflipper.everbook.presentation.settings.reader.font.FontSubcategor
 import com.byteflipper.everbook.presentation.settings.reader.images.ImagesSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.misc.MiscSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.padding.PaddingSubcategory
+import com.byteflipper.everbook.presentation.settings.reader.progress.ProgressSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.reading_mode.ReadingModeSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.reading_speed.ReadingSpeedSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.system.SystemSubcategory
@@ -126,6 +127,9 @@ fun ReaderSettingsBottomSheet(
                             titleColor = { MaterialTheme.colorScheme.onSurface }
                         )
                         ChaptersSubcategory(
+                            titleColor = { MaterialTheme.colorScheme.onSurface }
+                        )
+                        ProgressSubcategory(
                             titleColor = { MaterialTheme.colorScheme.onSurface }
                         )
                         TranslatorSubcategory(

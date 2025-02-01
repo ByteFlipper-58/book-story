@@ -44,6 +44,7 @@ import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideFonts
 import com.byteflipper.everbook.presentation.core.util.LocalActivity
+import com.byteflipper.everbook.presentation.core.util.calculateProgress
 import com.byteflipper.everbook.presentation.core.util.setBrightness
 import com.byteflipper.everbook.presentation.navigator.LocalNavigator
 import com.byteflipper.everbook.presentation.reader.ReaderContent
@@ -280,6 +281,26 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
             (mainState.value.bottomBarPadding * 4f).dp
         }
 
+        val bookProgress = remember(state.value.book.progress) {
+            derivedStateOf {
+                "${state.value.book.progress.calculateProgress(2)}%"
+            }
+        }
+        val chapterProgress = remember(
+            state.value.currentChapter,
+            state.value.currentChapterProgress
+        ) {
+            derivedStateOf {
+                if (state.value.currentChapter == null) return@derivedStateOf ""
+                " (${state.value.currentChapterProgress.calculateProgress(2)}%)"
+            }
+        }
+        val progress = remember(bookProgress.value, chapterProgress.value) {
+            derivedStateOf {
+                "${bookProgress.value}${chapterProgress.value}"
+            }
+        }
+
         LaunchedEffect(Unit) {
             screenModel.init(
                 bookId = bookId,
@@ -368,6 +389,8 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
             horizontalGestureSensitivity = horizontalGestureSensitivity,
             highlightedReading = mainState.value.highlightedReading,
             highlightedReadingThickness = highlightedReadingThickness,
+            progress = progress.value,
+            progressBar = mainState.value.progressBar,
             paragraphHeight = paragraphHeight,
             sidePadding = sidePadding,
             bottomBarPadding = bottomBarPadding,

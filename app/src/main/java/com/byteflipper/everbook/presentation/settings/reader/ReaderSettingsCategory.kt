@@ -1,7 +1,5 @@
 @file:Suppress("FunctionName")
 
-package com.byteflipper.everbook.presentation.settings.reader
-
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -11,6 +9,7 @@ import com.byteflipper.everbook.presentation.settings.reader.font.FontSubcategor
 import com.byteflipper.everbook.presentation.settings.reader.images.ImagesSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.misc.MiscSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.padding.PaddingSubcategory
+import com.byteflipper.everbook.presentation.settings.reader.progress.ProgressSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.reading_mode.ReadingModeSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.reading_speed.ReadingSpeedSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.system.SystemSubcategory
@@ -42,6 +41,9 @@ fun LazyListScope.ReaderSettingsCategory(
         titleColor = titleColor
     )
     ReadingSpeedSubcategory(
+        titleColor = titleColor
+    )
+    ProgressSubcategory(
         titleColor = titleColor
     )
     TranslatorSubcategory(

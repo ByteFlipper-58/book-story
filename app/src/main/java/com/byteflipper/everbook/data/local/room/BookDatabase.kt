@@ -1,5 +1,6 @@
 package com.byteflipper.everbook.data.local.room
 
+import android.app.Application
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.DeleteColumn
@@ -12,6 +13,7 @@ import com.byteflipper.everbook.data.local.dto.BookEntity
 import com.byteflipper.everbook.data.local.dto.ColorPresetEntity
 import com.byteflipper.everbook.data.local.dto.FavoriteDirectoryEntity
 import com.byteflipper.everbook.data.local.dto.HistoryEntity
+import java.io.File
 
 @Database(
     entities = [
@@ -87,5 +89,20 @@ object DatabaseHelper {
 
     @DeleteColumn("BookEntity", "textPath")
     @DeleteColumn("BookEntity", "chapters")
-    class MIGRATION_7_8 : AutoMigrationSpec
+    class MIGRATION_7_8 : AutoMigrationSpec {
+        companion object {
+            /**
+             * Along with textPath deletion,
+             * books directory with text does not
+             * serve any purpose.
+             */
+            fun removeBooksDir(application: Application) {
+                val booksDir = File(application.filesDir, "books")
+
+                if (booksDir.exists()) {
+                    booksDir.deleteRecursively()
+                }
+            }
+        }
+    }
 }

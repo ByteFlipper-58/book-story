@@ -20,6 +20,7 @@ import com.byteflipper.everbook.presentation.core.constants.provideSecondaryScro
 @Composable
 fun LazyColumnWithScrollbar(
     modifier: Modifier = Modifier,
+    parentModifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
     scrollbarSettings: ScrollbarSettings = Constants.provideSecondaryScrollbar(),
     enableScrollbar: Boolean = true,
@@ -33,7 +34,7 @@ fun LazyColumnWithScrollbar(
         }
     }
 
-    Box {
+    Box(modifier = parentModifier) {
         LazyColumn(
             modifier = modifier,
             state = state,

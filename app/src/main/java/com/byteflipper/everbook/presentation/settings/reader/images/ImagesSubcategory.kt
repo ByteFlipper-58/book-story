@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.images.components.ImagesAlignmentOption
+import com.byteflipper.everbook.presentation.settings.reader.images.components.ImagesColorEffectsOption
 import com.byteflipper.everbook.presentation.settings.reader.images.components.ImagesCornersRoundnessOption
 import com.byteflipper.everbook.presentation.settings.reader.images.components.ImagesOption
 import com.byteflipper.everbook.presentation.settings.reader.images.components.ImagesWidthOption
@@ -28,6 +29,10 @@ fun LazyListScope.ImagesSubcategory(
     ) {
         item {
             ImagesOption()
+        }
+
+        item {
+            ImagesColorEffectsOption()
         }
 
         item {

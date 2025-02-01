@@ -111,8 +111,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-android:1.7.6")
     implementation("androidx.compose.material3:material3:1.4.0-alpha05")
     implementation("androidx.compose.material3:material3-window-size-class:1.3.1")
-    implementation("androidx.compose.material:material-icons-extended:1.7.6")
-    implementation("androidx.compose.material:material:1.7.6")
+    implementation("androidx.compose.material:material-icons-extended:1.7.7")
+    implementation("androidx.compose.material:material:1.7.7")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.7.7")
 
     // All dependencies
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
@@ -124,12 +125,13 @@ dependencies {
 
     // Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.54")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.7.7")
     ksp("com.google.dagger:hilt-android-compiler:2.54")
     implementation("com.google.dagger:hilt-compiler:2.54")
     ksp("androidx.hilt:hilt-compiler:1.2.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-messaging")
@@ -143,7 +145,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
 
     // Datastore (Settings)
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.datastore:datastore-preferences:1.1.2")
 
     // Splash Screen API
     implementation("androidx.core:core-splashscreen:1.0.1")

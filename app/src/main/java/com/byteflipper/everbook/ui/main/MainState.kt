@@ -13,10 +13,12 @@ import com.byteflipper.everbook.domain.browse.BrowseSortOrder
 import com.byteflipper.everbook.domain.browse.toBrowseFilesStructure
 import com.byteflipper.everbook.domain.browse.toBrowseLayout
 import com.byteflipper.everbook.domain.browse.toBrowseSortOrder
+import com.byteflipper.everbook.domain.reader.ReaderColorEffects
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
 import com.byteflipper.everbook.domain.reader.ReaderImagesAlignment
 import com.byteflipper.everbook.domain.reader.ReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
+import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
 import com.byteflipper.everbook.domain.reader.toImagesAlignment
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
@@ -99,6 +101,7 @@ data class MainState(
     val imagesCornersRoundness: Int = provideDefaultValue { 8 },
     val imagesAlignment: ReaderImagesAlignment = provideDefaultValue { ReaderImagesAlignment.START },
     val imagesWidth: Float = provideDefaultValue { 0.8f },
+    val imagesColorEffects: ReaderColorEffects = provideDefaultValue { ReaderColorEffects.OFF },
 
     // Browse Settings
     val browseFilesStructure: BrowseFilesStructure = provideDefaultValue {
@@ -332,6 +335,10 @@ data class MainState(
                     imagesWidth = provideValue(
                         IMAGES_WIDTH, convert = { toFloat() }
                     ) { imagesWidth },
+
+                    imagesColorEffects = provideValue(
+                        IMAGES_COLOR_EFFECTS, convert = { toColorEffects() }
+                    ) { imagesColorEffects },
                 )
             }
         }

@@ -19,6 +19,7 @@ import kotlinx.coroutines.yield
 import com.byteflipper.everbook.domain.browse.toBrowseFilesStructure
 import com.byteflipper.everbook.domain.browse.toBrowseLayout
 import com.byteflipper.everbook.domain.browse.toBrowseSortOrder
+import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
 import com.byteflipper.everbook.domain.reader.toImagesAlignment
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
@@ -453,6 +454,14 @@ class MainModel @Inject constructor(
                 value = event.value.toDouble(),
                 updateState = {
                     it.copy(imagesWidth = this.toFloat())
+                }
+            )
+
+            is MainEvent.OnChangeImagesColorEffects -> handleDatastoreUpdate(
+                key = DataStoreConstants.IMAGES_COLOR_EFFECTS,
+                value = event.value,
+                updateState = {
+                    it.copy(imagesColorEffects = this.toColorEffects())
                 }
             )
         }

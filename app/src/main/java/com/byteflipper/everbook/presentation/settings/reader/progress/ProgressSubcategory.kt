@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategory
+import com.byteflipper.everbook.presentation.settings.reader.progress.components.ProgressBarAlignmentOption
 import com.byteflipper.everbook.presentation.settings.reader.progress.components.ProgressBarOption
 import com.byteflipper.everbook.presentation.settings.reader.progress.components.ProgressBarPaddingOption
 
@@ -30,6 +31,10 @@ fun LazyListScope.ProgressSubcategory(
 
         item {
             ProgressBarPaddingOption()
+        }
+
+        item {
+            ProgressBarAlignmentOption()
         }
     }
 }

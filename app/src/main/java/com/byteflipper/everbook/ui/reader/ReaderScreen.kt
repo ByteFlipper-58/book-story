@@ -224,7 +224,9 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         val progressBarPadding = remember(mainState.value.progressBarPadding) {
             (mainState.value.progressBarPadding * 3).dp
         }
-
+        val progressBarFontSize = remember(mainState.value.progressBarFontSize) {
+            (mainState.value.progressBarFontSize * 2).sp
+        }
         val layoutDirection = LocalLayoutDirection.current
         val cutoutInsets = WindowInsets.displayCutout
         val systemBarsInsets = WindowInsets.systemBarsIgnoringVisibility
@@ -397,6 +399,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
             progressBarPadding = progressBarPadding,
             progressBarAlignment = mainState.value.progressBarAlignment,
             paragraphHeight = paragraphHeight,
+            progressBarFontSize = progressBarFontSize,
             sidePadding = sidePadding,
             bottomBarPadding = bottomBarPadding,
             backgroundColor = backgroundColor.value,

@@ -6,8 +6,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.R
-import com.byteflipper.everbook.domain.reader.ReaderImagesAlignment
 import com.byteflipper.everbook.domain.ui.ButtonItem
+import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.presentation.core.components.settings.SegmentedButtonWithTitle
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.main.MainModel
@@ -21,13 +21,13 @@ fun ImagesAlignmentOption() {
     ExpandingTransition(visible = state.value.images) {
         SegmentedButtonWithTitle(
             title = stringResource(id = R.string.images_alignment_option),
-            buttons = ReaderImagesAlignment.entries.map {
+            buttons = HorizontalAlignment.entries.map {
                 ButtonItem(
                     id = it.toString(),
                     title = when (it) {
-                        ReaderImagesAlignment.START -> stringResource(id = R.string.alignment_start)
-                        ReaderImagesAlignment.CENTER -> stringResource(id = R.string.alignment_center)
-                        ReaderImagesAlignment.END -> stringResource(id = R.string.alignment_end)
+                        HorizontalAlignment.START -> stringResource(id = R.string.alignment_start)
+                        HorizontalAlignment.CENTER -> stringResource(id = R.string.alignment_center)
+                        HorizontalAlignment.END -> stringResource(id = R.string.alignment_end)
                     },
                     textStyle = MaterialTheme.typography.labelLarge,
                     selected = it == state.value.imagesAlignment

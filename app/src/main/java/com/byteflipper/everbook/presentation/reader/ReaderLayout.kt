@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.reader.FontWithName
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
-import com.byteflipper.everbook.domain.reader.ReaderImagesAlignment
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
+import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.presentation.core.components.common.AnimatedVisibility
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.components.common.SelectionContainer
@@ -61,7 +61,7 @@ fun ReaderLayout(
     fontColor: Color,
     images: Boolean,
     imagesCornersRoundness: Dp,
-    imagesAlignment: ReaderImagesAlignment,
+    imagesAlignment: HorizontalAlignment,
     imagesWidth: Float,
     imagesColorEffects: ColorFilter?,
     fontFamily: FontWithName,

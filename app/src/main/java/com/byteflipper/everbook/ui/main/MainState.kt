@@ -15,14 +15,14 @@ import com.byteflipper.everbook.domain.browse.toBrowseLayout
 import com.byteflipper.everbook.domain.browse.toBrowseSortOrder
 import com.byteflipper.everbook.domain.reader.ReaderColorEffects
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
-import com.byteflipper.everbook.domain.reader.ReaderImagesAlignment
 import com.byteflipper.everbook.domain.reader.ReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
-import com.byteflipper.everbook.domain.reader.toImagesAlignment
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
+import com.byteflipper.everbook.domain.util.HorizontalAlignment
+import com.byteflipper.everbook.domain.util.toHorizontalAlignment
 import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.DataStoreConstants
 import com.byteflipper.everbook.presentation.core.constants.provideFonts
@@ -99,7 +99,7 @@ data class MainState(
     val chapterTitleAlignment: ReaderTextAlignment = provideDefaultValue { ReaderTextAlignment.JUSTIFY },
     val images: Boolean = provideDefaultValue { true },
     val imagesCornersRoundness: Int = provideDefaultValue { 8 },
-    val imagesAlignment: ReaderImagesAlignment = provideDefaultValue { ReaderImagesAlignment.START },
+    val imagesAlignment: HorizontalAlignment = provideDefaultValue { HorizontalAlignment.START },
     val imagesWidth: Float = provideDefaultValue { 0.8f },
     val imagesColorEffects: ReaderColorEffects = provideDefaultValue { ReaderColorEffects.OFF },
     val progressBar: Boolean = provideDefaultValue { false },
@@ -331,7 +331,7 @@ data class MainState(
                     ) { imagesCornersRoundness },
 
                     imagesAlignment = provideValue(
-                        IMAGES_ALIGNMENT, convert = { toImagesAlignment() }
+                        IMAGES_ALIGNMENT, convert = { toHorizontalAlignment() }
                     ) { imagesAlignment },
 
                     imagesWidth = provideValue(

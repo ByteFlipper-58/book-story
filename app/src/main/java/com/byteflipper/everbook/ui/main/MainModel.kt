@@ -21,13 +21,13 @@ import com.byteflipper.everbook.domain.browse.toBrowseLayout
 import com.byteflipper.everbook.domain.browse.toBrowseSortOrder
 import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
-import com.byteflipper.everbook.domain.reader.toImagesAlignment
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
 import com.byteflipper.everbook.domain.use_case.data_store.ChangeLanguage
 import com.byteflipper.everbook.domain.use_case.data_store.GetAllSettings
 import com.byteflipper.everbook.domain.use_case.data_store.SetDatastore
 import com.byteflipper.everbook.domain.use_case.remote.CheckForUpdates
+import com.byteflipper.everbook.domain.util.toHorizontalAlignment
 import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.DataStoreConstants
 import com.byteflipper.everbook.presentation.core.constants.provideFonts
@@ -445,7 +445,7 @@ class MainModel @Inject constructor(
                 key = DataStoreConstants.IMAGES_ALIGNMENT,
                 value = event.value,
                 updateState = {
-                    it.copy(imagesAlignment = this.toImagesAlignment())
+                    it.copy(imagesAlignment = this.toHorizontalAlignment())
                 }
             )
 

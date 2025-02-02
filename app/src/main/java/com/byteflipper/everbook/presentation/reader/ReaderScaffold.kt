@@ -24,10 +24,10 @@ import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.FontWithName
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
-import com.byteflipper.everbook.domain.reader.ReaderImagesAlignment
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
+import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.presentation.core.components.common.AnimatedVisibility
 import com.byteflipper.everbook.ui.reader.ReaderEvent
 import com.byteflipper.everbook.ui.settings.SettingsEvent
@@ -66,7 +66,7 @@ fun ReaderScaffold(
     fontColor: Color,
     images: Boolean,
     imagesCornersRoundness: Dp,
-    imagesAlignment: ReaderImagesAlignment,
+    imagesAlignment: HorizontalAlignment,
     imagesWidth: Float,
     imagesColorEffects: ColorFilter?,
     fontFamily: FontWithName,

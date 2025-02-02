@@ -11,15 +11,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
-import com.byteflipper.everbook.domain.reader.ReaderImagesAlignment
 import com.byteflipper.everbook.domain.reader.ReaderText
+import com.byteflipper.everbook.domain.util.HorizontalAlignment
 
 @Composable
 fun LazyItemScope.ReaderLayoutTextImage(
     entry: ReaderText.Image,
     sidePadding: Dp,
     imagesCornersRoundness: Dp,
-    imagesAlignment: ReaderImagesAlignment,
+    imagesAlignment: HorizontalAlignment,
     imagesWidth: Float,
     imagesColorEffects: ColorFilter?
 ) {

@@ -10,13 +10,13 @@ import com.byteflipper.everbook.ui.theme.color.aquaTheme
 import com.byteflipper.everbook.ui.theme.color.blackTheme
 import com.byteflipper.everbook.ui.theme.color.blueTheme
 import com.byteflipper.everbook.ui.theme.color.dynamicTheme
-import com.byteflipper.everbook.ui.theme.color.grayTheme
 import com.byteflipper.everbook.ui.theme.color.greenTheme
 import com.byteflipper.everbook.ui.theme.color.lavenderTheme
 import com.byteflipper.everbook.ui.theme.color.marshTheme
 import com.byteflipper.everbook.ui.theme.color.pink2Theme
 import com.byteflipper.everbook.ui.theme.color.pinkTheme
 import com.byteflipper.everbook.ui.theme.color.purpleTheme
+import com.byteflipper.everbook.ui.theme.color.redGrayTheme
 import com.byteflipper.everbook.ui.theme.color.redTheme
 import com.byteflipper.everbook.ui.theme.color.yellow2Theme
 import com.byteflipper.everbook.ui.theme.color.yellowTheme
@@ -29,9 +29,9 @@ enum class Theme(
 ) {
     DYNAMIC(hasThemeContrast = false, title = R.string.dynamic_theme),
     BLUE(hasThemeContrast = true, title = R.string.blue_theme),
-    GRAY(hasThemeContrast = false, title = R.string.gray_theme),
     GREEN(hasThemeContrast = true, title = R.string.green_theme),
     MARSH(hasThemeContrast = true, title = R.string.marsh_theme),
+    RED_GRAY(hasThemeContrast = false, title = R.string.red_gray_theme),
     RED(hasThemeContrast = true, title = R.string.red_theme),
     PURPLE(hasThemeContrast = true, title = R.string.purple_theme),
     LAVENDER(hasThemeContrast = true, title = R.string.lavender_theme),
@@ -128,9 +128,9 @@ fun colorScheme(
             redTheme(isDark = darkTheme, themeContrast = themeContrast)
         }
 
-        Theme.GRAY -> {
-            /* Gray Theme */
-            grayTheme(isDark = darkTheme)
+        Theme.RED_GRAY -> {
+            /* Red Gray Theme */
+            redGrayTheme(isDark = darkTheme)
         }
 
         Theme.AQUA -> {

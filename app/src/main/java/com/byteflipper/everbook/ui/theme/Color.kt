@@ -15,6 +15,7 @@ import com.byteflipper.everbook.ui.theme.color.lavenderTheme
 import com.byteflipper.everbook.ui.theme.color.marshTheme
 import com.byteflipper.everbook.ui.theme.color.pink2Theme
 import com.byteflipper.everbook.ui.theme.color.pinkTheme
+import com.byteflipper.everbook.ui.theme.color.purpleGrayTheme
 import com.byteflipper.everbook.ui.theme.color.purpleTheme
 import com.byteflipper.everbook.ui.theme.color.redGrayTheme
 import com.byteflipper.everbook.ui.theme.color.redTheme
@@ -35,6 +36,7 @@ enum class Theme(
     RED(hasThemeContrast = true, title = R.string.red_theme),
     PURPLE(hasThemeContrast = true, title = R.string.purple_theme),
     LAVENDER(hasThemeContrast = true, title = R.string.lavender_theme),
+    PURPLE_GRAY(hasThemeContrast = false, title = R.string.purple_gray_theme),
     PINK(hasThemeContrast = true, title = R.string.pink_theme),
     PINK2(hasThemeContrast = false, title = R.string.pink2_theme),
     YELLOW(hasThemeContrast = true, title = R.string.yellow_theme),
@@ -86,6 +88,11 @@ fun colorScheme(
         Theme.PURPLE -> {
             /* Purple Theme */
             purpleTheme(isDark = darkTheme, themeContrast = themeContrast)
+        }
+
+        Theme.PURPLE_GRAY -> {
+            /* Purple Gray Theme */
+            purpleGrayTheme(isDark = darkTheme)
         }
 
         Theme.GREEN -> {

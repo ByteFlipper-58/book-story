@@ -14,6 +14,7 @@ import com.byteflipper.everbook.domain.library.book.SelectableNullableBook
 import com.byteflipper.everbook.domain.util.BottomSheet
 import com.byteflipper.everbook.domain.util.Dialog
 import com.byteflipper.everbook.ui.browse.BrowseEvent
+import com.byteflipper.everbook.ui.main.MainEvent
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalPermissionsApi::class)
 @Composable
@@ -31,6 +32,7 @@ fun BrowseContent(
     gridSize: Int,
     autoGridSize: Boolean,
     includedFilterItems: List<String>,
+    pinnedPaths: List<String>,
     canScrollBackList: Boolean,
     canScrollBackGrid: Boolean,
     hasSelectedItems: Boolean,
@@ -59,6 +61,7 @@ fun BrowseContent(
     dismissAddDialog: (BrowseEvent.OnDismissAddDialog) -> Unit,
     actionAddDialog: (BrowseEvent.OnActionAddDialog) -> Unit,
     selectAddDialog: (BrowseEvent.OnSelectAddDialog) -> Unit,
+    changePinnedPaths: (MainEvent.OnChangeBrowsePinnedPaths) -> Unit,
     navigateToLibrary: () -> Unit,
     navigateToHelp: () -> Unit,
 ) {
@@ -89,6 +92,7 @@ fun BrowseContent(
         gridSize = gridSize,
         autoGridSize = autoGridSize,
         includedFilterItems = includedFilterItems,
+        pinnedPaths = pinnedPaths,
         canScrollBackList = canScrollBackList,
         canScrollBackGrid = canScrollBackGrid,
         hasSelectedItems = hasSelectedItems,
@@ -112,6 +116,7 @@ fun BrowseContent(
         selectFile = selectFile,
         showFilterBottomSheet = showFilterBottomSheet,
         showAddDialog = showAddDialog,
+        changePinnedPaths = changePinnedPaths,
         navigateToHelp = navigateToHelp
     )
 

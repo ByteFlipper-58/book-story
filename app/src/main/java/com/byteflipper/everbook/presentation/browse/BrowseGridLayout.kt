@@ -1,5 +1,6 @@
 package com.byteflipper.everbook.presentation.browse
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +11,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.byteflipper.everbook.domain.browse.BrowseLayout
+import com.byteflipper.everbook.domain.browse.GroupedFiles
 import com.byteflipper.everbook.domain.browse.SelectableFile
 import com.byteflipper.everbook.presentation.core.components.common.LazyVerticalGridWithScrollbar
 import com.byteflipper.everbook.presentation.core.components.common.header
@@ -19,43 +20,34 @@ import com.byteflipper.everbook.presentation.core.constants.providePrimaryScroll
 
 @Composable
 fun BrowseGridLayout(
+    groupedFiles: List<GroupedFiles>,
     gridSize: Int,
     autoGridSize: Boolean,
     gridState: LazyGridState,
-    files: List<SelectableFile>,
-    hasSelectedItems: Boolean,
-    onLongItemClick: (SelectableFile) -> Unit,
-    onItemClick: (SelectableFile) -> Unit,
+    headerContent: @Composable (header: String, pinned: Boolean) -> Unit,
+    itemContent: @Composable (file: SelectableFile, files: List<SelectableFile>) -> Unit
 ) {
     LazyVerticalGridWithScrollbar(
         columns = if (autoGridSize) GridCells.Adaptive(170.dp)
         else GridCells.Fixed(gridSize.coerceAtLeast(1)),
         state = gridState,
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 8.dp),
         scrollbarSettings = Constants.providePrimaryScrollbar(false)
     ) {
-        header {
-            Spacer(modifier = Modifier.height(8.dp))
-        }
+        groupedFiles.forEach { group ->
+            stickyHeader {
+                headerContent(group.header, group.pinned)
+            }
 
-        items(
-            files,
-            key = { it.path }
-        ) { selectableFile ->
-            BrowseItem(
-                file = selectableFile,
-                modifier = Modifier.animateItem(),
-                layout = BrowseLayout.GRID,
-                hasSelectedItems = hasSelectedItems,
-                onLongClick = {
-                    onLongItemClick(selectableFile)
-                },
-                onClick = {
-                    onItemClick(selectableFile)
+            items(
+                group.files,
+                key = { it.path }
+            ) { selectableFile ->
+                Box(Modifier.animateItem()) {
+                    itemContent(selectableFile, group.files)
                 }
-            )
+            }
         }
 
         header {

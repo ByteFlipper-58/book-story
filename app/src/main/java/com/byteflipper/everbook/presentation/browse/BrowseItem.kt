@@ -7,10 +7,10 @@ import com.byteflipper.everbook.domain.browse.SelectableFile
 
 @Composable
 fun BrowseItem(
+    modifier: Modifier = Modifier,
     layout: BrowseLayout,
     file: SelectableFile,
     hasSelectedItems: Boolean,
-    modifier: Modifier,
     onClick: () -> Unit,
     onLongClick: () -> Unit
 ) {

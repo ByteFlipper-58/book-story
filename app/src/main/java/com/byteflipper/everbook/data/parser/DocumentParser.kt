@@ -9,6 +9,7 @@ import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.presentation.core.util.clearAllMarkdown
 import com.byteflipper.everbook.presentation.core.util.clearMarkdown
 import com.byteflipper.everbook.presentation.core.util.containsVisibleText
+import java.io.File
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import javax.inject.Inject
@@ -72,11 +73,11 @@ class DocumentParser @Inject constructor(
             select("img").forEach { element ->
                 val src = element.attr("src")
                     .trim()
-                    .substringAfterLast("/")
+                    .substringAfterLast(File.separator)
                     .lowercase()
                     .takeIf {
                         it.containsVisibleText() && imageEntries?.any { image ->
-                            it == image.name.substringAfterLast('/').lowercase()
+                            it == image.name.substringAfterLast(File.separator).lowercase()
                         } == true
                     } ?: return@forEach
 
@@ -91,11 +92,11 @@ class DocumentParser @Inject constructor(
             select("image").forEach { element ->
                 val src = element.attr("xlink:href")
                     .trim()
-                    .substringAfterLast("/")
+                    .substringAfterLast(File.separator)
                     .lowercase()
                     .takeIf {
                         it.containsVisibleText() && imageEntries?.any { image ->
-                            it == image.name.substringAfterLast('/').lowercase()
+                            it == image.name.substringAfterLast(File.separator).lowercase()
                         } == true
                     } ?: return@forEach
 
@@ -125,7 +126,7 @@ class DocumentParser @Inject constructor(
 
                         val image = try {
                             val imageEntry = imageEntries?.find { image ->
-                                src == image.name.substringAfterLast('/').lowercase()
+                                src == image.name.substringAfterLast(File.separator).lowercase()
                             } ?: return@forEach
 
                             zipFile?.getImage(imageEntry)?.asImageBitmap()

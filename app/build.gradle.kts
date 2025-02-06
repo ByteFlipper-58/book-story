@@ -21,8 +21,8 @@ android {
         applicationId = "com.byteflipper.everbook"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.1.0"
+        versionCode = 4
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -96,24 +96,26 @@ dependencies {
     // Core
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-    implementation("androidx.activity:activity-compose:1.9.3")
+    implementation("androidx.activity:activity-compose:1.10.0")
 
     // Compose BOM libraries
     // Compose BOM was eliminated - it is recognized as Closed Source in AboutLibraries..
     // although it is not.
 
-    implementation("androidx.compose.foundation:foundation:1.8.0-alpha07")
-    implementation("androidx.compose.animation:animation:1.7.6")
-    implementation("androidx.compose.animation:animation-android:1.7.6")
-    implementation("androidx.compose.foundation:foundation-layout:1.7.6")
-    implementation("androidx.compose.ui:ui:1.7.6")
-    implementation("androidx.compose.ui:ui-graphics:1.7.6")
-    implementation("androidx.compose.ui:ui-android:1.7.6")
-    implementation("androidx.compose.material3:material3:1.4.0-alpha05")
+    implementation("androidx.compose.foundation:foundation:1.8.0-beta01")
+    implementation("androidx.compose.animation:animation:1.7.7")
+    implementation("androidx.compose.animation:animation-android:1.8.0-beta01")
+    implementation("androidx.compose.foundation:foundation-layout:1.7.7")
+    implementation("androidx.compose.ui:ui:1.7.7")
+    implementation("androidx.compose.ui:ui-graphics:1.7.7")
+    implementation("androidx.compose.ui:ui-android:1.8.0-beta01")
+    implementation("androidx.compose.material3:material3:1.4.0-alpha07")
     implementation("androidx.compose.material3:material3-window-size-class:1.3.1")
     implementation("androidx.compose.material:material-icons-extended:1.7.7")
     implementation("androidx.compose.material:material:1.7.7")
     implementation("androidx.compose.ui:ui-tooling-preview:1.7.7")
+
+    debugImplementation("androidx.compose.ui:ui-tooling:1.7.7")
 
     // All dependencies
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
@@ -124,10 +126,9 @@ dependencies {
     implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
 
     // Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:2.54")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.7.7")
-    ksp("com.google.dagger:hilt-android-compiler:2.54")
-    implementation("com.google.dagger:hilt-compiler:2.54")
+    implementation("com.google.dagger:hilt-android:2.55")
+    ksp("com.google.dagger:hilt-android-compiler:2.55")
+    implementation("com.google.dagger:hilt-compiler:2.55")
     ksp("androidx.hilt:hilt-compiler:1.2.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
@@ -160,7 +161,7 @@ dependencies {
     implementation("org.jsoup:jsoup:1.18.3")
 
     // FB2 parser
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.8.0")
 
     // Language Switcher
     implementation("androidx.appcompat:appcompat:1.7.0")
@@ -178,11 +179,11 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     // Open source libraries
-    implementation("com.mikepenz:aboutlibraries-core:11.2.3")
-    implementation("com.mikepenz:aboutlibraries-compose-m3:11.2.3")
+    implementation("com.mikepenz:aboutlibraries-core:11.4.0")
+    implementation("com.mikepenz:aboutlibraries-compose-m3:11.4.0")
 
     // Drag & Drop
-    implementation("sh.calvin.reorderable:reorderable:2.4.2")
+    implementation("sh.calvin.reorderable:reorderable:2.4.3")
 
     // Scrollbar
     implementation("com.github.nanihadesuka:LazyColumnScrollbar:2.2.0")

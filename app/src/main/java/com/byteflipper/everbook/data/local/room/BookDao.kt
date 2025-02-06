@@ -9,7 +9,6 @@ import androidx.room.Update
 import androidx.room.Upsert
 import com.byteflipper.everbook.data.local.dto.BookEntity
 import com.byteflipper.everbook.data.local.dto.ColorPresetEntity
-import com.byteflipper.everbook.data.local.dto.FavoriteDirectoryEntity
 import com.byteflipper.everbook.data.local.dto.HistoryEntity
 
 /**
@@ -87,17 +86,5 @@ interface BookDao {
 
     @Query("DELETE FROM colorpresetentity")
     suspend fun deleteColorPresets()
-    /* - - - - - - - - - - - - - - - - - - - - - - */
-
-
-    /* ------ FavoriteDirectoryEntity ----------- */
-    @Upsert
-    suspend fun insertFavoriteDirectory(favoriteDirectoryEntity: FavoriteDirectoryEntity)
-
-    @Query("SELECT EXISTS(SELECT 1 FROM favoritedirectoryentity WHERE path = :path LIMIT 1)")
-    suspend fun favoriteDirectoryExits(path: String): Boolean
-
-    @Delete
-    suspend fun deleteFavoriteDirectory(favoriteDirectoryEntity: FavoriteDirectoryEntity)
     /* - - - - - - - - - - - - - - - - - - - - - - */
 }

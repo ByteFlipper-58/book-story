@@ -10,8 +10,6 @@ import androidx.compose.ui.res.stringResource
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.settings.browse.general.components.BrowseGridSizeOption
 import com.byteflipper.everbook.presentation.settings.browse.general.components.BrowseLayoutOption
-import com.byteflipper.everbook.presentation.settings.browse.general.components.FilesStructureOption
-import com.byteflipper.everbook.presentation.settings.browse.general.components.PinFavoriteDirectoriesOption
 import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategory
 
 fun LazyListScope.BrowseGeneralSubcategory(
@@ -26,14 +24,6 @@ fun LazyListScope.BrowseGeneralSubcategory(
         showTitle = showTitle,
         showDivider = showDivider
     ) {
-        item {
-            FilesStructureOption()
-        }
-
-        item {
-            PinFavoriteDirectoriesOption()
-        }
-
         item {
             BrowseLayoutOption()
         }

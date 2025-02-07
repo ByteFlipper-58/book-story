@@ -21,6 +21,7 @@ import com.byteflipper.everbook.domain.browse.toBrowseSortOrder
 import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toFontThickness
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
+import com.byteflipper.everbook.domain.reader.toProgressCount
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
 import com.byteflipper.everbook.domain.use_case.data_store.ChangeLanguage
@@ -492,6 +493,14 @@ class MainModel @Inject constructor(
                 value = event.value,
                 updateState = {
                     it.copy(fontThickness = this.toFontThickness())
+                }
+            )
+
+            is MainEvent.OnChangeProgressCount -> handleDatastoreUpdate(
+                key = DataStoreConstants.PROGRESS_COUNT,
+                value = event.value,
+                updateState = {
+                    it.copy(progressCount = this.toProgressCount())
                 }
             )
         }

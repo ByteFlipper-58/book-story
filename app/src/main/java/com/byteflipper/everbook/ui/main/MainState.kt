@@ -14,11 +14,13 @@ import com.byteflipper.everbook.domain.browse.toBrowseSortOrder
 import com.byteflipper.everbook.domain.reader.ReaderColorEffects
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
+import com.byteflipper.everbook.domain.reader.ReaderProgressCount
 import com.byteflipper.everbook.domain.reader.ReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toFontThickness
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
+import com.byteflipper.everbook.domain.reader.toProgressCount
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
 import com.byteflipper.everbook.domain.util.HorizontalAlignment
@@ -107,6 +109,7 @@ data class MainState(
     val progressBarPadding: Int = provideDefaultValue { 4 },
     val progressBarAlignment: HorizontalAlignment = provideDefaultValue { HorizontalAlignment.CENTER },
     val progressBarFontSize: Int = provideDefaultValue { 8 },
+    val progressCount: ReaderProgressCount = provideDefaultValue { ReaderProgressCount.PERCENTAGE },
 
     // Browse Settings
     val browseLayout: BrowseLayout = provideDefaultValue { BrowseLayout.LIST },
@@ -357,6 +360,10 @@ data class MainState(
                     fontThickness = provideValue(
                         FONT_THICKNESS, convert = { toFontThickness() }
                     ) { fontThickness },
+
+                    progressCount = provideValue(
+                        PROGRESS_COUNT, convert = { toProgressCount() }
+                    ) { progressCount },
                 )
             }
         }

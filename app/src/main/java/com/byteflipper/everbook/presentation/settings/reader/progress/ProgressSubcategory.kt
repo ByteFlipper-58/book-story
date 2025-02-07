@@ -13,6 +13,7 @@ import com.byteflipper.everbook.presentation.settings.reader.progress.components
 import com.byteflipper.everbook.presentation.settings.reader.progress.components.ProgressBarFontSizeOption
 import com.byteflipper.everbook.presentation.settings.reader.progress.components.ProgressBarOption
 import com.byteflipper.everbook.presentation.settings.reader.progress.components.ProgressBarPaddingOption
+import com.byteflipper.everbook.presentation.settings.reader.progress.components.ProgressCountOption
 
 fun LazyListScope.ProgressSubcategory(
     titleColor: @Composable () -> Color = { MaterialTheme.colorScheme.primary },
@@ -26,6 +27,10 @@ fun LazyListScope.ProgressSubcategory(
         showTitle = showTitle,
         showDivider = showDivider,
     ) {
+        item {
+            ProgressCountOption()
+        }
+
         item {
             ProgressBarOption()
         }

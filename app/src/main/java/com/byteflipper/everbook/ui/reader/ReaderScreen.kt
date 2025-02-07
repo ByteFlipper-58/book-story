@@ -110,9 +110,11 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         }
 
         val fontFamily = remember(mainState.value.fontFamily) {
-            Constants.provideFonts(withRandom = true).find {
-                it.id == mainState.value.fontFamily
-            } ?: Constants.provideFonts(withRandom = false)[0]
+            Constants.provideFonts().run {
+                find {
+                    it.id == mainState.value.fontFamily
+                } ?: get(0)
+            }
         }
         val backgroundColor = animateColorAsState(
             targetValue = settingsState.value.selectedColorPreset.backgroundColor
@@ -227,6 +229,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         val progressBarFontSize = remember(mainState.value.progressBarFontSize) {
             (mainState.value.progressBarFontSize * 2).sp
         }
+
         val layoutDirection = LocalLayoutDirection.current
         val cutoutInsets = WindowInsets.displayCutout
         val systemBarsInsets = WindowInsets.systemBarsIgnoringVisibility
@@ -398,8 +401,8 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
             progressBar = mainState.value.progressBar,
             progressBarPadding = progressBarPadding,
             progressBarAlignment = mainState.value.progressBarAlignment,
-            paragraphHeight = paragraphHeight,
             progressBarFontSize = progressBarFontSize,
+            paragraphHeight = paragraphHeight,
             sidePadding = sidePadding,
             bottomBarPadding = bottomBarPadding,
             backgroundColor = backgroundColor.value,

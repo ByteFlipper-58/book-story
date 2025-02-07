@@ -19,6 +19,7 @@ import kotlinx.coroutines.yield
 import com.byteflipper.everbook.domain.browse.toBrowseLayout
 import com.byteflipper.everbook.domain.browse.toBrowseSortOrder
 import com.byteflipper.everbook.domain.reader.toColorEffects
+import com.byteflipper.everbook.domain.reader.toFontThickness
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
@@ -484,6 +485,14 @@ class MainModel @Inject constructor(
 
             is MainEvent.OnChangeBrowsePinnedPaths -> handleBrowsePinnedPathsUpdate(
                 event = event
+            )
+
+            is MainEvent.OnChangeFontThickness -> handleDatastoreUpdate(
+                key = DataStoreConstants.FONT_THICKNESS,
+                value = event.value,
+                updateState = {
+                    it.copy(fontThickness = this.toFontThickness())
+                }
             )
         }
     }

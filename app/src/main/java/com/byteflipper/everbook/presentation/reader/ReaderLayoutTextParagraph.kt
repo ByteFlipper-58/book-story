@@ -13,13 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontSynthesis
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.byteflipper.everbook.domain.reader.FontWithName
+import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderText.Text
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.presentation.core.components.common.HighlightedText
@@ -34,6 +34,7 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
     fontFamily: FontWithName,
     fontColor: Color,
     lineHeight: TextUnit,
+    fontThickness: ReaderFontThickness,
     fontStyle: FontStyle,
     textAlignment: ReaderTextAlignment,
     horizontalAlignment: Alignment.Horizontal,
@@ -88,7 +89,7 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
                 ),
                 style = TextStyle(
                     fontFamily = fontFamily.font,
-                    fontSynthesis = FontSynthesis.All,
+                    fontWeight = fontThickness.thickness,
                     textAlign = textAlignment.textAlignment,
                     textIndent = TextIndent(firstLine = paragraphIndentation),
                     fontStyle = fontStyle,
@@ -129,6 +130,7 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
                 ),
                 style = TextStyle(
                     fontFamily = fontFamily.font,
+                    fontWeight = fontThickness.thickness,
                     textAlign = textAlignment.textAlignment,
                     textIndent = TextIndent(firstLine = paragraphIndentation),
                     fontStyle = fontStyle,

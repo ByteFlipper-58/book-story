@@ -11,6 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.byteflipper.everbook.domain.reader.FontWithName
+import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.domain.util.HorizontalAlignment
@@ -28,6 +29,7 @@ fun LazyItemScope.ReaderLayoutText(
     fontFamily: FontWithName,
     fontColor: Color,
     lineHeight: TextUnit,
+    fontThickness: ReaderFontThickness,
     fontStyle: FontStyle,
     chapterTitleAlignment: ReaderTextAlignment,
     textAlignment: ReaderTextAlignment,
@@ -82,6 +84,7 @@ fun LazyItemScope.ReaderLayoutText(
                 fontFamily = fontFamily,
                 fontColor = fontColor,
                 lineHeight = lineHeight,
+                fontThickness = fontThickness,
                 fontStyle = fontStyle,
                 textAlignment = textAlignment,
                 horizontalAlignment = horizontalAlignment,

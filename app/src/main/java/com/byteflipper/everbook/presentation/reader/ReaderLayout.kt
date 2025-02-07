@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.reader.FontWithName
+import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
@@ -68,6 +69,7 @@ fun ReaderLayout(
     imagesColorEffects: ColorFilter?,
     fontFamily: FontWithName,
     lineHeight: TextUnit,
+    fontThickness: ReaderFontThickness,
     fontStyle: FontStyle,
     chapterTitleAlignment: ReaderTextAlignment,
     textAlignment: ReaderTextAlignment,
@@ -193,6 +195,7 @@ fun ReaderLayout(
                                     fontFamily = fontFamily,
                                     fontColor = fontColor,
                                     lineHeight = lineHeight,
+                                    fontThickness = fontThickness,
                                     fontStyle = fontStyle,
                                     chapterTitleAlignment = chapterTitleAlignment,
                                     textAlignment = textAlignment,

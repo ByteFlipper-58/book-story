@@ -12,6 +12,7 @@ import com.byteflipper.everbook.presentation.settings.components.SettingsSubcate
 import com.byteflipper.everbook.presentation.settings.reader.font.components.FontFamilyOption
 import com.byteflipper.everbook.presentation.settings.reader.font.components.FontSizeOption
 import com.byteflipper.everbook.presentation.settings.reader.font.components.FontStyleOption
+import com.byteflipper.everbook.presentation.settings.reader.font.components.FontThicknessOption
 import com.byteflipper.everbook.presentation.settings.reader.font.components.LetterSpacingOption
 
 fun LazyListScope.FontSubcategory(
@@ -28,6 +29,10 @@ fun LazyListScope.FontSubcategory(
     ) {
         item {
             FontFamilyOption()
+        }
+
+        item {
+            FontThicknessOption()
         }
 
         item {

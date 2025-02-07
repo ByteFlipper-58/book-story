@@ -12,10 +12,12 @@ import com.byteflipper.everbook.domain.browse.BrowseSortOrder
 import com.byteflipper.everbook.domain.browse.toBrowseLayout
 import com.byteflipper.everbook.domain.browse.toBrowseSortOrder
 import com.byteflipper.everbook.domain.reader.ReaderColorEffects
+import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
 import com.byteflipper.everbook.domain.reader.ReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.domain.reader.toColorEffects
+import com.byteflipper.everbook.domain.reader.toFontThickness
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
@@ -63,6 +65,7 @@ data class MainState(
 
     // Reader Settings
     val fontFamily: String = provideDefaultValue { Constants.provideFonts()[0].id },
+    val fontThickness: ReaderFontThickness = provideDefaultValue { ReaderFontThickness.NORMAL },
     val isItalic: Boolean = provideDefaultValue { false },
     val fontSize: Int = provideDefaultValue { 16 },
     val lineHeight: Int = provideDefaultValue { 4 },
@@ -350,6 +353,10 @@ data class MainState(
                     browsePinnedPaths = provideValue(
                         BROWSE_PINNED_PATHS, convert = { toList() }
                     ) { browsePinnedPaths },
+
+                    fontThickness = provideValue(
+                        FONT_THICKNESS, convert = { toFontThickness() }
+                    ) { fontThickness },
                 )
             }
         }

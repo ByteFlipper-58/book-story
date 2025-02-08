@@ -14,6 +14,8 @@ import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.components.modal_bottom_sheet.ModalBottomSheet
+import com.byteflipper.everbook.presentation.core.constants.Constants
+import com.byteflipper.everbook.presentation.core.constants.provideExtensions
 import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategoryTitle
 import com.byteflipper.everbook.ui.book_info.BookInfoEvent
 import java.io.File
@@ -24,6 +26,7 @@ import java.util.Locale
 @Composable
 fun BookInfoDetailsBottomSheet(
     book: Book,
+    showPathDialog: (BookInfoEvent.OnShowPathDialog) -> Unit,
     dismissBottomSheet: (BookInfoEvent.OnDismissBottomSheet) -> Unit
 ) {
     val pattern = remember { SimpleDateFormat("HH:mm dd MMM yyyy", Locale.getDefault()) }
@@ -46,7 +49,11 @@ fun BookInfoDetailsBottomSheet(
     }
 
     val fileExists = remember(book.filePath) {
-        File(book.filePath).exists()
+        File(book.filePath).let {
+            it.exists() && it.isFile && Constants.provideExtensions().any { ext ->
+                it.name.endsWith(ext, ignoreCase = true)
+            }
+        }
     }
 
     ModalBottomSheet(
@@ -73,7 +80,10 @@ fun BookInfoDetailsBottomSheet(
                 BookInfoDetailsBottomSheetItem(
                     label = stringResource(id = R.string.file_path),
                     text = book.filePath,
-                    editable = false,
+                    editable = true,
+                    onEdit = {
+                        showPathDialog(BookInfoEvent.OnShowPathDialog)
+                    },
                     showError = !fileExists,
                     errorMessage = stringResource(id = R.string.error_no_file)
                 )

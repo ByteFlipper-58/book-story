@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.1.0</string>
+    <string name="app_version" translatable="false">1.2.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Padrão</string>
     <string name="random_string">Aleatório</string>
@@ -129,10 +129,8 @@
     <string name="add_book">Adicionar um livro</string>
     <string name="move">Mover</string>
     <string name="delete">Excluir</string>
-    <string name="start">Iniciar</string>
     <string name="continue_read">Continuar</string>
     <string name="never">Nunca</string>
-    <string name="go_back">Voltar</string>
     <string name="undo">Desfazer</string>
     <string name="copy">Copiar</string>
     <string name="translate">Traduzir</string>
@@ -337,7 +335,6 @@
     <string name="blue_theme">Netuno</string>
     <string name="green_theme">Terra</string>
     <string name="red_theme">Marte</string>
-    <string name="gray_theme">Calisto</string>
     <string name="purple_theme">Júpiter</string>
     <string name="pink_theme">Saturno</string>
     <string name="pink2_theme">Ganimedes</string>
@@ -364,13 +361,7 @@
     <!-- Snackbar messages -->
     <string name="history_element_deleted">Elemento do histórico foi excluído com sucesso.</string>
 
-    <!-- DropDown properties -->
-    <string name="move_this_book">Mover</string>
-    <string name="delete_this_book">Excluir</string>
-    <string name="details_book">Detalhes</string>
-
     <!-- BookInfo details -->
-    <string name="file_name">Nome do arquivo</string>
     <string name="file_path">Caminho do arquivo</string>
     <string name="file_last_opened">Última vez que o arquivo foi aberto</string>
     <string name="file_size">Tamanho do arquivo</string>
@@ -626,4 +617,49 @@
     <string name="checkpoint_forward_content_desc">Ponto de controle seguinte</string>
     <string name="chapters_content_desc">Capítulos</string>
     <string name="more_content_desc">Mais</string>
+
+    <!-- Распределить позже -->
+    <string name="edit">Editar</string>
+    <string name="error_no_file">O arquivo não existe</string>
+    <string name="ok">OK</string>
+    <string name="change_path">Alterar caminho</string>
+    <string name="progress_reader_settings">Progresso</string>
+    <string name="font_thickness_option">Espessura da fonte</string>
+    <string name="images_color_effects_option">Efeitos de cor</string>
+    <string name="progress_bar_option">Barra de progresso</string>
+    <string name="progress_bar_option_desc">Exibir barra de progresso na parte inferior</string>
+    <string name="progress_bar_padding_option">Margens</string>
+    <string name="progress_bar_alignment_option">Alinhamento</string>
+    <string name="progress_bar_font_size_option">Tamanho da fonte</string>
+    <string name="progress_count_option">Contador de progresso</string>
+
+    <!-- Propriedades dos efeitos de cor -->
+    <string name="color_effects_off">Desativado</string>
+    <string name="color_effects_grayscale">Tons de cinza</string>
+    <string name="color_effects_font">Cor da fonte</string>
+    <string name="color_effects_background">Cor de fundo</string>
+
+    <!-- Propriedades da espessura da fonte -->
+    <string name="font_thickness_thin">Fina</string>
+    <string name="font_thickness_extra_light">Extra leve</string>
+    <string name="font_thickness_light">Leve</string>
+    <string name="font_thickness_normal">Normal</string>
+    <string name="font_thickness_medium">Média</string>
+
+    <!-- Propriedades do contador de progresso -->
+    <string name="progress_count_percentage">Porcentagem</string>
+    <string name="progress_count_quantity">Quantidade</string>
+
+    <string name="green2_theme">Io</string>
+    <string name="green_gray_theme">Encélado</string>
+    <string name="red_gray_theme">Calisto</string>
+    <string name="purple_gray_theme">Ceres</string>
+
+    <string name="title_changed">O título foi alterado com sucesso.</string>
+    <string name="author_changed">O autor foi alterado com sucesso.</string>
+    <string name="description_changed">A descrição foi alterada com sucesso.</string>
+    <string name="path_changed">O caminho do arquivo foi alterado com sucesso.</string>
+    <string name="start_reading">Iniciar</string>
+    <string name="continue_reading_query">Continuar de %1$s</string>
+    <string name="file_details">Detalhes do arquivo</string>
 </resources>

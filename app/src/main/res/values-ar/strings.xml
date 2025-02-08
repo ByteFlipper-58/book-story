@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.1.0</string>
+    <string name="app_version" translatable="false">1.2.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">افتراضي</string>
     <string name="random_string">عشوائي</string>
@@ -33,6 +33,7 @@
     <string name="move_book">نقل كتاب؟</string>
     <string name="delete_history">حذف سجل القراءة؟</string>
     <string name="enable_check_for_updates">تمكين التحقق من وجود تحديثات؟</string>
+    <string name="edit">تعديل</string>
 
     <!-- Dialog Descriptions -->
     <string name="storage_permission_description">
@@ -98,6 +99,7 @@
     </string>
     <string name="error_could_not_reset_cover">تعذر إعادة تعيين صورة الغلاف.</string>
     <string name="error_closed_source">مصدر مغلق</string>
+    <string name="error_no_file">الملف غير موجود</string>
 
     <!-- Is Empty messages -->
     <string name="search_field_empty">
@@ -129,10 +131,8 @@
     <string name="add_book">إضافة كتاب</string>
     <string name="move">نقل</string>
     <string name="delete">حذف</string>
-    <string name="start">ابدأ</string>
     <string name="continue_read">متابعة</string>
     <string name="never">أبدًا</string>
-    <string name="go_back">رجوع</string>
     <string name="undo">تراجع</string>
     <string name="copy">نسخ</string>
     <string name="translate">ترجمة</string>
@@ -145,6 +145,8 @@
     <string name="web_search">بحث ويب</string>
     <string name="share">مشاركة</string>
     <string name="proceed">متابعة</string>
+    <string name="ok">حسنًا</string>
+    <string name="change_path">تغيير المسار</string>
 
     <!-- Book -->
     <string name="unknown_author">مجهول</string>
@@ -191,6 +193,7 @@
     <string name="system_reader_settings">النظام</string>
     <string name="chapters_reader_settings">الفصول</string>
     <string name="images_reader_settings">الصور</string>
+    <string name="progress_reader_settings">التقدم</string>
     <string name="theme_appearance_settings">تفضيلات السمة</string>
     <string name="colors_appearance_settings">الألوان</string>
     <string name="general_browse_settings">عام</string>
@@ -213,6 +216,7 @@
 
     <!-- Reader -->
     <string name="font_family_option">عائلة الخط</string>
+    <string name="font_thickness_option">سُمك الخط</string>
     <string name="font_style_option">نمط الخط</string>
     <string name="font_size_option">حجم الخط</string>
     <string name="line_height_option">ارتفاع السطر</string>
@@ -257,6 +261,13 @@
     <string name="images_corners_roundness_option">استدارة الزوايا</string>
     <string name="images_alignment_option">المحاذاة</string>
     <string name="images_width_option">الحجم</string>
+    <string name="images_color_effects_option">تأثيرات الألوان</string>
+    <string name="progress_bar_option">شريط التقدم</string>
+    <string name="progress_bar_option_desc">عرض شريط التقدم في الأسفل</string>
+    <string name="progress_bar_padding_option">الهوامش</string>
+    <string name="progress_bar_alignment_option">المحاذاة</string>
+    <string name="progress_bar_font_size_option">حجم الخط</string>
+    <string name="progress_count_option">عداد التقدم</string>
 
     <!-- Browse -->
     <string name="browse_files_structure_option">هيكل الملفات</string>
@@ -332,13 +343,33 @@
     <!-- Highlighted Reading properties -->
     <string name="highlighted_reading_level">مستوى</string>
 
+    <!-- Color Effect properties -->
+    <string name="color_effects_off">إيقاف</string>
+    <string name="color_effects_grayscale">درجات الرمادي</string>
+    <string name="color_effects_font">لون الخط</string>
+    <string name="color_effects_background">لون الخلفية</string>
+
+    <!-- Font Thickness properties -->
+    <string name="font_thickness_thin">رفيع</string>
+    <string name="font_thickness_extra_light">فائق الخفة</string>
+    <string name="font_thickness_light">خفيف</string>
+    <string name="font_thickness_normal">عادي</string>
+    <string name="font_thickness_medium">متوسط</string>
+
+    <!-- Progress Count properties -->
+    <string name="progress_count_percentage">النسبة المئوية</string>
+    <string name="progress_count_quantity">الكمية</string>
+
     <!-- Themes -->
     <string name="dynamic_theme">عطارد</string>
     <string name="blue_theme">نبتون</string>
     <string name="green_theme">الأرض</string>
+    <string name="green2_theme">أيو</string>
+    <string name="green_gray_theme">إنسيلادوس</string>
     <string name="red_theme">المريخ</string>
-    <string name="gray_theme">كاليستو</string>
+    <string name="red_gray_theme">كاليستو</string>
     <string name="purple_theme">المشتري</string>
+    <string name="purple_gray_theme">سيريس</string>
     <string name="pink_theme">زحل</string>
     <string name="pink2_theme">جانيميد</string>
     <string name="lavender_theme">إريس</string>
@@ -360,17 +391,18 @@
     <string name="history_deleted">تم حذف السجل بنجاح.</string>
     <string name="no_updates">الإصدار الأخير من التطبيق مثبت بالفعل.</string>
     <string name="cover_reset">تمت إعادة تعيين صورة الغلاف بنجاح.</string>
+    <string name="title_changed">تم تغيير العنوان بنجاح.</string>
+    <string name="author_changed">تم تغيير المؤلف بنجاح.</string>
+    <string name="description_changed">تم تغيير الوصف بنجاح.</string>
+    <string name="path_changed">تم تغيير مسار الملف بنجاح.</string>
 
     <!-- Snackbar messages -->
     <string name="history_element_deleted">تم حذف عنصر السجل بنجاح.</string>
 
-    <!-- DropDown properties -->
-    <string name="move_this_book">نقل</string>
-    <string name="delete_this_book">حذف</string>
-    <string name="details_book">التفاصيل</string>
-
     <!-- BookInfo details -->
-    <string name="file_name">اسم الملف</string>
+    <string name="start_reading">ابدأ</string>
+    <string name="continue_reading_query">متابعة من %1$s</string>
+    <string name="file_details">تفاصيل الملف</string>
     <string name="file_path">مسار الملف</string>
     <string name="file_last_opened">آخر مرة تم فتح الملف</string>
     <string name="file_size">حجم الملف</string>
@@ -519,6 +551,10 @@
         بالنقر فوق زر الرمز «تبديل»، يمكنك تبديل جميع الألوان.
         إذا كنت تريد حذف إعداد مسبق للألوان، فانقر فوق زر الرمز «حذف».
     </string>
+
+    <string name="help_title_how_to_use_color_presets">
+        كيف يمكنني استخدام إعدادات الألوان؟
+    </string>
     <string name="help_desc_how_to_use_color_presets_1">
         اذهب إلى إعدادات المظهر (انظر: كيف يمكنني تخصيص القارئ؟).
         يمكنك اختيار إعداد الألوان المسبق الذي تريد استخدامه في إعداد «إعداد الألوان المسبق».
@@ -617,4 +653,8 @@
     <string name="checkpoint_forward_content_desc">نقطة التفتيش التالية</string>
     <string name="chapters_content_desc">الفصول</string>
     <string name="more_content_desc">المزيد</string>
+    <string name="pin_content_desc">تثبيت</string>
+    <string name="show_less_content_desc">عرض أقل</string>
+    <string name="show_more_content_desc">عرض المزيد</string>
+    <string name="edit_content_desc">تعديل الحقل</string>
 </resources>

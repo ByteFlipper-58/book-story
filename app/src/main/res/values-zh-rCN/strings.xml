@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.1.0</string>
+    <string name="app_version" translatable="false">1.2.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">默认</string>
     <string name="random_string">随机</string>
@@ -128,10 +128,8 @@
     <string name="add_book">添加一本书</string>
     <string name="move">移动</string>
     <string name="delete">删除</string>
-    <string name="start">开始</string>
     <string name="continue_read">继续</string>
     <string name="never">从不</string>
-    <string name="go_back">返回</string>
     <string name="undo">撤消</string>
     <string name="copy">复制</string>
     <string name="translate">翻译</string>
@@ -336,7 +334,6 @@
     <string name="blue_theme">海王星</string>
     <string name="green_theme">地球</string>
     <string name="red_theme">火星</string>
-    <string name="gray_theme">木卫四</string>
     <string name="purple_theme">木星</string>
     <string name="pink_theme">土星</string>
     <string name="pink2_theme">木卫三</string>
@@ -363,13 +360,7 @@
     <!-- Snackbar messages -->
     <string name="history_element_deleted">历史记录元素已成功删除。</string>
 
-    <!-- DropDown properties -->
-    <string name="move_this_book">移动</string>
-    <string name="delete_this_book">删除</string>
-    <string name="details_book">详情</string>
-
     <!-- BookInfo details -->
-    <string name="file_name">文件名</string>
     <string name="file_path">文件路径</string>
     <string name="file_last_opened">文件上次打开时间</string>
     <string name="file_size">文件大小</string>
@@ -622,4 +613,53 @@
     <string name="checkpoint_forward_content_desc">前检查点</string>
     <string name="chapters_content_desc">章节</string>
     <string name="more_content_desc">更多</string>
+
+    <!-- Распределить позже -->
+    <string name="edit">编辑</string>
+    <string name="error_no_file">文件不存在</string>
+    <string name="ok">确定</string>
+    <string name="change_path">更改路径</string>
+    <string name="progress_reader_settings">进度</string>
+    <string name="font_thickness_option">字体粗细</string>
+    <string name="images_color_effects_option">颜色效果</string>
+    <string name="progress_bar_option">进度条</string>
+    <string name="progress_bar_option_desc">在底部显示进度条</string>
+    <string name="progress_bar_padding_option">边距</string>
+    <string name="progress_bar_alignment_option">对齐方式</string>
+    <string name="progress_bar_font_size_option">字体大小</string>
+    <string name="progress_count_option">进度计数</string>
+
+    <!-- 颜色效果属性 -->
+    <string name="color_effects_off">关闭</string>
+    <string name="color_effects_grayscale">灰度</string>
+    <string name="color_effects_font">字体颜色</string>
+    <string name="color_effects_background">背景颜色</string>
+
+    <!-- 字体粗细属性 -->
+    <string name="font_thickness_thin">细</string>
+    <string name="font_thickness_extra_light">超轻</string>
+    <string name="font_thickness_light">轻</string>
+    <string name="font_thickness_normal">正常</string>
+    <string name="font_thickness_medium">中等</string>
+
+    <!-- 进度计数属性 -->
+    <string name="progress_count_percentage">百分比</string>
+    <string name="progress_count_quantity">数量</string>
+
+    <string name="green2_theme">木卫一</string>
+    <string name="green_gray_theme">土卫二</string>
+    <string name="red_gray_theme">木卫四</string>
+    <string name="purple_gray_theme">谷神星</string>
+
+    <string name="title_changed">标题已成功更改。</string>
+    <string name="author_changed">作者已成功更改。</string>
+    <string name="description_changed">描述已成功更改。</string>
+    <string name="path_changed">文件路径已成功更改。</string>
+    <string name="start_reading">开始</string>
+    <string name="continue_reading_query">从 %1$s 继续</string>
+    <string name="file_details">文件详情</string>
+    <string name="pin_content_desc">固定</string>
+    <string name="show_less_content_desc">显示更少</string>
+    <string name="show_more_content_desc">显示更多</string>
+    <string name="edit_content_desc">编辑字段</string>
 </resources>

@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.1.0</string>
+    <string name="app_version" translatable="false">1.2.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">За замовчуванням</string>
     <string name="random_string">Випадковий</string>
@@ -129,10 +129,8 @@
     <string name="add_book">Додати книгу</string>
     <string name="move">Перемістити</string>
     <string name="delete">Видалити</string>
-    <string name="start">Почати</string>
     <string name="continue_read">Продовжити</string>
     <string name="never">Ніколи</string>
-    <string name="go_back">Назад</string>
     <string name="undo">Скасувати</string>
     <string name="copy">Копіювати</string>
     <string name="translate">Перекласти</string>
@@ -337,7 +335,6 @@
     <string name="blue_theme">Нептун</string>
     <string name="green_theme">Земля</string>
     <string name="red_theme">Марс</string>
-    <string name="gray_theme">Каллісто</string>
     <string name="purple_theme">Юпітер</string>
     <string name="pink_theme">Сатурн</string>
     <string name="pink2_theme">Ганімед</string>
@@ -364,13 +361,7 @@
     <!-- Snackbar messages -->
     <string name="history_element_deleted">Елемент історії успішно видалено.</string>
 
-    <!-- DropDown properties -->
-    <string name="move_this_book">Перемістити</string>
-    <string name="delete_this_book">Видалити</string>
-    <string name="details_book">Деталі</string>
-
     <!-- BookInfo details -->
-    <string name="file_name">Ім\'я файлу</string>
     <string name="file_path">Шлях до файлу</string>
     <string name="file_last_opened">Файл відкривався востаннє</string>
     <string name="file_size">Розмір файлу</string>
@@ -625,4 +616,56 @@
     <string name="checkpoint_forward_content_desc">Контрольна точка вперед</string>
     <string name="chapters_content_desc">Розділи</string>
     <string name="more_content_desc">Більше</string>
+
+    <!-- Распределить позже -->
+    <string name="edit">Редагувати</string>
+    <string name="error_no_file">Файл не існує</string>
+    <string name="ok">OK</string>
+    <string name="change_path">Змінити шлях</string>
+    <string name="progress_reader_settings">Прогрес</string>
+    <string name="font_thickness_option">Товщина шрифту</string>
+    <string name="images_color_effects_option">Колірні ефекти</string>
+    <string name="progress_bar_option">Смужка прогресу</string>
+    <string name="progress_bar_option_desc">Відображати смужку прогресу внизу</string>
+    <string name="progress_bar_padding_option">Відступи</string>
+    <string name="progress_bar_alignment_option">Вирівнювання</string>
+    <string name="progress_bar_font_size_option">Розмір шрифту</string>
+    <string name="progress_count_option">Лічильник прогресу</string>
+
+    <!-- Властивості колірних ефектів -->
+    <string name="color_effects_off">Вимкнено</string>
+    <string name="color_effects_grayscale">Відтінки сірого</string>
+    <string name="color_effects_font">Колір шрифту</string>
+    <string name="color_effects_background">Колір фону</string>
+
+    <!-- Властивості товщини шрифту -->
+    <string name="font_thickness_thin">Тонкий</string>
+    <string name="font_thickness_extra_light">Дуже легкий</string>
+    <string name="font_thickness_light">Легкий</string>
+    <string name="font_thickness_normal">Звичайний</string>
+    <string name="font_thickness_medium">Середній</string>
+
+    <!-- Властивості лічильника прогресу -->
+    <string name="progress_count_percentage">Відсоток</string>
+    <string name="progress_count_quantity">Кількість</string>
+
+    <string name="green2_theme">Іо</string>
+    <string name="green_gray_theme">Енцелад</string>
+    <string name="red_gray_theme">Каллісто</string>
+    <string name="purple_gray_theme">Церера</string>
+
+    <string name="title_changed">Назву успішно змінено.</string>
+    <string name="author_changed">Автор успішно змінений.</string>
+    <string name="description_changed">Опис успішно змінений.</string>
+    <string name="path_changed">Шлях до файлу успішно змінено.</string>
+    <string name="start_reading">Почати</string>
+    <string name="continue_reading_query">Продовжити з %1$s</string>
+    <string name="file_details">Деталі файлу</string>
+    <string name="help_title_how_to_use_color_presets">
+    Як використовувати колірні пресети?
+</string>
+    <string name="pin_content_desc">Закріпити</string>
+    <string name="show_less_content_desc">Показати менше</string>
+    <string name="show_more_content_desc">Показати більше</string>
+    <string name="edit_content_desc">Редагувати поле</string>
 </resources>

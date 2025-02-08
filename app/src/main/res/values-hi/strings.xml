@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.1.0</string>
+    <string name="app_version" translatable="false">1.2.0</string>
     <string name="app_name" translatable="false">एवरबुक</string>
     <string name="default_string">डिफ़ॉल्ट</string>
     <string name="random_string">रैंडम</string>
@@ -129,10 +129,8 @@
     <string name="add_book">पुस्तक जोड़ें</string>
     <string name="move">स्थानांतरित करें</string>
     <string name="delete">मिटाएँ</string>
-    <string name="start">शुरू करें</string>
     <string name="continue_read">जारी रखें</string>
     <string name="never">कभी नहीं</string>
-    <string name="go_back">वापस जाएँ</string>
     <string name="undo">पूर्ववत करें</string>
     <string name="copy">कॉपी करें</string>
     <string name="translate">अनुवाद करें</string>
@@ -337,7 +335,6 @@
     <string name="blue_theme">नेप्च्यून</string>
     <string name="green_theme">पृथ्वी</string>
     <string name="red_theme">मंगल</string>
-    <string name="gray_theme">कैलस्टो</string>
     <string name="purple_theme">बृहस्पति</string>
     <string name="pink_theme">शनि</string>
     <string name="pink2_theme">गैनीमेड</string>
@@ -364,13 +361,6 @@
     <!-- Snackbar messages -->
     <string name="history_element_deleted">इतिहास तत्व सफलतापूर्वक हटा दिया गया।</string>
 
-    <!-- DropDown properties -->
-    <string name="move_this_book">स्थानांतरित करें</string>
-    <string name="delete_this_book">मिटाएँ</string>
-    <string name="details_book">विवरण</string>
-
-    <!-- BookInfo details -->
-    <string name="file_name">फ़ाइल का नाम</string>
     <string name="file_path">फ़ाइल पथ</string>
     <string name="file_last_opened">फ़ाइल अंतिम बार खोली गई</string>
     <string name="file_size">फ़ाइल का आकार</string>
@@ -624,4 +614,56 @@
     <string name="checkpoint_forward_content_desc">चेकपॉइंट आगे</string>
     <string name="chapters_content_desc">अध्याय</string>
     <string name="more_content_desc">और</string>
+
+    <!-- Распределить позже -->
+    <string name="edit">संपादित करें</string>
+    <string name="error_no_file">फ़ाइल मौजूद नहीं है</string>
+    <string name="ok">ठीक है</string>
+    <string name="change_path">पथ बदलें</string>
+    <string name="progress_reader_settings">प्रगति</string>
+    <string name="font_thickness_option">फ़ॉन्ट मोटाई</string>
+    <string name="images_color_effects_option">रंग प्रभाव</string>
+    <string name="progress_bar_option">प्रगति पट्टी</string>
+    <string name="progress_bar_option_desc">नीचे प्रगति पट्टी दिखाएं</string>
+    <string name="progress_bar_padding_option">मार्जिन</string>
+    <string name="progress_bar_alignment_option">संरेखण</string>
+    <string name="progress_bar_font_size_option">फ़ॉन्ट आकार</string>
+    <string name="progress_count_option">प्रगति गणना</string>
+
+    <!-- रंग प्रभाव गुण -->
+    <string name="color_effects_off">बंद</string>
+    <string name="color_effects_grayscale">ग्रेस्केल</string>
+    <string name="color_effects_font">फ़ॉन्ट रंग</string>
+    <string name="color_effects_background">पृष्ठभूमि रंग</string>
+
+    <!-- फ़ॉन्ट मोटाई गुण -->
+    <string name="font_thickness_thin">पतला</string>
+    <string name="font_thickness_extra_light">अतिरिक्त हल्का</string>
+    <string name="font_thickness_light">हल्का</string>
+    <string name="font_thickness_normal">सामान्य</string>
+    <string name="font_thickness_medium">मध्यम</string>
+
+    <!-- प्रगति गणना गुण -->
+    <string name="progress_count_percentage">प्रतिशत</string>
+    <string name="progress_count_quantity">मात्रा</string>
+
+    <string name="green2_theme">आईओ</string>
+    <string name="green_gray_theme">एनसेलेडस</string>
+    <string name="red_gray_theme">कैलीस्टो</string>
+    <string name="purple_gray_theme">सीरीस</string>
+
+    <string name="title_changed">शीर्षक सफलतापूर्वक बदला गया।</string>
+    <string name="author_changed">लेखक सफलतापूर्वक बदला गया।</string>
+    <string name="description_changed">विवरण सफलतापूर्वक बदला गया।</string>
+    <string name="path_changed">फ़ाइल पथ सफलतापूर्वक बदला गया।</string>
+    <string name="start_reading">प्रारंभ करें</string>
+    <string name="continue_reading_query">%1$s से जारी रखें</string>
+    <string name="file_details">फ़ाइल विवरण</string>
+    <string name="help_title_how_to_use_color_presets">
+    मैं रंग प्रीसेट का उपयोग कैसे करूं?
+</string>
+    <string name="pin_content_desc">पिन करें</string>
+    <string name="show_less_content_desc">कम दिखाएं</string>
+    <string name="show_more_content_desc">अधिक दिखाएं</string>
+    <string name="edit_content_desc">फ़ील्ड संपादित करें</string>
 </resources>

@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.1.0</string>
+    <string name="app_version" translatable="false">1.2.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">По умолчанию</string>
     <string name="random_string">Случайный</string>
@@ -129,10 +129,8 @@
     <string name="add_book">Добавить книгу</string>
     <string name="move">Переместить</string>
     <string name="delete">Удалить</string>
-    <string name="start">Начать</string>
     <string name="continue_read">Продолжить</string>
     <string name="never">Никогда</string>
-    <string name="go_back">Назад</string>
     <string name="undo">Отменить</string>
     <string name="copy">Копировать</string>
     <string name="translate">Перевести</string>
@@ -337,7 +335,6 @@
     <string name="blue_theme">Нептун</string>
     <string name="green_theme">Земля</string>
     <string name="red_theme">Марс</string>
-    <string name="gray_theme">Каллисто</string>
     <string name="purple_theme">Юпитер</string>
     <string name="pink_theme">Сатурн</string>
     <string name="pink2_theme">Ганимед</string>
@@ -364,13 +361,7 @@
     <!-- Snackbar messages -->
     <string name="history_element_deleted">Элемент истории был успешно удален.</string>
 
-    <!-- DropDown properties -->
-    <string name="move_this_book">Переместить</string>
-    <string name="delete_this_book">Удалить</string>
-    <string name="details_book">Детали</string>
-
     <!-- BookInfo details -->
-    <string name="file_name">Имя файла</string>
     <string name="file_path">Путь к файлу</string>
     <string name="file_last_opened">Файл открывался последний раз</string>
     <string name="file_size">Размер файла</string>
@@ -625,4 +616,53 @@
     <string name="checkpoint_forward_content_desc">Контрольная точка вперед</string>
     <string name="chapters_content_desc">Главы</string>
     <string name="more_content_desc">Больше</string>
+
+    <!-- Распределить позже -->
+    <string name="edit">Редактировать</string>
+    <string name="error_no_file">Файл не существует</string>
+    <string name="ok">ОК</string>
+    <string name="change_path">Изменить путь</string>
+    <string name="progress_reader_settings">Прогресс</string>
+    <string name="font_thickness_option">Толщина шрифта</string>
+    <string name="images_color_effects_option">Цветовые эффекты</string>
+    <string name="progress_bar_option">Полоса прогресса</string>
+    <string name="progress_bar_option_desc">Отображать полосу прогресса внизу</string>
+    <string name="progress_bar_padding_option">Отступы</string>
+    <string name="progress_bar_alignment_option">Выравнивание</string>
+    <string name="progress_bar_font_size_option">Размер шрифта</string>
+    <string name="progress_count_option">Счетчик прогресса</string>
+
+    <!-- Свойства цветовых эффектов -->
+    <string name="color_effects_off">Выключено</string>
+    <string name="color_effects_grayscale">Оттенки серого</string>
+    <string name="color_effects_font">Цвет шрифта</string>
+    <string name="color_effects_background">Цвет фона</string>
+
+    <!-- Свойства толщины шрифта -->
+    <string name="font_thickness_thin">Тонкий</string>
+    <string name="font_thickness_extra_light">Очень легкий</string>
+    <string name="font_thickness_light">Легкий</string>
+    <string name="font_thickness_normal">Обычный</string>
+    <string name="font_thickness_medium">Средний</string>
+
+    <!-- Свойства счетчика прогресса -->
+    <string name="progress_count_percentage">Процент</string>
+    <string name="progress_count_quantity">Количество</string>
+
+    <string name="green2_theme">Ио</string>
+    <string name="green_gray_theme">Энцелад</string>
+    <string name="red_gray_theme">Каллисто</string>
+    <string name="purple_gray_theme">Церера</string>
+
+    <string name="title_changed">Название успешно изменено.</string>
+    <string name="author_changed">Автор успешно изменен.</string>
+    <string name="description_changed">Описание успешно изменено.</string>
+    <string name="path_changed">Путь к файлу успешно изменен.</string>
+    <string name="start_reading">Начать</string>
+    <string name="continue_reading_query">Продолжить с %1$s</string>
+    <string name="file_details">Детали файла</string>
+    <string name="pin_content_desc">Закрепить</string>
+    <string name="show_less_content_desc">Показать меньше</string>
+    <string name="show_more_content_desc">Показать больше</string>
+    <string name="edit_content_desc">Редактировать поле</string>
 </resources>

@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.1.0</string>
+    <string name="app_version" translatable="false">1.2.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Standard</string>
     <string name="random_string">Zufällig</string>
@@ -33,6 +33,7 @@
     <string name="move_book">Buch verschieben?</string>
     <string name="delete_history">Lesehistorie löschen?</string>
     <string name="enable_check_for_updates">Überprüfung auf Updates aktivieren?</string>
+    <string name="edit">Bearbeiten</string>
 
     <!-- Dialog Descriptions -->
     <string name="storage_permission_description">
@@ -97,6 +98,7 @@
     </string>
     <string name="error_could_not_reset_cover">Coverbild konnte nicht zurückgesetzt werden.</string>
     <string name="error_closed_source">Closed Source</string>
+    <string name="error_no_file">Datei existiert nicht</string>
 
     <!-- Is Empty messages -->
     <string name="search_field_empty">
@@ -128,10 +130,8 @@
     <string name="add_book">Buch hinzufügen</string>
     <string name="move">Verschieben</string>
     <string name="delete">Löschen</string>
-    <string name="start">Starten</string>
     <string name="continue_read">Fortsetzen</string>
     <string name="never">Niemals</string>
-    <string name="go_back">Zurück</string>
     <string name="undo">Rückgängig</string>
     <string name="copy">Kopieren</string>
     <string name="translate">Übersetzen</string>
@@ -144,6 +144,8 @@
     <string name="web_search">Websuche</string>
     <string name="share">Teilen</string>
     <string name="proceed">Fortfahren</string>
+    <string name="ok">OK</string>
+    <string name="change_path">Pfad ändern</string>
 
     <!-- Book -->
     <string name="unknown_author">Unbekannt</string>
@@ -190,6 +192,7 @@
     <string name="system_reader_settings">System</string>
     <string name="chapters_reader_settings">Kapitel</string>
     <string name="images_reader_settings">Bilder</string>
+    <string name="progress_reader_settings">Fortschritt</string>
     <string name="theme_appearance_settings">Thema Einstellungen</string>
     <string name="colors_appearance_settings">Farben</string>
     <string name="general_browse_settings">Allgemein</string>
@@ -212,6 +215,7 @@
 
     <!-- Reader -->
     <string name="font_family_option">Schriftfamilie</string>
+    <string name="font_thickness_option">Schriftstärke</string>
     <string name="font_style_option">Schriftstil</string>
     <string name="font_size_option">Schriftgröße</string>
     <string name="line_height_option">Zeilenhöhe</string>
@@ -256,6 +260,13 @@
     <string name="images_corners_roundness_option">Eckenrundheit</string>
     <string name="images_alignment_option">Ausrichtung</string>
     <string name="images_width_option">Größe</string>
+    <string name="images_color_effects_option">Farbeffekte</string>
+    <string name="progress_bar_option">Fortschrittsbalken</string>
+    <string name="progress_bar_option_desc">Fortschrittsbalken unten anzeigen</string>
+    <string name="progress_bar_padding_option">Ränder</string>
+    <string name="progress_bar_alignment_option">Ausrichtung</string>
+    <string name="progress_bar_font_size_option">Schriftgröße</string>
+    <string name="progress_count_option">Fortschrittsanzeige</string>
 
     <!-- Browse -->
     <string name="browse_files_structure_option">Dateistruktur</string>
@@ -331,13 +342,33 @@
     <!-- Highlighted Reading properties -->
     <string name="highlighted_reading_level">Stufe</string>
 
+    <!-- Color Effect properties -->
+    <string name="color_effects_off">Aus</string>
+    <string name="color_effects_grayscale">Graustufen</string>
+    <string name="color_effects_font">Schriftfarbe</string>
+    <string name="color_effects_background">Hintergrundfarbe</string>
+
+    <!-- Font Thickness properties -->
+    <string name="font_thickness_thin">Dünn</string>
+    <string name="font_thickness_extra_light">Extra leicht</string>
+    <string name="font_thickness_light">Leicht</string>
+    <string name="font_thickness_normal">Normal</string>
+    <string name="font_thickness_medium">Mittel</string>
+
+    <!-- Progress Count properties -->
+    <string name="progress_count_percentage">Prozentsatz</string>
+    <string name="progress_count_quantity">Menge</string>
+
     <!-- Themes -->
     <string name="dynamic_theme">Merkur</string>
     <string name="blue_theme">Neptun</string>
     <string name="green_theme">Erde</string>
+    <string name="green2_theme">Io</string>
+    <string name="green_gray_theme">Enceladus</string>
     <string name="red_theme">Mars</string>
-    <string name="gray_theme">Callisto</string>
+    <string name="red_gray_theme">Kallisto</string>
     <string name="purple_theme">Jupiter</string>
+    <string name="purple_gray_theme">Ceres</string>
     <string name="pink_theme">Saturn</string>
     <string name="pink2_theme">Ganymed</string>
     <string name="lavender_theme">Eris</string>
@@ -359,17 +390,18 @@
     <string name="history_deleted">Historie wurde erfolgreich gelöscht.</string>
     <string name="no_updates">Die neueste Version der App ist bereits installiert.</string>
     <string name="cover_reset">Coverbild wurde erfolgreich zurückgesetzt.</string>
+    <string name="title_changed">Titel wurde erfolgreich geändert.</string>
+    <string name="author_changed">Autor wurde erfolgreich geändert.</string>
+    <string name="description_changed">Beschreibung wurde erfolgreich geändert.</string>
+    <string name="path_changed">Dateipfad wurde erfolgreich geändert.</string>
 
     <!-- Snackbar messages -->
     <string name="history_element_deleted">Historie-Element wurde erfolgreich gelöscht.</string>
 
-    <!-- DropDown properties -->
-    <string name="move_this_book">Verschieben</string>
-    <string name="delete_this_book">Löschen</string>
-    <string name="details_book">Details</string>
-
     <!-- BookInfo details -->
-    <string name="file_name">Dateiname</string>
+    <string name="start_reading">Start</string>
+    <string name="continue_reading_query">Weiter ab %1$s</string>
+    <string name="file_details">Dateidetails</string>
     <string name="file_path">Dateipfad</string>
     <string name="file_last_opened">Datei zuletzt geöffnet</string>
     <string name="file_size">Dateigröße</string>
@@ -625,4 +657,8 @@
     <string name="checkpoint_forward_content_desc">Kontrollpunkt vorwärts</string>
     <string name="chapters_content_desc">Kapitel</string>
     <string name="more_content_desc">Mehr</string>
+    <string name="pin_content_desc">Anheften</string>
+    <string name="show_less_content_desc">Weniger anzeigen</string>
+    <string name="show_more_content_desc">Mehr anzeigen</string>
+    <string name="edit_content_desc">Feld bearbeiten</string>
 </resources>

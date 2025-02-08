@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.1.0</string>
+    <string name="app_version" translatable="false">1.2.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Domyślny</string>
     <string name="random_string">Losowy</string>
@@ -129,10 +129,8 @@
     <string name="add_book">Dodaj książkę</string>
     <string name="move">Przenieś</string>
     <string name="delete">Usuń</string>
-    <string name="start">Rozpocznij</string>
     <string name="continue_read">Kontynuuj</string>
     <string name="never">Nigdy</string>
-    <string name="go_back">Wróć</string>
     <string name="undo">Cofnij</string>
     <string name="copy">Kopiuj</string>
     <string name="translate">Tłumacz</string>
@@ -337,7 +335,6 @@
     <string name="blue_theme">Neptun</string>
     <string name="green_theme">Ziemia</string>
     <string name="red_theme">Mars</string>
-    <string name="gray_theme">Kallisto</string>
     <string name="purple_theme">Jowisz</string>
     <string name="pink_theme">Saturn</string>
     <string name="pink2_theme">Ganimedes</string>
@@ -364,13 +361,7 @@
     <!-- Snackbar messages -->
     <string name="history_element_deleted">Element historii został pomyślnie usunięty.</string>
 
-    <!-- DropDown properties -->
-    <string name="move_this_book">Przenieś</string>
-    <string name="delete_this_book">Usuń</string>
-    <string name="details_book">Szczegóły</string>
-
     <!-- BookInfo details -->
-    <string name="file_name">Nazwa pliku</string>
     <string name="file_path">Ścieżka pliku</string>
     <string name="file_last_opened">Plik otwarty ostatnio</string>
     <string name="file_size">Rozmiar pliku</string>
@@ -625,4 +616,53 @@
     <string name="checkpoint_forward_content_desc">Punkt kontrolny do przodu</string>
     <string name="chapters_content_desc">Rozdziały</string>
     <string name="more_content_desc">Więcej</string>
+
+    <!-- Распределить позже -->
+    <string name="edit">Edytuj</string>
+    <string name="error_no_file">Plik nie istnieje</string>
+    <string name="ok">OK</string>
+    <string name="change_path">Zmień ścieżkę</string>
+    <string name="progress_reader_settings">Postęp</string>
+    <string name="font_thickness_option">Grubość czcionki</string>
+    <string name="images_color_effects_option">Efekty kolorystyczne</string>
+    <string name="progress_bar_option">Pasek postępu</string>
+    <string name="progress_bar_option_desc">Wyświetl pasek postępu na dole</string>
+    <string name="progress_bar_padding_option">Marginesy</string>
+    <string name="progress_bar_alignment_option">Wyrównanie</string>
+    <string name="progress_bar_font_size_option">Rozmiar czcionki</string>
+    <string name="progress_count_option">Licznik postępu</string>
+
+    <!-- Właściwości efektów kolorystycznych -->
+    <string name="color_effects_off">Wyłączone</string>
+    <string name="color_effects_grayscale">Skala szarości</string>
+    <string name="color_effects_font">Kolor czcionki</string>
+    <string name="color_effects_background">Kolor tła</string>
+
+    <!-- Właściwości grubości czcionki -->
+    <string name="font_thickness_thin">Cienka</string>
+    <string name="font_thickness_extra_light">Ekstra lekka</string>
+    <string name="font_thickness_light">Lekka</string>
+    <string name="font_thickness_normal">Normalna</string>
+    <string name="font_thickness_medium">Średnia</string>
+
+    <!-- Właściwości licznika postępu -->
+    <string name="progress_count_percentage">Procent</string>
+    <string name="progress_count_quantity">Ilość</string>
+
+    <string name="green2_theme">Io</string>
+    <string name="green_gray_theme">Enceladus</string>
+    <string name="red_gray_theme">Kallisto</string>
+    <string name="purple_gray_theme">Ceres</string>
+
+    <string name="title_changed">Tytuł został pomyślnie zmieniony.</string>
+    <string name="author_changed">Autor został pomyślnie zmieniony.</string>
+    <string name="description_changed">Opis został pomyślnie zmieniony.</string>
+    <string name="path_changed">Ścieżka pliku została pomyślnie zmieniona.</string>
+    <string name="start_reading">Start</string>
+    <string name="continue_reading_query">Kontynuuj od %1$s</string>
+    <string name="file_details">Szczegóły pliku</string>
+    <string name="pin_content_desc">Przypnij</string>
+    <string name="show_less_content_desc">Pokaż mniej</string>
+    <string name="show_more_content_desc">Pokaż więcej</string>
+    <string name="edit_content_desc">Edytuj pole</string>
 </resources>

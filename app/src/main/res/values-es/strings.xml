@@ -129,10 +129,8 @@
     <string name="add_book">Añadir un libro</string>
     <string name="move">Mover</string>
     <string name="delete">Borrar</string>
-    <string name="start">Empezar</string>
     <string name="continue_read">Continuar</string>
     <string name="never">Nunca</string>
-    <string name="go_back">Volver</string>
     <string name="undo">Deshacer</string>
     <string name="copy">Copiar</string>
     <string name="translate">Traducir</string>
@@ -337,7 +335,6 @@
     <string name="blue_theme">Neptuno</string>
     <string name="green_theme">Tierra</string>
     <string name="red_theme">Marte</string>
-    <string name="gray_theme">Calisto</string>
     <string name="purple_theme">Júpiter</string>
     <string name="pink_theme">Saturno</string>
     <string name="pink2_theme">Ganímedes</string>
@@ -364,13 +361,8 @@
     <!-- Snackbar messages -->
     <string name="history_element_deleted">El elemento del historial se ha borrado correctamente.</string>
 
-    <!-- DropDown properties -->
-    <string name="move_this_book">Mover</string>
-    <string name="delete_this_book">Borrar</string>
-    <string name="details_book">Detalles</string>
 
     <!-- BookInfo details -->
-    <string name="file_name">Nombre del archivo</string>
     <string name="file_path">Ruta del archivo</string>
     <string name="file_last_opened">Archivo abierto por última vez</string>
     <string name="file_size">Tamaño del archivo</string>

@@ -661,9 +661,6 @@
     <string name="start_reading">Почати</string>
     <string name="continue_reading_query">Продовжити з %1$s</string>
     <string name="file_details">Деталі файлу</string>
-    <string name="help_title_how_to_use_color_presets">
-    Як використовувати колірні пресети?
-</string>
     <string name="pin_content_desc">Закріпити</string>
     <string name="show_less_content_desc">Показати менше</string>
     <string name="show_more_content_desc">Показати більше</string>

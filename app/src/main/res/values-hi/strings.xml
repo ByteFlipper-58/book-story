@@ -659,9 +659,6 @@
     <string name="start_reading">प्रारंभ करें</string>
     <string name="continue_reading_query">%1$s से जारी रखें</string>
     <string name="file_details">फ़ाइल विवरण</string>
-    <string name="help_title_how_to_use_color_presets">
-    मैं रंग प्रीसेट का उपयोग कैसे करूं?
-</string>
     <string name="pin_content_desc">पिन करें</string>
     <string name="show_less_content_desc">कम दिखाएं</string>
     <string name="show_more_content_desc">अधिक दिखाएं</string>

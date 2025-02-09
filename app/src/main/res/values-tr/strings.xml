@@ -658,9 +658,6 @@
     <string name="start_reading">Başlat</string>
     <string name="continue_reading_query">%1$s konumundan devam et</string>
     <string name="file_details">Dosya detayları</string>
-    <string name="help_title_how_to_use_color_presets">
-    Renk ön ayarlarını nasıl kullanırım?
-</string>
     <string name="pin_content_desc">Sabitle</string>
     <string name="show_less_content_desc">Daha az göster</string>
     <string name="show_more_content_desc">Daha fazla göster</string>

@@ -70,7 +70,7 @@ Don't see your favorite app store? Create an [Issue](https://github.com/ByteFlip
 <!------------ Features ------------>
 
 ## ✨ Features
-- 8 supported file formats(.pdf, .txt, .epub, .fb2, .zip, .html, .htm, .md)
+- 7 supported file formats(.pdf, .txt, .epub, .fb2, .html, .htm, .md)
 - Material You
 - Lots of unique themes
 - Color Presets in the Reader

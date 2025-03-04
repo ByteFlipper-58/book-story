@@ -33,7 +33,7 @@ fun Constants.provideCredits() = listOf(
     ),
     Credit(
         name = "Voyager",
-        source = "Voyager website",
+        source = "Voyager Website",
         credits = listOf(
             UIText.StringResource(R.string.credits_ideas)
         ),
@@ -64,4 +64,36 @@ fun Constants.provideCredits() = listOf(
         ),
         website = "https://hosted.weblate.org/projects/book-story"
     ),
+    Credit(
+        name = "OpenDyslexic Font",
+        source = "OpenDyslexic Website",
+        credits = listOf(
+            UIText.StringResource(R.string.credits_fonts)
+        ),
+        website = "https://opendyslexic.org"
+    ),
+    Credit(
+        name = "GitLab Badge",
+        source = "Censorship Website",
+        credits = listOf(
+            UIText.StringResource(R.string.credits_icon)
+        ),
+        website = "https://censorship.no/en/index.html"
+    ),
+    Credit(
+        name = "GitHub Badge",
+        source = "GitHub",
+        credits = listOf(
+            UIText.StringResource(R.string.credits_icon)
+        ),
+        website = "https://github.com/Kunzisoft/Github-badge"
+    ),
+    Credit(
+        name = "Codeberg Badge",
+        source = "Codeberg",
+        credits = listOf(
+            UIText.StringResource(R.string.credits_icon)
+        ),
+        website = "https://codeberg.org/Codeberg/GetItOnCodeberg"
+    )
 )

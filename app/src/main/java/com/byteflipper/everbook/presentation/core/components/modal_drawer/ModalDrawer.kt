@@ -36,7 +36,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.presentation.core.components.common.AnimatedVisibility
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
@@ -64,7 +66,9 @@ fun ModalDrawer(
     header: @Composable () -> Unit = {},
     content: LazyListScope.() -> Unit
 ) {
+    val layoutDirection = LocalLayoutDirection.current
     val density = LocalDensity.current
+
     val offset = remember { mutableFloatStateOf(0f) }
     val offsetDp = remember {
         derivedStateOf {
@@ -94,8 +98,14 @@ fun ModalDrawer(
     ) {
         AnimatedVisibility(
             visible = show,
-            enter = slideInHorizontally { (-it + with(density) { -20.dp.toPx() }).toInt() },
-            exit = slideOutHorizontally { (-it + with(density) { -20.dp.toPx() }).toInt() }
+            enter = slideInHorizontally {
+                if (layoutDirection == LayoutDirection.Ltr) (-it + with(density) { -20.dp.toPx() }).toInt()
+                else (it + with(density) { 20.dp.toPx() }).toInt()
+            },
+            exit = slideOutHorizontally {
+                if (layoutDirection == LayoutDirection.Ltr) (-it + with(density) { -20.dp.toPx() }).toInt()
+                else (it + with(density) { 20.dp.toPx() }).toInt()
+            }
         ) {
             Column(
                 modifier = Modifier
@@ -126,8 +136,9 @@ fun ModalDrawer(
                                 else offset.floatValue = 0f
                             }
                         ) { _, dragAmount ->
-                            offset.floatValue = (offset.floatValue + dragAmount)
-                                .coerceAtMost(0f)
+                            offset.floatValue = (if (layoutDirection == LayoutDirection.Ltr) {
+                                offset.floatValue + dragAmount
+                            } else offset.floatValue + (-dragAmount)).coerceAtMost(0f)
                         }
                     }
                     .systemBarsPadding()

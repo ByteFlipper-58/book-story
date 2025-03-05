@@ -19,6 +19,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -55,7 +56,8 @@ fun ModalDrawerSelectableItem(
             .clickable(enabled = enabled) {
                 onClick()
             }
-            .padding(horizontal = 18.dp, vertical = 18.dp)
+            .padding(horizontal = 18.dp, vertical = 18.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         CompositionLocalProvider(
             LocalContentColor provides if (selected) MaterialTheme.colorScheme.onSecondaryContainer

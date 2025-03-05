@@ -165,7 +165,8 @@ class DocumentParser @Inject constructor(
                         ) {
                             readerText.add(
                                 0, ReaderText.Chapter(
-                                    title = formattedLine.clearAllMarkdown()
+                                    title = formattedLine.clearAllMarkdown(),
+                                    nested = false
                                 )
                             )
                             chapterAdded = true

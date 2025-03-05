@@ -20,5 +20,6 @@ fun Constants.provideExtensions() = listOf(
 fun Constants.provideImageExtensions() = listOf(
     ".png",
     ".jpg",
-    ".jpeg"
+    ".jpeg",
+    ".gif"
 )

@@ -73,7 +73,7 @@ object HistoryScreen : Screen, Parcelable {
             onRefresh = {
                 screenModel.onEvent(
                     HistoryEvent.OnRefreshList(
-                        showIndicator = true,
+                        loading = false,
                         hideSearch = true
                     )
                 )

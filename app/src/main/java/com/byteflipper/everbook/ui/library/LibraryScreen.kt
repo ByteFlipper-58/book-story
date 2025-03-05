@@ -99,7 +99,7 @@ object LibraryScreen : Screen, Parcelable {
             onRefresh = {
                 screenModel.onEvent(
                     LibraryEvent.OnRefreshList(
-                        showIndicator = true,
+                        loading = false,
                         hideSearch = true
                     )
                 )

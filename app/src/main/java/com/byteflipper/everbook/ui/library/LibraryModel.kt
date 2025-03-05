@@ -47,7 +47,12 @@ class LibraryModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            getBooksFromDatabase("")
+            onEvent(
+                LibraryEvent.OnRefreshList(
+                    loading = true,
+                    hideSearch = true
+                )
+            )
         }
 
         /* Observe channel - - - - - - - - - - - */
@@ -56,7 +61,12 @@ class LibraryModel @Inject constructor(
                 delay(it)
                 yield()
 
-                onEvent(LibraryEvent.OnRefreshList(showIndicator = false, hideSearch = false))
+                onEvent(
+                    LibraryEvent.OnRefreshList(
+                        loading = false,
+                        hideSearch = false
+                    )
+                )
             }
         }
         /* - - - - - - - - - - - - - - - - - - - */
@@ -72,9 +82,8 @@ class LibraryModel @Inject constructor(
                 refreshJob = viewModelScope.launch(Dispatchers.IO) {
                     _state.update {
                         it.copy(
-                            isRefreshing = event.showIndicator,
-                            isLoading = !event.showIndicator,
-                            hasSelectedItems = false,
+                            isRefreshing = true,
+                            isLoading = event.loading,
                             showSearch = if (event.hideSearch) false else it.showSearch
                         )
                     }
@@ -82,7 +91,7 @@ class LibraryModel @Inject constructor(
                     yield()
                     getBooksFromDatabase()
 
-                    if (event.showIndicator) delay(500)
+                    delay(500)
                     _state.update {
                         it.copy(
                             isRefreshing = false,
@@ -95,7 +104,12 @@ class LibraryModel @Inject constructor(
             is LibraryEvent.OnSearchVisibility -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     if (!event.show) {
-                        getBooksFromDatabase("")
+                        onEvent(
+                            LibraryEvent.OnRefreshList(
+                                loading = false,
+                                hideSearch = true
+                            )
+                        )
                     } else {
                         _state.update {
                             it.copy(
@@ -131,7 +145,12 @@ class LibraryModel @Inject constructor(
 
             is LibraryEvent.OnSearch -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    getBooksFromDatabase()
+                    onEvent(
+                        LibraryEvent.OnRefreshList(
+                            loading = false,
+                            hideSearch = false
+                        )
+                    )
                 }
             }
 

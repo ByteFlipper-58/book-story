@@ -9,6 +9,7 @@ package com.byteflipper.everbook.presentation.about
 
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,9 +23,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.byteflipper.everbook.presentation.core.components.progress_indicator.CircularProgressIndicator
@@ -35,7 +36,6 @@ fun AboutItem(
     modifier: Modifier = Modifier,
     title: String,
     description: AnnotatedString?,
-    verticalPadding: Dp = 12.dp,
     showLoading: Boolean = false,
     isOnClickEnabled: Boolean = true,
     onClick: () -> Unit = {}
@@ -43,10 +43,12 @@ fun AboutItem(
     Row(
         modifier
             .fillMaxWidth()
+            .clip(MaterialTheme.shapes.large)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .clickable(enabled = isOnClickEnabled) {
                 onClick()
             }
-            .padding(horizontal = 18.dp, vertical = verticalPadding),
+            .padding(horizontal = 18.dp, vertical = 18.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(Modifier.weight(1f)) {

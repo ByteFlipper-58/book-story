@@ -24,8 +24,8 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,13 +33,13 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.library.category.CategoryWithBooks
 import com.byteflipper.everbook.presentation.core.components.common.IconButton
 import com.byteflipper.everbook.presentation.core.components.common.SearchTextField
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.core.components.top_bar.TopAppBar
 import com.byteflipper.everbook.presentation.core.components.top_bar.TopAppBarData
 import com.byteflipper.everbook.presentation.navigator.NavigatorIconButton
@@ -87,9 +87,9 @@ fun LibraryTopBar(
                 contentNavigationIcon = {},
                 contentTitle = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(stringResource(id = R.string.library_screen))
+                        StyledText(text = stringResource(id = R.string.library_screen))
                         Spacer(modifier = Modifier.width(6.dp))
-                        Text(
+                        StyledText(
                             text = bookCount.toString(),
                             modifier = Modifier
                                 .background(
@@ -97,8 +97,10 @@ fun LibraryTopBar(
                                     RoundedCornerShape(14.dp)
                                 )
                                 .padding(horizontal = 8.dp, vertical = 3.dp),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontSize = 16.sp
+                            style = LocalTextStyle.current.copy(
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontSize = 16.sp
+                            )
                         )
                     }
                 },
@@ -158,12 +160,11 @@ fun LibraryTopBar(
                     }
                 },
                 contentTitle = {
-                    Text(
-                        stringResource(
+                    StyledText(
+                        text = stringResource(
                             id = R.string.selected_items_count_query,
                             selectedItemsCount.coerceAtLeast(1)
                         ),
-                        overflow = TextOverflow.Ellipsis,
                         maxLines = 1
                     )
                 },

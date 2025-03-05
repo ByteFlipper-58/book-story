@@ -34,7 +34,6 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SegmentedButtonColors
 import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.ui.ButtonItem
 import com.byteflipper.everbook.presentation.core.components.common.AnimatedVisibility
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategoryTitle
 
 /**
@@ -180,11 +180,12 @@ private fun SegmentedButton(
             }
         }
 
-        Text(
+        StyledText(
             text = button.title,
-            style = button.textStyle,
-            color = if (button.selected) colors.activeContentColor
-            else colors.inactiveContentColor
+            style = button.textStyle.copy(
+                color = if (button.selected) colors.activeContentColor
+                else colors.inactiveContentColor
+            )
         )
     }
 }

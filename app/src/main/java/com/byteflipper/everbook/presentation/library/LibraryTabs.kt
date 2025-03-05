@@ -22,7 +22,6 @@ import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -32,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import com.byteflipper.everbook.domain.library.category.CategoryWithBooks
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 
 @Composable
 fun LibraryTabs(
@@ -82,13 +82,13 @@ fun LibraryTabs(
                     unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     text = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                tabItem.title.asString(),
+                            StyledText(
+                                text = tabItem.title.asString(),
                                 style = MaterialTheme.typography.bodyLarge,
                                 maxLines = 1,
                             )
                             Spacer(modifier = Modifier.width(6.dp))
-                            Text(
+                            StyledText(
                                 text = tabItem.books.count().toString(),
                                 modifier = Modifier
                                     .background(
@@ -96,8 +96,9 @@ fun LibraryTabs(
                                         MaterialTheme.shapes.medium
                                     )
                                     .padding(horizontal = 8.dp, vertical = 4.dp),
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
                             )
                         }
                     }

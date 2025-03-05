@@ -16,12 +16,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.domain.ui.ButtonItem
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategoryTitle
 
 /**
@@ -54,8 +54,8 @@ fun ChipsWithTitle(
                         modifier = Modifier.height(36.dp),
                         selected = item.selected,
                         label = {
-                            Text(
-                                item.title,
+                            StyledText(
+                                text = item.title,
                                 style = item.textStyle,
                                 maxLines = 1
                             )

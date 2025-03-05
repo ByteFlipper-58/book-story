@@ -23,7 +23,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +36,7 @@ import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.util.Direction
 import com.byteflipper.everbook.presentation.core.components.common.IconButton
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.core.util.noRippleClickable
 import com.byteflipper.everbook.ui.reader.ReaderEvent
 import com.byteflipper.everbook.ui.theme.Colors
@@ -85,10 +85,11 @@ fun ReaderBottomBar(
     ) {
         Spacer(Modifier.height(16.dp))
 
-        Text(
+        StyledText(
             text = progress,
-            color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleLarge.copy(
+                color = MaterialTheme.colorScheme.onSurface
+            )
         )
 
         Spacer(Modifier.height(6.dp))

@@ -15,15 +15,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.library.book.Book
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.core.util.noRippleClickable
 import com.byteflipper.everbook.ui.book_info.BookInfoEvent
 
@@ -43,10 +42,8 @@ fun BookInfoLayoutInfoAuthor(
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
-        Text(
-            book.author.asString(),
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            style = MaterialTheme.typography.bodyLarge,
+        StyledText(
+            text = book.author.asString(),
             modifier = Modifier
                 .fillMaxWidth()
                 .noRippleClickable(
@@ -55,8 +52,10 @@ fun BookInfoLayoutInfoAuthor(
                         showAuthorDialog(BookInfoEvent.OnShowAuthorDialog)
                     }
                 ),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            ),
+            maxLines = 1
         )
     }
 }

@@ -10,17 +10,16 @@ package com.byteflipper.everbook.presentation.reader
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.core.components.modal_drawer.ModalDrawer
 import com.byteflipper.everbook.presentation.core.components.modal_drawer.ModalDrawerSelectableItem
 import com.byteflipper.everbook.presentation.core.components.modal_drawer.ModalDrawerTitleItem
@@ -68,17 +67,14 @@ fun ReaderChaptersDrawer(
                     dismissDrawer(ReaderEvent.OnDismissDrawer)
                 }
             ) {
-                Text(
+                StyledText(
                     text = chapter.title,
                     modifier = Modifier.weight(1f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    maxLines = 1
                 )
                 if (selected) {
                     Spacer(modifier = Modifier.width(18.dp))
-                    Text(
-                        text = "${currentChapterProgress.calculateProgress(1)}%"
-                    )
+                    StyledText(text = "${currentChapterProgress.calculateProgress(1)}%")
                 }
             }
         }

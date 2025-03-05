@@ -28,20 +28,19 @@ import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.history.History
 import com.byteflipper.everbook.presentation.core.components.common.AsyncCoverImage
 import com.byteflipper.everbook.presentation.core.components.common.IconButton
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.core.util.noRippleClickable
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -109,28 +108,27 @@ fun LazyItemScope.HistoryItem(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxHeight()
             ) {
-                Text(
-                    historyEntry.book?.title ?: return,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.bodyLarge,
-                    lineHeight = 21.sp,
+                StyledText(
+                    text = historyEntry.book?.title ?: return,
                     modifier = Modifier
                         .fillMaxWidth()
                         .noRippleClickable(
                             enabled = !isRefreshing,
                             onClick = onTitleClick
                         ),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.onSurface,
+                        lineHeight = 21.sp
+                    ),
+                    maxLines = 2
                 )
-                Text(
-                    pattern.format(date),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                StyledText(
+                    text = pattern.format(date),
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    maxLines = 1
                 )
             }
         }

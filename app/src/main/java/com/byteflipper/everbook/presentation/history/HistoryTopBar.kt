@@ -12,7 +12,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -22,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.core.components.common.IconButton
 import com.byteflipper.everbook.presentation.core.components.common.SearchTextField
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.core.components.top_bar.TopAppBar
 import com.byteflipper.everbook.presentation.core.components.top_bar.TopAppBarData
 import com.byteflipper.everbook.presentation.navigator.NavigatorIconButton
@@ -57,7 +57,7 @@ fun HistoryTopBar(
                 contentID = 0,
                 contentNavigationIcon = {},
                 contentTitle = {
-                    Text(stringResource(id = R.string.history_screen))
+                    StyledText(stringResource(id = R.string.history_screen))
                 },
                 contentActions = {
                     IconButton(

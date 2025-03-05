@@ -22,7 +22,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategoryTitle
 import kotlin.math.roundToInt
 
@@ -79,10 +79,11 @@ fun SliderWithTitle(
         Column(Modifier.fillMaxWidth(0.2f)) {
             SettingsSubcategoryTitle(title = title, padding = 0.dp)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(
+            StyledText(
                 text = placeholder.value,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             )
         }
         Spacer(modifier = Modifier.width(8.dp))
@@ -99,7 +100,7 @@ fun SliderWithTitle(
                         PlainTooltip(
                             modifier = Modifier.clip(CircleShape)
                         ) {
-                            Text(
+                            StyledText(
                                 text = placeholder.value,
                                 modifier = Modifier.padding(
                                     vertical = 6.dp,
@@ -167,10 +168,11 @@ fun SliderWithTitle(
         Column(Modifier.fillMaxWidth(0.2f)) {
             SettingsSubcategoryTitle(title = title, padding = 0.dp)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(
+            StyledText(
                 text = placeholder.value,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             )
         }
         Spacer(modifier = Modifier.width(8.dp))
@@ -187,7 +189,7 @@ fun SliderWithTitle(
                         PlainTooltip(
                             modifier = Modifier.clip(CircleShape)
                         ) {
-                            Text(
+                            StyledText(
                                 text = placeholder.value,
                                 modifier = Modifier.padding(
                                     vertical = 6.dp,

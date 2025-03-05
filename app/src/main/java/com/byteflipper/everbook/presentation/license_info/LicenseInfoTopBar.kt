@@ -12,15 +12,14 @@ import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextOverflow
 import com.mikepenz.aboutlibraries.entity.Library
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.core.components.common.IconButton
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.navigator.NavigatorBackIconButton
 import com.byteflipper.everbook.ui.about.AboutEvent
 
@@ -36,10 +35,9 @@ fun LicenseInfoTopBar(
 
     LargeTopAppBar(
         title = {
-            Text(
-                library.name,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+            StyledText(
+                text = library.name,
+                maxLines = 1
             )
         },
         navigationIcon = {

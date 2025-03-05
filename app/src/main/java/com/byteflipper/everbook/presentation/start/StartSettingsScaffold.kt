@@ -20,13 +20,13 @@ import androidx.compose.material.icons.filled.GolfCourse
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.presentation.core.components.common.StyledText
 
 @Composable
 fun StartSettingsScaffold(
@@ -60,16 +60,18 @@ fun StartSettingsScaffold(
                 modifier = Modifier.size(64.dp)
             )
             Spacer(modifier = Modifier.height(12.dp))
-            Text(
+            StyledText(
                 text = stringResource(id = R.string.start_welcome),
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
+            StyledText(
                 text = stringResource(id = R.string.start_welcome_desc),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             )
             Spacer(modifier = Modifier.height(18.dp))
 

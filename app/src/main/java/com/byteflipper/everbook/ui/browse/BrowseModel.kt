@@ -58,7 +58,7 @@ class BrowseModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             onEvent(
                 BrowseEvent.OnRefreshList(
-                    showIndicator = true,
+                    loading = true,
                     hideSearch = true
                 )
             )
@@ -67,7 +67,12 @@ class BrowseModel @Inject constructor(
         /* Observe channel - - - - - - - - - - - */
         viewModelScope.launch(Dispatchers.IO) {
             BrowseScreen.refreshListChannel.receiveAsFlow().collectLatest {
-                onEvent(BrowseEvent.OnRefreshList(showIndicator = false, hideSearch = false))
+                onEvent(
+                    BrowseEvent.OnRefreshList(
+                        loading = false,
+                        hideSearch = false
+                    )
+                )
             }
         }
         /* - - - - - - - - - - - - - - - - - - - */
@@ -86,8 +91,8 @@ class BrowseModel @Inject constructor(
                 refreshJob = viewModelScope.launch(Dispatchers.IO) {
                     _state.update {
                         it.copy(
-                            isRefreshing = event.showIndicator,
-                            isLoading = !event.showIndicator,
+                            isRefreshing = true,
+                            isLoading = event.loading,
                             showSearch = if (event.hideSearch) false else it.showSearch
                         )
                     }
@@ -95,7 +100,7 @@ class BrowseModel @Inject constructor(
                     yield()
                     getFilesFromDownloads()
 
-                    if (event.showIndicator) delay(500)
+                    delay(500)
                     _state.update {
                         it.copy(
                             isRefreshing = false,
@@ -108,7 +113,12 @@ class BrowseModel @Inject constructor(
             is BrowseEvent.OnSearchVisibility -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     if (!event.show) {
-                        getFilesFromDownloads("")
+                        onEvent(
+                            BrowseEvent.OnRefreshList(
+                                loading = false,
+                                hideSearch = true
+                            )
+                        )
                     } else {
                         _state.update {
                             it.copy(
@@ -157,7 +167,12 @@ class BrowseModel @Inject constructor(
 
             is BrowseEvent.OnSearch -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    getFilesFromDownloads()
+                    onEvent(
+                        BrowseEvent.OnRefreshList(
+                            loading = false,
+                            hideSearch = false
+                        )
+                    )
                 }
             }
 
@@ -293,7 +308,7 @@ class BrowseModel @Inject constructor(
                             }
                             onEvent(
                                 BrowseEvent.OnRefreshList(
-                                    showIndicator = true,
+                                    loading = true,
                                     hideSearch = false
                                 )
                             )
@@ -319,7 +334,12 @@ class BrowseModel @Inject constructor(
 
                     if (permissionGranted) {
                         viewModelScope.launch(Dispatchers.IO) {
-                            getFilesFromDownloads()
+                            onEvent(
+                                BrowseEvent.OnRefreshList(
+                                    loading = true,
+                                    hideSearch = false
+                                )
+                            )
                         }
                     }
                 }
@@ -413,7 +433,10 @@ class BrowseModel @Inject constructor(
                             )
                         }
                         onEvent(
-                            BrowseEvent.OnRefreshList(showIndicator = false, hideSearch = false)
+                            BrowseEvent.OnRefreshList(
+                                loading = false,
+                                hideSearch = false
+                            )
                         )
                         onEvent(BrowseEvent.OnClearSelectedFiles)
 
@@ -441,7 +464,12 @@ class BrowseModel @Inject constructor(
                             dialog = null
                         )
                     }
-                    onEvent(BrowseEvent.OnRefreshList(showIndicator = false, hideSearch = false))
+                    onEvent(
+                        BrowseEvent.OnRefreshList(
+                            loading = false,
+                            hideSearch = false
+                        )
+                    )
                     onEvent(BrowseEvent.OnClearSelectedFiles)
                 }
             }

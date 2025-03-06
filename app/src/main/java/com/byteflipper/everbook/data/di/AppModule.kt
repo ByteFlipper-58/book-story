@@ -9,8 +9,6 @@ package com.byteflipper.everbook.data.di
 
 import android.app.Application
 import androidx.room.Room
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,8 +20,6 @@ import org.commonmark.node.HtmlBlock
 import org.commonmark.node.IndentedCodeBlock
 import org.commonmark.node.ThematicBreak
 import org.commonmark.parser.Parser
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import com.byteflipper.everbook.data.local.room.BookDao
 import com.byteflipper.everbook.data.local.room.BookDatabase
 import com.byteflipper.everbook.data.local.room.DatabaseHelper

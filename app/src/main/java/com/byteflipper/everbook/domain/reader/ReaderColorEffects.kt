@@ -6,7 +6,9 @@
  */
 
 package com.byteflipper.everbook.domain.reader
+import androidx.compose.runtime.Immutable
 
+@Immutable
 enum class ReaderColorEffects {
     OFF,
     GRAYSCALE,

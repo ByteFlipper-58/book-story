@@ -12,7 +12,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.byteflipper.everbook.ui.theme.ThemeContrast
+import com.byteflipper.everbook.domain.ui.ThemeContrast
 
 
 private val primaryLight = Color(0xFF116682)

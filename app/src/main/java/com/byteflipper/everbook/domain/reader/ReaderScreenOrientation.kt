@@ -8,7 +8,9 @@
 package com.byteflipper.everbook.domain.reader
 
 import android.content.pm.ActivityInfo
+import androidx.compose.runtime.Immutable
 
+@Immutable
 enum class ReaderScreenOrientation(val code: Int) {
     DEFAULT(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED),
     FREE(ActivityInfo.SCREEN_ORIENTATION_USER),

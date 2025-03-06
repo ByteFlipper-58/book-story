@@ -36,14 +36,14 @@ import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.DataStoreConstants
 import com.byteflipper.everbook.presentation.core.constants.provideFonts
 import com.byteflipper.everbook.presentation.core.constants.provideLanguages
-import com.byteflipper.everbook.ui.theme.DarkTheme
-import com.byteflipper.everbook.ui.theme.PureDark
+import com.byteflipper.everbook.domain.ui.DarkTheme
+import com.byteflipper.everbook.domain.ui.PureDark
 import com.byteflipper.everbook.ui.theme.Theme
-import com.byteflipper.everbook.ui.theme.ThemeContrast
-import com.byteflipper.everbook.ui.theme.toDarkTheme
-import com.byteflipper.everbook.ui.theme.toPureDark
+import com.byteflipper.everbook.domain.ui.ThemeContrast
+import com.byteflipper.everbook.domain.ui.toDarkTheme
+import com.byteflipper.everbook.domain.ui.toPureDark
 import com.byteflipper.everbook.ui.theme.toTheme
-import com.byteflipper.everbook.ui.theme.toThemeContrast
+import com.byteflipper.everbook.domain.ui.toThemeContrast
 import java.util.Locale
 
 /**

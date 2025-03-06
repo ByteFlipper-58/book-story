@@ -5,16 +5,17 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.byteflipper.everbook.domain.reader
+package com.byteflipper.everbook.domain.ui
+
 import androidx.compose.runtime.Immutable
 
 @Immutable
-enum class ReaderHorizontalGesture {
-    OFF,
-    ON,
-    INVERSE
+enum class ThemeContrast {
+    STANDARD,
+    MEDIUM,
+    HIGH
 }
 
-fun String.toHorizontalGesture(): ReaderHorizontalGesture {
-    return ReaderHorizontalGesture.valueOf(this)
+fun String.toThemeContrast(): ThemeContrast {
+    return ThemeContrast.valueOf(this)
 }

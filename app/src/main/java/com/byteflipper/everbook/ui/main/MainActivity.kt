@@ -41,8 +41,8 @@ import com.byteflipper.everbook.ui.settings.SettingsModel
 import com.byteflipper.everbook.ui.start.StartScreen
 import com.byteflipper.everbook.ui.theme.BookStoryTheme
 import com.byteflipper.everbook.ui.theme.Transitions
-import com.byteflipper.everbook.ui.theme.isDark
-import com.byteflipper.everbook.ui.theme.isPureDark
+import com.byteflipper.everbook.domain.ui.isDark
+import com.byteflipper.everbook.domain.ui.isPureDark
 import java.lang.reflect.Field
 
 

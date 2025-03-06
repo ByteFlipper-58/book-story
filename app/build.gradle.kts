@@ -67,9 +67,6 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.7"
-    }
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
@@ -102,20 +99,20 @@ dependencies {
     // Compose BOM was eliminated - it is recognized as Closed Source in AboutLibraries..
     // although it is not.
 
-    implementation("androidx.compose.foundation:foundation:1.8.0-beta01")
-    implementation("androidx.compose.animation:animation:1.7.7")
-    implementation("androidx.compose.animation:animation-android:1.8.0-beta01")
-    implementation("androidx.compose.foundation:foundation-layout:1.7.7")
-    implementation("androidx.compose.ui:ui:1.7.7")
-    implementation("androidx.compose.ui:ui-graphics:1.7.7")
-    implementation("androidx.compose.ui:ui-android:1.8.0-beta01")
-    implementation("androidx.compose.material3:material3:1.4.0-alpha07")
+    implementation("androidx.compose.foundation:foundation:1.8.0-beta02")
+    implementation("androidx.compose.animation:animation:1.7.8")
+    implementation("androidx.compose.animation:animation-android:1.8.0-beta02")
+    implementation("androidx.compose.foundation:foundation-layout:1.7.8")
+    implementation("androidx.compose.ui:ui:1.7.8")
+    implementation("androidx.compose.ui:ui-graphics:1.7.8")
+    implementation("androidx.compose.ui:ui-android:1.8.0-beta02")
+    implementation("androidx.compose.material3:material3:1.4.0-alpha08")
     implementation("androidx.compose.material3:material3-window-size-class:1.3.1")
-    implementation("androidx.compose.material:material-icons-extended:1.7.7")
-    implementation("androidx.compose.material:material:1.7.7")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.7.7")
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
+    implementation("androidx.compose.material:material:1.7.8")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.7.8")
 
-    debugImplementation("androidx.compose.ui:ui-tooling:1.7.7")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.7.8")
 
     // All dependencies
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
@@ -169,14 +166,6 @@ dependencies {
 
     // Coil for loading images
     implementation("io.coil-kt:coil-compose:2.7.0")
-
-    // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
-    implementation("com.squareup.moshi:moshi:1.15.2")
-    implementation("com.squareup.moshi:moshi-kotlin:1.15.2")
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     // Open source libraries
     implementation("com.mikepenz:aboutlibraries-core:11.4.0")

@@ -17,7 +17,7 @@ import com.byteflipper.everbook.domain.ui.ButtonItem
 import com.byteflipper.everbook.presentation.core.components.settings.SegmentedButtonWithTitle
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.main.MainModel
-import com.byteflipper.everbook.ui.theme.DarkTheme
+import com.byteflipper.everbook.domain.ui.DarkTheme
 
 @Composable
 fun DarkThemeOption() {

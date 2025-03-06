@@ -7,9 +7,11 @@
 
 package com.byteflipper.everbook.domain.library.category
 
+import androidx.compose.runtime.Immutable
 import com.byteflipper.everbook.domain.library.book.SelectableBook
 import com.byteflipper.everbook.domain.ui.UIText
 
+@Immutable
 data class CategoryWithBooks(
     val category: Category,
     val title: UIText,

@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.presentation.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -25,9 +27,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
+import com.byteflipper.everbook.ui.theme.dynamicListItemColor
 
 @Composable
 fun SettingsLayoutItem(
+    index: Int,
     icon: ImageVector,
     title: String,
     description: String,
@@ -38,15 +42,19 @@ fun SettingsLayoutItem(
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.extraLarge)
             .clickable { onClick() }
-            .padding(vertical = 20.dp, horizontal = 24.dp),
+            .padding(vertical = 18.dp, horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(18.dp)
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            modifier = Modifier.size(24.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.dynamicListItemColor(index))
+                .padding(12.dp)
+                .size(24.dp),
+            tint = MaterialTheme.colorScheme.onSurface
         )
         Column {
             StyledText(

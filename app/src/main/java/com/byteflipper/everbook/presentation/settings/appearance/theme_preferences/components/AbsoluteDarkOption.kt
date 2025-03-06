@@ -17,8 +17,8 @@ import com.byteflipper.everbook.presentation.core.components.settings.SwitchWith
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.main.MainModel
 import com.byteflipper.everbook.ui.theme.ExpandingTransition
-import com.byteflipper.everbook.ui.theme.isDark
-import com.byteflipper.everbook.ui.theme.isPureDark
+import com.byteflipper.everbook.domain.ui.isDark
+import com.byteflipper.everbook.domain.ui.isPureDark
 
 @Composable
 fun AbsoluteDarkOption() {

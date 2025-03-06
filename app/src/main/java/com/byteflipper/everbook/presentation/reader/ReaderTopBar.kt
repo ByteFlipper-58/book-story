@@ -38,7 +38,7 @@ import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.presentation.core.util.noRippleClickable
 import com.byteflipper.everbook.ui.reader.ReaderEvent
 import com.byteflipper.everbook.ui.settings.SettingsEvent
-import com.byteflipper.everbook.ui.theme.Colors
+import com.byteflipper.everbook.ui.theme.readerBarsColor
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -65,7 +65,7 @@ fun ReaderTopBar(
     Column(
         Modifier
             .fillMaxWidth()
-            .background(Colors.readerSystemBarsColor)
+            .background(MaterialTheme.colorScheme.readerBarsColor)
             .readerColorPresetChange(
                 colorPresetChangeEnabled = fastColorPresetChange,
                 isLoading = isLoading,

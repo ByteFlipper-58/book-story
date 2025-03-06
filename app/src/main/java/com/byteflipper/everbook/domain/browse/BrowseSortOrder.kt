@@ -7,6 +7,9 @@
 
 package com.byteflipper.everbook.domain.browse
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 enum class BrowseSortOrder {
     NAME,
     FILE_FORMAT,

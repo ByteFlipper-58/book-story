@@ -39,7 +39,7 @@ import com.byteflipper.everbook.presentation.core.components.common.IconButton
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.core.util.noRippleClickable
 import com.byteflipper.everbook.ui.reader.ReaderEvent
-import com.byteflipper.everbook.ui.theme.Colors
+import com.byteflipper.everbook.ui.theme.readerBarsColor
 import com.byteflipper.everbook.ui.theme.HorizontalExpandingTransition
 
 @Composable
@@ -76,7 +76,7 @@ fun ReaderBottomBar(
     Column(
         Modifier
             .fillMaxWidth()
-            .background(Colors.readerSystemBarsColor)
+            .background(MaterialTheme.colorScheme.readerBarsColor)
             .noRippleClickable(onClick = {})
             .navigationBarsPadding()
             .padding(horizontal = 18.dp),

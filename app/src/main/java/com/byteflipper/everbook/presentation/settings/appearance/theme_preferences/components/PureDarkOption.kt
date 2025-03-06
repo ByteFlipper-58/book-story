@@ -18,8 +18,8 @@ import com.byteflipper.everbook.presentation.core.components.settings.SegmentedB
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.main.MainModel
 import com.byteflipper.everbook.ui.theme.ExpandingTransition
-import com.byteflipper.everbook.ui.theme.PureDark
-import com.byteflipper.everbook.ui.theme.isDark
+import com.byteflipper.everbook.domain.ui.PureDark
+import com.byteflipper.everbook.domain.ui.isDark
 
 @Composable
 fun PureDarkOption() {

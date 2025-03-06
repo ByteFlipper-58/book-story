@@ -7,6 +7,9 @@
 
 package com.byteflipper.everbook.domain.browse
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 enum class BrowseLayout {
     LIST, GRID
 }

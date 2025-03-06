@@ -43,10 +43,8 @@ fun AboutScaffold(
         }
     ) { paddingValues ->
         AboutLayout(
-            updateLoading = updateLoading,
             paddingValues = paddingValues,
             listState = listState,
-            checkForUpdate = checkForUpdate,
             navigateToBrowserPage = navigateToBrowserPage,
             navigateToLicenses = navigateToLicenses,
             navigateToCredits = navigateToCredits

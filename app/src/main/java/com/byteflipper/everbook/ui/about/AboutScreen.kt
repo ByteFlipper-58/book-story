@@ -24,28 +24,18 @@ import com.byteflipper.everbook.ui.licenses.LicensesScreen
 
 @Parcelize
 object AboutScreen : Screen, Parcelable {
-
-    @IgnoredOnParcel
-    const val UPDATE_DIALOG = "update_dialog"
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
         val screenModel = hiltViewModel<AboutModel>()
 
-        val state = screenModel.state.collectAsStateWithLifecycle()
         val (scrollBehavior, listState) = TopAppBarDefaults.collapsibleTopAppBarScrollBehavior()
 
         AboutContent(
             scrollBehavior = scrollBehavior,
-            dialog = state.value.dialog,
-            updateLoading = state.value.updateLoading,
-            updateInfo = state.value.updateInfo,
             listState = listState,
-            checkForUpdate = screenModel::onEvent,
             navigateToBrowserPage = screenModel::onEvent,
-            dismissDialog = screenModel::onEvent,
             navigateToLicenses = {
                 navigator.push(LicensesScreen)
             },

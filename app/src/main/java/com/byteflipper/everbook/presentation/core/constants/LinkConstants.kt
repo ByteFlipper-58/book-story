@@ -9,9 +9,6 @@
 
 package com.byteflipper.everbook.presentation.core.constants
 
-fun Constants.provideDownloadLatestReleasePage() =
-    "https://www.github.com/ByteFlipper-58/book-story/releases/latest/download/book-story.apk"
-
 fun Constants.provideReleasesPage() =
     "https://www.github.com/ByteFlipper-58/book-story/releases/latest"
 

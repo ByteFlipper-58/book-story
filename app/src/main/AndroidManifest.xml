@@ -20,24 +20,24 @@
     <application
         android:name=".Application"
         android:allowBackup="false"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/app_icon"
-        android:roundIcon="@mipmap/app_icon_round"
         android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Start.Splash"
-        android:requestLegacyExternalStorage="true"
-        android:enableOnBackInvokedCallback="true"
         android:usesCleartextTraffic="false"
-        android:largeHeap="true"
-        tools:targetApi="tiramisu"
-        tools:ignore="DataExtractionRules">
+        tools:ignore="DataExtractionRules"
+        tools:targetApi="tiramisu">
 
         <activity
             android:name=".ui.main.MainActivity"
-            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|locale|density|uiMode"
             android:exported="true"
-            android:theme="@style/Theme.Start.Splash">
+            android:theme="@style/Theme.Start.Splash"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

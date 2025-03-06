@@ -13,8 +13,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import com.byteflipper.everbook.data.local.data_store.DataStore
 import com.byteflipper.everbook.data.local.data_store.DataStoreImpl
-import com.byteflipper.everbook.data.local.notification.UpdatesNotificationService
-import com.byteflipper.everbook.data.local.notification.UpdatesNotificationServiceImpl
 import com.byteflipper.everbook.data.mapper.book.BookMapper
 import com.byteflipper.everbook.data.mapper.book.BookMapperImpl
 import com.byteflipper.everbook.data.mapper.color_preset.ColorPresetMapper
@@ -31,14 +29,12 @@ import com.byteflipper.everbook.data.repository.DataStoreRepositoryImpl
 import com.byteflipper.everbook.data.repository.FileSystemRepositoryImpl
 import com.byteflipper.everbook.data.repository.HistoryRepositoryImpl
 import com.byteflipper.everbook.data.repository.PermissionRepositoryImpl
-import com.byteflipper.everbook.data.repository.RemoteRepositoryImpl
 import com.byteflipper.everbook.domain.repository.BookRepository
 import com.byteflipper.everbook.domain.repository.ColorPresetRepository
 import com.byteflipper.everbook.domain.repository.DataStoreRepository
 import com.byteflipper.everbook.domain.repository.FileSystemRepository
 import com.byteflipper.everbook.domain.repository.HistoryRepository
 import com.byteflipper.everbook.domain.repository.PermissionRepository
-import com.byteflipper.everbook.domain.repository.RemoteRepository
 import javax.inject.Singleton
 
 @Module
@@ -82,12 +78,6 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindRemoteRepository(
-        remoteRepositoryImpl: RemoteRepositoryImpl
-    ): RemoteRepository
-
-    @Binds
-    @Singleton
     abstract fun bindPermissionRepository(
         permissionRepositoryImpl: PermissionRepositoryImpl
     ): PermissionRepository
@@ -121,10 +111,4 @@ abstract class RepositoryModule {
     abstract fun bindTextParser(
         textParserImpl: TextParserImpl
     ): TextParser
-
-    @Binds
-    @Singleton
-    abstract fun bindNotificationService(
-        updatesNotificationServiceImpl: UpdatesNotificationServiceImpl
-    ): UpdatesNotificationService
 }

@@ -27,26 +27,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import com.byteflipper.everbook.data.local.room.BookDao
 import com.byteflipper.everbook.data.local.room.BookDatabase
 import com.byteflipper.everbook.data.local.room.DatabaseHelper
-import com.byteflipper.everbook.data.remote.GithubAPI
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    @Provides
-    @Singleton
-    fun provideGithubApi(): GithubAPI {
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-
-        return Retrofit.Builder()
-            .baseUrl(GithubAPI.BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-            .create(GithubAPI::class.java)
-    }
-
     @Provides
     @Singleton
     fun provideCommonmarkParser(): Parser {

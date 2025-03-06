@@ -99,25 +99,6 @@ class SettingsModel @Inject constructor(
     @OptIn(ExperimentalPermissionsApi::class)
     fun onEvent(event: SettingsEvent) {
         when (event) {
-            is SettingsEvent.OnChangeCheckForUpdates -> {
-                notificationsPermissionJob?.cancel()
-                notificationsPermissionJob = viewModelScope.launch(Dispatchers.IO) {
-                    if (!event.enable) {
-                        event.onChangeCheckForUpdates(false)
-                        return@launch
-                    }
-
-                    grantNotificationsPermission.execute(
-                        activity = event.activity,
-                        notificationsPermissionState = event.notificationsPermissionState
-                    ).apply {
-                        if (this) {
-                            event.onChangeCheckForUpdates(true)
-                        }
-                    }
-                }
-            }
-
             is SettingsEvent.OnSelectColorPreset -> {
                 viewModelScope.launch {
                     cancelColorPresetJobs()

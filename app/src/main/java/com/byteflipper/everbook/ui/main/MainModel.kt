@@ -34,7 +34,6 @@ import com.byteflipper.everbook.domain.reader.toTextAlignment
 import com.byteflipper.everbook.domain.use_case.data_store.ChangeLanguage
 import com.byteflipper.everbook.domain.use_case.data_store.GetAllSettings
 import com.byteflipper.everbook.domain.use_case.data_store.SetDatastore
-import com.byteflipper.everbook.domain.use_case.remote.CheckForUpdates
 import com.byteflipper.everbook.domain.util.toHorizontalAlignment
 import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.DataStoreConstants
@@ -53,7 +52,6 @@ class MainModel @Inject constructor(
 
     private val setDatastore: SetDatastore,
     private val changeLanguage: ChangeLanguage,
-    private val checkForUpdates: CheckForUpdates,
     private val getAllSettings: GetAllSettings
 ) : ViewModel() {
 
@@ -164,14 +162,6 @@ class MainModel @Inject constructor(
                 value = event.value,
                 updateState = {
                     it.copy(showStartScreen = this)
-                }
-            )
-
-            is MainEvent.OnChangeCheckForUpdates -> handleDatastoreUpdate(
-                key = DataStoreConstants.CHECK_FOR_UPDATES,
-                value = event.value,
-                updateState = {
-                    it.copy(checkForUpdates = this)
                 }
             )
 
@@ -517,17 +507,8 @@ class MainModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Main) {
             val settings = getAllSettings.execute()
 
-            // All additional execution
+            /* All additional execution */
             changeLanguage.execute(settings.language)
-
-            if (settings.checkForUpdates) {
-                viewModelScope.launch(Dispatchers.IO) {
-                    checkForUpdates.execute(
-                        postNotification = true
-                    )
-                }
-            }
-            /* - - - - - - - - - - - */
 
             updateStateWithSavedHandle { settings }
             mainModelReady.update { true }

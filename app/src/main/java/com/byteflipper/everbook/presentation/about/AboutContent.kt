@@ -19,29 +19,16 @@ import com.byteflipper.everbook.ui.about.AboutEvent
 @Composable
 fun AboutContent(
     scrollBehavior: TopAppBarScrollBehavior,
-    dialog: Dialog? = null,
-    updateLoading: Boolean,
-    updateInfo: LatestReleaseInfo?,
     listState: LazyListState,
-    checkForUpdate: (AboutEvent.OnCheckForUpdate) -> Unit,
     navigateToBrowserPage: (AboutEvent.OnNavigateToBrowserPage) -> Unit,
-    dismissDialog: (AboutEvent.OnDismissDialog) -> Unit,
     navigateToLicenses: () -> Unit,
     navigateToCredits: () -> Unit,
     navigateBack: () -> Unit
 ) {
-    AboutDialog(
-        dialog = dialog,
-        updateInfo = updateInfo,
-        navigateToBrowserPage = navigateToBrowserPage,
-        dismissDialog = dismissDialog
-    )
 
     AboutScaffold(
         scrollBehavior = scrollBehavior,
-        updateLoading = updateLoading,
         listState = listState,
-        checkForUpdate = checkForUpdate,
         navigateToBrowserPage = navigateToBrowserPage,
         navigateToLicenses = navigateToLicenses,
         navigateToCredits = navigateToCredits,

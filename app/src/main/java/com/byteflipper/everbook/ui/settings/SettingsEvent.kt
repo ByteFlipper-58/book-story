@@ -20,13 +20,6 @@ import com.byteflipper.everbook.domain.util.ID
 @Immutable
 sealed class SettingsEvent {
 
-    data class OnChangeCheckForUpdates(
-        val enable: Boolean,
-        val activity: ComponentActivity,
-        val notificationsPermissionState: PermissionState,
-        val onChangeCheckForUpdates: (Boolean) -> Unit
-    ) : SettingsEvent()
-
     data class OnSelectColorPreset(
         val id: ID
     ) : SettingsEvent()

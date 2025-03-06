@@ -24,6 +24,7 @@ import com.byteflipper.everbook.domain.navigator.Navigator
 import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.domain.navigator.StackEvent
 import com.byteflipper.everbook.presentation.core.util.LocalActivity
+import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun rememberNavigator(initialScreen: Screen): Navigator {
@@ -48,8 +49,12 @@ fun Navigator(
     content: @Composable (currentScreen: Screen) -> Unit
 ) {
     val navigator = rememberNavigator(initialScreen = initialScreen)
-    val currentScreen = navigator.lastItem.collectAsStateWithLifecycle()
-    val lastEvent = navigator.lastEvent.collectAsStateWithLifecycle()
+    val currentScreen = navigator.lastItem.collectAsStateWithLifecycle(
+        context = Dispatchers.Main.immediate
+    )
+    val lastEvent = navigator.lastEvent.collectAsStateWithLifecycle(
+        context = Dispatchers.Main.immediate
+    )
 
     CompositionLocalProvider(LocalNavigator provides navigator) {
         AnimatedContent(

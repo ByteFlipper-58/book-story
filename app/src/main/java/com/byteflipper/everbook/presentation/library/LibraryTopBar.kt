@@ -19,7 +19,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.outlined.DriveFileMove
+import androidx.compose.material.icons.outlined.MoveUp
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Delete
@@ -170,7 +170,7 @@ fun LibraryTopBar(
                 },
                 contentActions = {
                     IconButton(
-                        icon = Icons.AutoMirrored.Outlined.DriveFileMove,
+                        icon = Icons.Outlined.MoveUp,
                         contentDescription = R.string.move_books_content_desc,
                         enabled = !isLoading && !isRefreshing,
                         disableOnClick = false,

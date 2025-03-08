@@ -10,6 +10,7 @@
 package com.byteflipper.everbook.presentation.start
 
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.res.stringResource
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.settings.appearance.theme_preferences.ThemePreferencesSubcategory
@@ -17,6 +18,7 @@ import com.byteflipper.everbook.presentation.settings.appearance.theme_preferenc
 fun LazyListScope.StartSettingsLayoutAppearance() {
     ThemePreferencesSubcategory(
         title = { stringResource(id = R.string.start_theme_preferences) },
+        titleColor = { MaterialTheme.colorScheme.secondary },
         showDivider = false
     )
 }

@@ -81,7 +81,7 @@ fun SwitchWithTitle(
             checked = selected,
             onCheckedChange = null,
             colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colorScheme.primary,
+                checkedThumbColor = MaterialTheme.colorScheme.secondary,
                 checkedTrackColor = MaterialTheme.colorScheme.secondaryContainer,
             )
         )

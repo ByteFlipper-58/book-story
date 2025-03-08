@@ -5,12 +5,6 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-/*
- * Book's Story — free and open-source Material You eBook reader.
- * Copyright (C) 2024-2025 Acclorite
- * SPDX-License-Identifier: GPL-3.0-only
- */
-
 package com.byteflipper.everbook.presentation.start
 
 import androidx.compose.foundation.layout.Arrangement
@@ -51,7 +45,7 @@ fun StartDoneLayout(
         Icon(
             painter = painterResource(id = R.drawable.start_done),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.size(190.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))

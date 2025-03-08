@@ -103,7 +103,7 @@ fun ReaderBottomBar(
                     icon = Icons.AutoMirrored.Default.ArrowBack,
                     contentDescription = R.string.checkpoint_back_content_desc,
                     modifier = Modifier.size(24.dp),
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.secondary,
                     disableOnClick = false
                 ) {
                     restoreCheckpoint(ReaderEvent.OnRestoreCheckpoint)
@@ -135,7 +135,7 @@ fun ReaderBottomBar(
                     icon = Icons.AutoMirrored.Default.ArrowForward,
                     contentDescription = R.string.checkpoint_forward_content_desc,
                     modifier = Modifier.size(24.dp),
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.secondary,
                     disableOnClick = false
                 ) {
                     restoreCheckpoint(ReaderEvent.OnRestoreCheckpoint)

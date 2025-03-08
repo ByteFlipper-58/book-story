@@ -76,7 +76,7 @@ fun BrowseGridFileItem(file: SelectableFile, hasSelectedItems: Boolean) {
                 modifier = Modifier
                     .fillMaxWidth(0.3f)
                     .aspectRatio(1f),
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.tertiary
             )
 
             DefaultTransition(

@@ -77,7 +77,7 @@ fun ErrorPlaceholder(
                 StyledText(
                     text = actionTitle,
                     style = MaterialTheme.typography.labelLarge.copy(
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.secondary
                     )
                 )
             }

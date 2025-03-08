@@ -49,7 +49,7 @@ fun LazyItemScope.BookInfoChangeCoverBottomSheetItem(
             imageVector = icon,
             contentDescription = null,
             modifier = Modifier.size(24.dp),
-            tint = MaterialTheme.colorScheme.primary
+            tint = MaterialTheme.colorScheme.tertiary
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column(

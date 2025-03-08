@@ -30,8 +30,6 @@ import com.byteflipper.everbook.presentation.core.components.common.StyledText
 
 @Composable
 fun StartSettingsScaffold(
-    currentPage: Int,
-    storagePermissionGranted: Boolean,
     navigateForward: () -> Unit,
     content: @Composable () -> Unit
 ) {
@@ -40,8 +38,6 @@ fun StartSettingsScaffold(
         containerColor = MaterialTheme.colorScheme.surface,
         bottomBar = {
             StartSettingsBottomBar(
-                currentPage = currentPage,
-                storagePermissionGranted = storagePermissionGranted,
                 navigateForward = navigateForward
             )
         }

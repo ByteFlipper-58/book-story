@@ -18,15 +18,12 @@ import com.byteflipper.everbook.ui.about.AboutEvent
 @Composable
 fun StartSourceCodeScaffold(
     navigateForward: () -> Unit,
-    navigateToBrowserPage: (AboutEvent.OnNavigateToBrowserPage) -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             StartSettingsBottomBar(
-                currentPage = 3,
-                storagePermissionGranted = true,
                 navigateForward = navigateForward
             )
         },

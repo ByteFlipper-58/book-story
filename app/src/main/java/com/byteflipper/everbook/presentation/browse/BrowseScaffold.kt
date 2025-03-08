@@ -18,23 +18,19 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionState
 import com.byteflipper.everbook.domain.browse.BrowseLayout
 import com.byteflipper.everbook.domain.browse.SelectableFile
 import com.byteflipper.everbook.ui.browse.BrowseEvent
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.theme.DefaultTransition
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BrowseScaffold(
     files: List<SelectableFile>,
     refreshState: PullRefreshState,
-    storagePermissionState: PermissionState,
     listState: LazyListState,
     gridState: LazyGridState,
     layout: BrowseLayout,
@@ -48,7 +44,6 @@ fun BrowseScaffold(
     selectedItemsCount: Int,
     isRefreshing: Boolean,
     isLoading: Boolean,
-    isError: Boolean,
     dialogHidden: Boolean,
     filesEmpty: Boolean,
     showSearch: Boolean,
@@ -61,11 +56,10 @@ fun BrowseScaffold(
     clearSelectedFiles: (BrowseEvent.OnClearSelectedFiles) -> Unit,
     selectFiles: (BrowseEvent.OnSelectFiles) -> Unit,
     selectFile: (BrowseEvent.OnSelectFile) -> Unit,
-    permissionCheck: (BrowseEvent.OnPermissionCheck) -> Unit,
     showFilterBottomSheet: (BrowseEvent.OnShowFilterBottomSheet) -> Unit,
     showAddDialog: (BrowseEvent.OnShowAddDialog) -> Unit,
     changePinnedPaths: (MainEvent.OnChangeBrowsePinnedPaths) -> Unit,
-    navigateToHelp: () -> Unit,
+    navigateToBrowseSettings: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
@@ -151,22 +145,15 @@ fun BrowseScaffold(
             BrowseEmptyPlaceholder(
                 filesEmpty = filesEmpty,
                 dialogHidden = dialogHidden,
-                isError = isError,
                 isLoading = isLoading,
                 isRefreshing = isRefreshing,
-                storagePermissionState = storagePermissionState,
-                permissionCheck = permissionCheck,
-                navigateToHelp = navigateToHelp
+                navigateToBrowseSettings = navigateToBrowseSettings
             )
 
             BrowseRefreshIndicator(
                 isRefreshing = isRefreshing,
                 refreshState = refreshState
             )
-
-            if (isLoading) {
-                BrowseLoadingPlaceholder(modifier = Modifier.align(Alignment.Center))
-            }
         }
     }
 }

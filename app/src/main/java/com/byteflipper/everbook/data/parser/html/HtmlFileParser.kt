@@ -8,25 +8,29 @@
 package com.byteflipper.everbook.data.parser.html
 
 import org.jsoup.Jsoup
+import org.jsoup.parser.Parser
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.parser.FileParser
+import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.library.book.BookWithCover
 import com.byteflipper.everbook.domain.library.category.Category
 import com.byteflipper.everbook.domain.ui.UIText
-import java.io.File
 import javax.inject.Inject
 
 class HtmlFileParser @Inject constructor() : FileParser {
 
-    override suspend fun parse(file: File): BookWithCover? {
+    override suspend fun parse(cachedFile: CachedFile): BookWithCover? {
         return try {
-            val document = Jsoup.parse(file)
+            val document = cachedFile.openInputStream()?.use {
+                Jsoup.parse(it, null, "", Parser.htmlParser())
+            }
 
-            val title = document.select("head > title").text().trim().run {
-                ifBlank {
-                    file.nameWithoutExtension.trim()
+            val title = document?.select("head > title")?.text()?.trim().run {
+                if (isNullOrBlank()) {
+                    return@run cachedFile.name.substringBeforeLast(".").trim()
                 }
+                return@run this
             }
 
             BookWithCover(
@@ -37,7 +41,7 @@ class HtmlFileParser @Inject constructor() : FileParser {
                     scrollIndex = 0,
                     scrollOffset = 0,
                     progress = 0f,
-                    filePath = file.path,
+                    filePath = cachedFile.path,
                     lastOpened = null,
                     category = Category.entries[0],
                     coverImage = null

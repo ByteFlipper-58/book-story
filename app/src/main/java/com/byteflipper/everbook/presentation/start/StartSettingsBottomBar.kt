@@ -23,8 +23,6 @@ import com.byteflipper.everbook.presentation.core.components.common.StyledText
 
 @Composable
 fun StartSettingsBottomBar(
-    currentPage: Int,
-    storagePermissionGranted: Boolean,
     navigateForward: () -> Unit
 ) {
     Column {
@@ -35,8 +33,7 @@ fun StartSettingsBottomBar(
                 .padding(bottom = 8.dp)
                 .padding(horizontal = 18.dp)
                 .fillMaxWidth(),
-            onClick = { navigateForward() },
-            enabled = storagePermissionGranted || currentPage != 2
+            onClick = { navigateForward() }
         ) {
             StyledText(text = stringResource(id = R.string.next))
         }

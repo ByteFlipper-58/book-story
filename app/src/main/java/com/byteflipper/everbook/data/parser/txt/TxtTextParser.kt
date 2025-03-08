@@ -13,11 +13,9 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import com.byteflipper.everbook.data.parser.MarkdownParser
 import com.byteflipper.everbook.data.parser.TextParser
+import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.presentation.core.util.clearAllMarkdown
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileReader
 import javax.inject.Inject
 
 private const val TXT_TAG = "TXT Parser"
@@ -26,35 +24,37 @@ class TxtTextParser @Inject constructor(
     private val markdownParser: MarkdownParser
 ) : TextParser {
 
-    override suspend fun parse(file: File): List<ReaderText> {
-        Log.i(TXT_TAG, "Started TXT parsing: ${file.name}.")
+    override suspend fun parse(cachedFile: CachedFile): List<ReaderText> {
+        Log.i(TXT_TAG, "Started TXT parsing: ${cachedFile.name}.")
 
         return try {
             val readerText = mutableListOf<ReaderText>()
             var chapterAdded = false
 
             withContext(Dispatchers.IO) {
-                BufferedReader(FileReader(file)).forEachLine { line ->
-                    if (line.isNotBlank()) {
-                        when (line) {
-                            "***", "---" -> readerText.add(
-                                ReaderText.Separator
-                            )
+                cachedFile.openInputStream()?.bufferedReader()?.use { reader ->
+                    reader.forEachLine { line ->
+                        if (line.isNotBlank()) {
+                            when (line) {
+                                "***", "---" -> readerText.add(
+                                    ReaderText.Separator
+                                )
 
-                            else -> {
-                                if (!chapterAdded && line.clearAllMarkdown().isNotBlank()) {
-                                    readerText.add(
-                                        0, ReaderText.Chapter(
-                                            title = line.clearAllMarkdown(),
-                                            nested = false
+                                else -> {
+                                    if (!chapterAdded && line.clearAllMarkdown().isNotBlank()) {
+                                        readerText.add(
+                                            0, ReaderText.Chapter(
+                                                title = line.clearAllMarkdown(),
+                                                nested = false
+                                            )
+                                        )
+                                        chapterAdded = true
+                                    } else readerText.add(
+                                        ReaderText.Text(
+                                            line = markdownParser.parse(line)
                                         )
                                     )
-                                    chapterAdded = true
-                                } else readerText.add(
-                                    ReaderText.Text(
-                                        line = markdownParser.parse(line)
-                                    )
-                                )
+                                }
                             }
                         }
                     }

@@ -5,12 +5,15 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.byteflipper.everbook.ui.start
+package com.byteflipper.everbook.domain.file
 
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class StartState(
-    val storagePermissionGranted: Boolean = false,
-    val notificationsPermissionGranted: Boolean = false
+data class CachedFileBuilder(
+    val name: String?,
+    val path: String?,
+    val size: Long? = null,
+    val lastModified: Long? = null,
+    val isDirectory: Boolean? = null
 )

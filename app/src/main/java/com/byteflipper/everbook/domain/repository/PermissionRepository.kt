@@ -7,17 +7,20 @@
 
 package com.byteflipper.everbook.domain.repository
 
+import android.net.Uri
 import androidx.activity.ComponentActivity
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 
 interface PermissionRepository {
 
-    @OptIn(ExperimentalPermissionsApi::class)
-    suspend fun grantStoragePermission(
-        activity: ComponentActivity,
-        storagePermissionState: PermissionState
-    ): Boolean
+    suspend fun grantPersistableUriPermission(
+        uri: Uri
+    )
+
+    suspend fun releasePersistableUriPermission(
+        uri: Uri
+    )
 
     @OptIn(ExperimentalPermissionsApi::class)
     suspend fun grantNotificationsPermission(

@@ -10,6 +10,7 @@
 package com.byteflipper.everbook.ui.settings
 
 import android.content.Context
+import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
@@ -19,6 +20,13 @@ import com.byteflipper.everbook.domain.util.ID
 
 @Immutable
 sealed class SettingsEvent {
+    data class OnGrantPersistableUriPermission(
+        val uri: Uri
+    ) : SettingsEvent()
+
+    data class OnReleasePersistableUriPermission(
+        val uri: Uri
+    ) : SettingsEvent()
 
     data class OnSelectColorPreset(
         val id: ID

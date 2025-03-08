@@ -7,7 +7,6 @@
 
 package com.byteflipper.everbook.ui.browse
 
-import android.Manifest
 import android.os.Parcelable
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -21,8 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.focus.FocusRequester
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -32,15 +29,12 @@ import com.byteflipper.everbook.domain.browse.BrowseLayout
 import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.presentation.browse.BrowseContent
 import com.byteflipper.everbook.presentation.navigator.LocalNavigator
-import com.byteflipper.everbook.ui.help.HelpScreen
 import com.byteflipper.everbook.ui.library.LibraryScreen
 import com.byteflipper.everbook.ui.main.MainModel
+import com.byteflipper.everbook.ui.settings.BrowseSettingsScreen
 
 @Parcelize
 object BrowseScreen : Screen, Parcelable {
-
-    @IgnoredOnParcel
-    const val PERMISSION_DIALOG = "permission_dialog"
 
     @IgnoredOnParcel
     const val ADD_DIALOG = "add_dialog"
@@ -66,7 +60,7 @@ object BrowseScreen : Screen, Parcelable {
     @IgnoredOnParcel
     private var initialGridOffset = 0
 
-    @OptIn(ExperimentalMaterialApi::class, ExperimentalPermissionsApi::class)
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
@@ -79,9 +73,6 @@ object BrowseScreen : Screen, Parcelable {
         val listState = rememberLazyListState(initialListIndex, initialListOffset)
         val gridState = rememberLazyGridState(initialGridIndex, initialGridOffset)
 
-        val storagePermissionState = rememberPermissionState(
-            permission = Manifest.permission.READ_EXTERNAL_STORAGE
-        )
         val focusRequester = remember { FocusRequester() }
         val refreshState = rememberPullRefreshState(
             refreshing = state.value.isRefreshing,
@@ -107,14 +98,6 @@ object BrowseScreen : Screen, Parcelable {
         }
 
         LaunchedEffect(Unit) {
-            screenModel.onEvent(
-                BrowseEvent.OnPermissionCheck(
-                    storagePermissionState = storagePermissionState
-                )
-            )
-        }
-
-        LaunchedEffect(Unit) {
             resetScrollPositionCompositionChannel.receiveAsFlow().collectLatest {
                 initialListIndex = 0
                 initialListOffset = 0
@@ -125,8 +108,6 @@ object BrowseScreen : Screen, Parcelable {
 
         DisposableEffect(Unit) {
             onDispose {
-                screenModel.resetScreen()
-
                 initialListIndex = 0
                 initialListOffset = 0
                 initialGridIndex = 0
@@ -150,7 +131,6 @@ object BrowseScreen : Screen, Parcelable {
             files = files.value,
             selectedBooksAddDialog = state.value.selectedBooksAddDialog,
             refreshState = refreshState,
-            storagePermissionState = storagePermissionState,
             loadingAddDialog = state.value.loadingAddDialog,
             dialog = state.value.dialog,
             bottomSheet = state.value.bottomSheet,
@@ -167,7 +147,6 @@ object BrowseScreen : Screen, Parcelable {
             selectedItemsCount = state.value.selectedItemsCount,
             isRefreshing = state.value.isRefreshing,
             isLoading = state.value.isLoading,
-            isError = state.value.isError,
             dialogHidden = state.value.dialog == null,
             filesEmpty = files.value.isEmpty(),
             showSearch = state.value.showSearch,
@@ -180,11 +159,8 @@ object BrowseScreen : Screen, Parcelable {
             clearSelectedFiles = screenModel::onEvent,
             selectFiles = screenModel::onEvent,
             selectFile = screenModel::onEvent,
-            permissionCheck = screenModel::onEvent,
             showFilterBottomSheet = screenModel::onEvent,
             dismissBottomSheet = screenModel::onEvent,
-            actionPermissionDialog = screenModel::onEvent,
-            dismissPermissionDialog = screenModel::onEvent,
             showAddDialog = screenModel::onEvent,
             dismissAddDialog = screenModel::onEvent,
             selectAddDialog = screenModel::onEvent,
@@ -193,8 +169,8 @@ object BrowseScreen : Screen, Parcelable {
             navigateToLibrary = {
                 navigator.push(LibraryScreen, saveInBackStack = false)
             },
-            navigateToHelp = {
-                navigator.push(HelpScreen(fromStart = false))
+            navigateToBrowseSettings = {
+                navigator.push(BrowseSettingsScreen)
             },
         )
     }

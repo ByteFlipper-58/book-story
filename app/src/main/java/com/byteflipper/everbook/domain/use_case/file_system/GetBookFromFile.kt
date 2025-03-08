@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.domain.use_case.file_system
 
+import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.library.book.NullableBook
 import com.byteflipper.everbook.domain.repository.FileSystemRepository
 import java.io.File
@@ -16,7 +17,7 @@ class GetBookFromFile @Inject constructor(
     private val repository: FileSystemRepository
 ) {
 
-    suspend fun execute(file: File): NullableBook {
-        return repository.getBookFromFile(file)
+    suspend fun execute(cachedFile: CachedFile): NullableBook {
+        return repository.getBookFromFile(cachedFile)
     }
 }

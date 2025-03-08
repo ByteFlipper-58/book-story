@@ -129,7 +129,7 @@ dependencies {
     ksp("androidx.hilt:hilt-compiler:1.2.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-    implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-messaging")
@@ -148,7 +148,8 @@ dependencies {
     // Splash Screen API
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-    // Permission handling
+    // SAF
+    implementation("com.anggrayudi:storage:2.0.0")
     implementation("com.google.accompanist:accompanist-permissions:0.37.0")
 
     // PDF parser

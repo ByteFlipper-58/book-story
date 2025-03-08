@@ -39,7 +39,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -69,7 +71,9 @@ fun Dialog(
     val imeInsets = WindowInsets.ime.asPaddingValues().let {
         it.calculateTopPadding() + it.calculateBottomPadding()
     }.value
-    val screenHeightDp = LocalConfiguration.current.screenHeightDp
+    val screenHeightDp = with(LocalDensity.current) {
+        LocalWindowInfo.current.containerSize.height.toDp().value
+    }
 
     val maxHeight = animateDpAsState(
         (screenHeightDp - imeInsets - 32).dp,

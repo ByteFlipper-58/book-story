@@ -19,11 +19,13 @@ import com.byteflipper.everbook.data.local.room.BookDao
 import com.byteflipper.everbook.data.mapper.book.BookMapper
 import com.byteflipper.everbook.data.parser.FileParser
 import com.byteflipper.everbook.data.parser.TextParser
+import com.byteflipper.everbook.domain.file.CachedFileCompat
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.library.book.BookWithCover
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.repository.BookRepository
 import com.byteflipper.everbook.domain.util.CoverImage
+import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -99,14 +101,22 @@ class BookRepositoryImpl @Inject constructor(
         if (bookId == -1) return emptyList()
 
         val book = database.findBookById(bookId)
-        val file = File(book.filePath)
+        val cachedFile = CachedFileCompat.fromFullPath(
+            context = application,
+            path = book.filePath,
+            builder = CachedFileCompat.build(
+                name = book.filePath.substringAfterLast(File.separator),
+                path = book.filePath,
+                isDirectory = false
+            )
+        )
 
-        if (!file.exists()) {
+        if (cachedFile == null || !cachedFile.canAccess()) {
             Log.e(GET_TEXT, "File [$bookId] does not exist")
             return emptyList()
         }
 
-        val readerText = textParser.parse(file)
+        val readerText = textParser.parse(cachedFile)
 
         if (
             readerText.filterIsInstance<ReaderText.Text>().isEmpty() ||
@@ -126,7 +136,7 @@ class BookRepositoryImpl @Inject constructor(
      */
     override suspend fun insertBook(
         bookWithCover: BookWithCover
-    ): Boolean {
+    ) {
         Log.i(INSERT_BOOK, "Inserting ${bookWithCover.book.title}.")
 
         val filesDir = application.filesDir
@@ -145,17 +155,14 @@ class BookRepositoryImpl @Inject constructor(
                 val cover = File(coversDir, coverUri)
 
                 withContext(Dispatchers.IO) {
-                    FileOutputStream(cover).use { stream ->
-                        if (
-                            !bookWithCover.coverImage.copy(Bitmap.Config.RGB_565, false)
-                                .compress(
-                                    Bitmap.CompressFormat.WEBP,
-                                    20,
-                                    stream
-                                )
-                        ) {
-                            throw Exception("Couldn't save cover image")
-                        }
+                    BufferedOutputStream(FileOutputStream(cover)).use { output ->
+                        bookWithCover.coverImage
+                            .copy(Bitmap.Config.RGB_565, false)
+                            .compress(Bitmap.CompressFormat.WEBP, 20, output)
+                            .let { success ->
+                                if (success) return@let
+                                throw Exception("Couldn't save cover image")
+                            }
                     }
                 }
             } catch (e: Exception) {
@@ -174,7 +181,6 @@ class BookRepositoryImpl @Inject constructor(
         val bookToInsert = bookMapper.toBookEntity(updatedBook)
         database.insertBook(bookToInsert)
         Log.i(INSERT_BOOK, "Successfully inserted book.")
-        return true
     }
 
     /**
@@ -219,16 +225,14 @@ class BookRepositoryImpl @Inject constructor(
                 val cover = File(coversDir, uri)
 
                 withContext(Dispatchers.IO) {
-                    FileOutputStream(cover).use { stream ->
-                        if (
-                            !newCoverImage.copy(Bitmap.Config.RGB_565, false).compress(
-                                Bitmap.CompressFormat.WEBP,
-                                20,
-                                stream
-                            )
-                        ) {
-                            throw Exception("Couldn't save cover image")
-                        }
+                    BufferedOutputStream(FileOutputStream(cover)).use { output ->
+                        newCoverImage
+                            .copy(Bitmap.Config.RGB_565, false)
+                            .compress(Bitmap.CompressFormat.WEBP, 20, output)
+                            .let { success ->
+                                if (success) return@let
+                                throw Exception("Couldn't save cover image")
+                            }
                     }
                 }
             } catch (e: Exception) {
@@ -320,7 +324,21 @@ class BookRepositoryImpl @Inject constructor(
     override suspend fun canResetCover(bookId: Int): Boolean {
         val book = database.findBookById(bookId)
 
-        val defaultCoverUncompressed = fileParser.parse(File(book.filePath))?.coverImage
+        val cachedFile = CachedFileCompat.fromFullPath(
+            application,
+            book.filePath,
+            builder = CachedFileCompat.build(
+                name = book.filePath.substringAfterLast(File.separator),
+                path = book.filePath,
+                isDirectory = false
+            )
+        )
+
+        if (cachedFile == null || !cachedFile.canAccess()) {
+            return false
+        }
+
+        val defaultCoverUncompressed = fileParser.parse(cachedFile)?.coverImage
             ?: return false
 
         if (book.image == null) {
@@ -362,7 +380,21 @@ class BookRepositoryImpl @Inject constructor(
         }
 
         val book = database.findBookById(bookId)
-        val defaultCover = fileParser.parse(File(book.filePath))?.coverImage
+        val cachedFile = CachedFileCompat.fromFullPath(
+            application,
+            book.filePath,
+            builder = CachedFileCompat.build(
+                name = book.filePath.substringAfterLast(File.separator),
+                path = book.filePath,
+                isDirectory = false
+            )
+        )
+
+        if (cachedFile == null || !cachedFile.canAccess()) {
+            return false
+        }
+
+        val defaultCover = fileParser.parse(cachedFile)?.coverImage
             ?: return false
         updateCoverImageOfBook(bookMapper.toBook(book), defaultCover)
 

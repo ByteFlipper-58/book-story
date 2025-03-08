@@ -20,6 +20,7 @@ import kotlinx.coroutines.yield
 import org.jsoup.Jsoup
 import com.byteflipper.everbook.data.parser.DocumentParser
 import com.byteflipper.everbook.data.parser.TextParser
+import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideImageExtensions
@@ -41,15 +42,18 @@ class EpubTextParser @Inject constructor(
     private val documentParser: DocumentParser
 ) : TextParser {
 
-    override suspend fun parse(file: File): List<ReaderText> {
-        Log.i(EPUB_TAG, "Started EPUB parsing: ${file.name}.")
+    override suspend fun parse(cachedFile: CachedFile): List<ReaderText> {
+        Log.i(EPUB_TAG, "Started EPUB parsing: ${cachedFile.name}.")
 
         return try {
             yield()
             var readerText = listOf<ReaderText>()
 
+            val rawFile = cachedFile.rawFile
+            if (rawFile == null || !rawFile.exists() || !rawFile.canRead()) return emptyList()
+
             withContext(Dispatchers.IO) {
-                ZipFile(file).use { zip ->
+                ZipFile(rawFile).use { zip ->
                     val tocEntry = zip.entries().toList().find { entry ->
                         entry.name.endsWith(".ncx", ignoreCase = true)
                     }
@@ -164,13 +168,12 @@ class EpubTextParser @Inject constructor(
     ) {
         // Getting all text
         val content = zip.getInputStream(entry).bufferedReader().use { it.readText() }
-        var readerText = documentParser.run {
-            Jsoup.parse(content).parseDocument(
-                zipFile = zip,
-                imageEntries = imageEntries,
-                includeChapter = false
-            )
-        }.toMutableList()
+        var readerText = documentParser.parseDocument(
+            document = Jsoup.parse(content),
+            zipFile = zip,
+            imageEntries = imageEntries,
+            includeChapter = false
+        ).toMutableList()
 
         // Adding chapter title from TOC if found
         getChapterTitleFromToc(

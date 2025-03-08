@@ -8,12 +8,11 @@
 package com.byteflipper.everbook.domain.browse
 
 import androidx.compose.runtime.Immutable
+import com.byteflipper.everbook.domain.file.CachedFile
+import com.byteflipper.everbook.domain.util.Selected
 
 @Immutable
 data class SelectableFile(
-    val name: String,
-    val path: String,
-    val size: Long,
-    val lastModified: Long,
-    val selected: Boolean
+    val data: CachedFile,
+    val selected: Selected
 )

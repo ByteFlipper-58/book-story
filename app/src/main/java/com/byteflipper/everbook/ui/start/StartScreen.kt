@@ -7,21 +7,16 @@
 
 package com.byteflipper.everbook.ui.start
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.TextStyle
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import com.byteflipper.everbook.domain.navigator.Screen
@@ -51,7 +46,7 @@ object StartScreen : Screen, Parcelable {
     const val APPEARANCE_SETTINGS = "appearance_settings"
 
     @IgnoredOnParcel
-    const val PERMISSION_SETTINGS = "permission_settings"
+    const val SCAN_SETTINGS = "scan_settings"
 
     @IgnoredOnParcel
     const val SOURCE_CODE = "source_code"
@@ -60,24 +55,15 @@ object StartScreen : Screen, Parcelable {
     const val DONE = "done"
 
     @SuppressLint("InlinedApi")
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
-        val screenModel = hiltViewModel<StartModel>()
         val mainModel = hiltViewModel<MainModel>()
-        val aboutModel = hiltViewModel<AboutModel>()
 
-        val state = screenModel.state.collectAsStateWithLifecycle()
         val mainState = mainModel.state.collectAsStateWithLifecycle()
 
         val activity = LocalActivity.current
-        val storagePermissionState = rememberPermissionState(
-            permission = Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-        val notificationsPermissionState = rememberPermissionState(
-            permission = Manifest.permission.POST_NOTIFICATIONS
-        )
 
         val currentPage = remember { mutableIntStateOf(0) }
         val stackEvent = remember { mutableStateOf(StackEvent.Default) }
@@ -93,31 +79,13 @@ object StartScreen : Screen, Parcelable {
             }.sortedBy { it.title }
         }
 
-        LaunchedEffect(Unit) {
-            screenModel.onEvent(
-                StartEvent.OnCheckPermissions(
-                    storagePermissionState = storagePermissionState,
-                    notificationsPermissionState = notificationsPermissionState
-                )
-            )
-        }
-        DisposableEffect(Unit) {
-            onDispose { screenModel.resetScreen() }
-        }
-
         StartContent(
             currentPage = currentPage.intValue,
             stackEvent = stackEvent.value,
-            storagePermissionGranted = state.value.storagePermissionGranted,
-            notificationsPermissionGranted = state.value.notificationsPermissionGranted,
-            storagePermissionState = storagePermissionState,
-            notificationsPermissionState = notificationsPermissionState,
             languages = languages,
             changeLanguage = mainModel::onEvent,
-            storagePermissionRequest = screenModel::onEvent,
-            notificationsPermissionRequest = screenModel::onEvent,
             navigateForward = {
-                if ((currentPage.intValue + 1 == 4) && !state.value.storagePermissionGranted) {
+                if (currentPage.intValue + 1 == 4) {
                     return@StartContent
                 }
 
@@ -146,7 +114,6 @@ object StartScreen : Screen, Parcelable {
                     saveInBackStack = false
                 )
             },
-            navigateToBrowserPage = aboutModel::onEvent
         )
     }
 }

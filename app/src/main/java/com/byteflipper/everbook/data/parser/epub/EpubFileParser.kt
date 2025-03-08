@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.parser.FileParser
+import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.library.book.BookWithCover
 import com.byteflipper.everbook.domain.library.category.Category
@@ -24,12 +25,15 @@ import javax.inject.Inject
 
 class EpubFileParser @Inject constructor() : FileParser {
 
-    override suspend fun parse(file: File): BookWithCover? {
+    override suspend fun parse(cachedFile: CachedFile): BookWithCover? {
         return try {
             var book: BookWithCover? = null
 
+            val rawFile = cachedFile.rawFile
+            if (rawFile == null || !rawFile.exists() || !rawFile.canRead()) return null
+
             withContext(Dispatchers.IO) {
-                ZipFile(file).use { zip ->
+                ZipFile(rawFile).use { zip ->
                     val opfEntry = zip.entries().asSequence().find { entry ->
                         entry.name.endsWith(".opf", ignoreCase = true)
                     } ?: return@withContext
@@ -42,7 +46,7 @@ class EpubFileParser @Inject constructor() : FileParser {
 
                     val title = document.select("metadata > dc|title").text().trim().run {
                         ifBlank {
-                            file.nameWithoutExtension.trim()
+                            cachedFile.name.substringBeforeLast(".").trim()
                         }
                     }
 
@@ -86,12 +90,12 @@ class EpubFileParser @Inject constructor() : FileParser {
                             scrollIndex = 0,
                             scrollOffset = 0,
                             progress = 0f,
-                            filePath = file.path,
+                            filePath = cachedFile.path,
                             lastOpened = null,
                             category = Category.entries[0],
                             coverImage = null
                         ),
-                        coverImage = extractCoverImageBitmap(file, coverImage)
+                        coverImage = extractCoverImageBitmap(rawFile, coverImage)
                     )
                 }
             }

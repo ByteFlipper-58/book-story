@@ -36,12 +36,10 @@ import com.byteflipper.everbook.ui.about.AboutEvent
 @Composable
 fun StartSourceCode(
     navigateForward: () -> Unit,
-    navigateToBrowserPage: (AboutEvent.OnNavigateToBrowserPage) -> Unit
 ) {
     val context = LocalContext.current
     StartSourceCodeScaffold(
         navigateForward = navigateForward,
-        navigateToBrowserPage = navigateToBrowserPage
     ) {
         Column(
             modifier = Modifier
@@ -75,12 +73,12 @@ fun StartSourceCode(
             Spacer(modifier = Modifier.height(16.dp))
             ElevatedButton(
                 onClick = {
-                    navigateToBrowserPage(
+                    /*navigateToBrowserPage(
                         AboutEvent.OnNavigateToBrowserPage(
                             page = "https://github.com/Acclorite/book-story",
                             context = context
                         )
-                    )
+                    )*/
                 },
                 shape = MaterialTheme.shapes.medium,
             ) {

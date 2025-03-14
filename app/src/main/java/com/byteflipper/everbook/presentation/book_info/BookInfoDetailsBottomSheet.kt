@@ -23,7 +23,6 @@ import com.byteflipper.everbook.domain.file.CachedFileCompat
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.components.modal_bottom_sheet.ModalBottomSheet
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideExtensions
 import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategoryTitle
 import com.byteflipper.everbook.ui.book_info.BookInfoEvent
@@ -62,7 +61,7 @@ fun BookInfoDetailsBottomSheet(
 
     val fileExists = remember(cachedFile) {
         cachedFile.let {
-            it != null && it.canAccess() && !it.isDirectory && Constants.provideExtensions()
+            it != null && it.canAccess() && !it.isDirectory && provideExtensions()
                 .any { ext ->
                     it.name.endsWith(ext, ignoreCase = true)
                 }

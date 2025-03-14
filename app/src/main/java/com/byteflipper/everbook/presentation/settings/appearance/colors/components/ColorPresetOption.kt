@@ -12,7 +12,6 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -77,7 +76,6 @@ import com.byteflipper.everbook.ui.settings.SettingsModel
 import com.byteflipper.everbook.ui.theme.FadeTransitionPreservingSpace
 import com.byteflipper.everbook.ui.theme.Transitions
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ColorPresetOption(backgroundColor: Color) {
     val settingsModel = hiltViewModel<SettingsModel>()

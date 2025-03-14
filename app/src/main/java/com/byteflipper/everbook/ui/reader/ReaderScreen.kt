@@ -49,7 +49,6 @@ import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.domain.reader.ReaderColorEffects
 import com.byteflipper.everbook.domain.reader.ReaderProgressCount
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideFonts
 import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.presentation.core.util.calculateProgress
@@ -119,7 +118,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         }
 
         val fontFamily = remember(mainState.value.fontFamily) {
-            Constants.provideFonts().run {
+            provideFonts().run {
                 find {
                     it.id == mainState.value.fontFamily
                 } ?: get(0)

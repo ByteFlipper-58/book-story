@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.providePrimaryScrollbar
 import com.byteflipper.everbook.ui.book_info.BookInfoEvent
 
@@ -40,7 +39,7 @@ fun BookInfoLayout(
     LazyColumnWithScrollbar(
         modifier = Modifier.fillMaxSize(),
         state = listState,
-        scrollbarSettings = Constants.providePrimaryScrollbar(false),
+        scrollbarSettings = providePrimaryScrollbar(false),
         contentPadding = PaddingValues(bottom = 18.dp)
     ) {
         item {

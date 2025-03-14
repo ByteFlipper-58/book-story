@@ -8,13 +8,12 @@
 package com.byteflipper.everbook.ui.about
 
 import android.content.Intent
-import android.net.Uri
 import androidx.activity.ComponentActivity
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.byteflipper.everbook.R
@@ -22,7 +21,6 @@ import com.byteflipper.everbook.presentation.core.util.launchActivity
 import com.byteflipper.everbook.presentation.core.util.showToast
 import javax.inject.Inject
 
-@OptIn(FlowPreview::class)
 @HiltViewModel
 class AboutModel @Inject constructor() : ViewModel() {
 
@@ -32,7 +30,7 @@ class AboutModel @Inject constructor() : ViewModel() {
                 viewModelScope.launch {
                     val intent = Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse(event.page)
+                        event.page.toUri()
                     )
 
                     intent.launchActivity(event.context as ComponentActivity) {

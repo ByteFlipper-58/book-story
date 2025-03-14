@@ -11,7 +11,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.domain.about.Credit
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CreditItem(
     credit: Credit,

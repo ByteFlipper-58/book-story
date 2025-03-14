@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideCredits
 import com.byteflipper.everbook.ui.about.AboutEvent
 
@@ -34,7 +33,7 @@ fun CreditsLayout(
         state = listState
     ) {
         items(
-            Constants.provideCredits(),
+            provideCredits(),
             key = { it.name }
         ) { credit ->
             CreditItem(credit = credit) {

@@ -20,7 +20,6 @@ import com.byteflipper.everbook.domain.library.book.NullableBook.NotNull
 import com.byteflipper.everbook.domain.library.book.NullableBook.Null
 import com.byteflipper.everbook.domain.repository.FileSystemRepository
 import com.byteflipper.everbook.domain.ui.UIText
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideExtensions
 import java.util.UUID
 import javax.inject.Inject
@@ -50,7 +49,7 @@ class FileSystemRepositoryImpl @Inject constructor(
         val existingPaths = database
             .searchBooks("")
             .map { it.filePath }
-        val supportedExtensions = Constants.provideExtensions()
+        val supportedExtensions = provideExtensions()
 
         /**
          * Verify that [CachedFile] is valid and can be shown correctly.

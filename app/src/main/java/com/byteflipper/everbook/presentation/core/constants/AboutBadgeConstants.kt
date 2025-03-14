@@ -12,7 +12,7 @@ import androidx.compose.material.icons.filled.Person
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.about.Badge
 
-fun Constants.provideAboutBadges() = listOf(
+fun provideAboutBadges() = listOf(
     Badge(
         id = "x",
         drawable = R.drawable.x_logo,

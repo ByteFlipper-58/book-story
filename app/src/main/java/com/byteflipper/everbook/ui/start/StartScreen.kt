@@ -9,7 +9,6 @@ package com.byteflipper.everbook.ui.start
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -22,12 +21,10 @@ import kotlinx.parcelize.Parcelize
 import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.domain.navigator.StackEvent
 import com.byteflipper.everbook.domain.ui.ButtonItem
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideLanguages
 import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.presentation.navigator.LocalNavigator
 import com.byteflipper.everbook.presentation.start.StartContent
-import com.byteflipper.everbook.ui.about.AboutModel
 import com.byteflipper.everbook.ui.browse.BrowseScreen
 import com.byteflipper.everbook.ui.help.HelpScreen
 import com.byteflipper.everbook.ui.main.MainEvent
@@ -55,7 +52,6 @@ object StartScreen : Screen, Parcelable {
     const val DONE = "done"
 
     @SuppressLint("InlinedApi")
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
@@ -69,7 +65,7 @@ object StartScreen : Screen, Parcelable {
         val stackEvent = remember { mutableStateOf(StackEvent.Default) }
 
         val languages = remember(mainState.value.language) {
-            Constants.provideLanguages().sortedBy { it.second }.map {
+            provideLanguages().sortedBy { it.second }.map {
                 ButtonItem(
                     id = it.first,
                     title = it.second,

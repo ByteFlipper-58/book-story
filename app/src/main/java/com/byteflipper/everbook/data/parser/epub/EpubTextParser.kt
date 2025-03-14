@@ -11,6 +11,7 @@ package com.byteflipper.everbook.data.parser.epub
 
 import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -22,7 +23,6 @@ import com.byteflipper.everbook.data.parser.DocumentParser
 import com.byteflipper.everbook.data.parser.TextParser
 import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.reader.ReaderText
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideImageExtensions
 import com.byteflipper.everbook.presentation.core.util.addAll
 import com.byteflipper.everbook.presentation.core.util.containsVisibleText
@@ -63,7 +63,7 @@ class EpubTextParser @Inject constructor(
 
                     val chapterEntries = zip.getChapterEntries(opfEntry)
                     val imageEntries = zip.entries().toList().filter {
-                        Constants.provideImageExtensions().any { format ->
+                        provideImageExtensions().any { format ->
                             it.name.endsWith(format, ignoreCase = true)
                         }
                     }
@@ -109,7 +109,6 @@ class EpubTextParser @Inject constructor(
      *
      * @return Null if could not parse.
      */
-    @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun ZipFile.parseEpub(
         chapterEntries: List<ZipEntry>,
         imageEntries: List<ZipEntry>,
@@ -167,7 +166,9 @@ class EpubTextParser @Inject constructor(
         chapterTitleMap: Map<Source, ReaderText.Chapter>?
     ) {
         // Getting all text
-        val content = zip.getInputStream(entry).bufferedReader().use { it.readText() }
+        val content = withContext(Dispatchers.IO) {
+            zip.getInputStream(entry)
+        }.bufferedReader().use { it.readText() }
         var readerText = documentParser.parseDocument(
             document = Jsoup.parse(content),
             zipFile = zip,
@@ -228,7 +229,7 @@ class EpubTextParser @Inject constructor(
         val tocDocument = tocContent?.let { Jsoup.parse(it) }
 
         if (tocDocument == null) return null
-        var titleMap = mutableMapOf<Source, ReaderText.Chapter>()
+        val titleMap = mutableMapOf<Source, ReaderText.Chapter>()
 
         tocDocument.select("navPoint").forEach { navPoint ->
             val title = navPoint.selectFirst("navLabel > text")?.text()
@@ -240,7 +241,7 @@ class EpubTextParser @Inject constructor(
             val source = navPoint.selectFirst("content")?.attr("src")?.trim()
                 .let { source ->
                     if (source.isNullOrBlank()) return@forEach
-                    Uri.parse(source).path ?: source
+                    source.toUri().path ?: source
                 }.substringAfterLast(File.separator)
 
             val parent = navPoint.parent()
@@ -251,7 +252,7 @@ class EpubTextParser @Inject constructor(
                     val parentSource = parent.selectFirst("content")?.attr("src")?.trim()
                         .let { parentSource ->
                             if (parentSource.isNullOrBlank()) return@forEach
-                            Uri.parse(parentSource).path ?: parentSource
+                            parentSource.toUri().path ?: parentSource
                         }.substringAfterLast(File.separator)
                     if (parentSource == source) return@let null
                     return@let parentSource
@@ -295,12 +296,9 @@ class EpubTextParser @Inject constructor(
      * @return List of chapter entries in correct order (do not reorder).
      */
     private fun ZipFile.getChapterEntries(opfEntry: ZipEntry?): List<ZipEntry> {
-        opfEntry.let { opfEntry ->
-            if (opfEntry == null) {
-                return@let
-            }
+        opfEntry?.let {
 
-            val opfContent = getInputStream(opfEntry).bufferedReader().use {
+        val opfContent = getInputStream(opfEntry).bufferedReader().use {
                 it.readText()
             }
             val document = Jsoup.parse(opfContent)

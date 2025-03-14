@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.history.GroupedHistory
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.providePrimaryScrollbar
 import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategoryTitle
@@ -44,7 +43,7 @@ fun HistoryLayout(
         LazyColumnWithScrollbar(
             modifier = Modifier.fillMaxSize(),
             state = listState,
-            scrollbarSettings = Constants.providePrimaryScrollbar(false)
+            scrollbarSettings = providePrimaryScrollbar(false)
         ) {
             item {
                 Spacer(modifier = Modifier.height(12.dp))

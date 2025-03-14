@@ -9,7 +9,6 @@ package com.byteflipper.everbook.presentation.core.components.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +26,6 @@ import com.byteflipper.everbook.presentation.settings.components.SettingsSubcate
 /**
  * Chips with title. Use list of [ButtonItem]s to display chips.
  */
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChipsWithTitle(
     modifier: Modifier = Modifier,

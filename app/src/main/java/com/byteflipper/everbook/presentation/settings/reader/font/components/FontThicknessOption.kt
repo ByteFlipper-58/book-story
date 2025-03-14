@@ -17,7 +17,6 @@ import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.ui.ButtonItem
 import com.byteflipper.everbook.presentation.core.components.settings.ChipsWithTitle
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideFonts
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.main.MainModel
@@ -28,7 +27,7 @@ fun FontThicknessOption() {
     val state = mainModel.state.collectAsStateWithLifecycle()
 
     val fontFamily = remember(state.value.fontFamily) {
-        Constants.provideFonts().run {
+        provideFonts().run {
             find {
                 it.id == state.value.fontFamily
             } ?: get(0)

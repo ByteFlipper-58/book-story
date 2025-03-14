@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideAboutBadges
 import com.byteflipper.everbook.presentation.core.util.showToast
 import com.byteflipper.everbook.ui.about.AboutEvent
@@ -40,7 +39,7 @@ fun AboutBadges(
             horizontalArrangement = Arrangement.spacedBy(13.dp)
         ) {
             items(
-                Constants.provideAboutBadges(),
+                provideAboutBadges(),
                 key = { it.id }
             ) { badge ->
                 AboutBadgeItem(badge = badge) {

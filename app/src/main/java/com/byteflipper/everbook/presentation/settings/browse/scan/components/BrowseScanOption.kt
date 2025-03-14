@@ -11,7 +11,6 @@ import android.content.Context
 import android.content.UriPermission
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -49,7 +48,6 @@ import com.byteflipper.everbook.ui.settings.SettingsEvent
 import com.byteflipper.everbook.ui.settings.SettingsModel
 import com.byteflipper.everbook.ui.theme.dynamicListItemColor
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun BrowseScanOption() {
     val settingsModel = hiltViewModel<SettingsModel>()

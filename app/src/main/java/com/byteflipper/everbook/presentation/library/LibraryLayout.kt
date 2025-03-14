@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.presentation.core.components.common.LazyVerticalGridWithScrollbar
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.providePrimaryScrollbar
 
 @Composable
@@ -25,7 +24,7 @@ fun LibraryLayout(
     LazyVerticalGridWithScrollbar(
         columns = GridCells.Adaptive(120.dp),
         modifier = Modifier.fillMaxSize(),
-        scrollbarSettings = Constants.providePrimaryScrollbar(false),
+        scrollbarSettings = providePrimaryScrollbar(false),
         contentPadding = PaddingValues(8.dp)
     ) {
         items()

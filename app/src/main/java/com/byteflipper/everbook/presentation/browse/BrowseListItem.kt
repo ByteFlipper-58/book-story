@@ -7,7 +7,6 @@
 
 package com.byteflipper.everbook.presentation.browse
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Row
@@ -27,7 +26,6 @@ import com.byteflipper.everbook.domain.browse.SelectableFile
 import com.byteflipper.everbook.presentation.core.components.common.CircularCheckbox
 import com.byteflipper.everbook.ui.theme.FadeTransitionPreservingSpace
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BrowseListItem(
     modifier: Modifier,

@@ -27,13 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideExtensions
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.main.MainModel
 
 fun LazyListScope.BrowseFilterOption() {
-    items(Constants.provideExtensions(), key = { it }) {
+    items(provideExtensions(), key = { it }) {
         val mainModel = hiltViewModel<MainModel>()
         val state = mainModel.state.collectAsStateWithLifecycle()
 

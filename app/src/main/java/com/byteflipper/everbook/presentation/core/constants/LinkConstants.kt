@@ -9,17 +9,17 @@
 
 package com.byteflipper.everbook.presentation.core.constants
 
-fun Constants.provideReleasesPage() =
+fun provideReleasesPage() =
     "https://www.github.com/ByteFlipper-58/book-story/releases/latest"
 
-fun Constants.provideIssuesPage() =
+fun provideIssuesPage() =
     "https://www.github.com/ByteFlipper-58/book-story/issues"
 
-fun Constants.provideContributorsPage() =
+fun provideContributorsPage() =
     "https://github.com/ByteFlipper-58/book-story/graphs/contributors"
 
-fun Constants.provideTranslationPage() =
+fun provideTranslationPage() =
     "https://hosted.weblate.org/projects/book-story"
 
-fun Constants.provideSupportPage() =
+fun provideSupportPage() =
     "https://www.donationalerts.com/r/ibremminer837"

@@ -32,7 +32,6 @@ import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
 import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.domain.util.toHorizontalAlignment
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.DataStoreConstants
 import com.byteflipper.everbook.presentation.core.constants.provideFonts
 import com.byteflipper.everbook.presentation.core.constants.provideLanguages
@@ -58,7 +57,7 @@ data class MainState(
     // General Settings
     val language: String = provideDefaultValue {
         val locale = Locale.getDefault().language.take(2)
-        Constants.provideLanguages().any { locale == it.first }.run {
+        provideLanguages().any { locale == it.first }.run {
             if (this) locale
             else "en"// Default language.
         }
@@ -72,7 +71,7 @@ data class MainState(
     val doublePressExit: Boolean = provideDefaultValue { false },
 
     // Reader Settings
-    val fontFamily: String = provideDefaultValue { Constants.provideFonts()[0].id },
+    val fontFamily: String = provideDefaultValue { provideFonts()[0].id },
     val fontThickness: ReaderFontThickness = provideDefaultValue { ReaderFontThickness.NORMAL },
     val isItalic: Boolean = provideDefaultValue { false },
     val fontSize: Int = provideDefaultValue { 16 },

@@ -16,12 +16,11 @@ import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
 import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.domain.util.BottomSheet
 import com.byteflipper.everbook.domain.util.Drawer
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideEmptyBook
 
 @Immutable
 data class ReaderState(
-    val book: Book = Constants.provideEmptyBook(),
+    val book: Book = provideEmptyBook(),
     val text: List<ReaderText> = emptyList(),
     val listState: LazyListState = LazyListState(),
 

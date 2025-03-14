@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.domain.util.Position
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideHelpTips
 
 @Composable
@@ -33,14 +32,14 @@ fun HelpLayout(
         contentPadding = PaddingValues(vertical = 16.dp)
     ) {
         itemsIndexed(
-            Constants.provideHelpTips(),
+            provideHelpTips(),
             key = { _, helpTip -> helpTip.title }
         ) { index, helpTip ->
             HelpItem(
                 helpTip = helpTip,
                 position = when (index) {
                     0 -> Position.TOP
-                    Constants.provideHelpTips().lastIndex -> Position.BOTTOM
+                    provideHelpTips().lastIndex -> Position.BOTTOM
                     else -> Position.CENTER
                 }
             )

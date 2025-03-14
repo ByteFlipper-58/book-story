@@ -9,7 +9,6 @@ package com.byteflipper.everbook.presentation.library
 
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.DriveFileMove
 import androidx.compose.material.icons.outlined.MoveUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -48,7 +47,7 @@ fun LibraryMoveDialog(
             }
         }
     }
-    var selectedCategory = remember {
+    val selectedCategory = remember {
         mutableStateOf(moveCategories.value[0])
     }
 

@@ -12,7 +12,7 @@ import com.byteflipper.everbook.domain.about.Credit
 import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.domain.ui.UIText.StringResource
 
-fun Constants.provideCredits() = listOf(
+fun provideCredits() = listOf(
     Credit(
         name = "Acclorite/book-story",
         source = "This app is based on a fork of the Acclorite/book-story project. The original project is available under the GPL-3.0 license.",

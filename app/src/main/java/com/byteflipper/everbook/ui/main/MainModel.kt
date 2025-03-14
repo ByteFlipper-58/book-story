@@ -35,7 +35,6 @@ import com.byteflipper.everbook.domain.use_case.data_store.ChangeLanguage
 import com.byteflipper.everbook.domain.use_case.data_store.GetAllSettings
 import com.byteflipper.everbook.domain.use_case.data_store.SetDatastore
 import com.byteflipper.everbook.domain.util.toHorizontalAlignment
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.DataStoreConstants
 import com.byteflipper.everbook.presentation.core.constants.provideFonts
 import com.byteflipper.everbook.presentation.core.constants.provideMainState
@@ -63,7 +62,7 @@ class MainModel @Inject constructor(
     private val mainModelReady = MutableStateFlow(false)
 
     private val _state: MutableStateFlow<MainState> = MutableStateFlow(
-        stateHandle[Constants.provideMainState()] ?: MainState()
+        stateHandle[provideMainState()] ?: MainState()
     )
     val state = _state.asStateFlow()
 
@@ -108,7 +107,7 @@ class MainModel @Inject constructor(
                 value = event.value,
                 updateState = {
                     it.copy(
-                        fontFamily = Constants.provideFonts().run {
+                        fontFamily = provideFonts().run {
                             find { font ->
                                 font.id == event.value
                             }?.id ?: get(0).id
@@ -606,7 +605,7 @@ class MainModel @Inject constructor(
     ) {
         withContext(Dispatchers.Main.immediate) {
             _state.update {
-                stateHandle[Constants.provideMainState()] = function(it)
+                stateHandle[provideMainState()] = function(it)
                 function(it)
             }
         }

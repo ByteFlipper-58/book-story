@@ -8,14 +8,12 @@
 package com.byteflipper.everbook.presentation.book_info
 
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.util.BottomSheet
 import com.byteflipper.everbook.domain.util.Dialog
 import com.byteflipper.everbook.ui.book_info.BookInfoEvent
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BookInfoContent(
     book: Book,

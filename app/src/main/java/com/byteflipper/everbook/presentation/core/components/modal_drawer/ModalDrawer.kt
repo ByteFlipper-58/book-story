@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.presentation.core.components.common.AnimatedVisibility
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.providePrimaryScrollbar
 import com.byteflipper.everbook.presentation.core.util.noRippleClickable
 
@@ -147,7 +146,7 @@ fun ModalDrawer(
                 LazyColumnWithScrollbar(
                     state = rememberLazyListState(startIndex),
                     modifier = Modifier.fillMaxSize(),
-                    scrollbarSettings = Constants.providePrimaryScrollbar(),
+                    scrollbarSettings = providePrimaryScrollbar(),
                     contentPadding = PaddingValues(vertical = 9.dp)
                 ) {
                     content()

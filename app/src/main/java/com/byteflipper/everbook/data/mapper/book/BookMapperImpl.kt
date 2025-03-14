@@ -7,7 +7,7 @@
 
 package com.byteflipper.everbook.data.mapper.book
 
-import android.net.Uri
+import androidx.core.net.toUri
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.local.dto.BookEntity
 import com.byteflipper.everbook.domain.library.book.Book
@@ -44,7 +44,7 @@ class BookMapperImpl @Inject constructor() : BookMapper {
             filePath = bookEntity.filePath,
             lastOpened = null,
             category = bookEntity.category,
-            coverImage = if (bookEntity.image != null) Uri.parse(bookEntity.image) else null
+            coverImage = if (bookEntity.image != null) bookEntity.image.toUri() else null
         )
     }
 }

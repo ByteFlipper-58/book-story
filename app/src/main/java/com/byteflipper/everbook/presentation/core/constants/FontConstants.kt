@@ -19,7 +19,7 @@ import com.byteflipper.everbook.domain.reader.FontWithName
 import com.byteflipper.everbook.domain.ui.UIText
 
 @OptIn(ExperimentalTextApi::class)
-fun Constants.provideFonts(): List<FontWithName> {
+fun provideFonts(): List<FontWithName> {
     return mutableListOf(
         FontWithName(
             "default",

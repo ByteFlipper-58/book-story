@@ -7,7 +7,7 @@
 
 package com.byteflipper.everbook.presentation.core.constants
 
-fun Constants.provideExtensions() = listOf(
+fun provideExtensions() = listOf(
     ".epub",
     ".pdf",
     ".fb2",
@@ -17,7 +17,7 @@ fun Constants.provideExtensions() = listOf(
     ".md"
 )
 
-fun Constants.provideImageExtensions() = listOf(
+fun provideImageExtensions() = listOf(
     ".png",
     ".jpg",
     ".jpeg",

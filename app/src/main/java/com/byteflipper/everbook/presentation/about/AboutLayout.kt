@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
-import com.byteflipper.everbook.presentation.core.constants.Constants
 import com.byteflipper.everbook.presentation.core.constants.provideContributorsPage
 import com.byteflipper.everbook.presentation.core.constants.provideIssuesPage
 import com.byteflipper.everbook.presentation.core.constants.provideReleasesPage
@@ -37,7 +35,6 @@ import com.byteflipper.everbook.presentation.core.constants.provideSupportPage
 import com.byteflipper.everbook.presentation.core.constants.provideTranslationPage
 import com.byteflipper.everbook.ui.about.AboutEvent
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutLayout(
     paddingValues: PaddingValues,
@@ -89,7 +86,7 @@ fun AboutLayout(
             ) {
                 navigateToBrowserPage(
                     AboutEvent.OnNavigateToBrowserPage(
-                        page = Constants.provideReleasesPage(),
+                        page = provideReleasesPage(),
                         context = context
                     )
                 )
@@ -103,7 +100,7 @@ fun AboutLayout(
             ) {
                 navigateToBrowserPage(
                     AboutEvent.OnNavigateToBrowserPage(
-                        page = Constants.provideIssuesPage(),
+                        page = provideIssuesPage(),
                         context = context
                     )
                 )
@@ -118,7 +115,7 @@ fun AboutLayout(
             ) {
                 navigateToBrowserPage(
                     AboutEvent.OnNavigateToBrowserPage(
-                        page = Constants.provideContributorsPage(),
+                        page = provideContributorsPage(),
                         context = context
                     )
                 )
@@ -150,7 +147,7 @@ fun AboutLayout(
             ) {
                 navigateToBrowserPage(
                     AboutEvent.OnNavigateToBrowserPage(
-                        page = Constants.provideTranslationPage(),
+                        page = provideTranslationPage(),
                         context = context
                     )
                 )
@@ -164,7 +161,7 @@ fun AboutLayout(
             ) {
                 navigateToBrowserPage(
                     AboutEvent.OnNavigateToBrowserPage(
-                        page = Constants.provideSupportPage(),
+                        page = provideSupportPage(),
                         context = context
                     )
                 )

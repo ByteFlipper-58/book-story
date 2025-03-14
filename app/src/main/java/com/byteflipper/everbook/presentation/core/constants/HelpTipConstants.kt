@@ -12,7 +12,7 @@ import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.help.HelpTip
 import com.byteflipper.everbook.presentation.help.HelpAnnotation
 
-fun Constants.provideHelpTips() = listOf(
+fun provideHelpTips() = listOf(
     HelpTip(
         title = R.string.help_title_how_to_add_books,
         description = {

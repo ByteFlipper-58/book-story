@@ -33,7 +33,6 @@ import com.byteflipper.everbook.domain.use_case.file_system.GetFiles
 import com.byteflipper.everbook.presentation.core.util.showToast
 import com.byteflipper.everbook.ui.library.LibraryScreen
 import javax.inject.Inject
-import kotlin.collections.map
 
 @HiltViewModel
 class BrowseModel @Inject constructor(

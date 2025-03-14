@@ -14,6 +14,7 @@ import com.byteflipper.everbook.data.parser.epub.EpubTextParser
 import com.byteflipper.everbook.data.parser.html.HtmlTextParser
 import com.byteflipper.everbook.data.parser.pdf.PdfTextParser
 import com.byteflipper.everbook.data.parser.txt.TxtTextParser
+import com.byteflipper.everbook.data.parser.xml.XmlTextParser
 import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.reader.ReaderText
 import javax.inject.Inject
@@ -27,7 +28,8 @@ class TextParserImpl @Inject constructor(
 
     // Document parser (HTML+Markdown)
     private val epubTextParser: EpubTextParser,
-    private val htmlTextParser: HtmlTextParser
+    private val htmlTextParser: HtmlTextParser,
+    private val xmlTextParser: XmlTextParser
 ) : TextParser {
 
     override suspend fun parse(cachedFile: CachedFile): List<ReaderText> {
@@ -52,7 +54,7 @@ class TextParserImpl @Inject constructor(
                 }
 
                 ".fb2" -> {
-                    htmlTextParser.parse(cachedFile)
+                    xmlTextParser.parse(cachedFile)
                 }
 
                 ".html" -> {

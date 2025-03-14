@@ -20,3 +20,6 @@ fun Constants.provideContributorsPage() =
 
 fun Constants.provideTranslationPage() =
     "https://hosted.weblate.org/projects/book-story"
+
+fun Constants.provideSupportPage() =
+    "https://www.donationalerts.com/r/ibremminer837"

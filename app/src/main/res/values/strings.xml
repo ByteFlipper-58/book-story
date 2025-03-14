@@ -419,8 +419,15 @@
     <string name="licenses_option">Open source licenses</string>
     <string name="credits_option">Credits</string>
     <string name="help_translate_option">Help translate</string>
+    <string name="support_development_option">Support development</string>
     <string name="contributors_option">Contributors</string>
     <string name="slava_ukraini">Slava Ukraini!</string>
+
+    <!-- Badges -->
+    <string name="reddit_badge" translatable="false">Reddit</string>
+    <string name="github_badge" translatable="false">GitHub</string>
+    <string name="gitlab_badge" translatable="false">GitLab</string>
+    <string name="codeberg_badge" translatable="false">Codeberg</string>
 
     <!-- Credits -->
     <string name="credits_design">Design</string>

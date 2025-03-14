@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.byteflipper.everbook.domain.browse
+package com.byteflipper.everbook.domain.browse.display
 
 import androidx.compose.runtime.Immutable
 

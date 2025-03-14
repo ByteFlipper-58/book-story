@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.R
-import com.byteflipper.everbook.domain.browse.BrowseSortOrder
+import com.byteflipper.everbook.domain.browse.display.BrowseSortOrder
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.main.MainModel

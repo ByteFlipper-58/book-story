@@ -14,10 +14,10 @@ import androidx.annotation.Keep
 import androidx.compose.runtime.Immutable
 import androidx.datastore.preferences.core.Preferences
 import kotlinx.parcelize.Parcelize
-import com.byteflipper.everbook.domain.browse.BrowseLayout
-import com.byteflipper.everbook.domain.browse.BrowseSortOrder
-import com.byteflipper.everbook.domain.browse.toBrowseLayout
-import com.byteflipper.everbook.domain.browse.toBrowseSortOrder
+import com.byteflipper.everbook.domain.browse.display.BrowseLayout
+import com.byteflipper.everbook.domain.browse.display.BrowseSortOrder
+import com.byteflipper.everbook.domain.browse.display.toBrowseLayout
+import com.byteflipper.everbook.domain.browse.display.toBrowseSortOrder
 import com.byteflipper.everbook.domain.reader.ReaderColorEffects
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture

@@ -20,7 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import com.byteflipper.everbook.domain.browse.BrowseLayout
+import com.byteflipper.everbook.domain.browse.display.BrowseLayout
 import com.byteflipper.everbook.domain.browse.SelectableFile
 import com.byteflipper.everbook.ui.browse.BrowseEvent
 import com.byteflipper.everbook.ui.main.MainEvent

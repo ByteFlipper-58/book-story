@@ -9,7 +9,7 @@ package com.byteflipper.everbook.presentation.browse
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.byteflipper.everbook.domain.browse.BrowseLayout
+import com.byteflipper.everbook.domain.browse.display.BrowseLayout
 import com.byteflipper.everbook.domain.browse.SelectableFile
 
 @Composable

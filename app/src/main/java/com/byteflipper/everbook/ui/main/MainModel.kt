@@ -23,8 +23,8 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
-import com.byteflipper.everbook.domain.browse.toBrowseLayout
-import com.byteflipper.everbook.domain.browse.toBrowseSortOrder
+import com.byteflipper.everbook.domain.browse.display.toBrowseLayout
+import com.byteflipper.everbook.domain.browse.display.toBrowseSortOrder
 import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toFontThickness
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture

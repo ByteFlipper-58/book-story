@@ -23,7 +23,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import com.byteflipper.everbook.R
-import com.byteflipper.everbook.domain.browse.BrowseSortOrder
+import com.byteflipper.everbook.domain.browse.display.BrowseSortOrder
 import com.byteflipper.everbook.domain.browse.SelectableFile
 import com.byteflipper.everbook.domain.library.book.NullableBook
 import com.byteflipper.everbook.domain.library.book.SelectableNullableBook

@@ -17,7 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.byteflipper.everbook.domain.browse.GroupedFiles
+import com.byteflipper.everbook.domain.browse.file.GroupedFiles
 import com.byteflipper.everbook.domain.browse.SelectableFile
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.constants.Constants

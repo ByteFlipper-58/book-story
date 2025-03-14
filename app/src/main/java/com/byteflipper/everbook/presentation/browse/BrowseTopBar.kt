@@ -27,7 +27,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
 import com.byteflipper.everbook.R
-import com.byteflipper.everbook.domain.browse.BrowseLayout
+import com.byteflipper.everbook.domain.browse.display.BrowseLayout
 import com.byteflipper.everbook.domain.browse.SelectableFile
 import com.byteflipper.everbook.presentation.core.components.common.IconButton
 import com.byteflipper.everbook.presentation.core.components.common.SearchTextField

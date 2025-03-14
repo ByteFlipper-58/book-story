@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.components.modal_bottom_sheet.ModalBottomSheet
+import com.byteflipper.everbook.presentation.settings.browse.display.BrowseDisplaySubcategory
 import com.byteflipper.everbook.presentation.settings.browse.filter.BrowseFilterSubcategory
-import com.byteflipper.everbook.presentation.settings.browse.general.BrowseGeneralSubcategory
 import com.byteflipper.everbook.presentation.settings.browse.sort.BrowseSortSubcategory
 import com.byteflipper.everbook.ui.browse.BrowseEvent
 
@@ -58,7 +58,7 @@ fun BrowseFilterBottomSheet(
             when (page) {
                 0 -> {
                     LazyColumnWithScrollbar(modifier = Modifier.fillMaxSize()) {
-                        BrowseGeneralSubcategory(
+                        BrowseFilterSubcategory(
                             showTitle = false,
                             showDivider = false
                         )
@@ -67,7 +67,7 @@ fun BrowseFilterBottomSheet(
 
                 1 -> {
                     LazyColumnWithScrollbar(modifier = Modifier.fillMaxSize()) {
-                        BrowseFilterSubcategory(
+                        BrowseSortSubcategory(
                             showTitle = false,
                             showDivider = false
                         )
@@ -76,7 +76,7 @@ fun BrowseFilterBottomSheet(
 
                 2 -> {
                     LazyColumnWithScrollbar(modifier = Modifier.fillMaxSize()) {
-                        BrowseSortSubcategory(
+                        BrowseDisplaySubcategory(
                             showTitle = false,
                             showDivider = false
                         )

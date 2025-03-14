@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import com.byteflipper.everbook.domain.browse.BrowseLayout
+import com.byteflipper.everbook.domain.browse.display.BrowseLayout
 import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.presentation.browse.BrowseContent
 import com.byteflipper.everbook.presentation.navigator.LocalNavigator

@@ -11,8 +11,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.byteflipper.everbook.domain.browse.BrowseLayout
-import com.byteflipper.everbook.domain.browse.GroupedFiles
+import com.byteflipper.everbook.domain.browse.display.BrowseLayout
+import com.byteflipper.everbook.domain.browse.file.GroupedFiles
 import com.byteflipper.everbook.domain.browse.SelectableFile
 import java.io.File
 

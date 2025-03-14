@@ -5,14 +5,14 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.byteflipper.everbook.presentation.settings.browse.general.components
+package com.byteflipper.everbook.presentation.settings.browse.display.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.R
-import com.byteflipper.everbook.domain.browse.BrowseLayout
+import com.byteflipper.everbook.domain.browse.display.BrowseLayout
 import com.byteflipper.everbook.presentation.core.components.settings.SliderWithTitle
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.main.MainModel

@@ -13,7 +13,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.focus.FocusRequester
-import com.byteflipper.everbook.domain.browse.BrowseLayout
+import com.byteflipper.everbook.domain.browse.display.BrowseLayout
 import com.byteflipper.everbook.domain.browse.SelectableFile
 import com.byteflipper.everbook.domain.library.book.SelectableNullableBook
 import com.byteflipper.everbook.domain.util.BottomSheet

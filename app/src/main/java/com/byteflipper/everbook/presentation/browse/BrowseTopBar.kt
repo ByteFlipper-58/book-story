@@ -131,7 +131,7 @@ fun BrowseTopBar(
                             .onGloballyPositioned {
                                 requestFocus(BrowseEvent.OnRequestFocus(focusRequester))
                             },
-                        query = searchQuery,
+                        initialQuery = searchQuery,
                         onQueryChange = {
                             searchQueryChange(BrowseEvent.OnSearchQueryChange(it))
                         },

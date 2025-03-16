@@ -59,6 +59,7 @@ fun ReaderLayout(
     horizontalGestureScroll: Float,
     horizontalGestureSensitivity: Dp,
     horizontalGestureAlphaAnim: Boolean,
+    horizontalGesturePullAnim: Boolean,
     highlightedReading: Boolean,
     highlightedReadingThickness: FontWeight,
     progress: String,
@@ -165,6 +166,7 @@ fun ReaderLayout(
                     horizontalGestureScroll = horizontalGestureScroll,
                     horizontalGestureSensitivity = horizontalGestureSensitivity,
                     horizontalGestureAlphaAnim = horizontalGestureAlphaAnim,
+                    horizontalGesturePullAnim = horizontalGesturePullAnim,
                     isLoading = isLoading
                 )
         ) {

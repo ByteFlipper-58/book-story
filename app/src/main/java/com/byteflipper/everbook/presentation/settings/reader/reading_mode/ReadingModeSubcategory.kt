@@ -18,6 +18,7 @@ import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.reading_mode.components.HorizontalGestureAlphaAnimOption
 import com.byteflipper.everbook.presentation.settings.reader.reading_mode.components.HorizontalGestureOption
+import com.byteflipper.everbook.presentation.settings.reader.reading_mode.components.HorizontalGesturePullAnimOption
 import com.byteflipper.everbook.presentation.settings.reader.reading_mode.components.HorizontalGestureScrollOption
 import com.byteflipper.everbook.presentation.settings.reader.reading_mode.components.HorizontalGestureSensitivityOption
 
@@ -43,6 +44,10 @@ fun LazyListScope.ReadingModeSubcategory(
 
         item {
             HorizontalGestureSensitivityOption()
+        }
+
+        item {
+            HorizontalGesturePullAnimOption()
         }
 
         item {

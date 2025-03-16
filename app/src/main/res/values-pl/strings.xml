@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.2.0</string>
+    <string name="app_version" translatable="false">1.3.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Domyślny</string>
     <string name="random_string">Losowy</string>
@@ -25,7 +25,6 @@
     <string name="help_screen">Pomoc</string>
 
     <!-- Dialog Labels -->
-    <string name="storage_permission">Udzielić pozwolenia?</string>
     <string name="add_books">Dodać książki?</string>
     <string name="move_books">Przenieść książki?</string>
     <string name="delete_books">Usunąć książki?</string>
@@ -35,10 +34,6 @@
     <string name="enable_check_for_updates">Włączyć sprawdzanie aktualizacji?</string>
 
     <!-- Dialog Descriptions -->
-    <string name="storage_permission_description">
-        Potrzebujemy pozwolenia na przechowywanie, aby przeskanować Twoje urządzenie w poszukiwaniu książek.
-        Bez tego pozwolenia nie będzie można dodać książki.
-    </string>
     <string name="add_books_description">
         Możesz wybrać książki, które chcesz dodać.
         Możesz później edytować tytuł i obraz okładki książki.
@@ -76,9 +71,6 @@
     </string>
 
     <!-- Errors -->
-    <string name="error_permission">
-        Potrzebujemy pozwolenia na przechowywanie, aby przeskanować Twoje urządzenie w poszukiwaniu książek
-    </string>
     <string name="error_no_description">
         Brak opisu.
     </string>
@@ -122,9 +114,6 @@
 
     <!-- Action Texts -->
     <string name="cancel">Anuluj</string>
-    <string name="grant">Udziel</string>
-    <string name="grant_permission">Udziel uprawnień</string>
-    <string name="get_help">Potrzebuję pomocy</string>
     <string name="add">Dodaj</string>
     <string name="add_book">Dodaj książkę</string>
     <string name="move">Przenieś</string>
@@ -191,7 +180,6 @@
     <string name="images_reader_settings">Obrazy</string>
     <string name="theme_appearance_settings">Preferencje motywu</string>
     <string name="colors_appearance_settings">Kolory</string>
-    <string name="general_browse_settings">Ogólne</string>
     <string name="filter_browse_settings">Filtr</string>
     <string name="sort_browse_settings">Sortuj</string>
 
@@ -258,7 +246,6 @@
 
     <!-- Browse -->
     <string name="browse_files_structure_option">Struktura plików</string>
-    <string name="browse_layout_option">Tryb wyświetlania</string>
     <string name="browse_grid_size_option">Rozmiar siatki</string>
     <string name="browse_pin_favorite_directories_option">Przypnij ulubione katalogi</string>
     <string name="browse_pin_favorite_directories_option_desc">
@@ -293,10 +280,6 @@
     <!-- Files Structure properties -->
     <string name="files_structure_all">Wszystkie pliki</string>
     <string name="files_structure_directory">Katalogi</string>
-
-    <!-- Browse Layout properties -->
-    <string name="browse_layout_list">Lista</string>
-    <string name="browse_layout_grid">Siatka</string>
 
     <!-- Browse Grid Size properties -->
     <string name="browse_grid_size_auto">Auto</string>
@@ -549,10 +532,6 @@
     </string>
     <string name="start_language_preferences">Preferencje językowe</string>
     <string name="start_theme_preferences">Preferencje motywu</string>
-    <string name="start_permissions_preferences">Uprawnienia</string>
-    <string name="start_permissions_granted">Udzielono</string>
-    <string name="start_permissions_storage">Zezwolenie na dostęp do pamięci</string>
-    <string name="start_permissions_storage_desc">Wymagane do skanowania urządzenia i wyszukiwania książek</string>
     <string name="start_permissions_notifications">Zezwolenie na powiadomienia</string>
     <string name="start_permissions_notifications_desc">Wymagane do sprawdzania nowszej wersji aplikacji</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
@@ -665,4 +644,31 @@
     <string name="show_less_content_desc">Pokaż mniej</string>
     <string name="show_more_content_desc">Pokaż więcej</string>
     <string name="edit_content_desc">Edytuj pole</string>
+    <string name="add_folder">Dodaj folder</string>
+    <string name="set_up_scanning">Skonfiguruj skanowanie</string>
+    <string name="scan_browse_settings">Skanuj</string>
+    <string name="display_tab">Wyświetlanie</string>
+    <string name="browse_scan_option_note">
+    Te foldery są używane do skanowania i pobierania plików podczas przeglądania.
+    Usunięcie folderu tutaj nie usunie rzeczywistych plików ani książek z biblioteki.
+    Aby cofnąć dostęp, kliknij odpowiedni przycisk.
+</string>
+    <string name="display_settings">Ustawienia wyświetlania</string>
+    <string name="horizontal_gesture_alpha_anim_option">Animacja widoczności</string>
+    <string name="horizontal_gesture_alpha_anim_option_desc">
+    Włącz animację widoczności podczas używania gestu poziomego
+</string>
+    <string name="horizontal_gesture_pull_anim_option">Animacja przeciągania</string>
+    <string name="horizontal_gesture_pull_anim_option_desc">
+    Włącz animację przeciągania podczas używania gestu poziomego
+</string>
+    <string name="layout_option">Tryb wyświetlania</string>
+    <string name="layout_list">Lista</string>
+    <string name="layout_grid">Siatka</string>
+    <string name="support_development_option">Wspieraj rozwój</string>
+    <string name="start_scan_preferences">Preferencje skanowania</string>
+    <string name="expand_content_desc">Rozwiń</string>
+    <string name="collapse_content_desc">Zwiń</string>
+    <string name="remove_content_desc">Usuń</string>
+    <string name="note_content_desc">Notatka</string>
 </resources>

@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.2.0</string>
+    <string name="app_version" translatable="false">1.3.0</string>
     <string name="app_name" translatable="false">एवरबुक</string>
     <string name="default_string">डिफ़ॉल्ट</string>
     <string name="random_string">रैंडम</string>
@@ -25,7 +25,6 @@
     <string name="help_screen">मदद</string>
 
     <!-- Dialog Labels -->
-    <string name="storage_permission">अनुमति दें?</string>
     <string name="add_books">पुस्तकें जोड़ें?</string>
     <string name="move_books">पुस्तकें ले जाएँ?</string>
     <string name="delete_books">पुस्तकें मिटाएँ?</string>
@@ -35,10 +34,6 @@
     <string name="enable_check_for_updates">अपडेट की जांच सक्षम करें?</string>
 
     <!-- Dialog Descriptions -->
-    <string name="storage_permission_description">
-        हमें आपकी डिवाइस को पुस्तकों के लिए स्कैन करने के लिए संग्रहण अनुमति की आवश्यकता है।
-        इस अनुमति के बिना, आप कोई पुस्तक नहीं जोड़ पाएंगे.
-    </string>
     <string name="add_books_description">
         आप चुन सकते हैं कि आप कौन सी पुस्तकें जोड़ना चाहते हैं।
         आप बाद में पुस्तक का शीर्षक और कवर छवि संपादित कर सकते हैं।
@@ -76,9 +71,6 @@
     </string>
 
     <!-- Errors -->
-    <string name="error_permission">
-        हमें आपकी डिवाइस को पुस्तकों के लिए स्कैन करने के लिए संग्रहण अनुमति की आवश्यकता है
-    </string>
     <string name="error_no_description">
         कोई विवरण नहीं।
     </string>
@@ -122,9 +114,6 @@
 
     <!-- Action Texts -->
     <string name="cancel">रद्द करें</string>
-    <string name="grant">अनुमति दें</string>
-    <string name="grant_permission">अनुमति दें</string>
-    <string name="get_help">मुझे मदद चाहिए</string>
     <string name="add">जोड़ें</string>
     <string name="add_book">पुस्तक जोड़ें</string>
     <string name="move">स्थानांतरित करें</string>
@@ -191,7 +180,6 @@
     <string name="images_reader_settings">चित्र</string>
     <string name="theme_appearance_settings">थीम प्राथमिकताएँ</string>
     <string name="colors_appearance_settings">रंग</string>
-    <string name="general_browse_settings">सामान्य</string>
     <string name="filter_browse_settings">फ़िल्टर</string>
     <string name="sort_browse_settings">क्रमबद्ध करें</string>
 
@@ -258,7 +246,6 @@
 
     <!-- Browse -->
     <string name="browse_files_structure_option">फ़ाइलें संरचना</string>
-    <string name="browse_layout_option">प्रदर्शन मोड</string>
     <string name="browse_grid_size_option">ग्रिड आकार</string>
     <string name="browse_pin_favorite_directories_option">पसंदीदा निर्देशिकाएँ पिन करें</string>
     <string name="browse_pin_favorite_directories_option_desc">
@@ -293,10 +280,6 @@
     <!-- Files Structure properties -->
     <string name="files_structure_all">सभी फ़ाइलें</string>
     <string name="files_structure_directory">निर्देशिकाएँ</string>
-
-    <!-- Browse Layout properties -->
-    <string name="browse_layout_list">सूची</string>
-    <string name="browse_layout_grid">ग्रिड</string>
 
     <!-- Browse Grid Size properties -->
     <string name="browse_grid_size_auto">स्वचालित</string>
@@ -547,10 +530,6 @@
     </string>
     <string name="start_language_preferences">भाषा प्राथमिकताएँ</string>
     <string name="start_theme_preferences">थीम प्राथमिकताएँ</string>
-    <string name="start_permissions_preferences">अनुमतियाँ</string>
-    <string name="start_permissions_granted">अनुमति दी गई</string>
-    <string name="start_permissions_storage">संग्रहण अनुमति</string>
-    <string name="start_permissions_storage_desc">आपके डिवाइस को स्कैन करने और पुस्तकें खोजने के लिए आवश्यक</string>
     <string name="start_permissions_notifications">अधिसूचना अनुमति</string>
     <string name="start_permissions_notifications_desc">ऐप के नए संस्करण की जांच करने के लिए आवश्यक</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
@@ -663,4 +642,31 @@
     <string name="show_less_content_desc">कम दिखाएं</string>
     <string name="show_more_content_desc">अधिक दिखाएं</string>
     <string name="edit_content_desc">फ़ील्ड संपादित करें</string>
+    <string name="add_folder">फ़ोल्डर जोड़ें</string>
+    <string name="set_up_scanning">स्कैनिंग सेट करें</string>
+    <string name="scan_browse_settings">स्कैन करें</string>
+    <string name="display_tab">प्रदर्शन</string>
+    <string name="browse_scan_option_note">
+    ये फ़ोल्डर ब्राउज़ में फ़ाइलों को स्कैन और पुनः प्राप्त करने के लिए उपयोग किए जाते हैं।
+    यहां से फ़ोल्डर हटाने से लाइब्रेरी से वास्तविक फ़ाइलें या पुस्तकें नहीं हटेंगी।
+    पहुंच रद्द करने के लिए, संबंधित बटन पर क्लिक करें।
+</string>
+    <string name="display_settings">प्रदर्शन सेटिंग्स</string>
+    <string name="horizontal_gesture_alpha_anim_option">दृश्यता एनीमेशन</string>
+    <string name="horizontal_gesture_alpha_anim_option_desc">
+    क्षैतिज इशारे का उपयोग करते समय दृश्यता एनीमेशन सक्षम करें
+</string>
+    <string name="horizontal_gesture_pull_anim_option">पुल एनीमेशन</string>
+    <string name="horizontal_gesture_pull_anim_option_desc">
+    क्षैतिज इशारे का उपयोग करते समय पुल एनीमेशन सक्षम करें
+</string>
+    <string name="layout_option">प्रदर्शन मोड</string>
+    <string name="layout_list">सूची</string>
+    <string name="layout_grid">ग्रिड</string>
+    <string name="support_development_option">विकास का समर्थन करें</string>
+    <string name="start_scan_preferences">स्कैन प्राथमिकताएँ</string>
+    <string name="expand_content_desc">विस्तारित करें</string>
+    <string name="collapse_content_desc">संक्षिप्त करें</string>
+    <string name="remove_content_desc">हटाएं</string>
+    <string name="note_content_desc">नोट</string>
 </resources>

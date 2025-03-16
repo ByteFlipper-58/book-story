@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.2.0</string>
+    <string name="app_version" translatable="false">1.3.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">За замовчуванням</string>
     <string name="random_string">Випадковий</string>
@@ -25,7 +25,6 @@
     <string name="help_screen">Довідка</string>
 
     <!-- Dialog Labels -->
-    <string name="storage_permission">Надати дозвіл?</string>
     <string name="add_books">Додати книги?</string>
     <string name="move_books">Перемістити книги?</string>
     <string name="delete_books">Видалити книги?</string>
@@ -35,10 +34,6 @@
     <string name="enable_check_for_updates">Увімкнути перевірку оновлень?</string>
 
     <!-- Dialog Descriptions -->
-    <string name="storage_permission_description">
-        Нам потрібен дозвіл на зберігання, щоб сканувати ваш пристрій на наявність книг.
-        Без цього дозволу ви не зможете додати книгу.
-    </string>
     <string name="add_books_description">
         Ви можете вибрати, які книги хочете додати.
         Ви можете редагувати назву та обкладинку книги пізніше.
@@ -76,9 +71,6 @@
     </string>
 
     <!-- Errors -->
-    <string name="error_permission">
-        Нам потрібен дозвіл на зберігання, щоб сканувати ваш пристрій на наявність книг
-    </string>
     <string name="error_no_description">
         Немає опису.
     </string>
@@ -122,9 +114,6 @@
 
     <!-- Action Texts -->
     <string name="cancel">Скасувати</string>
-    <string name="grant">Надати</string>
-    <string name="grant_permission">Надати дозвіл</string>
-    <string name="get_help">Мені потрібна допомога</string>
     <string name="add">Додати</string>
     <string name="add_book">Додати книгу</string>
     <string name="move">Перемістити</string>
@@ -191,7 +180,6 @@
     <string name="images_reader_settings">Зображення</string>
     <string name="theme_appearance_settings">Налаштування теми</string>
     <string name="colors_appearance_settings">Кольори</string>
-    <string name="general_browse_settings">Загальне</string>
     <string name="filter_browse_settings">Фільтр</string>
     <string name="sort_browse_settings">Сортування</string>
 
@@ -258,7 +246,6 @@
 
     <!-- Browse -->
     <string name="browse_files_structure_option">Структура файлів</string>
-    <string name="browse_layout_option">Режим відображення</string>
     <string name="browse_grid_size_option">Розмір сітки</string>
     <string name="browse_pin_favorite_directories_option">Закріпити улюблені каталоги</string>
     <string name="browse_pin_favorite_directories_option_desc">
@@ -293,10 +280,6 @@
     <!-- Files Structure properties -->
     <string name="files_structure_all">Усі файли</string>
     <string name="files_structure_directory">Каталоги</string>
-
-    <!-- Browse Layout properties -->
-    <string name="browse_layout_list">Список</string>
-    <string name="browse_layout_grid">Сітка</string>
 
     <!-- Browse Grid Size properties -->
     <string name="browse_grid_size_auto">Авто</string>
@@ -549,11 +532,7 @@
     </string>
     <string name="start_language_preferences">Мовні налаштування</string>
     <string name="start_theme_preferences">Налаштування теми</string>
-    <string name="start_permissions_preferences">Дозволи</string>
-    <string name="start_permissions_granted">Надано</string>
-    <string name="start_permissions_storage">Дозвіл на зберігання</string>
-    <string name="start_permissions_storage_desc">Необхідно для сканування вашого пристрою та пошуку книг</string>
-    <string name="start_permissions_notifications">Дозвіл на сповіщення</string>
+ <string name="start_permissions_notifications">Дозвіл на сповіщення</string>
     <string name="start_permissions_notifications_desc">Необхідно для перевірки наявності новішої версії програми</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">Ця програма базується на форку проєкту Acclorite/book-story. Оригінальний проєкт доступний під ліцензією GPL-3.0.</string>
@@ -665,4 +644,31 @@
     <string name="show_less_content_desc">Показати менше</string>
     <string name="show_more_content_desc">Показати більше</string>
     <string name="edit_content_desc">Редагувати поле</string>
+    <string name="add_folder">Додати папку</string>
+    <string name="set_up_scanning">Налаштувати сканування</string>
+    <string name="scan_browse_settings">Сканувати</string>
+    <string name="display_tab">Відображення</string>
+    <string name="browse_scan_option_note">
+    Ці папки використовуються для сканування та отримання файлів під час перегляду.
+    Видалення папки тут не видалить файли або книги з бібліотеки.
+    Щоб відкликати доступ, натисніть відповідну кнопку.
+</string>
+    <string name="display_settings">Налаштування відображення</string>
+    <string name="horizontal_gesture_alpha_anim_option">Анімація видимості</string>
+    <string name="horizontal_gesture_alpha_anim_option_desc">
+    Увімкнути анімацію видимості при використанні горизонтального жесту
+</string>
+    <string name="horizontal_gesture_pull_anim_option">Анімація перетягування</string>
+    <string name="horizontal_gesture_pull_anim_option_desc">
+    Увімкнути анімацію перетягування при використанні горизонтального жесту
+</string>
+    <string name="layout_option">Режим перегляду</string>
+    <string name="layout_list">Список</string>
+    <string name="layout_grid">Сітка</string>
+    <string name="support_development_option">Підтримати розробку</string>
+    <string name="start_scan_preferences">Параметри сканування</string>
+    <string name="expand_content_desc">Розгорнути</string>
+    <string name="collapse_content_desc">Згорнути</string>
+    <string name="remove_content_desc">Видалити</string>
+    <string name="note_content_desc">Нотатка</string>
 </resources>

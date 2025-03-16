@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.2.0</string>
+    <string name="app_version" translatable="false">1.3.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Padrão</string>
     <string name="random_string">Aleatório</string>
@@ -25,7 +25,6 @@
     <string name="help_screen">Ajuda</string>
 
     <!-- Dialog Labels -->
-    <string name="storage_permission">Conceder permissão?</string>
     <string name="add_books">Adicionar livros?</string>
     <string name="move_books">Mover livros?</string>
     <string name="delete_books">Excluir livros?</string>
@@ -35,10 +34,6 @@
     <string name="enable_check_for_updates">Ativar verificação de atualizações?</string>
 
     <!-- Dialog Descriptions -->
-    <string name="storage_permission_description">
-        Precisamos da permissão de armazenamento para verificar seu dispositivo em busca de livros.
-        Sem essa permissão, você não poderá adicionar um livro.
-    </string>
     <string name="add_books_description">
         Você pode escolher quais livros deseja adicionar.
         Você pode editar o título e a imagem da capa do livro mais tarde.
@@ -76,9 +71,6 @@
     </string>
 
     <!-- Errors -->
-    <string name="error_permission">
-        Precisamos da permissão de armazenamento para verificar seu dispositivo em busca de livros
-    </string>
     <string name="error_no_description">
         Sem descrição.
     </string>
@@ -122,9 +114,6 @@
 
     <!-- Action Texts -->
     <string name="cancel">Cancelar</string>
-    <string name="grant">Conceder</string>
-    <string name="grant_permission">Conceder permissão</string>
-    <string name="get_help">Preciso de ajuda</string>
     <string name="add">Adicionar</string>
     <string name="add_book">Adicionar um livro</string>
     <string name="move">Mover</string>
@@ -191,7 +180,6 @@
     <string name="images_reader_settings">Imagens</string>
     <string name="theme_appearance_settings">Preferências de tema</string>
     <string name="colors_appearance_settings">Cores</string>
-    <string name="general_browse_settings">Geral</string>
     <string name="filter_browse_settings">Filtro</string>
     <string name="sort_browse_settings">Ordenar</string>
 
@@ -258,7 +246,6 @@
 
     <!-- Browse -->
     <string name="browse_files_structure_option">Estrutura dos arquivos</string>
-    <string name="browse_layout_option">Modo de exibição</string>
     <string name="browse_grid_size_option">Tamanho da grade</string>
     <string name="browse_pin_favorite_directories_option">Fixar diretórios favoritos</string>
     <string name="browse_pin_favorite_directories_option_desc">
@@ -293,10 +280,6 @@
     <!-- Files Structure properties -->
     <string name="files_structure_all">Todos os arquivos</string>
     <string name="files_structure_directory">Diretórios</string>
-
-    <!-- Browse Layout properties -->
-    <string name="browse_layout_list">Lista</string>
-    <string name="browse_layout_grid">Grade</string>
 
     <!-- Browse Grid Size properties -->
     <string name="browse_grid_size_auto">Auto</string>
@@ -550,11 +533,7 @@
     </string>
     <string name="start_language_preferences">Preferências de idioma</string>
     <string name="start_theme_preferences">Preferências de tema</string>
-    <string name="start_permissions_preferences">Permissões</string>
-    <string name="start_permissions_granted">Concedido</string>
-    <string name="start_permissions_storage">Permissão de armazenamento</string>
-    <string name="start_permissions_storage_desc">Necessário para verificar seu dispositivo e encontrar livros</string>
-    <string name="start_permissions_notifications">Permissão de notificações</string>
+     <string name="start_permissions_notifications">Permissão de notificações</string>
     <string name="start_permissions_notifications_desc">Necessário para verificar se há uma versão mais recente do aplicativo</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">Este aplicativo é baseado em um fork do projeto Acclorite/book-story. O projeto original está disponível sob a licença GPL-3.0.</string>
@@ -662,4 +641,35 @@
     <string name="start_reading">Iniciar</string>
     <string name="continue_reading_query">Continuar de %1$s</string>
     <string name="file_details">Detalhes do arquivo</string>
+    <string name="add_folder">Adicionar pasta</string>
+    <string name="set_up_scanning">Configurar digitalização</string>
+    <string name="scan_browse_settings">Digitalizar</string>
+    <string name="display_tab">Exibição</string>
+    <string name="browse_scan_option_note">
+    Essas pastas são usadas para digitalizar e recuperar arquivos na navegação.
+    Remover uma pasta aqui não excluirá arquivos ou livros da biblioteca.
+    Para revogar o acesso, clique no botão correspondente.
+</string>
+    <string name="display_settings">Configurações de exibição</string>
+    <string name="horizontal_gesture_alpha_anim_option">Animação de visibilidade</string>
+    <string name="horizontal_gesture_alpha_anim_option_desc">
+    Ativar animação de visibilidade ao usar o gesto horizontal
+</string>
+    <string name="horizontal_gesture_pull_anim_option">Animação de puxar</string>
+    <string name="horizontal_gesture_pull_anim_option_desc">
+    Ativar animação de puxar ao usar o gesto horizontal
+</string>
+    <string name="layout_option">Modo de exibição</string>
+    <string name="layout_list">Lista</string>
+    <string name="layout_grid">Grade</string>
+    <string name="support_development_option">Apoie o desenvolvimento</string>
+    <string name="start_scan_preferences">Preferências de digitalização</string>
+    <string name="pin_content_desc">Fixar</string>
+    <string name="show_less_content_desc">Mostrar menos</string>
+    <string name="show_more_content_desc">Mostrar mais</string>
+    <string name="edit_content_desc">Editar campo</string>
+    <string name="expand_content_desc">Expandir</string>
+    <string name="collapse_content_desc">Recolher</string>
+    <string name="remove_content_desc">Remover</string>
+    <string name="note_content_desc">Nota</string>
 </resources>

@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.2.0</string>
+    <string name="app_version" translatable="false">1.3.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Standard</string>
     <string name="random_string">Zufällig</string>
@@ -25,7 +25,6 @@
     <string name="help_screen">Hilfe</string>
 
     <!-- Dialog Labels -->
-    <string name="storage_permission">Berechtigung erteilen?</string>
     <string name="add_books">Bücher hinzufügen?</string>
     <string name="move_books">Bücher verschieben?</string>
     <string name="delete_books">Bücher löschen?</string>
@@ -36,10 +35,6 @@
     <string name="edit">Bearbeiten</string>
 
     <!-- Dialog Descriptions -->
-    <string name="storage_permission_description">
-        Wir benötigen die Speicherberechtigung, um Ihr Gerät nach Büchern zu scannen.
-        Ohne diese Berechtigung können Sie kein Buch hinzufügen.
-    </string>
     <string name="add_books_description">
         Sie können auswählen, welche Bücher Sie hinzufügen möchten.
         Sie können den Titel und das Coverbild des Buches später bearbeiten.
@@ -76,9 +71,6 @@
     </string>
 
     <!-- Errors -->
-    <string name="error_permission">
-        Wir benötigen die Speicherberechtigung, um Ihr Gerät nach Büchern zu scannen.
-    </string>
     <string name="error_no_description">
         Keine Beschreibung.
     </string>
@@ -123,9 +115,6 @@
 
     <!-- Action Texts -->
     <string name="cancel">Abbrechen</string>
-    <string name="grant">Erteilen</string>
-    <string name="grant_permission">Berechtigung erteilen</string>
-    <string name="get_help">Ich brauche Hilfe</string>
     <string name="add">Hinzufügen</string>
     <string name="add_book">Buch hinzufügen</string>
     <string name="move">Verschieben</string>
@@ -195,7 +184,6 @@
     <string name="progress_reader_settings">Fortschritt</string>
     <string name="theme_appearance_settings">Thema Einstellungen</string>
     <string name="colors_appearance_settings">Farben</string>
-    <string name="general_browse_settings">Allgemein</string>
     <string name="filter_browse_settings">Filter</string>
     <string name="sort_browse_settings">Sortieren</string>
 
@@ -270,7 +258,6 @@
 
     <!-- Browse -->
     <string name="browse_files_structure_option">Dateistruktur</string>
-    <string name="browse_layout_option">Anzeigemodus</string>
     <string name="browse_grid_size_option">Rastergröße</string>
     <string name="browse_pin_favorite_directories_option">Favoritenverzeichnisse anheften</string>
     <string name="browse_pin_favorite_directories_option_desc">
@@ -306,9 +293,6 @@
     <string name="files_structure_all">Alle Dateien</string>
     <string name="files_structure_directory">Verzeichnisse</string>
 
-    <!-- Browse Layout properties -->
-    <string name="browse_layout_list">Liste</string>
-    <string name="browse_layout_grid">Raster</string>
 
     <!-- Browse Grid Size properties -->
     <string name="browse_grid_size_auto">Auto</string>
@@ -590,10 +574,6 @@
     </string>
     <string name="start_language_preferences">Spracheinstellungen</string>
     <string name="start_theme_preferences">Themen-Einstellungen</string>
-    <string name="start_permissions_preferences">Berechtigungen</string>
-    <string name="start_permissions_granted">Erteilt</string>
-    <string name="start_permissions_storage">Speicherberechtigung</string>
-    <string name="start_permissions_storage_desc">Erforderlich, um dein Gerät zu scannen und Bücher zu finden</string>
     <string name="start_permissions_notifications">Benachrichtigungsberechtigung</string>
     <string name="start_permissions_notifications_desc">Erforderlich, um nach einer neueren App-Version zu suchen</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
@@ -661,4 +641,31 @@
     <string name="show_less_content_desc">Weniger anzeigen</string>
     <string name="show_more_content_desc">Mehr anzeigen</string>
     <string name="edit_content_desc">Feld bearbeiten</string>
+    <string name="add_folder">Ordner hinzufügen</string>
+    <string name="set_up_scanning">Scannen einrichten</string>
+    <string name="scan_browse_settings">Scannen</string>
+    <string name="display_tab">Anzeige</string>
+    <string name="browse_scan_option_note">
+    Diese Ordner werden verwendet, um Dateien beim Durchsuchen zu scannen und abzurufen.
+    Das Entfernen eines Ordners hier löscht keine tatsächlichen Dateien oder Bücher aus der Bibliothek.
+    Um den Zugriff zu widerrufen, klicken Sie auf die entsprechende Schaltfläche.
+</string>
+    <string name="display_settings">Anzeigeeinstellungen</string>
+    <string name="horizontal_gesture_alpha_anim_option">Sichtbarkeitsanimation</string>
+    <string name="horizontal_gesture_alpha_anim_option_desc">
+    Sichtbarkeitsanimation bei horizontaler Geste aktivieren
+</string>
+    <string name="horizontal_gesture_pull_anim_option">Ziehanimation</string>
+    <string name="horizontal_gesture_pull_anim_option_desc">
+    Ziehanimation bei horizontaler Geste aktivieren
+</string>
+    <string name="layout_option">Anzeigemodus</string>
+    <string name="layout_list">Liste</string>
+    <string name="layout_grid">Raster</string>
+    <string name="support_development_option">Entwicklung unterstützen</string>
+    <string name="start_scan_preferences">Scan-Einstellungen</string>
+    <string name="expand_content_desc">Erweitern</string>
+    <string name="collapse_content_desc">Einklappen</string>
+    <string name="remove_content_desc">Entfernen</string>
+    <string name="note_content_desc">Notiz</string>
 </resources>

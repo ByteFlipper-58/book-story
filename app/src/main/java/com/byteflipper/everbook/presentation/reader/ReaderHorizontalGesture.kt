@@ -35,7 +35,7 @@ fun Modifier.readerHorizontalGesture(
     horizontalGesture: ReaderHorizontalGesture,
     horizontalGestureScroll: Float,
     horizontalGestureSensitivity: Dp,
-    horizontalGestureAlphaAnim: Float,
+    horizontalGestureAlphaAnim: Boolean,
     isLoading: Boolean
 ): Modifier {
     if (horizontalGesture == ReaderHorizontalGesture.OFF || isLoading) return this
@@ -72,9 +72,9 @@ fun Modifier.readerHorizontalGesture(
     @Composable
     fun calculateAlpha(): Float {
         return animateFloatAsState(
-            1f - abs(with(density) { horizontalOffset.floatValue.toDp() }.value)
+            if (!alphaAnim.value) 1f
+            else 1f - abs(with(density) { horizontalOffset.floatValue.toDp() }.value)
                 .div(sensitivity.value.value)
-                .times(alphaAnim.value)
         ).value
     }
 

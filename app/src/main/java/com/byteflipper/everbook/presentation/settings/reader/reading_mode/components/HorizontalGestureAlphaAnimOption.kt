@@ -12,7 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
-import com.byteflipper.everbook.presentation.core.components.settings.SliderWithTitle
+import com.byteflipper.everbook.presentation.core.components.settings.SwitchWithTitle
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.main.MainModel
 import com.byteflipper.everbook.ui.theme.ExpandingTransition
@@ -28,13 +28,14 @@ fun HorizontalGestureAlphaAnimOption() {
             else -> true
         }
     ) {
-        SliderWithTitle(
-            value = state.value.horizontalGestureAlphaAnim to "%",
-            toValue = 100,
+        SwitchWithTitle(
+            selected = state.value.horizontalGestureAlphaAnim,
             title = stringResource(id = R.string.horizontal_gesture_alpha_anim_option),
-            onValueChange = {
+            onClick = {
                 mainModel.onEvent(
-                    MainEvent.OnChangeHorizontalGestureAlphaAnim(it)
+                    MainEvent.OnChangeHorizontalGestureAlphaAnim(
+                        !state.value.horizontalGestureAlphaAnim
+                    )
                 )
             }
         )

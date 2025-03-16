@@ -58,7 +58,7 @@ fun ReaderLayout(
     horizontalGesture: ReaderHorizontalGesture,
     horizontalGestureScroll: Float,
     horizontalGestureSensitivity: Dp,
-    horizontalGestureAlphaAnim: Float,
+    horizontalGestureAlphaAnim: Boolean,
     highlightedReading: Boolean,
     highlightedReadingThickness: FontWeight,
     progress: String,

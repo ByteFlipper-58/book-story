@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.presentation.core.util
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.WindowManager
 import androidx.activity.ComponentActivity

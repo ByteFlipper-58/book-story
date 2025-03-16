@@ -44,7 +44,7 @@
 -keepnames class **
 -keepnames class org.xmlpull.** { *; }
 -keepclassmembernames class org.xmlpull.** { *; }
-#-keepnames class kotlin.reflect.jvm.internal.impl.builtins.PrimitiveType { values(); }
+-keepnames class kotlin.reflect.jvm.internal.impl.builtins.PrimitiveType { values(); }
 -keepnames class * implements android.os.Parcelable { ** CREATOR; }
 
 # Firebase

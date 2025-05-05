@@ -7,7 +7,10 @@
 
 package com.byteflipper.everbook.presentation.about
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,12 +19,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -72,106 +76,97 @@ fun AboutLayout(
         }
 
         item {
-            Spacer(modifier = Modifier.height(36.dp))
-            HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.outlineVariant
-            )
+            Spacer(modifier = Modifier.height(16.dp)) // Reduced spacer
         }
 
         item {
-            AboutItem(
-                title = stringResource(id = R.string.app_version_option),
-                description = "Book's Story v${stringResource(id = R.string.app_version)}",
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 16.dp)
             ) {
-                navigateToBrowserPage(
-                    AboutEvent.OnNavigateToBrowserPage(
-                        page = provideReleasesPage(),
-                        context = context
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    AboutItem(
+                        title = stringResource(id = R.string.app_version_option),
+                        description = "Book's Story v${stringResource(id = R.string.app_version)}",
+                    ) {
+                        navigateToBrowserPage(
+                            AboutEvent.OnNavigateToBrowserPage(
+                                page = provideReleasesPage(),
+                                context = context
+                            )
+                        )
+                    }
+
+                    AboutItem(
+                        title = stringResource(id = R.string.report_bug_option),
+                        description = null
+                    ) {
+                        navigateToBrowserPage(
+                            AboutEvent.OnNavigateToBrowserPage(
+                                page = provideIssuesPage(),
+                                context = context
+                            )
+                        )
+                    }
+
+                    AboutItem(
+                        title = stringResource(id = R.string.contributors_option),
+                        description = null
+                    ) {
+                        navigateToBrowserPage(
+                            AboutEvent.OnNavigateToBrowserPage(
+                                page = provideContributorsPage(),
+                                context = context
+                            )
+                        )
+                    }
+
+                    AboutItem(
+                        title = stringResource(id = R.string.licenses_option),
+                        description = null
+                    ) {
+                        navigateToLicenses()
+                    }
+
+                    AboutItem(
+                        title = stringResource(id = R.string.credits_option),
+                        description = null
+                    ) {
+                        navigateToCredits()
+                    }
+
+                    AboutItem(
+                        title = stringResource(id = R.string.help_translate_option),
+                        description = null
+                    ) {
+                        navigateToBrowserPage(
+                            AboutEvent.OnNavigateToBrowserPage(
+                                page = provideTranslationPage(),
+                                context = context
+                            )
+                        )
+                    }
+
+                    AboutItem(
+                        title = stringResource(id = R.string.support_development_option),
+                        description = null
+                    ) {
+                        navigateToBrowserPage(
+                            AboutEvent.OnNavigateToBrowserPage(
+                                page = provideSupportPage(),
+                                context = context
+                            )
+                        )
+                    }
+
+                    AboutBadges(
+                        navigateToBrowserPage = navigateToBrowserPage
                     )
-                )
+                }
             }
-        }
-
-        item {
-            AboutItem(
-                title = stringResource(id = R.string.report_bug_option),
-                description = null
-            ) {
-                navigateToBrowserPage(
-                    AboutEvent.OnNavigateToBrowserPage(
-                        page = provideIssuesPage(),
-                        context = context
-                    )
-                )
-            }
-        }
-
-
-        item {
-            AboutItem(
-                title = stringResource(id = R.string.contributors_option),
-                description = null
-            ) {
-                navigateToBrowserPage(
-                    AboutEvent.OnNavigateToBrowserPage(
-                        page = provideContributorsPage(),
-                        context = context
-                    )
-                )
-            }
-        }
-
-        item {
-            AboutItem(
-                title = stringResource(id = R.string.licenses_option),
-                description = null
-            ) {
-                navigateToLicenses()
-            }
-        }
-
-        item {
-            AboutItem(
-                title = stringResource(id = R.string.credits_option),
-                description = null
-            ) {
-                navigateToCredits()
-            }
-        }
-
-        item {
-            AboutItem(
-                title = stringResource(id = R.string.help_translate_option),
-                description = null
-            ) {
-                navigateToBrowserPage(
-                    AboutEvent.OnNavigateToBrowserPage(
-                        page = provideTranslationPage(),
-                        context = context
-                    )
-                )
-            }
-        }
-
-        item {
-            AboutItem(
-                title = stringResource(id = R.string.support_development_option),
-                description = null
-            ) {
-                navigateToBrowserPage(
-                    AboutEvent.OnNavigateToBrowserPage(
-                        page = provideSupportPage(),
-                        context = context
-                    )
-                )
-            }
-        }
-
-        item {
-            AboutBadges(
-                navigateToBrowserPage = navigateToBrowserPage
-            )
         }
     }
 }

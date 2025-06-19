@@ -17,6 +17,7 @@ import androidx.core.net.toUri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.byteflipper.everbook.data.local.room.BookDao
+import com.byteflipper.everbook.data.local.room.BookCategoryDao
 import com.byteflipper.everbook.data.mapper.book.BookMapper
 import com.byteflipper.everbook.data.parser.FileParser
 import com.byteflipper.everbook.data.parser.TextParser
@@ -48,6 +49,7 @@ private const val RESET_COVER = "RESET COVER, REPO"
 class BookRepositoryImpl @Inject constructor(
     private val application: Application,
     private val database: BookDao,
+    private val bookCategoryDao: BookCategoryDao,
 
     private val bookMapper: BookMapper,
 
@@ -61,17 +63,20 @@ class BookRepositoryImpl @Inject constructor(
      */
     override suspend fun getBooks(query: String): List<Book> {
         Log.i(GET_BOOKS, "Searching for books with query: \"$query\".")
-        val books = database.searchBooks(query)
+        val entities = database.searchBooks(query)
 
-        Log.i(GET_BOOKS, "Found ${books.size} books.")
-        return books.map { entity ->
+        Log.i(GET_BOOKS, "Found ${entities.size} books.")
+        return entities.map { entity ->
             val book = bookMapper.toBook(entity)
-            val lastHistory = database.getLatestHistoryForBook(
-                book.id
-            )
+
+            // Получаем принадлежность книги к категориям many-to-many
+            val categories = bookCategoryDao.getCategoriesForBook(book.id)
+
+            val lastHistory = database.getLatestHistoryForBook(book.id)
 
             book.copy(
-                lastOpened = lastHistory?.time
+                lastOpened = lastHistory?.time,
+                categoryIds = categories
             )
         }
     }
@@ -81,16 +86,18 @@ class BookRepositoryImpl @Inject constructor(
      */
     override suspend fun getBooksById(ids: List<Int>): List<Book> {
         Log.i(GET_BOOKS_BY_ID, "Getting books with ids: $ids.")
-        val books = database.findBooksById(ids)
+        val entities = database.findBooksById(ids)
 
-        return books.map { entity ->
+        return entities.map { entity ->
             val book = bookMapper.toBook(entity)
-            val lastHistory = database.getLatestHistoryForBook(
-                book.id
-            )
+
+            val categories = bookCategoryDao.getCategoriesForBook(book.id)
+
+            val lastHistory = database.getLatestHistoryForBook(book.id)
 
             book.copy(
-                lastOpened = lastHistory?.time
+                lastOpened = lastHistory?.time,
+                categoryIds = categories
             )
         }
     }
@@ -180,7 +187,14 @@ class BookRepositoryImpl @Inject constructor(
         )
 
         val bookToInsert = bookMapper.toBookEntity(updatedBook)
-        database.insertBook(bookToInsert)
+        val generatedId = database.insertBook(bookToInsert).toInt()
+
+        val refs = mutableListOf<com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef>()
+        refs.add(com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef(generatedId, 0))
+        if (updatedBook.categoryId != 0) {
+            refs.add(com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef(generatedId, updatedBook.categoryId))
+        }
+        bookCategoryDao.insertAll(refs)
         Log.i(INSERT_BOOK, "Successfully inserted book.")
     }
 
@@ -198,6 +212,14 @@ class BookRepositoryImpl @Inject constructor(
                 )
             )
         )
+
+        // Обновляем связи категорий, если параметр categoryId изменён (временно однокатегорийная модель)
+        // Для будущего перехода на plural категории используется setCategories().
+        bookCategoryDao.deleteByBook(book.id)
+        val refs = mutableListOf<com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef>()
+        refs.add(com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef(book.id, 0))
+        if (book.categoryId != 0) refs.add(com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef(book.id, book.categoryId))
+        bookCategoryDao.insertAll(refs)
     }
 
     /**
@@ -293,25 +315,28 @@ class BookRepositoryImpl @Inject constructor(
             coversDir.mkdirs()
         }
 
+        for (b in books) {
+            bookCategoryDao.deleteByBook(b.id)
+
+            if (b.coverImage != null) {
+                try {
+                    val fileToDelete = File(
+                        "$coversDir${File.separator}${b.coverImage?.path?.substringAfterLast(File.separator)}"
+                    )
+
+                    if (fileToDelete.exists()) {
+                        fileToDelete.delete()
+                    }
+                } catch (e: Exception) {
+                    Log.e(DELETE_BOOKS, "Could not delete cover image.")
+                    e.printStackTrace()
+                }
+            }
+        }
+
         database.deleteBooks(
             books.map {
                 val book = database.findBookById(it.id)
-
-                if (book.image != null) {
-                    try {
-                        val fileToDelete = File(
-                            "$coversDir${File.separator}${book.image.substringAfterLast(File.separator)}"
-                        )
-
-                        if (fileToDelete.exists()) {
-                            fileToDelete.delete()
-                        }
-                    } catch (e: Exception) {
-                        Log.e(DELETE_BOOKS, "Could not delete cover image.")
-                        e.printStackTrace()
-                    }
-                }
-
                 book
             }
         )
@@ -401,5 +426,42 @@ class BookRepositoryImpl @Inject constructor(
 
         Log.i(RESET_COVER, "Successfully reset cover image.")
         return true
+    }
+
+
+    override suspend fun setCategories(bookId: Int, categoryIds: List<Int>) {
+        val finalIds = (categoryIds + 0).distinct()
+
+        bookCategoryDao.deleteByBook(bookId)
+        val refs = finalIds.map { cid -> com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef(bookId, cid) }
+        bookCategoryDao.insertAll(refs)
+
+       val primaryCategoryId = finalIds.firstOrNull { it != 0 } ?: 0
+        val entity = database.findBookById(bookId).copy(categoryId = primaryCategoryId)
+        database.updateBooks(listOf(entity))
+    }
+
+    override suspend fun addBookToCategory(bookId: Int, categoryId: Int) {
+        if (categoryId == 0) return // already ensured
+        bookCategoryDao.insertAll(
+            listOf(
+                com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef(bookId, categoryId)
+            )
+        )
+
+        val entity = database.findBookById(bookId)
+        if (entity.categoryId == 0) {
+            database.updateBooks(listOf(entity.copy(categoryId = categoryId)))
+        }
+    }
+
+    override suspend fun removeBookFromCategory(bookId: Int, categoryId: Int) {
+        if (categoryId == 0) return
+        bookCategoryDao.delete(bookId, categoryId)
+
+        val entity = database.findBookById(bookId)
+        if (entity.categoryId == categoryId) {
+            database.updateBooks(listOf(entity.copy(categoryId = 0)))
+        }
     }
 }

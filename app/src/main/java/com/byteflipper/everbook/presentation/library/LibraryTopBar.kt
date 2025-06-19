@@ -63,7 +63,7 @@ fun LibraryTopBar(
     searchQueryChange: (LibraryEvent.OnSearchQueryChange) -> Unit,
     search: (LibraryEvent.OnSearch) -> Unit,
     clearSelectedBooks: (LibraryEvent.OnClearSelectedBooks) -> Unit,
-    showMoveDialog: (LibraryEvent.OnShowMoveDialog) -> Unit,
+    showCategoriesDialog: (LibraryEvent.OnShowCategoriesDialog) -> Unit,
     showDeleteDialog: (LibraryEvent.OnShowDeleteDialog) -> Unit
 ) {
     val animatedItemCountBackgroundColor = animateColorAsState(
@@ -175,7 +175,7 @@ fun LibraryTopBar(
                         enabled = !isLoading && !isRefreshing,
                         disableOnClick = false,
                     ) {
-                        showMoveDialog(LibraryEvent.OnShowMoveDialog)
+                        showCategoriesDialog(LibraryEvent.OnShowCategoriesDialog)
                     }
                     IconButton(
                         icon = Icons.Outlined.Delete,

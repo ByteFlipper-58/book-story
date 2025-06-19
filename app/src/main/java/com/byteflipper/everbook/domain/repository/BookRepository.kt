@@ -50,4 +50,19 @@ interface BookRepository {
     suspend fun resetCoverImage(
         bookId: Int
     ): Boolean
+
+    suspend fun setCategories(
+        bookId: Int,
+        categoryIds: List<Int>
+    )
+
+    suspend fun addBookToCategory(
+        bookId: Int,
+        categoryId: Int
+    )
+
+    suspend fun removeBookFromCategory(
+        bookId: Int,
+        categoryId: Int
+    )
 }

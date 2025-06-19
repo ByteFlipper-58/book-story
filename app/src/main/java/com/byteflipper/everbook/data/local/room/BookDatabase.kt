@@ -19,6 +19,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.byteflipper.everbook.data.local.dto.BookEntity
 import com.byteflipper.everbook.data.local.dto.ColorPresetEntity
 import com.byteflipper.everbook.data.local.dto.HistoryEntity
+import com.byteflipper.everbook.data.local.dto.CategoryEntity
+import com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef
 import java.io.File
 
 @Database(
@@ -26,8 +28,10 @@ import java.io.File
         BookEntity::class,
         HistoryEntity::class,
         ColorPresetEntity::class,
+        CategoryEntity::class,
+        BookCategoryCrossRef::class,
     ],
-    version = 9,
+    version = 10,
     autoMigrations = [
         AutoMigration(1, 2),
         AutoMigration(2, 3),
@@ -42,6 +46,8 @@ import java.io.File
 )
 abstract class BookDatabase : RoomDatabase() {
     abstract val dao: BookDao
+    abstract val categoryDao: CategoryDao
+    abstract val bookCategoryDao: BookCategoryDao
 }
 
 @Suppress("ClassName")
@@ -114,4 +120,120 @@ object DatabaseHelper {
 
     @DeleteTable("FavoriteDirectoryEntity")
     class MIGRATION_8_9 : AutoMigrationSpec
+
+    /**
+     * Миграция 9 → 10.
+     * Создаём таблицу категорий и добавляем четыре стандартные категории.
+     */
+    val MIGRATION_9_10 = object : Migration(9, 10) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS `CategoryEntity` (" +
+                        "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                        "`name` TEXT NOT NULL, " +
+                        "`kind` TEXT NOT NULL, " +
+                        "`isVisible` INTEGER NOT NULL, " +
+                        "`position` INTEGER NOT NULL, " +
+                        "`isDefault` INTEGER NOT NULL" +
+                        ")"
+            )
+
+            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (0, 'All', 'SYSTEM_MAIN', 1, -1, 1)")
+            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (1, 'Reading', 'SYSTEM', 1, 0, 1)")
+            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (2, 'Already read', 'SYSTEM', 1, 1, 1)")
+            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (3, 'Planning', 'SYSTEM', 1, 2, 1)")
+            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (4, 'Dropped', 'SYSTEM', 1, 3, 1)")
+
+            db.execSQL("CREATE TABLE IF NOT EXISTS `BookCategoryCrossRef` (" +
+                    "`bookId` INTEGER NOT NULL, " +
+                    "`categoryId` INTEGER NOT NULL, " +
+                    "PRIMARY KEY(`bookId`, `categoryId`)" +
+                    ")")
+
+            db.execSQL("INSERT INTO `BookCategoryCrossRef` (bookId, categoryId) " +
+                    "SELECT id, 0 FROM BookEntity")
+
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS `BookEntity_new` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`title` TEXT NOT NULL, " +
+                        "`author` TEXT, " +
+                        "`description` TEXT, " +
+                        "`filePath` TEXT NOT NULL, " +
+                        "`scrollIndex` INTEGER NOT NULL, " +
+                        "`scrollOffset` INTEGER NOT NULL, " +
+                        "`progress` REAL NOT NULL, " +
+                        "`image` TEXT, " +
+                        "`categoryId` INTEGER NOT NULL" +
+                        ")"
+            )
+
+            val cursor = db.query("PRAGMA table_info(BookEntity)")
+            var hasOldCategory = false
+            while (cursor.moveToNext()) {
+                val name = cursor.getString(1) // second column is name
+                if (name == "category") {
+                    hasOldCategory = true; break
+                }
+            }
+            cursor.close()
+
+            if (hasOldCategory) {
+                db.execSQL(
+                    "INSERT INTO `BookEntity_new` (id, title, author, description, filePath, scrollIndex, scrollOffset, progress, image, categoryId) " +
+                            "SELECT id, title, author, description, filePath, scrollIndex, scrollOffset, progress, image, " +
+                            "CASE category " +
+                            "WHEN 'READING' THEN 1 " +
+                            "WHEN 'ALREADY_READ' THEN 2 " +
+                            "WHEN 'PLANNING' THEN 3 " +
+                            "WHEN 'DROPPED' THEN 4 " +
+                            "ELSE 1 END " +
+                            "FROM BookEntity"
+                )
+            } else {
+                db.execSQL(
+                    "INSERT INTO `BookEntity_new` (id, title, author, description, filePath, scrollIndex, scrollOffset, progress, image, categoryId) " +
+                            "SELECT id, title, author, description, filePath, scrollIndex, scrollOffset, progress, image, categoryId FROM BookEntity"
+                )
+            }
+
+            db.execSQL("DROP TABLE BookEntity")
+            db.execSQL("ALTER TABLE BookEntity_new RENAME TO BookEntity")
+
+            db.execSQL(
+                "INSERT INTO `BookCategoryCrossRef` (bookId, categoryId) " +
+                        "SELECT id, categoryId FROM BookEntity WHERE categoryId != 0"
+            )
+        }
+    }
+
+    /**
+     * Callback, который вызывается при создании базы данных (fresh install).
+     * Заполняет таблицу `CategoryEntity` четырьмя стандартными категориями, если она пуста.
+     */
+    val PREPOPULATE_CATEGORIES = object : RoomDatabase.Callback() {
+        private fun insertDefaults(db: SupportSQLiteDatabase) {
+            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (0, 'All', 'SYSTEM_MAIN', 1, -1, 1)")
+            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (1, 'Reading', 'SYSTEM', 1, 0, 1)")
+            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (2, 'Already read', 'SYSTEM', 1, 1, 1)")
+            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (3, 'Planning', 'SYSTEM', 1, 2, 1)")
+            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (4, 'Dropped', 'SYSTEM', 1, 3, 1)")
+        }
+
+        override fun onCreate(db: SupportSQLiteDatabase) {
+            super.onCreate(db)
+            insertDefaults(db)
+        }
+
+        override fun onOpen(db: SupportSQLiteDatabase) {
+            super.onOpen(db)
+            val cursor = db.query("SELECT COUNT(*) FROM CategoryEntity")
+            var count = 0
+            if (cursor.moveToFirst()) count = cursor.getInt(0)
+            cursor.close()
+            if (count == 0) {
+                insertDefaults(db)
+            }
+        }
+    }
 }

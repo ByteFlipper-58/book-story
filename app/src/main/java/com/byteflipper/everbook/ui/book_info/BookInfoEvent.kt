@@ -75,10 +75,16 @@ sealed class BookInfoEvent {
     data object OnShowMoveDialog : BookInfoEvent()
 
     data class OnActionMoveDialog(
-        val category: Category,
+        val categoryId: Int,
         val context: Context,
         val navigateToLibrary: () -> Unit
     ) : BookInfoEvent()
 
     data object OnDismissDialog : BookInfoEvent()
+
+    data object OnShowCategoriesDialog : BookInfoEvent()
+
+    data class OnActionSetCategoriesDialog(
+        val categoryIds: List<Int>
+    ) : BookInfoEvent()
 }

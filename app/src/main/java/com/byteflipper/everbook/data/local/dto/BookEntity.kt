@@ -9,7 +9,6 @@ package com.byteflipper.everbook.data.local.dto
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.byteflipper.everbook.domain.library.category.Category
 
 @Entity
 data class BookEntity(
@@ -22,5 +21,5 @@ data class BookEntity(
     val scrollOffset: Int,
     val progress: Float,
     val image: String? = null,
-    val category: Category
+    val categoryId: Int
 )

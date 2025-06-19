@@ -31,5 +31,14 @@ data class Book(
     val progress: Float,
 
     val lastOpened: Long?,
-    val category: Category
+    val categoryId: Int = 0,
+    @Deprecated("Use categoryId")
+    val category: Category? = null,
+
+    /**
+     * Список всех категорий, к которым принадлежит книга (включая 0 – «Все»).
+     * Поле появилось при переходе на модель many-to-many. Для обратной совместимости
+     * отдельное поле [categoryId] всё ещё хранит «основную» категорию.
+     */
+    val categoryIds: List<Int> = emptyList()
 ) : Parcelable

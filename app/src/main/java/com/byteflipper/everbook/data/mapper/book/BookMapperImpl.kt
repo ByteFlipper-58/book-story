@@ -12,6 +12,7 @@ import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.local.dto.BookEntity
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.ui.UIText
+import com.byteflipper.everbook.domain.library.category.Category
 import javax.inject.Inject
 
 class BookMapperImpl @Inject constructor() : BookMapper {
@@ -26,7 +27,13 @@ class BookMapperImpl @Inject constructor() : BookMapper {
             author = book.author.getAsString(),
             description = book.description,
             image = book.coverImage?.toString(),
-            category = book.category
+            categoryId = if (book.categoryId != 0) book.categoryId else when (book.category) {
+                Category.READING -> 1
+                Category.ALREADY_READ -> 2
+                Category.PLANNING -> 3
+                Category.DROPPED -> 4
+                else -> 0
+            }
         )
     }
 
@@ -43,7 +50,14 @@ class BookMapperImpl @Inject constructor() : BookMapper {
             progress = bookEntity.progress,
             filePath = bookEntity.filePath,
             lastOpened = null,
-            category = bookEntity.category,
+            categoryId = bookEntity.categoryId,
+            category = when (bookEntity.categoryId) {
+                1 -> Category.READING
+                2 -> Category.ALREADY_READ
+                3 -> Category.PLANNING
+                4 -> Category.DROPPED
+                else -> null
+            },
             coverImage = if (bookEntity.image != null) bookEntity.image.toUri() else null
         )
     }

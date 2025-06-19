@@ -12,6 +12,7 @@ import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.util.Dialog
 import com.byteflipper.everbook.ui.book_info.BookInfoEvent
 import com.byteflipper.everbook.ui.book_info.BookInfoScreen
+import com.byteflipper.everbook.domain.library.custom_category.Category
 
 @Composable
 fun BookInfoDialog(
@@ -22,7 +23,8 @@ fun BookInfoDialog(
     actionDescriptionDialog: (BookInfoEvent.OnActionDescriptionDialog) -> Unit,
     actionPathDialog: (BookInfoEvent.OnActionPathDialog) -> Unit,
     actionDeleteDialog: (BookInfoEvent.OnActionDeleteDialog) -> Unit,
-    actionMoveDialog: (BookInfoEvent.OnActionMoveDialog) -> Unit,
+    actionSetCategoriesDialog: (BookInfoEvent.OnActionSetCategoriesDialog) -> Unit,
+    categories: List<com.byteflipper.everbook.domain.library.custom_category.Category>,
     dismissDialog: (BookInfoEvent.OnDismissDialog) -> Unit,
     navigateBack: () -> Unit,
     navigateToLibrary: () -> Unit
@@ -33,15 +35,6 @@ fun BookInfoDialog(
                 actionDeleteDialog = actionDeleteDialog,
                 dismissDialog = dismissDialog,
                 navigateBack = navigateBack
-            )
-        }
-
-        BookInfoScreen.MOVE_DIALOG -> {
-            BookInfoMoveDialog(
-                book = book,
-                actionMoveDialog = actionMoveDialog,
-                dismissDialog = dismissDialog,
-                navigateToLibrary = navigateToLibrary
             )
         }
 
@@ -74,6 +67,15 @@ fun BookInfoDialog(
                 book = book,
                 actionPathDialog = actionPathDialog,
                 dismissDialog = dismissDialog
+            )
+        }
+
+        BookInfoScreen.CATEGORIES_DIALOG -> {
+            BookInfoCategoriesDialog(
+                currentCategoryIds = book.categoryIds,
+                categories = categories,
+                onAction = actionSetCategoriesDialog,
+                onDismiss = { dismissDialog(BookInfoEvent.OnDismissDialog) }
             )
         }
     }

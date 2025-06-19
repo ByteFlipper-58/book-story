@@ -16,6 +16,7 @@ import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.presentation.core.components.top_bar.collapsibleTopAppBarScrollBehavior
 import com.byteflipper.everbook.presentation.navigator.LocalNavigator
 import com.byteflipper.everbook.presentation.settings.SettingsContent
+import com.byteflipper.everbook.ui.settings.LibrarySettingsScreen
 
 @Parcelize
 object SettingsScreen : Screen, Parcelable {
@@ -40,6 +41,9 @@ object SettingsScreen : Screen, Parcelable {
             },
             navigateToBrowseSettings = {
                 navigator.push(BrowseSettingsScreen)
+            },
+            navigateToLibrarySettings = {
+                navigator.push(LibrarySettingsScreen)
             },
             navigateBack = {
                 navigator.pop()

@@ -29,6 +29,7 @@ fun SettingsScaffold(
     navigateToAppearanceSettings: () -> Unit,
     navigateToReaderSettings: () -> Unit,
     navigateToBrowseSettings: () -> Unit,
+    navigateToLibrarySettings: () -> Unit,
     navigateBack: () -> Unit
 ) {
     Scaffold(
@@ -50,7 +51,8 @@ fun SettingsScaffold(
             navigateToGeneralSettings = navigateToGeneralSettings,
             navigateToAppearanceSettings = navigateToAppearanceSettings,
             navigateToReaderSettings = navigateToReaderSettings,
-            navigateToBrowseSettings = navigateToBrowseSettings
+            navigateToBrowseSettings = navigateToBrowseSettings,
+            navigateToLibrarySettings = navigateToLibrarySettings
         )
     }
 }

@@ -21,8 +21,10 @@ import org.commonmark.node.IndentedCodeBlock
 import org.commonmark.node.ThematicBreak
 import org.commonmark.parser.Parser
 import com.byteflipper.everbook.data.local.room.BookDao
+import com.byteflipper.everbook.data.local.room.CategoryDao
 import com.byteflipper.everbook.data.local.room.BookDatabase
 import com.byteflipper.everbook.data.local.room.DatabaseHelper
+import com.byteflipper.everbook.data.local.room.BookCategoryDao
 import javax.inject.Singleton
 
 @Module
@@ -62,9 +64,56 @@ object AppModule {
                 DatabaseHelper.MIGRATION_2_3, // creates LanguageHistoryEntity table(if does not exist)
                 DatabaseHelper.MIGRATION_4_5, // creates ColorPresetEntity table(if does not exist)
                 DatabaseHelper.MIGRATION_5_6, // creates FavoriteDirectoryEntity table(if does not exist)
+                DatabaseHelper.MIGRATION_9_10, // структ. миграция и кастомные категории
             )
+            .addCallback(DatabaseHelper.PREPOPULATE_CATEGORIES)
             .allowMainThreadQueries()
             .build()
             .dao
+    }
+
+    @Provides
+    @Singleton
+    fun provideCategoryDao(app: Application): CategoryDao {
+        // Additional Migrations
+        DatabaseHelper.MIGRATION_7_8.removeBooksDir(app)
+
+        return Room.databaseBuilder(
+            app,
+            BookDatabase::class.java,
+            "book_db"
+        )
+            .addMigrations(
+                DatabaseHelper.MIGRATION_2_3,
+                DatabaseHelper.MIGRATION_4_5,
+                DatabaseHelper.MIGRATION_5_6,
+                DatabaseHelper.MIGRATION_9_10,
+            )
+            .addCallback(DatabaseHelper.PREPOPULATE_CATEGORIES)
+            .allowMainThreadQueries()
+            .build()
+            .categoryDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideBookCategoryDao(app: Application): BookCategoryDao {
+        DatabaseHelper.MIGRATION_7_8.removeBooksDir(app)
+
+        return Room.databaseBuilder(
+            app,
+            BookDatabase::class.java,
+            "book_db"
+        )
+            .addMigrations(
+                DatabaseHelper.MIGRATION_2_3,
+                DatabaseHelper.MIGRATION_4_5,
+                DatabaseHelper.MIGRATION_5_6,
+                DatabaseHelper.MIGRATION_9_10,
+            )
+            .addCallback(DatabaseHelper.PREPOPULATE_CATEGORIES)
+            .allowMainThreadQueries()
+            .build()
+            .bookCategoryDao
     }
 }

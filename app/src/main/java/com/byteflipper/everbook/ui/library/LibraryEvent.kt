@@ -44,7 +44,7 @@ sealed class LibraryEvent {
     data object OnShowMoveDialog : LibraryEvent()
 
     data class OnActionMoveDialog(
-        val selectedCategory: Category,
+        val selectedCategory: Int,
         val categories: List<CategoryWithBooks>,
         val context: Context
     ) : LibraryEvent()
@@ -56,4 +56,10 @@ sealed class LibraryEvent {
     ) : LibraryEvent()
 
     data object OnDismissDialog : LibraryEvent()
+
+    data object OnShowCategoriesDialog : LibraryEvent()
+
+    data class OnActionSetCategoriesDialog(
+        val categoryIds: List<Int>
+    ) : LibraryEvent()
 }

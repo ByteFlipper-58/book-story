@@ -671,4 +671,27 @@
     <string name="collapse_content_desc">Свернуть</string>
     <string name="remove_content_desc">Удалить</string>
     <string name="note_content_desc">Заметка</string>
+
+    <!-- Library settings -->
+    <string name="library_settings">Библиотека</string>
+    <string name="library_settings_desc">Категории</string>
+    <string name="categories_settings_title">Категории</string>
+    <string name="create_category">Создать категорию</string>
+    <string name="rename_category">Переименовать</string>
+    <string name="delete_category">Удалить</string>
+    <string name="delete_category_confirm">Вы уверены, что хотите удалить эту категорию?</string>
+    <string name="show_category">Показать</string>
+    <string name="hide_category">Скрыть</string>
+    <string name="categories_settings_description">Изначально книги добавляются в категорию по умолчанию, но могут принадлежать нескольким пользовательским категориям, созданным здесь. Удаление категории не приведет к удалению книг из библиотеки. Удерживайте и перемещайте значок категории для изменения порядка категорий.</string>
+    <string name="enter_category_name">Название категории</string>
+    <string name="default_category_label">Категория по умолчанию</string>
+    <string name="edit_category">Редактировать категорию</string>
+
+    <!-- Tabs Russian additions -->
+    <string name="all_tab">Все</string>
+    <string name="choose_categories">Выберите категории</string>
+
+    <!-- New additions -->
+    <string name="move_category_up">Вверх</string>
+    <string name="move_category_down">Вниз</string>
 </resources>

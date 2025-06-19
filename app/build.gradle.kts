@@ -21,7 +21,7 @@ android {
         applicationId = "com.byteflipper.everbook"
         minSdk = 26
         targetSdk = 35
-        versionCode = 6
+        versionCode = 7
         versionName = "1.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -116,10 +116,7 @@ dependencies {
 
     // All dependencies
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
-
-    // All dependencies
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
 
     // Dagger - Hilt
@@ -173,7 +170,7 @@ dependencies {
     implementation("com.mikepenz:aboutlibraries-compose-m3:11.4.0")
 
     // Drag & Drop
-    implementation("sh.calvin.reorderable:reorderable:2.4.3")
+    implementation("sh.calvin.reorderable:reorderable:2.5.1")
 
     // Scrollbar
     implementation("com.github.nanihadesuka:LazyColumnScrollbar:2.2.0")

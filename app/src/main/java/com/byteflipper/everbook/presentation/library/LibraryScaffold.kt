@@ -42,7 +42,7 @@ fun LibraryScaffold(
     searchQueryChange: (LibraryEvent.OnSearchQueryChange) -> Unit,
     search: (LibraryEvent.OnSearch) -> Unit,
     clearSelectedBooks: (LibraryEvent.OnClearSelectedBooks) -> Unit,
-    showMoveDialog: (LibraryEvent.OnShowMoveDialog) -> Unit,
+    showCategoriesDialog: (LibraryEvent.OnShowCategoriesDialog) -> Unit,
     showDeleteDialog: (LibraryEvent.OnShowDeleteDialog) -> Unit,
     navigateToBrowse: () -> Unit,
     navigateToBookInfo: (id: Int) -> Unit,
@@ -70,7 +70,7 @@ fun LibraryScaffold(
                 searchQueryChange = searchQueryChange,
                 search = search,
                 clearSelectedBooks = clearSelectedBooks,
-                showMoveDialog = showMoveDialog,
+                showCategoriesDialog = showCategoriesDialog,
                 showDeleteDialog = showDeleteDialog
             )
         }

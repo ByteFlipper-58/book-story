@@ -30,7 +30,8 @@ fun SettingsLayout(
     navigateToGeneralSettings: () -> Unit,
     navigateToAppearanceSettings: () -> Unit,
     navigateToReaderSettings: () -> Unit,
-    navigateToBrowseSettings: () -> Unit
+    navigateToBrowseSettings: () -> Unit,
+    navigateToLibrarySettings: () -> Unit
 ) {
     LazyColumnWithScrollbar(
         Modifier
@@ -65,6 +66,17 @@ fun SettingsLayout(
             SettingsLayoutItem(
                 index = 2,
                 icon = Icons.Outlined.LocalLibrary,
+                title = stringResource(id = R.string.library_settings),
+                description = stringResource(id = R.string.library_settings_desc)
+            ) {
+                navigateToLibrarySettings()
+            }
+        }
+
+        item {
+            SettingsLayoutItem(
+                index = 3,
+                icon = Icons.Outlined.Palette,
                 title = stringResource(id = R.string.reader_settings),
                 description = stringResource(id = R.string.reader_settings_desc)
             ) {
@@ -74,7 +86,7 @@ fun SettingsLayout(
 
         item {
             SettingsLayoutItem(
-                index = 3,
+                index = 4,
                 icon = Icons.Outlined.Explore,
                 title = stringResource(id = R.string.browse_settings),
                 description = stringResource(id = R.string.browse_settings_desc)

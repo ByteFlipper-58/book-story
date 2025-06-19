@@ -30,6 +30,7 @@
     <string name="delete_books">Delete books?</string>
     <string name="delete_book">Delete book?</string>
     <string name="move_book">Move book?</string>
+    <string name="choose_categories">Choose categories</string>
     <string name="delete_history">Delete reading history?</string>
     <string name="enable_check_for_updates">Enable check for updates?</string>
     <string name="edit">Edit</string>
@@ -151,6 +152,7 @@
     <string name="scan_browse_settings">Scan</string>
 
     <!-- Tabs -->
+    <string name="all_tab">All</string>
     <string name="reading_tab">Reading</string>
     <string name="already_read_tab">Already Read</string>
     <string name="planning_tab">Planning</string>
@@ -674,4 +676,23 @@
     <string name="collapse_content_desc">Collapse</string>
     <string name="remove_content_desc">Remove</string>
     <string name="note_content_desc">Note</string>
+
+    <!-- Library settings -->
+    <string name="library_settings">Library</string>
+    <string name="library_settings_desc">Categories</string>
+    <string name="categories_settings_title">Categories</string>
+    <string name="create_category">Create category</string>
+    <string name="rename_category">Rename</string>
+    <string name="delete_category">Delete</string>
+    <string name="delete_category_confirm">Are you sure you want to delete this category?</string>
+    <string name="show_category">Show</string>
+    <string name="hide_category">Hide</string>
+    <string name="categories_settings_description">Initially, books are added to the default category, but can belong to several custom categories created here. Removing a category here will not delete books from the Library. Hold and move the category icon to rearrange the categories.</string>
+
+    <string name="enter_category_name">Category name</string>
+    <string name="default_category_label">Default category</string>
+    <string name="edit_category">Edit category</string>
+
+    <string name="move_category_up">Move up</string>
+    <string name="move_category_down">Move down</string>
 </resources>

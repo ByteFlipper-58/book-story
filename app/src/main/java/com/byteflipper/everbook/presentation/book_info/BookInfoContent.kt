@@ -10,6 +10,7 @@ package com.byteflipper.everbook.presentation.book_info
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import com.byteflipper.everbook.domain.library.book.Book
+import com.byteflipper.everbook.domain.library.custom_category.Category
 import com.byteflipper.everbook.domain.util.BottomSheet
 import com.byteflipper.everbook.domain.util.Dialog
 import com.byteflipper.everbook.ui.book_info.BookInfoEvent
@@ -20,6 +21,7 @@ fun BookInfoContent(
     bottomSheet: BottomSheet?,
     dialog: Dialog?,
     listState: LazyListState,
+    categories: List<com.byteflipper.everbook.domain.library.custom_category.Category>,
     canResetCover: Boolean,
     showChangeCoverBottomSheet: (BookInfoEvent.OnShowChangeCoverBottomSheet) -> Unit,
     showDetailsBottomSheet: (BookInfoEvent.OnShowDetailsBottomSheet) -> Unit,
@@ -32,9 +34,10 @@ fun BookInfoContent(
     showPathDialog: (BookInfoEvent.OnShowPathDialog) -> Unit,
     actionPathDialog: (BookInfoEvent.OnActionPathDialog) -> Unit,
     showMoveDialog: (BookInfoEvent.OnShowMoveDialog) -> Unit,
+    showCategoriesDialog: (BookInfoEvent.OnShowCategoriesDialog) -> Unit,
     showDeleteDialog: (BookInfoEvent.OnShowDeleteDialog) -> Unit,
     actionDeleteDialog: (BookInfoEvent.OnActionDeleteDialog) -> Unit,
-    actionMoveDialog: (BookInfoEvent.OnActionMoveDialog) -> Unit,
+    actionSetCategoriesDialog: (BookInfoEvent.OnActionSetCategoriesDialog) -> Unit,
     changeCover: (BookInfoEvent.OnChangeCover) -> Unit,
     resetCover: (BookInfoEvent.OnResetCover) -> Unit,
     deleteCover: (BookInfoEvent.OnDeleteCover) -> Unit,
@@ -53,8 +56,9 @@ fun BookInfoContent(
         actionDescriptionDialog = actionDescriptionDialog,
         actionPathDialog = actionPathDialog,
         actionDeleteDialog = actionDeleteDialog,
-        actionMoveDialog = actionMoveDialog,
+        actionSetCategoriesDialog = actionSetCategoriesDialog,
         dismissDialog = dismissDialog,
+        categories = categories,
         navigateToLibrary = navigateToLibrary,
         navigateBack = navigateBack
     )
@@ -80,6 +84,7 @@ fun BookInfoContent(
         showChangeCoverBottomSheet = showChangeCoverBottomSheet,
         showDetailsBottomSheet = showDetailsBottomSheet,
         showMoveDialog = showMoveDialog,
+        showCategoriesDialog = showCategoriesDialog,
         showDeleteDialog = showDeleteDialog,
         navigateToReader = navigateToReader,
         navigateBack = navigateBack

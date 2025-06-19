@@ -20,18 +20,32 @@ fun LibraryDialog(
     books: List<SelectableBook>,
     categories: List<CategoryWithBooks>,
     selectedItemsCount: Int,
-    actionMoveDialog: (LibraryEvent.OnActionMoveDialog) -> Unit,
+    actionMoveDialog: (LibraryEvent.OnActionMoveDialog) -> Unit = {},
+    actionSetCategoriesDialog: (LibraryEvent.OnActionSetCategoriesDialog) -> Unit,
     actionDeleteDialog: (LibraryEvent.OnActionDeleteDialog) -> Unit,
     dismissDialog: (LibraryEvent.OnDismissDialog) -> Unit
 ) {
     when (dialog) {
         LibraryScreen.MOVE_DIALOG -> {
-            LibraryMoveDialog(
-                books = books,
+            val selectedBooks = books.filter { it.selected }
+
+            val initialIds = if (selectedItemsCount == 0) {
+                emptyList()
+            } else if (selectedItemsCount == 1) {
+                selectedBooks.first().data.categoryIds.filter { it != 0 }
+            } else {
+                selectedBooks
+                    .map { it.data.categoryIds.filter { id -> id != 0 }.toSet() }
+                    .reduce { acc, set -> acc intersect set }
+                    .toList()
+            }
+
+            LibraryCategoriesDialog(
                 categories = categories,
-                selectedItemsCount = selectedItemsCount,
-                actionMoveDialog = actionMoveDialog,
-                dismissDialog = dismissDialog
+                selectedBooksCount = selectedItemsCount,
+                initialSelectedIds = initialIds,
+                onAction = actionSetCategoriesDialog,
+                onDismiss = { dismissDialog(LibraryEvent.OnDismissDialog) }
             )
         }
 

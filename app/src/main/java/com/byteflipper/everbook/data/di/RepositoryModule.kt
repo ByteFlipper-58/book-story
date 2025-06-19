@@ -35,6 +35,10 @@ import com.byteflipper.everbook.domain.repository.DataStoreRepository
 import com.byteflipper.everbook.domain.repository.FileSystemRepository
 import com.byteflipper.everbook.domain.repository.HistoryRepository
 import com.byteflipper.everbook.domain.repository.PermissionRepository
+import com.byteflipper.everbook.data.mapper.category.CategoryMapper
+import com.byteflipper.everbook.data.mapper.category.CategoryMapperImpl
+import com.byteflipper.everbook.data.repository.CategoryRepositoryImpl
+import com.byteflipper.everbook.domain.repository.CategoryRepository
 import javax.inject.Singleton
 
 @Module
@@ -111,4 +115,16 @@ abstract class RepositoryModule {
     abstract fun bindTextParser(
         textParserImpl: TextParserImpl
     ): TextParser
+
+    @Binds
+    @Singleton
+    abstract fun bindCategoryRepository(
+        categoryRepositoryImpl: CategoryRepositoryImpl
+    ): CategoryRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCategoryMapper(
+        categoryMapperImpl: CategoryMapperImpl
+    ): CategoryMapper
 }

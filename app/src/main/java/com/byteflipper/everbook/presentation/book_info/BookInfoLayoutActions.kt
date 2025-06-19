@@ -26,7 +26,8 @@ import com.byteflipper.everbook.ui.book_info.BookInfoEvent
 
 @Composable
 fun BookInfoLayoutActions(
-    showMoveDialog: (BookInfoEvent.OnShowMoveDialog) -> Unit,
+    showMoveDialog: (BookInfoEvent.OnShowMoveDialog) -> Unit = {},
+    showCategoriesDialog: (BookInfoEvent.OnShowCategoriesDialog) -> Unit,
     showDeleteDialog: (BookInfoEvent.OnShowDeleteDialog) -> Unit
 ) {
     Row(
@@ -43,7 +44,7 @@ fun BookInfoLayoutActions(
             title = stringResource(id = R.string.move),
             icon = Icons.Default.MoveUp,
             onClick = {
-                showMoveDialog(BookInfoEvent.OnShowMoveDialog)
+                showCategoriesDialog(BookInfoEvent.OnShowCategoriesDialog)
             }
         )
 

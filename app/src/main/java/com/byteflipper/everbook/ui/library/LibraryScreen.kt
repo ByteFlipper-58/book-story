@@ -19,13 +19,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.focus.FocusRequester
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import com.byteflipper.everbook.R
-import com.byteflipper.everbook.domain.library.category.Category
+import com.byteflipper.everbook.domain.library.custom_category.Category
 import com.byteflipper.everbook.domain.library.category.CategoryWithBooks
 import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.domain.ui.UIText
@@ -66,31 +67,23 @@ object LibraryScreen : Screen, Parcelable {
         val state = screenModel.state.collectAsStateWithLifecycle()
         val mainState = mainModel.state.collectAsStateWithLifecycle()
 
-        val categories = remember(state.value.books) {
-            derivedStateOf {
-                listOf(
+        val categoriesModel = hiltViewModel<CategoriesModel>()
+        val lifecycleOwner = LocalLifecycleOwner.current
+        val categoriesState = categoriesModel.categories.collectAsStateWithLifecycle(
+            initialValue = emptyList(),
+            lifecycle = lifecycleOwner.lifecycle
+        )
+        val categories = remember(state.value.books, categoriesState.value) {
+            categoriesState.value
+                .filter { it.isVisible }
+                .sortedBy { it.position }
+                .map { cat ->
                     CategoryWithBooks(
-                        category = Category.READING,
-                        title = UIText.StringResource(R.string.reading_tab),
-                        books = state.value.books.filter { it.data.category == Category.READING }
-                    ),
-                    CategoryWithBooks(
-                        category = Category.ALREADY_READ,
-                        title = UIText.StringResource(R.string.already_read_tab),
-                        books = state.value.books.filter { it.data.category == Category.ALREADY_READ }
-                    ),
-                    CategoryWithBooks(
-                        category = Category.PLANNING,
-                        title = UIText.StringResource(R.string.planning_tab),
-                        books = state.value.books.filter { it.data.category == Category.PLANNING }
-                    ),
-                    CategoryWithBooks(
-                        category = Category.DROPPED,
-                        title = UIText.StringResource(R.string.dropped_tab),
-                        books = state.value.books.filter { it.data.category == Category.DROPPED }
+                        id = cat.id,
+                        title = cat.title,
+                        books = if (cat.id == 0) state.value.books else state.value.books.filter { it.data.categoryIds.contains(cat.id) }
                     )
-                )
-            }
+                }
         }
 
         val focusRequester = remember { FocusRequester() }
@@ -108,7 +101,7 @@ object LibraryScreen : Screen, Parcelable {
 
         val pagerState = rememberPagerState(
             initialPage = initialPage
-        ) { categories.value.count() }
+        ) { categories.size }
         DisposableEffect(Unit) { onDispose { initialPage = pagerState.currentPage } }
 
         LaunchedEffect(Unit) {
@@ -129,7 +122,7 @@ object LibraryScreen : Screen, Parcelable {
             isLoading = state.value.isLoading,
             isRefreshing = state.value.isRefreshing,
             doublePressExit = mainState.value.doublePressExit,
-            categories = categories.value,
+            categories = categories,
             refreshState = refreshState,
             dialog = state.value.dialog,
             selectBook = screenModel::onEvent,
@@ -138,8 +131,8 @@ object LibraryScreen : Screen, Parcelable {
             searchQueryChange = screenModel::onEvent,
             search = screenModel::onEvent,
             clearSelectedBooks = screenModel::onEvent,
-            showMoveDialog = screenModel::onEvent,
-            actionMoveDialog = screenModel::onEvent,
+            showCategoriesDialog = screenModel::onEvent,
+            actionSetCategoriesDialog = screenModel::onEvent,
             actionDeleteDialog = screenModel::onEvent,
             showDeleteDialog = screenModel::onEvent,
             dismissDialog = screenModel::onEvent,

@@ -13,7 +13,7 @@ import com.byteflipper.everbook.domain.ui.UIText
 
 @Immutable
 data class CategoryWithBooks(
-    val category: Category,
+    val id: Int,
     val title: UIText,
     val books: List<SelectableBook>
 )

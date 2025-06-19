@@ -28,7 +28,7 @@ interface BookDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBook(
         book: BookEntity
-    )
+    ): Long
 
     @Query(
         """

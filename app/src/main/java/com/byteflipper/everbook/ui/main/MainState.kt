@@ -106,6 +106,7 @@ data class MainState(
     val bottomBarPadding: Int = provideDefaultValue { 0 },
     val highlightedReading: Boolean = provideDefaultValue { false },
     val highlightedReadingThickness: Int = provideDefaultValue { 2 },
+    val renderMath: Boolean = provideDefaultValue { true },
     val chapterTitleAlignment: ReaderTextAlignment = provideDefaultValue { ReaderTextAlignment.JUSTIFY },
     val images: Boolean = provideDefaultValue { true },
     val imagesCornersRoundness: Int = provideDefaultValue { 8 },
@@ -315,6 +316,10 @@ data class MainState(
                     highlightedReadingThickness = provideValue(
                         HIGHLIGHTED_READING_THICKNESS
                     ) { highlightedReadingThickness },
+
+                    renderMath = provideValue(
+                        RENDER_MATH
+                    ) { renderMath },
 
                     chapterTitleAlignment = provideValue(
                         CHAPTER_TITLE_ALIGNMENT, convert = { toTextAlignment() }

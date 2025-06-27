@@ -1,41 +1,12 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="134"
     android:viewportHeight="134">
-  <group android:scaleX="0.63033706"
-      android:scaleY="0.63033706"
-      android:translateX="24.767416"
-      android:translateY="25.158459">
-    <path
-        android:pathData="M66.67,66.67m-54.17,0a54.17,54.17 0,1 1,108.33 0a54.17,54.17 0,1 1,-108.33 0"
-        android:fillType="evenOdd">
-      <aapt:attr name="android:fillColor">
-        <gradient 
-            android:centerX="30.25"
-            android:centerY="19.61"
-            android:gradientRadius="94.5"
-            android:type="radial">
-          <item android:offset="0" android:color="#FFFF72B6"/>
-          <item android:offset="1" android:color="#FFA000F4"/>
-        </gradient>
-      </aapt:attr>
-    </path>
-    <path
-        android:pathData="M110.86,35.35a54.1,54.1 0,0 1,4.96 8.53c-5.96,12.67 -8.38,27.92 -6.97,42.67a82.39,82.39 0,0 0,1.93 11.55,54.54 54.54,0 0,1 -6.53,7.56c-1.87,-5.9 -3.1,-12.07 -3.69,-18.32 -1.74,-18.24 1.9,-37.14 10.31,-51.99zM93.25,19.47a54.35,54.35 0,0 1,7.45 5.07c-5.24,21.48 -24.37,38.56 -48.28,48.22 -12.21,4.93 -24.3,9.06 -37,11.48a53.7,53.7 0,0 1,-2.09 -8.08c12.37,-2.3 24.11,-6.33 35.97,-11.12 22.4,-9.04 40.6,-25.01 43.95,-45.56zM71.44,12.71c2.81,0.25 5.56,0.71 8.23,1.37 -2.01,13.41 -10.11,22.44 -21.02,28.09 -12.5,6.47 -28.86,8.32 -43.34,7.25a53.94,53.94 0,0 1,3.49 -8.11c9.35,0.43 19.34,-0.49 28.19,-3.32 12.32,-3.94 22.42,-11.7 24.45,-25.27z"
-        android:fillType="evenOdd">
-      <aapt:attr name="android:fillColor">
-        <gradient 
-            android:centerX="31.05"
-            android:centerY="22.84"
-            android:gradientRadius="76.6"
-            android:type="radial">
-          <item android:offset="0" android:color="#FFFFA4D0"/>
-          <item android:offset="1" android:color="#FFAC0FFF"/>
-        </gradient>
-      </aapt:attr>
-    </path>
+  <group android:scaleX="0.7965517"
+      android:scaleY="0.7965517"
+      android:translateX="13.631035"
+      android:translateY="13.631035">
     <path
         android:pathData="M102.29,53.95a7.63,7.63 0,0 0,-7.63 -7.63L38.67,46.31a7.63,7.63 0,0 0,-7.63 7.63v30.54a7.63,7.63 0,0 0,7.63 7.63h55.98a7.63,7.63 0,0 0,7.63 -7.63zM80.15,55.36L55.9,55.36v27.51h24.25z"
         android:fillColor="#e39ff9"

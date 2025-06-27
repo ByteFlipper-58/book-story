@@ -65,7 +65,7 @@ fun AboutLayout(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    painterResource(id = R.drawable.app_icon),
+                    painterResource(id = R.drawable.everbook),
                     contentDescription = stringResource(id = R.string.app_icon_content_desc),
                     modifier = Modifier
                         .padding(14.dp)
@@ -76,7 +76,7 @@ fun AboutLayout(
         }
 
         item {
-            Spacer(modifier = Modifier.height(16.dp)) // Reduced spacer
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
         item {

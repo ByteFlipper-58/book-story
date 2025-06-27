@@ -695,4 +695,8 @@
 
     <string name="move_category_up">Move up</string>
     <string name="move_category_down">Move down</string>
+
+    <!-- Math renderer -->
+    <string name="math_renderer_option">LaTeX Math (BETA)</string>
+    <string name="math_renderer_option_desc">Experimental feature: display mathematical formulas.</string>
 </resources>

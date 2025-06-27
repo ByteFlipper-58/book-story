@@ -68,6 +68,9 @@ object DataStoreConstants {
     val PROGRESS_BAR_FONT_SIZE = intPreferencesKey("progress_bar_font_size")
     val PROGRESS_COUNT = stringPreferencesKey("progress_count")
 
+    // Math renderer
+    val RENDER_MATH = booleanPreferencesKey("render_math")
+
     // Browse settings
     val BROWSE_LAYOUT = stringPreferencesKey("browse_layout")
     val BROWSE_AUTO_GRID_SIZE = booleanPreferencesKey("browse_auto_grid_size")

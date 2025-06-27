@@ -95,24 +95,25 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.activity:activity-compose:1.10.1")
 
-    // Compose BOM libraries
-    // Compose BOM was eliminated - it is recognized as Closed Source in AboutLibraries..
-    // although it is not.
+    // Compose BOM — alpha
+    val composeBom = platform("androidx.compose:compose-bom-alpha:2025.06.00")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+    testImplementation(composeBom)
 
-    implementation("androidx.compose.foundation:foundation:1.8.0-beta03")
-    implementation("androidx.compose.animation:animation:1.7.8")
-    implementation("androidx.compose.animation:animation-android:1.8.0-beta03")
-    implementation("androidx.compose.foundation:foundation-layout:1.7.8")
-    implementation("androidx.compose.ui:ui:1.7.8")
-    implementation("androidx.compose.ui:ui-graphics:1.7.8")
-    implementation("androidx.compose.ui:ui-android:1.8.0-beta03")
-    implementation("androidx.compose.material3:material3:1.4.0-alpha08")
-    implementation("androidx.compose.material3:material3-window-size-class:1.3.1")
-    implementation("androidx.compose.material:material-icons-extended:1.7.8")
-    implementation("androidx.compose.material:material:1.7.8")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.7.8")
+    // Compose libraries
+    implementation("androidx.compose.foundation:foundation")
+    implementation("androidx.compose.foundation:foundation-layout")
+    implementation("androidx.compose.animation:animation")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3-window-size-class")
+    implementation("androidx.compose.material:material")
+    implementation("androidx.compose.material:material-icons-extended")
 
-    debugImplementation("androidx.compose.ui:ui-tooling:1.7.8")
+    debugImplementation("androidx.compose.ui:ui-tooling")
 
     // All dependencies
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")

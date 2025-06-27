@@ -32,6 +32,7 @@ fun LazyColumnWithScrollbar(
     enableScrollbar: Boolean = true,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    userScrollEnabled: Boolean = true,
     content: LazyListScope.() -> Unit
 ) {
     val enabled = remember {
@@ -44,6 +45,7 @@ fun LazyColumnWithScrollbar(
         LazyColumn(
             modifier = modifier,
             state = state,
+            userScrollEnabled = userScrollEnabled,
             verticalArrangement = verticalArrangement,
             contentPadding = contentPadding
         ) {

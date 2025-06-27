@@ -694,4 +694,8 @@
     <!-- New additions -->
     <string name="move_category_up">Вверх</string>
     <string name="move_category_down">Вниз</string>
+
+    <!-- Math renderer -->
+    <string name="math_renderer_option">LaTeX Math (BETA)</string>
+    <string name="math_renderer_option_desc">Экспериментальная функция: отображение математических формул.</string>
 </resources>

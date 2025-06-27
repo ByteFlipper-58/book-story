@@ -19,6 +19,7 @@ import com.byteflipper.everbook.presentation.settings.components.SettingsSubcate
 import com.byteflipper.everbook.presentation.settings.reader.misc.components.FullscreenOption
 import com.byteflipper.everbook.presentation.settings.reader.misc.components.HideBarsOnFastScrollOption
 import com.byteflipper.everbook.presentation.settings.reader.misc.components.KeepScreenOnOption
+import com.byteflipper.everbook.presentation.settings.reader.misc.components.RenderMathOption
 
 fun LazyListScope.MiscSubcategory(
     titleColor: @Composable () -> Color = { MaterialTheme.colorScheme.primary },
@@ -42,6 +43,10 @@ fun LazyListScope.MiscSubcategory(
 
         item {
             HideBarsOnFastScrollOption()
+        }
+
+        item {
+            RenderMathOption()
         }
     }
 }

@@ -31,4 +31,12 @@ sealed class ReaderText {
     data class Image(
         val imageBitmap: ImageBitmap
     ) : ReaderText()
+
+    /**
+     * Представление LaTeX-формулы как отдельного элемента текста.
+     * Поскольку формула будет рендериться кастомным Canvas, здесь хранится
+     * только исходная строка LaTeX без ограждающих `$`.
+     */
+    @Immutable
+    data class Math(val latex: String) : ReaderText()
 }

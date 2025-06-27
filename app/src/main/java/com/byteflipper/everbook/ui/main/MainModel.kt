@@ -54,17 +54,21 @@ class MainModel @Inject constructor(
     private val getAllSettings: GetAllSettings
 ) : ViewModel() {
 
+    private val initialState: MainState = stateHandle[provideMainState()] ?: MainState()
+
+    private val _state: MutableStateFlow<MainState> = MutableStateFlow(initialState)
+    val state = _state.asStateFlow()
+
     private val mutex = Mutex()
+
+    init {
+        com.byteflipper.everbook.math.MathConfig.enabled = initialState.renderMath
+    }
 
     private val _isReady = MutableStateFlow(false)
     val isReady = _isReady.asStateFlow()
 
     private val mainModelReady = MutableStateFlow(false)
-
-    private val _state: MutableStateFlow<MainState> = MutableStateFlow(
-        stateHandle[provideMainState()] ?: MainState()
-    )
-    val state = _state.asStateFlow()
 
     fun onEvent(event: MainEvent) {
         when (event) {
@@ -513,6 +517,15 @@ class MainModel @Inject constructor(
                 value = event.value,
                 updateState = {
                     it.copy(horizontalGesturePullAnim = this)
+                }
+            )
+
+            is MainEvent.OnChangeRenderMath -> handleDatastoreUpdate(
+                key = DataStoreConstants.RENDER_MATH,
+                value = event.value,
+                updateState = {
+                    com.byteflipper.everbook.math.MathConfig.enabled = this
+                    it.copy(renderMath = this)
                 }
             )
         }

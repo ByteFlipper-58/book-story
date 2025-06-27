@@ -108,5 +108,14 @@ fun LazyItemScope.ReaderLayoutText(
                 menuVisibility = menuVisibility
             )
         }
+
+        is ReaderText.Math -> {
+            ReaderLayoutMath(
+                latex = entry.latex,
+                fontColor = fontColor,
+                fontSize = fontSize,
+                sidePadding = sidePadding
+            )
+        }
     }
 }

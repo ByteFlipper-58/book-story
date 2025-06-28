@@ -30,8 +30,7 @@ fun StartContent(
     StartContentTransition(
         modifier = Modifier.background(MaterialTheme.colorScheme.surface),
         targetValue = when {
-            currentPage in 0..2 -> StartScreen.SETTINGS
-            currentPage == 3 -> StartScreen.SOURCE_CODE
+            currentPage in 0..3 -> StartScreen.SETTINGS
             else -> StartScreen.DONE
         },
         stackEvent = stackEvent
@@ -43,11 +42,6 @@ fun StartContent(
                     stackEvent = stackEvent,
                     languages = languages,
                     changeLanguage = changeLanguage,
-                    navigateForward = navigateForward
-                )
-            }
-            StartScreen.SOURCE_CODE -> {
-                StartSourceCode(
                     navigateForward = navigateForward
                 )
             }

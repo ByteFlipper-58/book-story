@@ -8,8 +8,12 @@
 package com.byteflipper.everbook.presentation.start
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.byteflipper.everbook.domain.navigator.StackEvent
 import com.byteflipper.everbook.domain.ui.ButtonItem
+import com.byteflipper.everbook.ui.about.AboutEvent
+import com.byteflipper.everbook.ui.about.AboutModel
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.start.StartScreen
 
@@ -21,6 +25,8 @@ fun StartSettings(
     changeLanguage: (MainEvent.OnChangeLanguage) -> Unit,
     navigateForward: () -> Unit
 ) {
+    val aboutModel = hiltViewModel<AboutModel>()
+    
     StartSettingsScaffold(
         navigateForward = navigateForward
     ) {
@@ -28,7 +34,8 @@ fun StartSettings(
             targetValue = when (currentPage) {
                 0 -> StartScreen.GENERAL_SETTINGS
                 1 -> StartScreen.APPEARANCE_SETTINGS
-                else -> StartScreen.SCAN_SETTINGS
+                2 -> StartScreen.SCAN_SETTINGS
+                else -> StartScreen.SOURCE_CODE_SETTINGS
             },
             stackEvent = stackEvent
         ) { page ->
@@ -47,6 +54,10 @@ fun StartSettings(
 
                     StartScreen.SCAN_SETTINGS -> {
                         StartSettingsLayoutScan()
+                    }
+                    
+                    StartScreen.SOURCE_CODE_SETTINGS -> {
+                        StartSettingsLayoutSourceCode(aboutModel)
                     }
                 }
             }

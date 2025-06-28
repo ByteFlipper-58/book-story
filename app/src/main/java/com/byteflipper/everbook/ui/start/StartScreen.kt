@@ -46,7 +46,7 @@ object StartScreen : Screen, Parcelable {
     const val SCAN_SETTINGS = "scan_settings"
 
     @IgnoredOnParcel
-    const val SOURCE_CODE = "source_code"
+    const val SOURCE_CODE_SETTINGS = "source_code_settings"
 
     @IgnoredOnParcel
     const val DONE = "done"

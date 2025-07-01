@@ -21,6 +21,12 @@ interface CategoryRepository {
     suspend fun deleteCategory(id: Int, targetId: Int?)
 
     suspend fun reorderCategories(order: List<Int>)
+    
+    /**
+     * Обновляет порядок категорий в рамках одной транзакции.
+     * Используется для оптимизации массового обновления позиций.
+     */
+    suspend fun updateCategoriesPositions(idToPositionMap: Map<Int, Int>)
 
     suspend fun toggleCategoryVisibility(id: Int, visible: Boolean)
 } 

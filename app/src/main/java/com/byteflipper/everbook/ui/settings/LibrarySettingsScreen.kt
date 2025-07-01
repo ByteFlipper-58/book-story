@@ -84,20 +84,10 @@ object LibrarySettingsScreen : Screen, Parcelable {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
-        val (scrollBehavior, listState) = TopAppBarDefaults.collapsibleTopAppBarScrollBehavior()
         val viewModel: LibrarySettingsModel = viewModel()
-
-        val categoriesFlow = viewModel.categories
-
+        
         LibrarySettingsScaffold(
-            scrollBehavior = scrollBehavior,
-            listState = listState,
-            categories = categoriesFlow.collectAsStateWithLifecycle(initialValue = emptyList()).value,
-            navigateBack = { navigator.pop() },
-            onCreate = viewModel::createCategory,
-            onToggleVisibility = viewModel::toggleVisibility,
-            onRename = viewModel::rename,
-            onDelete = viewModel::delete
+            onBackPressed = { navigator.pop() }
         )
     }
 } 

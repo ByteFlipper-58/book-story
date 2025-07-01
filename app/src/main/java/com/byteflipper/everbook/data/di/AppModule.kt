@@ -51,30 +51,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBookDao(app: Application): BookDao {
-        // Additional Migrations
-        DatabaseHelper.MIGRATION_7_8.removeBooksDir(app)
-
-        return Room.databaseBuilder(
-            app,
-            BookDatabase::class.java,
-            "book_db"
-        )
-            .addMigrations(
-                DatabaseHelper.MIGRATION_2_3, // creates LanguageHistoryEntity table(if does not exist)
-                DatabaseHelper.MIGRATION_4_5, // creates ColorPresetEntity table(if does not exist)
-                DatabaseHelper.MIGRATION_5_6, // creates FavoriteDirectoryEntity table(if does not exist)
-                DatabaseHelper.MIGRATION_9_10, // структ. миграция и кастомные категории
-            )
-            .addCallback(DatabaseHelper.PREPOPULATE_CATEGORIES)
-            .allowMainThreadQueries()
-            .build()
-            .dao
-    }
-
-    @Provides
-    @Singleton
-    fun provideCategoryDao(app: Application): CategoryDao {
+    fun provideBookDatabase(app: Application): BookDatabase {
         // Additional Migrations
         DatabaseHelper.MIGRATION_7_8.removeBooksDir(app)
 
@@ -90,30 +67,18 @@ object AppModule {
                 DatabaseHelper.MIGRATION_9_10,
             )
             .addCallback(DatabaseHelper.PREPOPULATE_CATEGORIES)
-            .allowMainThreadQueries()
             .build()
-            .categoryDao
     }
 
     @Provides
     @Singleton
-    fun provideBookCategoryDao(app: Application): BookCategoryDao {
-        DatabaseHelper.MIGRATION_7_8.removeBooksDir(app)
+    fun provideBookDao(database: BookDatabase): BookDao = database.dao
 
-        return Room.databaseBuilder(
-            app,
-            BookDatabase::class.java,
-            "book_db"
-        )
-            .addMigrations(
-                DatabaseHelper.MIGRATION_2_3,
-                DatabaseHelper.MIGRATION_4_5,
-                DatabaseHelper.MIGRATION_5_6,
-                DatabaseHelper.MIGRATION_9_10,
-            )
-            .addCallback(DatabaseHelper.PREPOPULATE_CATEGORIES)
-            .allowMainThreadQueries()
-            .build()
-            .bookCategoryDao
-    }
+    @Provides
+    @Singleton
+    fun provideCategoryDao(database: BookDatabase): CategoryDao = database.categoryDao
+    
+    @Provides
+    @Singleton
+    fun provideBookCategoryDao(database: BookDatabase): BookCategoryDao = database.bookCategoryDao
 }

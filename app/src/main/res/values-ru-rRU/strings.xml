@@ -682,7 +682,7 @@
     <string name="delete_category_confirm">Вы уверены, что хотите удалить эту категорию?</string>
     <string name="show_category">Показать</string>
     <string name="hide_category">Скрыть</string>
-    <string name="categories_settings_description">Изначально книги добавляются в категорию по умолчанию, но могут принадлежать нескольким пользовательским категориям, созданным здесь. Удаление категории не приведет к удалению книг из библиотеки. Удерживайте и перемещайте значок категории для изменения порядка категорий.</string>
+    <string name="categories_settings_description">Книги изначально добавляются в категорию по умолчанию. Вы можете создавать собственные категории для организации библиотеки. Проведите влево для удаления пользовательских категорий. Книги из удаленных категорий останутся в библиотеке.</string>
     <string name="enter_category_name">Название категории</string>
     <string name="default_category_label">Категория по умолчанию</string>
     <string name="edit_category">Редактировать категорию</string>
@@ -698,4 +698,17 @@
     <!-- Math renderer -->
     <string name="math_renderer_option">LaTeX Math (BETA)</string>
     <string name="math_renderer_option_desc">Экспериментальная функция: отображение математических формул.</string>
+
+    <!-- New additions -->
+    <string name="drag_to_reorder">Перетащите для изменения порядка</string>
+    <string name="reorder_categories">Изменить порядок категорий</string>
+    <string name="reordering_mode">Режим переупорядочивания</string>
+    <string name="save_order">Сохранить порядок</string>
+    <string name="order_saved">Порядок категорий сохранен</string>
+    <string name="categories_title">Категории</string>
+    <string name="create_category_dialog_title">Новая категория</string>
+    <string name="edit_category_dialog_title">Изменить название категории</string>
+    <string name="category_name_placeholder">Введите название категории…</string>
+    <string name="create_category_dialog_desc">Введите название новой категории</string>
+    <string name="edit_category_dialog_desc">Измените название категории</string>
 </resources>

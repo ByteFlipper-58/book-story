@@ -687,7 +687,7 @@
     <string name="delete_category_confirm">Are you sure you want to delete this category?</string>
     <string name="show_category">Show</string>
     <string name="hide_category">Hide</string>
-    <string name="categories_settings_description">Initially, books are added to the default category, but can belong to several custom categories created here. Removing a category here will not delete books from the Library. Hold and move the category icon to rearrange the categories.</string>
+    <string name="categories_settings_description">Books are initially added to the default category. You can create custom categories to organize your library. Swipe left to delete custom categories. Books in deleted categories will remain in your library.</string>
 
     <string name="enter_category_name">Category name</string>
     <string name="default_category_label">Default category</string>
@@ -699,4 +699,17 @@
     <!-- Math renderer -->
     <string name="math_renderer_option">LaTeX Math (BETA)</string>
     <string name="math_renderer_option_desc">Experimental feature: display mathematical formulas.</string>
+
+    <!-- New additions -->
+    <string name="drag_to_reorder">Drag to reorder</string>
+    <string name="reorder_categories">Reorder categories</string>
+    <string name="reordering_mode">Reordering Mode</string>
+    <string name="save_order">Save order</string>
+    <string name="order_saved">Categories order saved</string>
+    <string name="categories_title">Categories</string>
+    <string name="create_category_dialog_title">New Category</string>
+    <string name="edit_category_dialog_title">Edit Category Name</string>
+    <string name="category_name_placeholder">Enter category name…</string>
+    <string name="create_category_dialog_desc">Enter a name for the new category</string>
+    <string name="edit_category_dialog_desc">Change the category name</string>
 </resources>

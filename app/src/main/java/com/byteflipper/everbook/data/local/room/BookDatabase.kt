@@ -12,6 +12,7 @@ import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.DeleteColumn
 import androidx.room.DeleteTable
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
@@ -122,88 +123,13 @@ object DatabaseHelper {
     class MIGRATION_8_9 : AutoMigrationSpec
 
     /**
-     * Миграция 9 → 10.
-     * Создаём таблицу категорий и добавляем четыре стандартные категории.
+     * Миграция с версии 9 на версию 10.
+     * 
+     * В этой миграции мы не изменяем структуру таблиц, 
+     * а только добавляем функциональность переупорядочивания категорий.
      */
     val MIGRATION_9_10 = object : Migration(9, 10) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            db.execSQL(
-                "CREATE TABLE IF NOT EXISTS `CategoryEntity` (" +
-                        "`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                        "`name` TEXT NOT NULL, " +
-                        "`kind` TEXT NOT NULL, " +
-                        "`isVisible` INTEGER NOT NULL, " +
-                        "`position` INTEGER NOT NULL, " +
-                        "`isDefault` INTEGER NOT NULL" +
-                        ")"
-            )
-
-            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (0, 'All', 'SYSTEM_MAIN', 1, -1, 1)")
-            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (1, 'Reading', 'SYSTEM', 1, 0, 1)")
-            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (2, 'Already read', 'SYSTEM', 1, 1, 1)")
-            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (3, 'Planning', 'SYSTEM', 1, 2, 1)")
-            db.execSQL("INSERT OR IGNORE INTO `CategoryEntity` (id, name, kind, isVisible, position, isDefault) VALUES (4, 'Dropped', 'SYSTEM', 1, 3, 1)")
-
-            db.execSQL("CREATE TABLE IF NOT EXISTS `BookCategoryCrossRef` (" +
-                    "`bookId` INTEGER NOT NULL, " +
-                    "`categoryId` INTEGER NOT NULL, " +
-                    "PRIMARY KEY(`bookId`, `categoryId`)" +
-                    ")")
-
-            db.execSQL("INSERT INTO `BookCategoryCrossRef` (bookId, categoryId) " +
-                    "SELECT id, 0 FROM BookEntity")
-
-            db.execSQL(
-                "CREATE TABLE IF NOT EXISTS `BookEntity_new` (" +
-                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                        "`title` TEXT NOT NULL, " +
-                        "`author` TEXT, " +
-                        "`description` TEXT, " +
-                        "`filePath` TEXT NOT NULL, " +
-                        "`scrollIndex` INTEGER NOT NULL, " +
-                        "`scrollOffset` INTEGER NOT NULL, " +
-                        "`progress` REAL NOT NULL, " +
-                        "`image` TEXT, " +
-                        "`categoryId` INTEGER NOT NULL" +
-                        ")"
-            )
-
-            val cursor = db.query("PRAGMA table_info(BookEntity)")
-            var hasOldCategory = false
-            while (cursor.moveToNext()) {
-                val name = cursor.getString(1) // second column is name
-                if (name == "category") {
-                    hasOldCategory = true; break
-                }
-            }
-            cursor.close()
-
-            if (hasOldCategory) {
-                db.execSQL(
-                    "INSERT INTO `BookEntity_new` (id, title, author, description, filePath, scrollIndex, scrollOffset, progress, image, categoryId) " +
-                            "SELECT id, title, author, description, filePath, scrollIndex, scrollOffset, progress, image, " +
-                            "CASE category " +
-                            "WHEN 'READING' THEN 1 " +
-                            "WHEN 'ALREADY_READ' THEN 2 " +
-                            "WHEN 'PLANNING' THEN 3 " +
-                            "WHEN 'DROPPED' THEN 4 " +
-                            "ELSE 1 END " +
-                            "FROM BookEntity"
-                )
-            } else {
-                db.execSQL(
-                    "INSERT INTO `BookEntity_new` (id, title, author, description, filePath, scrollIndex, scrollOffset, progress, image, categoryId) " +
-                            "SELECT id, title, author, description, filePath, scrollIndex, scrollOffset, progress, image, categoryId FROM BookEntity"
-                )
-            }
-
-            db.execSQL("DROP TABLE BookEntity")
-            db.execSQL("ALTER TABLE BookEntity_new RENAME TO BookEntity")
-
-            db.execSQL(
-                "INSERT INTO `BookCategoryCrossRef` (bookId, categoryId) " +
-                        "SELECT id, categoryId FROM BookEntity WHERE categoryId != 0"
-            )
         }
     }
 
@@ -235,5 +161,18 @@ object DatabaseHelper {
                 insertDefaults(db)
             }
         }
+    }
+
+    fun getDatabase(application: Application): BookDatabase {
+        return Room.databaseBuilder(
+            application.applicationContext,
+            BookDatabase::class.java,
+            "book-database"
+        )
+            .addMigrations(MIGRATION_2_3)
+            .addMigrations(MIGRATION_4_5)
+            .addMigrations(MIGRATION_5_6)
+            .addMigrations(MIGRATION_9_10)
+            .build()
     }
 }

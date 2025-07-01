@@ -61,6 +61,10 @@ class CategoryRepositoryImpl @Inject constructor(
             categoryDao.update(entity.copy(position = index))
         }
     }
+    
+    override suspend fun updateCategoriesPositions(idToPositionMap: Map<Int, Int>) {
+        categoryDao.updatePositions(idToPositionMap)
+    }
 
     override suspend fun toggleCategoryVisibility(id: Int, visible: Boolean) {
         val entity = categoryDao.findById(id) ?: return

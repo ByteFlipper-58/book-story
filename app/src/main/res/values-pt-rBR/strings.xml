@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.3.0</string>
+    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Padrão</string>
     <string name="random_string">Aleatório</string>
@@ -27,6 +27,7 @@
     <!-- Dialog Labels -->
     <string name="add_books">Adicionar livros?</string>
     <string name="move_books">Mover livros?</string>
+    <string name="choose_categories">Escolher categorias</string>
     <string name="delete_books">Excluir livros?</string>
     <string name="delete_book">Excluir livro?</string>
     <string name="move_book">Mover livro?</string>
@@ -147,6 +148,7 @@
     <string name="author">Autor</string>
 
     <!-- Tabs -->
+    <string name="all_tab">Todas</string>
     <string name="reading_tab">Lendo</string>
     <string name="already_read_tab">Já Lido</string>
     <string name="planning_tab">Planejando</string>
@@ -672,4 +674,40 @@
     <string name="collapse_content_desc">Recolher</string>
     <string name="remove_content_desc">Remover</string>
     <string name="note_content_desc">Nota</string>
+
+    <!-- Library settings -->
+    <string name="library_settings">Biblioteca</string>
+    <string name="library_settings_desc">Categorias</string>
+    <string name="categories_settings_title">Categorias</string>
+    <string name="create_category">Criar categoria</string>
+    <string name="rename_category">Renomear</string>
+    <string name="delete_category">Excluir</string>
+    <string name="delete_category_confirm">Você tem certeza de que deseja excluir esta categoria?</string>
+    <string name="show_category">Mostrar</string>
+    <string name="hide_category">Ocultar</string>
+    <string name="categories_settings_description">Os livros são inicialmente adicionados à categoria padrão. Você pode criar categorias personalizadas para organizar sua biblioteca. Deslize para a esquerda para excluir categorias personalizadas. Os livros em categorias excluídas permanecerão em sua biblioteca.</string>
+
+    <string name="enter_category_name">Nome da categoria</string>
+    <string name="default_category_label">Categoria padrão</string>
+    <string name="edit_category">Editar categoria</string>
+
+    <string name="move_category_up">Mover para cima</string>
+    <string name="move_category_down">Mover para baixo</string>
+
+    <!-- Math renderer -->
+    <string name="math_renderer_option">Matemática LaTeX (BETA)</string>
+    <string name="math_renderer_option_desc">Recurso experimental: exibir fórmulas matemáticas.</string>
+
+    <!-- New additions -->
+    <string name="drag_to_reorder">Arraste para reordenar</string>
+    <string name="reorder_categories">Reordenar categorias</string>
+    <string name="reordering_mode">Modo de reordenação</string>
+    <string name="save_order">Salvar ordem</string>
+    <string name="order_saved">Ordem das categorias salva</string>
+    <string name="categories_title">Categorias</string>
+    <string name="create_category_dialog_title">Nova categoria</string>
+    <string name="edit_category_dialog_title">Editar nome da categoria</string>
+    <string name="category_name_placeholder">Digite o nome da categoria…</string>
+    <string name="create_category_dialog_desc">Digite um nome para a nova categoria</string>
+    <string name="edit_category_dialog_desc">Altere o nome da categoria</string>
 </resources>

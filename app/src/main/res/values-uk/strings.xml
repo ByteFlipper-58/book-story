@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.3.0</string>
+    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">За замовчуванням</string>
     <string name="random_string">Випадковий</string>
@@ -27,6 +27,7 @@
     <!-- Dialog Labels -->
     <string name="add_books">Додати книги?</string>
     <string name="move_books">Перемістити книги?</string>
+    <string name="choose_categories">Виберіть категорії</string>
     <string name="delete_books">Видалити книги?</string>
     <string name="delete_book">Видалити книгу?</string>
     <string name="move_book">Перемістити книгу?</string>
@@ -147,6 +148,7 @@
     <string name="author">Автор</string>
 
     <!-- Tabs -->
+    <string name="all_tab">Усі</string>
     <string name="reading_tab">Читаю</string>
     <string name="already_read_tab">Вже прочитано</string>
     <string name="planning_tab">Планую</string>
@@ -671,4 +673,40 @@
     <string name="collapse_content_desc">Згорнути</string>
     <string name="remove_content_desc">Видалити</string>
     <string name="note_content_desc">Нотатка</string>
+
+    <!-- Library settings -->
+    <string name="library_settings">Бібліотека</string>
+    <string name="library_settings_desc">Категорії</string>
+    <string name="categories_settings_title">Категорії</string>
+    <string name="create_category">Створити категорію</string>
+    <string name="rename_category">Перейменувати</string>
+    <string name="delete_category">Видалити</string>
+    <string name="delete_category_confirm">Ви впевнені, що хочете видалити цю категорію?</string>
+    <string name="show_category">Показати</string>
+    <string name="hide_category">Сховати</string>
+    <string name="categories_settings_description">Книги спочатку додаються до категорії за замовчуванням. Ви можете створювати власні категорії для організації бібліотеки. Проведіть вліво, щоб видалити власні категорії. Книги в видалених категоріях залишаться у вашій бібліотеці.</string>
+
+    <string name="enter_category_name">Назва категорії</string>
+    <string name="default_category_label">Категорія за замовчуванням</string>
+    <string name="edit_category">Редагувати категорію</string>
+
+    <string name="move_category_up">Перемістити вгору</string>
+    <string name="move_category_down">Перемістити вниз</string>
+
+    <!-- Math renderer -->
+    <string name="math_renderer_option">LaTeX Математика (БЕТА)</string>
+    <string name="math_renderer_option_desc">Експериментальна функція: відображення математичних формул.</string>
+
+    <!-- New additions -->
+    <string name="drag_to_reorder">Перетягніть для зміни порядку</string>
+    <string name="reorder_categories">Змінити порядок категорій</string>
+    <string name="reordering_mode">Режим зміни порядку</string>
+    <string name="save_order">Зберегти порядок</string>
+    <string name="order_saved">Порядок категорій збережено</string>
+    <string name="categories_title">Категорії</string>
+    <string name="create_category_dialog_title">Нова категорія</string>
+    <string name="edit_category_dialog_title">Редагувати назву категорії</string>
+    <string name="category_name_placeholder">Введіть назву категорії…</string>
+    <string name="create_category_dialog_desc">Введіть назву нової категорії</string>
+    <string name="edit_category_dialog_desc">Змініть назву категорії</string>
 </resources>

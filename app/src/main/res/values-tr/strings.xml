@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.3.0</string>
+    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Varsayılan</string>
     <string name="random_string">Rastgele</string>
@@ -27,6 +27,7 @@
     <!-- Dialog Labels -->
     <string name="add_books">Kitaplar eklensin mi?</string>
     <string name="move_books">Kitaplar taşınsın mı?</string>
+    <string name="choose_categories">Kategorileri seçin</string>
     <string name="delete_books">Kitaplar silinsin mi?</string>
     <string name="delete_book">Kitap silinsin mi?</string>
     <string name="move_book">Kitap taşınsın mı?</string>
@@ -146,6 +147,7 @@
     <string name="author">Yazar</string>
 
     <!-- Tabs -->
+    <string name="all_tab">Tümü</string>
     <string name="reading_tab">Okunuyor</string>
     <string name="already_read_tab">Zaten Okundu</string>
     <string name="planning_tab">Planlanıyor</string>
@@ -668,4 +670,40 @@
     <string name="collapse_content_desc">Daralt</string>
     <string name="remove_content_desc">Kaldır</string>
     <string name="note_content_desc">Not</string>
+
+    <!-- Library settings -->
+    <string name="library_settings">Kütüphane</string>
+    <string name="library_settings_desc">Kategoriler</string>
+    <string name="categories_settings_title">Kategoriler</string>
+    <string name="create_category">Kategori oluştur</string>
+    <string name="rename_category">Yeniden adlandır</string>
+    <string name="delete_category">Sil</string>
+    <string name="delete_category_confirm">Bu kategoriyi silmek istediğinizden emin misiniz?</string>
+    <string name="show_category">Göster</string>
+    <string name="hide_category">Gizle</string>
+    <string name="categories_settings_description">Kitaplar başlangıçta varsayılan kategoriye eklenir. Kütüphanenizi düzenlemek için özel kategoriler oluşturabilirsiniz. Özel kategorileri silmek için sola kaydırın. Silinen kategorilerdeki kitaplar kütüphanenizde kalmaya devam eder.</string>
+
+    <string name="enter_category_name">Kategori adı</string>
+    <string name="default_category_label">Varsayılan kategori</string>
+    <string name="edit_category">Kategoriyi düzenle</string>
+
+    <string name="move_category_up">Yukarı taşı</string>
+    <string name="move_category_down">Aşağı taşı</string>
+
+    <!-- Math renderer -->
+    <string name="math_renderer_option">LaTeX Matematik (BETA)</string>
+    <string name="math_renderer_option_desc">Deneysel özellik: matematiksel formülleri gösterir.</string>
+
+    <!-- New additions -->
+    <string name="drag_to_reorder">Yeniden sıralamak için sürükle</string>
+    <string name="reorder_categories">Kategorileri yeniden sırala</string>
+    <string name="reordering_mode">Yeniden sıralama modu</string>
+    <string name="save_order">Sıralamayı kaydet</string>
+    <string name="order_saved">Kategori sıralaması kaydedildi</string>
+    <string name="categories_title">Kategoriler</string>
+    <string name="create_category_dialog_title">Yeni kategori</string>
+    <string name="edit_category_dialog_title">Kategori adını düzenle</string>
+    <string name="category_name_placeholder">Kategori adı girin…</string>
+    <string name="create_category_dialog_desc">Yeni kategori için bir ad girin</string>
+    <string name="edit_category_dialog_desc">Kategori adını değiştir</string>
 </resources>

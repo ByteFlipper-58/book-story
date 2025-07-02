@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.3.0</string>
+    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Predefinito</string>
     <string name="random_string">Casuale</string>
@@ -27,6 +27,7 @@
     <!-- Dialog Labels -->
     <string name="add_books">Aggiungere libri?</string>
     <string name="move_books">Spostare libri?</string>
+    <string name="choose_categories">Scegli categorie</string>
     <string name="delete_books">Eliminare libri?</string>
     <string name="delete_book">Eliminare libro?</string>
     <string name="move_book">Spostare libro?</string>
@@ -147,6 +148,7 @@
     <string name="author">Autore</string>
 
     <!-- Tabs -->
+    <string name="all_tab">Tutte</string>
     <string name="reading_tab">Lettura</string>
     <string name="already_read_tab">Già letto</string>
     <string name="planning_tab">Pianificazione</string>
@@ -673,4 +675,39 @@
     <string name="remove_content_desc">Rimuovi</string>
     <string name="note_content_desc">Nota</string>
 
+    <!-- Library settings -->
+    <string name="library_settings">Libreria</string>
+    <string name="library_settings_desc">Categorie</string>
+    <string name="categories_settings_title">Categorie</string>
+    <string name="create_category">Crea categoria</string>
+    <string name="rename_category">Rinomina</string>
+    <string name="delete_category">Elimina</string>
+    <string name="delete_category_confirm">Sei sicuro di voler eliminare questa categoria?</string>
+    <string name="show_category">Mostra</string>
+    <string name="hide_category">Nascondi</string>
+    <string name="categories_settings_description">I libri vengono aggiunti inizialmente alla categoria predefinita. Puoi creare categorie personalizzate per organizzare la tua libreria. Scorri a sinistra per eliminare categorie personalizzate. I libri nelle categorie eliminate rimarranno nella tua libreria.</string>
+
+    <string name="enter_category_name">Nome categoria</string>
+    <string name="default_category_label">Categoria predefinita</string>
+    <string name="edit_category">Modifica categoria</string>
+
+    <string name="move_category_up">Sposta su</string>
+    <string name="move_category_down">Sposta giù</string>
+
+    <!-- Math renderer -->
+    <string name="math_renderer_option">Matematica LaTeX (BETA)</string>
+    <string name="math_renderer_option_desc">Funzione sperimentale: visualizza formule matematiche.</string>
+
+    <!-- New additions -->
+    <string name="drag_to_reorder">Trascina per riordinare</string>
+    <string name="reorder_categories">Riordina categorie</string>
+    <string name="reordering_mode">Modalità riordino</string>
+    <string name="save_order">Salva ordine</string>
+    <string name="order_saved">Ordine categorie salvato</string>
+    <string name="categories_title">Categorie</string>
+    <string name="create_category_dialog_title">Nuova categoria</string>
+    <string name="edit_category_dialog_title">Modifica nome categoria</string>
+    <string name="category_name_placeholder">Inserisci nome categoria…</string>
+    <string name="create_category_dialog_desc">Inserisci un nome per la nuova categoria</string>
+    <string name="edit_category_dialog_desc">Modifica il nome della categoria</string>
 </resources>

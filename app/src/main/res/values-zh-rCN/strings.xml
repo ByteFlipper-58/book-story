@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.3.0</string>
+    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">默认</string>
     <string name="random_string">随机</string>
@@ -27,6 +27,7 @@
     <!-- Dialog Labels -->
     <string name="add_books">添加书籍？</string>
     <string name="move_books">移动书籍？</string>
+    <string name="choose_categories">选择类别</string>
     <string name="delete_books">删除书籍？</string>
     <string name="delete_book">删除书籍？</string>
     <string name="move_book">移动书籍？</string>
@@ -146,6 +147,7 @@
     <string name="author">作者</string>
 
     <!-- Tabs -->
+    <string name="all_tab">全部</string>
     <string name="reading_tab">正在阅读</string>
     <string name="already_read_tab">已读完</string>
     <string name="planning_tab">计划中</string>
@@ -668,4 +670,40 @@
     <string name="collapse_content_desc">折叠</string>
     <string name="remove_content_desc">移除</string>
     <string name="note_content_desc">备注</string>
+
+    <!-- Library settings -->
+    <string name="library_settings">图书馆</string>
+    <string name="library_settings_desc">类别</string>
+    <string name="categories_settings_title">类别</string>
+    <string name="create_category">创建类别</string>
+    <string name="rename_category">重命名</string>
+    <string name="delete_category">删除</string>
+    <string name="delete_category_confirm">你确定要删除此类别吗？</string>
+    <string name="show_category">显示</string>
+    <string name="hide_category">隐藏</string>
+    <string name="categories_settings_description">图书最初会被添加到默认类别中。你可以创建自定义类别来整理你的图书馆。向左滑动即可删除自定义类别。被删除类别中的图书仍会保留在图书馆中。</string>
+
+    <string name="enter_category_name">类别名称</string>
+    <string name="default_category_label">默认类别</string>
+    <string name="edit_category">编辑类别</string>
+
+    <string name="move_category_up">上移</string>
+    <string name="move_category_down">下移</string>
+
+    <!-- Math renderer -->
+    <string name="math_renderer_option">LaTeX 数学（测试版）</string>
+    <string name="math_renderer_option_desc">实验性功能：显示数学公式。</string>
+
+    <!-- New additions -->
+    <string name="drag_to_reorder">拖动以重新排序</string>
+    <string name="reorder_categories">重新排序类别</string>
+    <string name="reordering_mode">重新排序模式</string>
+    <string name="save_order">保存顺序</string>
+    <string name="order_saved">类别顺序已保存</string>
+    <string name="categories_title">类别</string>
+    <string name="create_category_dialog_title">新类别</string>
+    <string name="edit_category_dialog_title">编辑类别名称</string>
+    <string name="category_name_placeholder">输入类别名称…</string>
+    <string name="create_category_dialog_desc">为新类别输入名称</string>
+    <string name="edit_category_dialog_desc">更改类别名称</string>
 </resources>

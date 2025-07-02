@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.3.0</string>
+    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Par défaut</string>
     <string name="random_string">Aléatoire</string>
@@ -27,6 +27,7 @@
     <!-- Dialog Labels -->
     <string name="add_books">Ajouter des livres ?</string>
     <string name="move_books">Déplacer des livres ?</string>
+    <string name="choose_categories">Choisir des catégories</string>
     <string name="delete_books">Supprimer des livres ?</string>
     <string name="delete_book">Supprimer le livre ?</string>
     <string name="move_book">Déplacer le livre ?</string>
@@ -146,6 +147,7 @@
     <string name="author">Auteur</string>
 
     <!-- Tabs -->
+    <string name="all_tab">Toutes</string>
     <string name="reading_tab">Lecture</string>
     <string name="already_read_tab">Déjà lu</string>
     <string name="planning_tab">Planification</string>
@@ -670,4 +672,40 @@
     <string name="collapse_content_desc">Réduire</string>
     <string name="remove_content_desc">Supprimer</string>
     <string name="note_content_desc">Note</string>
+
+    <!-- Library settings -->
+    <string name="library_settings">Bibliothèque</string>
+    <string name="library_settings_desc">Catégories</string>
+    <string name="categories_settings_title">Catégories</string>
+    <string name="create_category">Créer une catégorie</string>
+    <string name="rename_category">Renommer</string>
+    <string name="delete_category">Supprimer</string>
+    <string name="delete_category_confirm">Êtes-vous sûr de vouloir supprimer cette catégorie ?</string>
+    <string name="show_category">Afficher</string>
+    <string name="hide_category">Masquer</string>
+    <string name="categories_settings_description">Les livres sont initialement ajoutés à la catégorie par défaut. Vous pouvez créer des catégories personnalisées pour organiser votre bibliothèque. Glissez vers la gauche pour supprimer des catégories personnalisées. Les livres dans les catégories supprimées resteront dans votre bibliothèque.</string>
+
+    <string name="enter_category_name">Nom de la catégorie</string>
+    <string name="default_category_label">Catégorie par défaut</string>
+    <string name="edit_category">Modifier la catégorie</string>
+
+    <string name="move_category_up">Déplacer vers le haut</string>
+    <string name="move_category_down">Déplacer vers le bas</string>
+
+    <!-- Math renderer -->
+    <string name="math_renderer_option">Mathématiques LaTeX (BETA)</string>
+    <string name="math_renderer_option_desc">Fonction expérimentale : afficher les formules mathématiques.</string>
+
+    <!-- New additions -->
+    <string name="drag_to_reorder">Glisser pour réorganiser</string>
+    <string name="reorder_categories">Réorganiser les catégories</string>
+    <string name="reordering_mode">Mode de réorganisation</string>
+    <string name="save_order">Enregistrer l'ordre</string>
+    <string name="order_saved">Ordre des catégories enregistré</string>
+    <string name="categories_title">Catégories</string>
+    <string name="create_category_dialog_title">Nouvelle catégorie</string>
+    <string name="edit_category_dialog_title">Modifier le nom de la catégorie</string>
+    <string name="category_name_placeholder">Entrez le nom de la catégorie…</string>
+    <string name="create_category_dialog_desc">Entrez un nom pour la nouvelle catégorie</string>
+    <string name="edit_category_dialog_desc">Modifier le nom de la catégorie</string>
 </resources>

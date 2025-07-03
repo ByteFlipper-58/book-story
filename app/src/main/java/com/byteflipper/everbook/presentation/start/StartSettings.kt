@@ -8,6 +8,9 @@
 package com.byteflipper.everbook.presentation.start
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.byteflipper.everbook.domain.navigator.StackEvent
@@ -27,7 +30,12 @@ fun StartSettings(
 ) {
     val aboutModel = hiltViewModel<AboutModel>()
     
+    // Состояние принятия политики конфиденциальности
+    val privacyAccepted = remember { mutableStateOf(false) }
+    
     StartSettingsScaffold(
+        currentPage = currentPage,
+        nextEnabled = if (currentPage == 4) privacyAccepted.value else true,
         navigateForward = navigateForward
     ) {
         StartContentTransition(
@@ -35,7 +43,8 @@ fun StartSettings(
                 0 -> StartScreen.GENERAL_SETTINGS
                 1 -> StartScreen.APPEARANCE_SETTINGS
                 2 -> StartScreen.SCAN_SETTINGS
-                else -> StartScreen.SOURCE_CODE_SETTINGS
+                3 -> StartScreen.SOURCE_CODE_SETTINGS
+                else -> StartScreen.PRIVACY_POLICY_SETTINGS
             },
             stackEvent = stackEvent
         ) { page ->
@@ -58,6 +67,13 @@ fun StartSettings(
                     
                     StartScreen.SOURCE_CODE_SETTINGS -> {
                         StartSettingsLayoutSourceCode(aboutModel)
+                    }
+
+                    StartScreen.PRIVACY_POLICY_SETTINGS -> {
+                        StartSettingsLayoutPrivacyPolicy(
+                            accepted = privacyAccepted.value,
+                            onToggle = { privacyAccepted.value = it }
+                        )
                     }
                 }
             }

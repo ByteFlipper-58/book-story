@@ -540,6 +540,10 @@
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">Esta app está basada en un fork del proyecto Acclorite/book-story. El proyecto original está disponible bajo la licencia GPL-3.0.</string>
     <string name="start_source_code">Código fuente</string>
+    <string name="start_privacy_policy_title">Política de privacidad</string>
+    <string name="start_privacy_policy_desc">Por favor, lea y acepte nuestra política de privacidad.</string>
+    <string name="start_privacy_policy_accept">Acepto la política de privacidad</string>
+    <string name="privacy_policy_icon_content_desc">Icono de política de privacidad</string>
     <string name="start_done">¡Todo listo!</string>
     <string name="start_done_desc">
         Has completado correctamente la configuración básica de la app.

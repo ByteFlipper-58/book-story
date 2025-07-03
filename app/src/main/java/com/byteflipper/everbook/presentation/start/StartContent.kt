@@ -30,7 +30,7 @@ fun StartContent(
     StartContentTransition(
         modifier = Modifier.background(MaterialTheme.colorScheme.surface),
         targetValue = when {
-            currentPage in 0..3 -> StartScreen.SETTINGS
+            currentPage in 0..4 -> StartScreen.SETTINGS
             else -> StartScreen.DONE
         },
         stackEvent = stackEvent

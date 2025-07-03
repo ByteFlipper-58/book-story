@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.GolfCourse
+import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -30,6 +31,8 @@ import com.byteflipper.everbook.presentation.core.components.common.StyledText
 
 @Composable
 fun StartSettingsScaffold(
+    currentPage: Int,
+    nextEnabled: Boolean = true,
     navigateForward: () -> Unit,
     content: @Composable () -> Unit
 ) {
@@ -38,7 +41,8 @@ fun StartSettingsScaffold(
         containerColor = MaterialTheme.colorScheme.surface,
         bottomBar = {
             StartSettingsBottomBar(
-                navigateForward = navigateForward
+                navigateForward = navigateForward,
+                enabled = nextEnabled
             )
         }
     ) {
@@ -49,26 +53,52 @@ fun StartSettingsScaffold(
                 .padding(horizontal = 18.dp)
         ) {
             Spacer(modifier = Modifier.height(24.dp))
-            Icon(
-                imageVector = Icons.Default.GolfCourse,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(64.dp)
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            StyledText(
-                text = stringResource(id = R.string.start_welcome),
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            StyledText(
-                text = stringResource(id = R.string.start_welcome_desc),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            )
+            when (currentPage) {
+                4 -> { // Privacy policy step
+                    Icon(
+                        imageVector = Icons.Default.Policy,
+                        contentDescription = stringResource(id = R.string.privacy_policy_icon_content_desc),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(64.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    StyledText(
+                        text = stringResource(id = R.string.start_privacy_policy_title),
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    StyledText(
+                        text = stringResource(id = R.string.start_privacy_policy_desc),
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    )
+                }
+                else -> {
+                    Icon(
+                        imageVector = Icons.Default.GolfCourse,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(64.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    StyledText(
+                        text = stringResource(id = R.string.start_welcome),
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    StyledText(
+                        text = stringResource(id = R.string.start_welcome_desc),
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(18.dp))
 
             Box(

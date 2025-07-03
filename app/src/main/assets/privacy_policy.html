@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Privacy Policy</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            padding: 0 0px 0px;
+            background: transparent;
+            color: #2b2b2b;
+        }
+        h1, h2, h3 { color: #1a1a1a; }
+        ul { margin-left: 20px; }
+        code {
+            background: rgba(128,128,128,0.15);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        /* Dark theme */
+        @media (prefers-color-scheme: dark) {
+            body { color: #e6e6e6; }
+            h1, h2, h3 { color: #ffffff; }
+            a { color: #8ab4f8; }
+            code {
+                background: rgba(255,255,255,0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Privacy Policy</h1>
+
+    <p><em>Last updated: June&nbsp;2025</em></p>
+
+    <p>
+        This Privacy Policy explains how <strong>EverBook</strong> (“the App”, “we”, “our”) handles your
+        information when you use the application published on Google&nbsp;Play.
+        We respect your privacy and design the App to work <strong>entirely offline</strong> whenever possible.
+        The App is <a href="https://github.com/byteflipper-58/book-story" target="_blank">open-source software</a>
+        distributed under the GPL-3.0 license, so anyone can audit the source code.
+    </p>
+
+    <h2>1. Information We Do <em>Not</em> Collect</h2>
+    <p>
+        •  We do <strong>not</strong> require you to create an account.<br/>
+        •  We do <strong>not</strong> collect or upload personal identifiers such as name, email, address or
+           contact list.<br/>
+        •  All books, reading progress and settings remain <strong>inside your device storage</strong> and are never
+           copied to our servers.
+    </p>
+
+    <h2>2. Information Collected Automatically</h2>
+    <p>
+        The App includes <strong>Google Firebase Analytics</strong> and <strong>Firebase Crashlytics</strong>. These services
+        automatically collect limited, non-personally-identifying information, for example:
+    </p>
+    <ul>
+        <li>Crash stack traces and device model (Crashlytics)</li>
+        <li>Anonymous event counters such as screen views (Analytics)</li>
+        <li>Firebase-generated installation ID</li>
+    </ul>
+    <p>
+        The analytics data helps us understand which parts of the App are used the most and spot
+        critical crashes. It does <strong>not</strong> include the content of your ebooks or any text you read.
+        Google may aggregate this information in accordance with its
+        <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a>.
+    </p>
+
+    <h2>3. Optional Network Connections</h2>
+    <p>The App can access the Internet only in the cases listed below:</p>
+    <ul>
+        <li>Checking for App updates on GitHub if you enable "Check for updates" in Settings</li>
+        <li>Opening external links you tap (e.g. Help articles or project homepage)</li>
+        <li>Downloading cover images through the built-in image loader (<code>coil-compose</code>)</li>
+        <li>Receiving push notifications via Firebase Cloud Messaging (if you allow them)</li>
+    </ul>
+    <p>No other remote calls are performed.</p>
+
+    <h2>4. Permissions Explained</h2>
+    <ul>
+        <li><strong>Storage / File Access</strong> – to let you pick local ebook files and keep reading progress.</li>
+        <li><strong>Post Notifications</strong> – optional; used for update reminders or FCM push messages.</li>
+        <li><strong>Internet</strong> – required by Firebase SDKs and to open external links you request.</li>
+    </ul>
+
+    <h2>5. Third-Party Open-Source Libraries</h2>
+    <p>The App relies on the following open-source libraries, all of which run entirely on-device and never transmit your data to external servers:</p>
+    <ul>
+        <li><a href="https://developer.android.com/jetpack/compose" target="_blank">AndroidX Jetpack Compose &amp; Material&nbsp;3</a> — UI framework</li>
+        <li><a href="https://developer.android.com/topic/libraries/architecture/room" target="_blank">Room</a> &amp; <a href="https://developer.android.com/topic/libraries/architecture/datastore" target="_blank">DataStore</a> — local storage</li>
+        <li><a href="https://github.com/Kotlin/kotlinx.coroutines" target="_blank">kotlinx.coroutines</a> &amp; <a href="https://github.com/Kotlin/kotlinx.serialization" target="_blank">kotlinx.serialization</a></li>
+        <li><a href="https://github.com/TomRoush/PdfBox-Android" target="_blank">PDFBox-Android</a> &amp; <a href="https://jsoup.org/" target="_blank">jsoup</a> — file parsers</li>
+        <li><a href="https://github.com/coil-kt/coil" target="_blank">Coil</a> — image loading</li>
+        <li><a href="https://github.com/calvinshmh/compose-reorderable" target="_blank">compose-reorderable</a> — drag-and-drop</li>
+        <li><a href="https://github.com/nanihadesuka/LazyColumnScrollbar" target="_blank">LazyColumnScrollbar</a></li>
+        <li><a href="https://github.com/mikepenz/AboutLibraries" target="_blank">AboutLibraries</a></li>
+        <li><a href="https://github.com/commonmark/commonmark-java" target="_blank">commonmark-java</a></li>
+    </ul>
+    <p>All of these libraries operate exclusively on local data.</p>
+
+    <h2>6. Data Retention &amp; Deletion</h2>
+    <p>
+        •  Locally stored data (books, settings, reading history) stays on your device until you delete
+           it or uninstall the App.<br/>
+        •  Crash and analytics logs on Firebase are retained for up to 90 days and then deleted
+           automatically.
+    </p>
+
+    <h2>7. Legal Basis for Processing (GDPR)</h2>
+    <p>If you are located in the European Economic Area, our legal basis for collecting and using personal information described above depends on the specific context in which we collect it. We process your information on the basis of:</p>
+    <ul>
+        <li><strong>Legitimate interest</strong> — to keep the App secure and stable (crash reports).</li>
+        <li><strong>Consent</strong> — optional analytics and push notifications are processed only if you grant the corresponding permissions.</li>
+    </ul>
+
+    <h2>8. Your Rights</h2>
+    <p>The GDPR grants data-subjects extensive rights. However, <strong>we do not maintain any user-identifiable data on our servers</strong>. Most information (books, settings, reading history) is stored only on your device; limited diagnostic logs are held by Google Firebase in aggregate form.</p>
+    <p>Consequently, if you make a Data Subject Access Request we will normally answer that we have <em>no data relating to you</em>. If you would still like to exercise your rights you can:</p>
+    <ul>
+        <li><strong>Erase or rectify</strong> local data at any time by clearing the App's storage or uninstalling it.</li>
+        <li><strong>Withdraw consent</strong> by disabling analytics &amp; crash reporting in your device system-settings (Google Play Services – Ads).</li>
+        <li>Contact Google LLC directly regarding Firebase Analytics / Crashlytics identifiers.</li>
+    </ul>
+    <p>Should you send us a GDPR request, please note that without additional information we cannot link Firebase crash reports to a specific natural person.</p>
+
+    <h2>9. International Data Transfers</h2>
+    <p>Firebase services may store data on servers located in the United States or other countries. Google LLC participates in the EU–US Data Privacy Framework, and standard contractual clauses are in place to safeguard such transfers.</p>
+
+    <h2>10. Children's Privacy</h2>
+    <p>The App is not directed to children under 13. We do not knowingly collect personal data from children.</p>
+
+    <h2>11. Your Consent</h2>
+    <p>
+        By checking the "I accept the privacy policy" box in the App you acknowledge that you have
+        read and understood this Privacy Policy.
+    </p>
+
+    <h2>12. Changes to This Policy</h2>
+    <p>
+        We may update this policy from time to time. New versions will be published within the App and
+        on the project GitHub page. Continued use of the App constitutes acceptance of the revised policy.
+    </p>
+
+    <h2>13. Contact</h2>
+    <p>
+        For questions or concerns, please open an issue on our
+        <a href="https://github.com/byteflipper-58/book-story" target="_blank">GitHub repository</a>,
+        visit our website at <a href="https://byteflipper.com" target="_blank">byteflipper.com</a>,
+        or email us at <a href="mailto:byteflipper.business@gmail.com">byteflipper.business@gmail.com</a>.
+    </p>
+</body>
+</html> 

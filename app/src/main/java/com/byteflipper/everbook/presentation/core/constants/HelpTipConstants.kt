@@ -150,4 +150,11 @@ fun provideHelpTips() = listOf(
             append(stringResource(id = R.string.help_title_how_to_use_perception_expander_1))
         }
     ),
+
+    HelpTip(
+        title = R.string.help_title_how_to_manage_categories,
+        description = {
+            append(stringResource(id = R.string.help_desc_how_to_manage_categories_1))
+        }
+    ),
 )

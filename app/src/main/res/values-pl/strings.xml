@@ -525,6 +525,13 @@
         spoglądania na boki po każdej linii.
     </string>
 
+    <string name="help_title_how_to_manage_categories">Jak zarządzać kategoriami?</string>
+    <string name="help_desc_how_to_manage_categories_1">
+    Aplikacja ma teraz nowe funkcje do zarządzania kategoriami:
+    Domyślnie jest 5 kategorii: Wszystkie (przechowuje wszystkie książki), Czytam, Ukończone, Planowane i Porzucone. Domyślne kategorie można tylko ukrywać i zmieniać ich kolejność. Kategorie niestandardowe można tworzyć, zmieniać nazwy, usuwać i ukrywać.
+    Aby utworzyć nową kategorię, naciśnij przycisk „Utwórz kategorię”. Aby zmienić kolejność kategorii, użyj przycisku z czterema liniami (przeciągnij i upuść). Aby usunąć kategorię niestandardową, przesuń ją w lewo. Książki mogą być przechowywane jednocześnie w wielu kategoriach.
+    </string>
+
     <!-- Start -->
     <string name="start_welcome">Witamy w EverBook!</string>
     <string name="start_welcome_desc">

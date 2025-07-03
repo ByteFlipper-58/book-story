@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.presentation.about
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -64,13 +66,14 @@ fun AboutLayout(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
+                Image(
                     painterResource(id = R.drawable.everbook),
                     contentDescription = stringResource(id = R.string.app_icon_content_desc),
                     modifier = Modifier
-                        .padding(14.dp)
-                        .size(120.dp),
-                    tint = MaterialTheme.colorScheme.secondary
+                        .padding(8.dp)
+                        .size(121.dp)
+                        .scale(2f),
+                    //tint = MaterialTheme.colorScheme.secondary
                 )
             }
         }
@@ -90,7 +93,7 @@ fun AboutLayout(
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     AboutItem(
                         title = stringResource(id = R.string.app_version_option),
-                        description = "Book's Story v${stringResource(id = R.string.app_version)}",
+                        description = "EverBook v${stringResource(id = R.string.app_version)}",
                     ) {
                         navigateToBrowserPage(
                             AboutEvent.OnNavigateToBrowserPage(

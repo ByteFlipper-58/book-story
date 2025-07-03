@@ -526,6 +526,13 @@
         a los lados después de cada línea.
     </string>
 
+    <string name="help_title_how_to_manage_categories">¿Cómo gestionar las categorías?</string>
+    <string name="help_desc_how_to_manage_categories_1">
+    La aplicación ahora tiene nuevas funciones para trabajar con categorías:
+    Por defecto, hay 5 categorías: Todas (almacena todos los libros), Leyendo, Terminado, Planificando y Abandonado. Las categorías predeterminadas solo se pueden ocultar y reordenar. Las categorías personalizadas pueden crearse, renombrarse, eliminarse y ocultarse.
+    Para crear una nueva categoría, presiona el botón "Crear categoría". Para reordenar las categorías, usa el botón con cuatro líneas (arrastrar y soltar). Para eliminar una categoría personalizada, deslízala hacia la izquierda. Los libros pueden almacenarse en varias categorías al mismo tiempo.
+    </string>
+
     <!-- Start -->
     <string name="start_welcome">¡Bienvenido a EverBook!</string>
     <string name="start_welcome_desc">

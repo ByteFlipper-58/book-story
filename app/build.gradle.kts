@@ -133,6 +133,8 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-inappmessaging-display")
 
+    implementation("com.android.billingclient:billing:8.0.0")
+
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
     ksp("androidx.room:room-compiler:2.6.1")

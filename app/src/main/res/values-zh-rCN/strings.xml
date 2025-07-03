@@ -522,6 +522,13 @@
         每行后看向两侧。
     </string>
 
+    <string name="help_title_how_to_manage_categories">如何管理分类？</string>
+    <string name="help_desc_how_to_manage_categories_1">
+    应用程序现在新增了分类管理功能：
+    默认有5个分类：全部（存储所有书籍）、阅读中、已完成、计划中和放弃。默认分类只能隐藏和重新排序。自定义分类可以创建、重命名、删除和隐藏。
+    要创建新分类，点击“创建分类”按钮。要重新排序分类，使用带有四条线的按钮（拖放操作）。要删除自定义分类，向左滑动它。书籍可以同时存储在多个分类中。
+    </string>
+
     <!-- Start -->
     <string name="start_welcome">欢迎来到 EverBook！</string>
     <string name="start_welcome_desc">

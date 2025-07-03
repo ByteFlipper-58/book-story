@@ -566,6 +566,13 @@
          nach jeder Zeile direkt zu den Seiten zu schauen.
     </string>
 
+    <string name="help_title_how_to_manage_categories">Wie verwaltet man Kategorien?</string>
+    <string name="help_desc_how_to_manage_categories_1">
+    Die App verfügt jetzt über neue Funktionen zur Verwaltung von Kategorien:
+    Standardmäßig gibt es 5 Kategorien: Alle (speichert alle Bücher), Lesen, Beendet, Planung und Abgebrochen. Standardkategorien können nur ausgeblendet und neu angeordnet werden. Benutzerdefinierte Kategorien können erstellt, umbenannt, gelöscht und ausgeblendet werden.
+    Um eine neue Kategorie zu erstellen, drücken Sie die Schaltfläche "Kategorie erstellen". Zum Neuordnen der Kategorien verwenden Sie die Schaltfläche mit den vier Linien (Drag &amp; Drop). Um eine benutzerdefinierte Kategorie zu löschen, wischen Sie sie nach links. Bücher können gleichzeitig in mehreren Kategorien gespeichert werden.
+    </string>
+
 
     <!-- Start -->
     <string name="start_welcome">Willkommen bei EverBook!</string>

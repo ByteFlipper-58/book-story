@@ -24,21 +24,21 @@ fun provideAboutBadges() = listOf(
         id = "vk",
         drawable = R.drawable.vk_24,
         imageVector = null,
-        contentDescription = R.string.reddit_content_desc,
+        contentDescription = R.string.vk_content_desc,
         url = "https://vk.com/byteflipper/"
     ),
     Badge(
         id = "byteflipper",
         drawable = R.drawable.byteflipper_logo,
         imageVector = null,
-        contentDescription = R.string.tryzub_content_desc,
-        url = "https://byteflipper.web.app"
+        contentDescription = R.string.byteflipper_site_content_desc,
+        url = "https://byteflipper.com"
     ),
     Badge(
         id = "telegram",
         drawable = R.drawable.telegram_24,
         imageVector = null,
-        contentDescription = R.string.patreon_content_desc,
+        contentDescription = R.string.telegram_chennel_content_desc,
         url = "https://t.me/ByteFlipper"
     ),
     Badge(

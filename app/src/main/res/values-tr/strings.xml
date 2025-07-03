@@ -522,6 +522,13 @@
         Okurken, her satırdan sonra doğrudan kenarlara bakmadan merkezdeki odak noktanızı koruyun.
     </string>
 
+    <string name="help_title_how_to_manage_categories">Kategoriler nasıl yönetilir?</string>
+    <string name="help_desc_how_to_manage_categories_1">
+    Uygulamada artık kategorilerle çalışmak için yeni özellikler var:
+    Varsayılan olarak 5 kategori var: Tüm (tüm kitapları depolar), Okuma, Tamamlandı, Planlama ve Bırakıldı. Varsayılan kategoriler yalnızca gizlenebilir ve yeniden sıralanabilir. Özel kategoriler oluşturulabilir, yeniden adlandırılabilir, silinebilir ve gizlenebilir.
+    Yeni bir kategori oluşturmak için "Kategori oluştur" butonuna basın. Kategorileri yeniden sıralamak için dört çizgili butonu kullanın (sürükle ve bırak). Özel bir kategoriyi silmek için sola kaydırın. Kitaplar aynı anda birden fazla kategoride depolanabilir.
+    </string>
+
     <!-- Start -->
     <string name="start_welcome">EverBook\'a hoş geldiniz!</string>
     <string name="start_welcome_desc">

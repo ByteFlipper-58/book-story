@@ -594,6 +594,12 @@
         looking at the sides after each line.
     </string>
 
+    <string name="help_title_how_to_manage_categories">How to manage categories?</string>
+    <string name="help_desc_how_to_manage_categories_1">
+        The app now has new features for working with categories:
+        By default, there are 5 categories: All (stores all books), Reading, Finished, Planning, and Dropped. Default categories can only be hidden and reordered. Custom categories can be created, renamed, deleted, and hidden.
+        To create a new category, press the "Create category" button. To reorder categories, use the button with four lines (drag-and-drop). To delete a custom category, swipe it to the left. Books can be stored in multiple categories at once.
+    </string>
 
     <!-- Start -->
     <string name="start_welcome">Welcome to EverBook!</string>
@@ -664,6 +670,9 @@
     <string name="x_content_desc" translatable="false">X</string>
     <string name="reddit_content_desc" translatable="false">Reddit</string>
     <string name="patreon_content_desc" translatable="false">Patreon</string>
+    <string name="vk_content_desc" translatable="false">VK</string>
+    <string name="telegram_chennel_content_desc" translatable="false">Telegram channel</string>
+    <string name="byteflipper_site_content_desc" translatable="false">ByteFlipper site</string>
     <string name="tryzub_content_desc">Tryzub</string>
     <string name="github_profile_content_desc">GitHub Profile</string>
     <string name="drag_content_desc">Drag</string>

@@ -700,7 +700,7 @@
     <string name="drag_to_reorder">Glisser pour réorganiser</string>
     <string name="reorder_categories">Réorganiser les catégories</string>
     <string name="reordering_mode">Mode de réorganisation</string>
-    <string name="save_order">Enregistrer l'ordre</string>
+    <string name="save_order">Enregistrer l\'ordre</string>
     <string name="order_saved">Ordre des catégories enregistré</string>
     <string name="categories_title">Catégories</string>
     <string name="create_category_dialog_title">Nouvelle catégorie</string>

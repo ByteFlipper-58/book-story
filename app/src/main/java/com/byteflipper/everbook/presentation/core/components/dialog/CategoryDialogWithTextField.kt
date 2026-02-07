@@ -9,6 +9,7 @@ package com.byteflipper.everbook.presentation.core.components.dialog
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextFieldDefaults
@@ -37,6 +38,8 @@ fun CategoryDialogWithTextField(
     icon: ImageVector? = null,
     description: String? = null,
     lengthLimit: Int = 50,
+    editable: Boolean = true,
+    extraItems: (LazyListScope.() -> Unit) = {},
     onDismiss: () -> Unit,
     onAction: (String) -> Unit
 ) {
@@ -59,11 +62,6 @@ fun CategoryDialogWithTextField(
         actionEnabled = state.value.text.isNotBlank(),
         disableOnClick = false,
         onAction = {
-            if (state.value.text == initialValue) {
-                onDismiss()
-                return@Dialog
-            }
-
             onAction(state.value.text.trim())
             onDismiss()
         },
@@ -83,7 +81,7 @@ fun CategoryDialogWithTextField(
                         .fillMaxWidth()
                         .focusRequester(focusRequester)
                         .onGloballyPositioned {
-                            if (!focused.value) {
+                            if (editable && !focused.value) {
                                 focusRequester.requestFocus()
                                 focused.value = true
                             }
@@ -100,9 +98,13 @@ fun CategoryDialogWithTextField(
                             maxLines = 1
                         )
                     },
-                    singleLine = true
+                    singleLine = true,
+                    enabled = editable,
+                    readOnly = !editable
                 )
             }
+
+            extraItems()
         }
     )
-} 
+}

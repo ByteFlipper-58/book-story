@@ -35,6 +35,7 @@ import com.byteflipper.everbook.ui.browse.BrowseModel
 import com.byteflipper.everbook.ui.browse.BrowseScreen
 import com.byteflipper.everbook.ui.history.HistoryModel
 import com.byteflipper.everbook.ui.history.HistoryScreen
+import com.byteflipper.everbook.ui.library.CategoriesModel
 import com.byteflipper.everbook.ui.library.LibraryModel
 import com.byteflipper.everbook.ui.library.LibraryScreen
 import com.byteflipper.everbook.ui.settings.SettingsModel
@@ -52,12 +53,13 @@ class MainActivity : AppCompatActivity() {
     // Creating an instance of Models
     private val mainModel: MainModel by viewModels()
     private val settingsModel: SettingsModel by viewModels()
+    private val categoriesModel: CategoriesModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Splash screen
         installSplashScreen().apply {
             setKeepOnScreenCondition {
-                !mainModel.isReady.value
+                !mainModel.isReady.value || !categoriesModel.isReady.value
             }
         }
 
@@ -88,6 +90,7 @@ class MainActivity : AppCompatActivity() {
 
             val state = mainModel.state.collectAsStateWithLifecycle()
             val isLoaded = mainModel.isReady.collectAsStateWithLifecycle()
+            val categoriesReady = categoriesModel.isReady.collectAsStateWithLifecycle()
 
             val tabs = immutableListOf(
                 NavigatorItem(
@@ -115,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
             MainActivityKeyboardManager()
 
-            if (isLoaded.value) {
+            if (isLoaded.value && categoriesReady.value) {
                 BookStoryTheme(
                     theme = state.value.theme,
                     isDark = state.value.darkTheme.isDark(),

@@ -20,6 +20,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import com.byteflipper.everbook.domain.library.category.CategoryWithBooks
+import com.byteflipper.everbook.domain.library.display.LibraryLayout
+import com.byteflipper.everbook.domain.library.display.LibraryTitlePosition
 import com.byteflipper.everbook.ui.library.LibraryEvent
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -27,6 +29,11 @@ import com.byteflipper.everbook.ui.library.LibraryEvent
 fun LibraryScaffold(
     selectedItemsCount: Int,
     hasSelectedItems: Boolean,
+    titlePosition: LibraryTitlePosition,
+    readButton: Boolean,
+    showProgress: Boolean,
+    showBookCount: Boolean,
+    showCategoryTabs: Boolean,
     showSearch: Boolean,
     searchQuery: String,
     bookCount: Int,
@@ -34,6 +41,10 @@ fun LibraryScaffold(
     pagerState: PagerState,
     isLoading: Boolean,
     isRefreshing: Boolean,
+    filterActive: Boolean,
+    layout: LibraryLayout,
+    gridSize: Int,
+    autoGridSize: Boolean,
     refreshState: PullRefreshState,
     categories: List<CategoryWithBooks>,
     searchVisibility: (LibraryEvent.OnSearchVisibility) -> Unit,
@@ -44,6 +55,7 @@ fun LibraryScaffold(
     clearSelectedBooks: (LibraryEvent.OnClearSelectedBooks) -> Unit,
     showCategoriesDialog: (LibraryEvent.OnShowCategoriesDialog) -> Unit,
     showDeleteDialog: (LibraryEvent.OnShowDeleteDialog) -> Unit,
+    showFilterBottomSheet: (LibraryEvent.OnShowFilterBottomSheet) -> Unit,
     navigateToBrowse: () -> Unit,
     navigateToBookInfo: (id: Int) -> Unit,
     navigateToReader: (id: Int) -> Unit,
@@ -57,6 +69,8 @@ fun LibraryScaffold(
             LibraryTopBar(
                 selectedItemsCount = selectedItemsCount,
                 hasSelectedItems = hasSelectedItems,
+                showBookCount = showBookCount,
+                showCategoryTabs = showCategoryTabs,
                 showSearch = showSearch,
                 searchQuery = searchQuery,
                 bookCount = bookCount,
@@ -64,6 +78,7 @@ fun LibraryScaffold(
                 pagerState = pagerState,
                 isLoading = isLoading,
                 isRefreshing = isRefreshing,
+                filterActive = filterActive,
                 categories = categories,
                 searchVisibility = searchVisibility,
                 requestFocus = requestFocus,
@@ -71,7 +86,8 @@ fun LibraryScaffold(
                 search = search,
                 clearSelectedBooks = clearSelectedBooks,
                 showCategoriesDialog = showCategoriesDialog,
-                showDeleteDialog = showDeleteDialog
+                showDeleteDialog = showDeleteDialog,
+                showFilterBottomSheet = showFilterBottomSheet
             )
         }
     ) { paddingValues ->
@@ -83,7 +99,13 @@ fun LibraryScaffold(
             LibraryPager(
                 pagerState = pagerState,
                 categories = categories,
+                layout = layout,
+                gridSize = gridSize,
+                autoGridSize = autoGridSize,
                 hasSelectedItems = hasSelectedItems,
+                titlePosition = titlePosition,
+                readButton = readButton,
+                showProgress = showProgress,
                 isLoading = isLoading,
                 isRefreshing = isRefreshing,
                 selectBook = selectBook,

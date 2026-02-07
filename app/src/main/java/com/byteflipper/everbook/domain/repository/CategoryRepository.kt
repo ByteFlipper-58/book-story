@@ -8,6 +8,7 @@
 package com.byteflipper.everbook.domain.repository
 
 import com.byteflipper.everbook.domain.library.custom_category.Category
+import com.byteflipper.everbook.domain.library.display.LibrarySortOrder
 import kotlinx.coroutines.flow.Flow
 
 interface CategoryRepository {
@@ -17,6 +18,12 @@ interface CategoryRepository {
     suspend fun createCategory(name: String)
 
     suspend fun renameCategory(id: Int, newName: String)
+
+    suspend fun updateCategorySort(
+        id: Int,
+        sortOrder: LibrarySortOrder,
+        sortOrderDescending: Boolean
+    )
 
     suspend fun deleteCategory(id: Int, targetId: Int?)
 

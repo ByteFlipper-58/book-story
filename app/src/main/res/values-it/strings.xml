@@ -721,4 +721,31 @@
     <string name="category_name_placeholder">Inserisci nome categoria…</string>
     <string name="create_category_dialog_desc">Inserisci un nome per la nuova categoria</string>
     <string name="edit_category_dialog_desc">Modifica il nome della categoria</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">Schede</string>
+    <string name="title_position_option">Posizione del titolo</string>
+    <string name="library_title_position_off">Nascosto</string>
+    <string name="library_title_position_below">Sotto la copertina</string>
+    <string name="library_title_position_inside">Sulla copertina</string>
+    <string name="library_grid_size_option">Dimensione della griglia</string>
+    <string name="library_grid_size_auto">Automatico</string>
+    <string name="library_grid_size_per_row">per riga</string>
+    <string name="read_button_option">Pulsante «Leggi»</string>
+    <string name="show_progress_option">Mostra avanzamento</string>
+    <string name="show_category_tabs_option">Mostra schede delle categorie</string>
+    <string name="show_default_tab_option">Mostra scheda «Tutti»</string>
+    <string name="show_book_count_option">Mostra conteggio libri</string>
+    <string name="sort_settings">Ordinamento</string>
+    <string name="sort_order_option">Ordine di ordinamento</string>
+    <string name="sort_direction_option">Direzione di ordinamento</string>
+    <string name="sort_direction_ascending">Crescente</string>
+    <string name="sort_direction_descending">Decrescente</string>
+    <string name="per_category_sort_option">Ordinamento per categoria</string>
+    <string name="per_category_sort_option_note">Se attivo, ogni categoria mantiene il proprio ordine di ordinamento.</string>
+    <string name="category_sort_note">Si applica quando è attivo «Ordinamento per categoria».</string>
+    <string name="sort_order_name">Alfabetico</string>
+    <string name="sort_order_last_read">Ultima lettura</string>
+    <string name="sort_order_progress">Avanzamento</string>
+    <string name="sort_order_author">Autore</string>
 </resources>

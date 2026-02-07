@@ -21,12 +21,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.MoveUp
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -50,6 +54,8 @@ import com.byteflipper.everbook.ui.library.LibraryEvent
 fun LibraryTopBar(
     selectedItemsCount: Int,
     hasSelectedItems: Boolean,
+    showBookCount: Boolean,
+    showCategoryTabs: Boolean,
     showSearch: Boolean,
     searchQuery: String,
     bookCount: Int,
@@ -57,6 +63,7 @@ fun LibraryTopBar(
     pagerState: PagerState,
     isLoading: Boolean,
     isRefreshing: Boolean,
+    filterActive: Boolean,
     categories: List<CategoryWithBooks>,
     searchVisibility: (LibraryEvent.OnSearchVisibility) -> Unit,
     requestFocus: (LibraryEvent.OnRequestFocus) -> Unit,
@@ -64,13 +71,21 @@ fun LibraryTopBar(
     search: (LibraryEvent.OnSearch) -> Unit,
     clearSelectedBooks: (LibraryEvent.OnClearSelectedBooks) -> Unit,
     showCategoriesDialog: (LibraryEvent.OnShowCategoriesDialog) -> Unit,
-    showDeleteDialog: (LibraryEvent.OnShowDeleteDialog) -> Unit
+    showDeleteDialog: (LibraryEvent.OnShowDeleteDialog) -> Unit,
+    showFilterBottomSheet: (LibraryEvent.OnShowFilterBottomSheet) -> Unit
 ) {
     val animatedItemCountBackgroundColor = animateColorAsState(
         if (hasSelectedItems) MaterialTheme.colorScheme.surfaceContainerHighest
         else MaterialTheme.colorScheme.surfaceContainer,
         animationSpec = spring(stiffness = Spring.StiffnessMediumLow)
     )
+    val animatedFilterIconColor = animateColorAsState(
+        if (filterActive) MaterialTheme.colorScheme.primary
+        else LocalContentColor.current
+    )
+    val currentCategory = remember(categories, pagerState.currentPage) {
+        derivedStateOf { categories.getOrNull(pagerState.currentPage) }
+    }
 
     TopAppBar(
         scrollBehavior = null,
@@ -87,21 +102,34 @@ fun LibraryTopBar(
                 contentNavigationIcon = {},
                 contentTitle = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        StyledText(text = stringResource(id = R.string.library_screen))
-                        Spacer(modifier = Modifier.width(6.dp))
                         StyledText(
-                            text = bookCount.toString(),
-                            modifier = Modifier
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceContainer,
-                                    RoundedCornerShape(14.dp)
-                                )
-                                .padding(horizontal = 8.dp, vertical = 3.dp),
-                            style = LocalTextStyle.current.copy(
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                fontSize = 16.sp
-                            )
+                            text = if (showCategoryTabs) {
+                                stringResource(id = R.string.library_screen)
+                            } else {
+                                currentCategory.value?.title?.asString()
+                                    ?: stringResource(id = R.string.library_screen)
+                            }
                         )
+                        if (showBookCount) {
+                            Spacer(modifier = Modifier.width(6.dp))
+                            StyledText(
+                                text = if (showCategoryTabs) {
+                                    bookCount.toString()
+                                } else {
+                                    currentCategory.value?.books?.size?.toString() ?: "0"
+                                },
+                                modifier = Modifier
+                                    .background(
+                                        MaterialTheme.colorScheme.surfaceContainer,
+                                        RoundedCornerShape(14.dp)
+                                    )
+                                    .padding(horizontal = 8.dp, vertical = 3.dp),
+                                style = LocalTextStyle.current.copy(
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    fontSize = 16.sp
+                                )
+                            )
+                        }
                     }
                 },
                 contentActions = {
@@ -111,6 +139,14 @@ fun LibraryTopBar(
                         disableOnClick = true,
                     ) {
                         searchVisibility(LibraryEvent.OnSearchVisibility(true))
+                    }
+                    IconButton(
+                        icon = Icons.Default.FilterList,
+                        contentDescription = R.string.filter_content_desc,
+                        disableOnClick = false,
+                        color = animatedFilterIconColor.value
+                    ) {
+                        showFilterBottomSheet(LibraryEvent.OnShowFilterBottomSheet)
                     }
                     NavigatorIconButton()
                 }
@@ -189,11 +225,14 @@ fun LibraryTopBar(
             ),
         ),
         customContent = {
-            LibraryTabs(
-                categories = categories,
-                pagerState = pagerState,
-                itemCountBackgroundColor = animatedItemCountBackgroundColor.value
-            )
+            if (showCategoryTabs) {
+                LibraryTabs(
+                    categories = categories,
+                    pagerState = pagerState,
+                    itemCountBackgroundColor = animatedItemCountBackgroundColor.value,
+                    showBookCount = showBookCount
+                )
+            }
         }
     )
 }

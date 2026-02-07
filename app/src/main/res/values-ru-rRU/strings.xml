@@ -722,4 +722,31 @@
     <string name="category_name_placeholder">Введите название категории…</string>
     <string name="create_category_dialog_desc">Введите название новой категории</string>
     <string name="edit_category_dialog_desc">Измените название категории</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">Вкладки</string>
+    <string name="title_position_option">Положение названия</string>
+    <string name="library_title_position_off">Скрыто</string>
+    <string name="library_title_position_below">Под обложкой</string>
+    <string name="library_title_position_inside">На обложке</string>
+    <string name="library_grid_size_option">Размер сетки</string>
+    <string name="library_grid_size_auto">Авто</string>
+    <string name="library_grid_size_per_row">в ряд</string>
+    <string name="read_button_option">Кнопка «Читать»</string>
+    <string name="show_progress_option">Показывать прогресс</string>
+    <string name="show_category_tabs_option">Показывать вкладки категорий</string>
+    <string name="show_default_tab_option">Показывать вкладку «Все»</string>
+    <string name="show_book_count_option">Показывать количество книг</string>
+    <string name="sort_settings">Сортировка</string>
+    <string name="sort_order_option">Порядок сортировки</string>
+    <string name="sort_direction_option">Направление сортировки</string>
+    <string name="sort_direction_ascending">По возрастанию</string>
+    <string name="sort_direction_descending">По убыванию</string>
+    <string name="per_category_sort_option">Сортировка по категориям</string>
+    <string name="per_category_sort_option_note">Если включено, каждая категория хранит свой порядок сортировки.</string>
+    <string name="category_sort_note">Применяется, если включена сортировка по категориям.</string>
+    <string name="sort_order_name">По алфавиту</string>
+    <string name="sort_order_last_read">Последнее чтение</string>
+    <string name="sort_order_progress">Прогресс</string>
+    <string name="sort_order_author">Автор</string>
 </resources>

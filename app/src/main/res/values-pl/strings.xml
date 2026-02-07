@@ -720,4 +720,31 @@
     <string name="category_name_placeholder">Wpisz nazwę kategorii…</string>
     <string name="create_category_dialog_desc">Wpisz nazwę nowej kategorii</string>
     <string name="edit_category_dialog_desc">Zmień nazwę kategorii</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">Zakładki</string>
+    <string name="title_position_option">Pozycja tytułu</string>
+    <string name="library_title_position_off">Ukryty</string>
+    <string name="library_title_position_below">Poniżej</string>
+    <string name="library_title_position_inside">Na okładce</string>
+    <string name="library_grid_size_option">Rozmiar siatki</string>
+    <string name="library_grid_size_auto">Automatycznie</string>
+    <string name="library_grid_size_per_row">na wiersz</string>
+    <string name="read_button_option">Pokaż przycisk „Przeczytaj”</string>
+    <string name="show_progress_option">Pokaż postęp</string>
+    <string name="show_category_tabs_option">Pokaż zakładki kategorii</string>
+    <string name="show_default_tab_option">Pokaż zakładkę „Wszystkie”</string>
+    <string name="show_book_count_option">Pokaż liczbę książek</string>
+    <string name="sort_settings">Sortuj</string>
+    <string name="sort_order_option">Kolejność sortowania</string>
+    <string name="sort_direction_option">Kierunek sortowania</string>
+    <string name="sort_direction_ascending">Rosnąco</string>
+    <string name="sort_direction_descending">Malejąco</string>
+    <string name="per_category_sort_option">Sortowanie według kategorii</string>
+    <string name="per_category_sort_option_note">Po włączeniu każda kategoria zachowuje własną kolejność sortowania.</string>
+    <string name="category_sort_note">Dotyczy, gdy włączone jest sortowanie według kategorii.</string>
+    <string name="sort_order_name">Alfabetycznie</string>
+    <string name="sort_order_last_read">Ostatnio czytane</string>
+    <string name="sort_order_progress">Postęp</string>
+    <string name="sort_order_author">Autor</string>
 </resources>

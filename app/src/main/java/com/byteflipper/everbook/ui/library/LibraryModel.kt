@@ -285,6 +285,26 @@ class LibraryModel @Inject constructor(
                 }
             }
 
+            is LibraryEvent.OnShowFilterBottomSheet -> {
+                viewModelScope.launch {
+                    _state.update {
+                        it.copy(
+                            bottomSheet = LibraryScreen.FILTER_BOTTOM_SHEET
+                        )
+                    }
+                }
+            }
+
+            is LibraryEvent.OnDismissBottomSheet -> {
+                viewModelScope.launch {
+                    _state.update {
+                        it.copy(
+                            bottomSheet = null
+                        )
+                    }
+                }
+            }
+
             is LibraryEvent.OnShowMoveDialog -> { /* deprecated */ }
             is LibraryEvent.OnActionMoveDialog -> { /* deprecated */ }
         }

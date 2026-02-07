@@ -717,4 +717,31 @@
     <string name="category_name_placeholder">Kategoriename eingeben…</string>
     <string name="create_category_dialog_desc">Geben Sie einen Namen für die neue Kategorie ein</string>
     <string name="edit_category_dialog_desc">Ändern Sie den Kategoriennamen</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">Registerkarten</string>
+    <string name="title_position_option">Titelposition</string>
+    <string name="library_title_position_off">Versteckt</string>
+    <string name="library_title_position_below">Unten</string>
+    <string name="library_title_position_inside">Innen</string>
+    <string name="library_grid_size_option">Rastergröße</string>
+    <string name="library_grid_size_auto">Automatisch</string>
+    <string name="library_grid_size_per_row">pro Zeile</string>
+    <string name="read_button_option">Schaltfläche „Lesen“ anzeigen</string>
+    <string name="show_progress_option">Fortschritt anzeigen</string>
+    <string name="show_category_tabs_option">Kategorie-Registerkarten anzeigen</string>
+    <string name="show_default_tab_option">Reiter „Alle“ anzeigen</string>
+    <string name="show_book_count_option">Buchanzahl anzeigen</string>
+    <string name="sort_settings">Sortieren</string>
+    <string name="sort_order_option">Sortierreihenfolge</string>
+    <string name="sort_direction_option">Sortierrichtung</string>
+    <string name="sort_direction_ascending">Aufsteigend</string>
+    <string name="sort_direction_descending">Absteigend</string>
+    <string name="per_category_sort_option">Sortierung nach Kategorien</string>
+    <string name="per_category_sort_option_note">Wenn aktiviert, behält jede Kategorie ihre eigene Sortierreihenfolge.</string>
+    <string name="category_sort_note">Gilt, wenn „Sortierung nach Kategorien“ aktiviert ist.</string>
+    <string name="sort_order_name">Alphabetisch</string>
+    <string name="sort_order_last_read">Zuletzt gelesen</string>
+    <string name="sort_order_progress">Fortschritt</string>
+    <string name="sort_order_author">Autor</string>
 </resources>

@@ -115,15 +115,23 @@ fun CategoryItem(
                 showConfirmDelete = true
             }
             false
-        }
+        },
+        positionalThreshold = { totalDistance -> totalDistance * 0.5f }
     )
     
     SwipeToDismissBox(
         state = dismissState,
+        enableDismissFromStartToEnd = false,
+        enableDismissFromEndToStart = !isReorderMode,
         backgroundContent = {
-            val maxOffset = with(LocalDensity.current){ 120.dp.toPx() }
+            val maxOffset = with(LocalDensity.current) { 120.dp.toPx() }
             val rawOffset = runCatching { dismissState.requireOffset() }.getOrElse { 0f }
-            val progress = (kotlin.math.abs(rawOffset)/maxOffset).coerceIn(0f,1f)
+            val isEndToStart = rawOffset < 0f
+            val progress = if (isEndToStart) {
+                (kotlin.math.abs(rawOffset) / maxOffset).coerceIn(0f, 1f)
+            } else {
+                0f
+            }
             val scale by animateFloatAsState(
                 targetValue = when {
                     progress > 0.7f -> 1.2f
@@ -192,12 +200,10 @@ fun CategoryItem(
             icon = Icons.Outlined.Delete,
             description = stringResource(R.string.delete_category_confirm),
             onDismiss = {
-                showConfirmDelete = false
                 scope.launch { dismissState.reset() }
             },
             actionEnabled = true,
             onAction = {
-                showConfirmDelete = false
                 onDelete()
                 hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                 scope.launch { dismissState.reset() }

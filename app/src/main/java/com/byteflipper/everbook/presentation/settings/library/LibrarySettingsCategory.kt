@@ -9,7 +9,10 @@ package com.byteflipper.everbook.presentation.settings.library
 
 import androidx.compose.foundation.lazy.LazyListScope
 import com.byteflipper.everbook.domain.library.custom_category.Category
+import com.byteflipper.everbook.presentation.settings.library.display.LibraryDisplaySubcategory
+import com.byteflipper.everbook.presentation.settings.library.sort.LibrarySortSubcategory
 import com.byteflipper.everbook.presentation.settings.library.subcategory.ReorderableCategoriesSubcategory
+import com.byteflipper.everbook.presentation.settings.library.tabs.LibraryTabsSubcategory
 import sh.calvin.reorderable.ReorderableLazyListState
 
 /**
@@ -50,4 +53,8 @@ fun LazyListScope.LibrarySettingsCategory(
         isReorderMode = isReorderMode,
         onReorderModeChanged = onReorderModeChanged
     )
+
+    LibraryDisplaySubcategory()
+    LibraryTabsSubcategory()
+    LibrarySortSubcategory(showDivider = false)
 } 

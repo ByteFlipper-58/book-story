@@ -17,6 +17,8 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.byteflipper.everbook.domain.library.category.CategoryWithBooks
+import com.byteflipper.everbook.domain.library.display.LibraryLayout as LibraryLayoutEnum
+import com.byteflipper.everbook.domain.library.display.LibraryTitlePosition
 import com.byteflipper.everbook.ui.library.LibraryEvent
 import com.byteflipper.everbook.ui.theme.DefaultTransition
 
@@ -24,7 +26,13 @@ import com.byteflipper.everbook.ui.theme.DefaultTransition
 fun LibraryPager(
     pagerState: PagerState,
     categories: List<CategoryWithBooks>,
+    layout: LibraryLayoutEnum,
+    gridSize: Int,
+    autoGridSize: Boolean,
     hasSelectedItems: Boolean,
+    titlePosition: LibraryTitlePosition,
+    readButton: Boolean,
+    showProgress: Boolean,
     isLoading: Boolean,
     isRefreshing: Boolean,
     selectBook: (LibraryEvent.OnSelectBook) -> Unit,
@@ -41,26 +49,30 @@ fun LibraryPager(
 
         Box(modifier = Modifier.fillMaxSize()) {
             DefaultTransition(visible = !isLoading) {
-                LibraryLayout {
-                    items(
-                        category.value.books,
-                        key = { it.data.id }
-                    ) { book ->
-                        LibraryItem(
-                            book = book,
-                            hasSelectedItems = hasSelectedItems,
-                            selectBook = { select ->
-                                selectBook(
-                                    LibraryEvent.OnSelectBook(
-                                        id = book.data.id,
-                                        select = select
-                                    )
+                LibraryLayout(
+                    books = category.value.books,
+                    layout = layout,
+                    gridSize = gridSize,
+                    autoGridSize = autoGridSize
+                ) { book ->
+                    LibraryItem(
+                        book = book,
+                        layout = layout,
+                        hasSelectedItems = hasSelectedItems,
+                        titlePosition = titlePosition,
+                        readButton = readButton,
+                        showProgress = showProgress,
+                        selectBook = { select ->
+                            selectBook(
+                                LibraryEvent.OnSelectBook(
+                                    id = book.data.id,
+                                    select = select
                                 )
-                            },
-                            navigateToBookInfo = { navigateToBookInfo(book.data.id) },
-                            navigateToReader = { navigateToReader(book.data.id) },
-                        )
-                    }
+                            )
+                        },
+                        navigateToBookInfo = { navigateToBookInfo(book.data.id) },
+                        navigateToReader = { navigateToReader(book.data.id) },
+                    )
                 }
             }
 

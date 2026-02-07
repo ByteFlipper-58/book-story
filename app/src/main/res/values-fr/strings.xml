@@ -719,4 +719,31 @@
     <string name="category_name_placeholder">Entrez le nom de la catégorie…</string>
     <string name="create_category_dialog_desc">Entrez un nom pour la nouvelle catégorie</string>
     <string name="edit_category_dialog_desc">Modifier le nom de la catégorie</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">Onglets</string>
+    <string name="title_position_option">Position du titre</string>
+    <string name="library_title_position_off">Caché</string>
+    <string name="library_title_position_below">En-dessous</string>
+    <string name="library_title_position_inside">À l\'intérieur</string>
+    <string name="library_grid_size_option">Taille de la grille</string>
+    <string name="library_grid_size_auto">Auto</string>
+    <string name="library_grid_size_per_row">par ligne</string>
+    <string name="read_button_option">Montrer le bouton «Lire»</string>
+    <string name="show_progress_option">Montrer la progression</string>
+    <string name="show_category_tabs_option">Montrer les onglets des catégories</string>
+    <string name="show_default_tab_option">Afficher l’onglet «Tout»</string>
+    <string name="show_book_count_option">Montrer le nombre de livres</string>
+    <string name="sort_settings">Trier</string>
+    <string name="sort_order_option">Ordre de tri</string>
+    <string name="sort_direction_option">Sens du tri</string>
+    <string name="sort_direction_ascending">Croissant</string>
+    <string name="sort_direction_descending">Décroissant</string>
+    <string name="per_category_sort_option">Tri par catégorie</string>
+    <string name="per_category_sort_option_note">Si activé, chaque catégorie conserve son propre ordre de tri.</string>
+    <string name="category_sort_note">S’applique lorsque «Tri par catégorie» est activé.</string>
+    <string name="sort_order_name">Alphabétiquement</string>
+    <string name="sort_order_last_read">Dernière lecture</string>
+    <string name="sort_order_progress">Progression</string>
+    <string name="sort_order_author">Auteur</string>
 </resources>

@@ -38,8 +38,11 @@ fun LibraryTabs(
     categories: List<CategoryWithBooks>,
     pagerState: PagerState,
     itemCountBackgroundColor: Color,
+    showBookCount: Boolean,
 ) {
     val scope = rememberCoroutineScope()
+    if (categories.isEmpty()) return
+    val safeIndex = pagerState.currentPage.coerceIn(0, categories.lastIndex)
 
     Box(Modifier.fillMaxWidth()) {
         HorizontalDivider(
@@ -52,19 +55,19 @@ fun LibraryTabs(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 0.5.dp),
-            selectedTabIndex = pagerState.currentPage,
+            selectedTabIndex = safeIndex,
             containerColor = Color.Transparent,
             edgePadding = 0.dp,
             divider = {},
             indicator = { tabPositions ->
-                if (pagerState.currentPage < tabPositions.size) {
+                if (safeIndex < tabPositions.size) {
                     val width by animateDpAsState(
-                        targetValue = tabPositions[pagerState.currentPage].contentWidth,
+                        targetValue = tabPositions[safeIndex].contentWidth,
                         label = ""
                     )
 
                     TabRowDefaults.PrimaryIndicator(
-                        Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                        Modifier.tabIndicatorOffset(tabPositions[safeIndex]),
                         width = width
                     )
                 }
@@ -72,7 +75,7 @@ fun LibraryTabs(
         ) {
             categories.forEachIndexed { index, tabItem ->
                 Tab(
-                    selected = pagerState.currentPage == index,
+                    selected = safeIndex == index,
                     onClick = {
                         scope.launch {
                             pagerState.animateScrollToPage(index)
@@ -87,19 +90,21 @@ fun LibraryTabs(
                                 style = MaterialTheme.typography.bodyLarge,
                                 maxLines = 1,
                             )
-                            Spacer(modifier = Modifier.width(6.dp))
-                            StyledText(
-                                text = tabItem.books.count().toString(),
-                                modifier = Modifier
-                                    .background(
-                                        itemCountBackgroundColor,
-                                        MaterialTheme.shapes.medium
+                            if (showBookCount) {
+                                Spacer(modifier = Modifier.width(6.dp))
+                                StyledText(
+                                    text = tabItem.books.count().toString(),
+                                    modifier = Modifier
+                                        .background(
+                                            itemCountBackgroundColor,
+                                            MaterialTheme.shapes.medium
+                                        )
+                                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                                    style = MaterialTheme.typography.bodyMedium.copy(
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp),
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
-                            )
+                            }
                         }
                     }
                 )

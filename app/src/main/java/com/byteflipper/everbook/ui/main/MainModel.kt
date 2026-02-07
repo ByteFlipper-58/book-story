@@ -25,6 +25,9 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import com.byteflipper.everbook.domain.browse.display.toBrowseLayout
 import com.byteflipper.everbook.domain.browse.display.toBrowseSortOrder
+import com.byteflipper.everbook.domain.library.display.toLibraryLayout
+import com.byteflipper.everbook.domain.library.display.toLibrarySortOrder
+import com.byteflipper.everbook.domain.library.display.toLibraryTitlePosition
 import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toFontThickness
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
@@ -234,6 +237,110 @@ class MainModel @Inject constructor(
 
             is MainEvent.OnChangeBrowseIncludedFilterItem -> handleBrowseIncludedFilterItemUpdate(
                 event = event
+            )
+
+            is MainEvent.OnChangeLibraryLayout -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_LAYOUT,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryLayout = toLibraryLayout())
+                }
+            )
+
+            is MainEvent.OnChangeLibraryAutoGridSize -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_AUTO_GRID_SIZE,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryAutoGridSize = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryGridSize -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_GRID_SIZE,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryGridSize = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryTitlePosition -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_TITLE_POSITION,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryTitlePosition = toLibraryTitlePosition())
+                }
+            )
+
+            is MainEvent.OnChangeLibraryShowReadButton -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SHOW_READ_BUTTON,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryShowReadButton = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryShowProgress -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SHOW_PROGRESS,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryShowProgress = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryShowBookCount -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SHOW_BOOK_COUNT,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryShowBookCount = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryShowCategoryTabs -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SHOW_CATEGORY_TABS,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryShowCategoryTabs = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryShowDefaultTab -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SHOW_DEFAULT_TAB,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryShowDefaultTab = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibrarySortOrder -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SORT_ORDER,
+                value = event.value,
+                updateState = {
+                    it.copy(librarySortOrder = toLibrarySortOrder())
+                }
+            )
+
+            is MainEvent.OnChangeLibrarySortOrderDescending -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SORT_ORDER_DESCENDING,
+                value = event.value,
+                updateState = {
+                    it.copy(librarySortOrderDescending = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryPerCategorySort -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_PER_CATEGORY_SORT,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryPerCategorySort = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryLastTabId -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_LAST_TAB_ID,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryLastTabId = this)
+                }
             )
 
             is MainEvent.OnChangeTextAlignment -> handleDatastoreUpdate(

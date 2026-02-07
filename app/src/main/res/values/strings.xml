@@ -692,7 +692,7 @@
 
     <!-- Library settings -->
     <string name="library_settings">Library</string>
-    <string name="library_settings_desc">Categories</string>
+    <string name="library_settings_desc">Categories, display, tabs, sort</string>
     <string name="categories_settings_title">Categories</string>
     <string name="create_category">Create category</string>
     <string name="rename_category">Rename</string>
@@ -725,4 +725,34 @@
     <string name="category_name_placeholder">Enter category name…</string>
     <string name="create_category_dialog_desc">Enter a name for the new category</string>
     <string name="edit_category_dialog_desc">Change the category name</string>
+
+    <string name="tabs_settings">Tabs</string>
+    <string name="title_position_option">Title position</string>
+    <string name="library_title_position_off">Off</string>
+    <string name="library_title_position_below">Below cover</string>
+    <string name="library_title_position_inside">On cover</string>
+    <string name="library_grid_size_option">Grid size</string>
+    <string name="library_grid_size_auto">Auto</string>
+    <string name="library_grid_size_per_row">per row</string>
+    <string name="read_button_option">Read button</string>
+    <string name="show_progress_option">Show progress</string>
+    <string name="show_category_tabs_option">Show category tabs</string>
+    <string name="show_default_tab_option">Show All tab</string>
+    <string name="show_book_count_option">Show book count</string>
+    <string name="sort_settings">Sort</string>
+    <string name="sort_order_option">Sort order</string>
+    <string name="sort_direction_option">Sort direction</string>
+    <string name="sort_direction_ascending">Ascending</string>
+    <string name="sort_direction_descending">Descending</string>
+    <string name="per_category_sort_option">Sort per category</string>
+    <string name="per_category_sort_option_note">
+        When enabled, each category keeps its own sort order.
+    </string>
+    <string name="category_sort_note">
+        Applies when Sort per category is enabled.
+    </string>
+    <string name="sort_order_name">Alphabetically</string>
+    <string name="sort_order_last_read">Last read</string>
+    <string name="sort_order_progress">Progress</string>
+    <string name="sort_order_author">Author</string>
 </resources>

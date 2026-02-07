@@ -19,7 +19,9 @@ class CategoryMapperImpl @Inject constructor() : CategoryMapper {
             kind = category.kind,
             isVisible = category.isVisible,
             position = category.position,
-            isDefault = category.isDefault
+            isDefault = category.isDefault,
+            sortOrder = category.sortOrder,
+            sortOrderDescending = category.sortOrderDescending
         )
     }
 
@@ -43,6 +45,8 @@ class CategoryMapperImpl @Inject constructor() : CategoryMapper {
             isVisible = entity.isVisible,
             position = entity.position,
             isDefault = entity.isDefault,
+            sortOrder = entity.sortOrder,
+            sortOrderDescending = entity.sortOrderDescending,
             title = localizedName
         )
     }

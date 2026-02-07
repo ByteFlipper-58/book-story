@@ -32,7 +32,7 @@ import java.io.File
         CategoryEntity::class,
         BookCategoryCrossRef::class,
     ],
-    version = 10,
+    version = 11,
     autoMigrations = [
         AutoMigration(1, 2),
         AutoMigration(2, 3),
@@ -210,6 +210,24 @@ object DatabaseHelper {
     }
 
     /**
+     * Миграция с версии 10 на 11.
+     *
+     * Добавляет поля сортировки для категорий библиотеки.
+     */
+    val MIGRATION_10_11 = object : Migration(10, 11) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "ALTER TABLE CategoryEntity " +
+                        "ADD COLUMN `sortOrder` TEXT NOT NULL DEFAULT 'LAST_READ'"
+            )
+            db.execSQL(
+                "ALTER TABLE CategoryEntity " +
+                        "ADD COLUMN `sortOrderDescending` INTEGER NOT NULL DEFAULT 1"
+            )
+        }
+    }
+
+    /**
      * Callback, который вызывается при создании базы данных (fresh install).
      * Заполняет таблицу `CategoryEntity` четырьмя стандартными категориями, если она пуста.
      */
@@ -249,6 +267,7 @@ object DatabaseHelper {
             .addMigrations(MIGRATION_4_5)
             .addMigrations(MIGRATION_5_6)
             .addMigrations(MIGRATION_9_10)
+            .addMigrations(MIGRATION_10_11)
             .build()
     }
 }

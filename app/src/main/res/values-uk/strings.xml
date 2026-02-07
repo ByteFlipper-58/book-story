@@ -720,4 +720,31 @@
     <string name="category_name_placeholder">Введіть назву категорії…</string>
     <string name="create_category_dialog_desc">Введіть назву нової категорії</string>
     <string name="edit_category_dialog_desc">Змініть назву категорії</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">Вкладки</string>
+    <string name="title_position_option">Положення назви</string>
+    <string name="library_title_position_off">Приховано</string>
+    <string name="library_title_position_below">Під обкладинкою</string>
+    <string name="library_title_position_inside">На обкладинці</string>
+    <string name="library_grid_size_option">Розмір сітки</string>
+    <string name="library_grid_size_auto">Авто</string>
+    <string name="library_grid_size_per_row">на ряд</string>
+    <string name="read_button_option">Кнопка «Читати»</string>
+    <string name="show_progress_option">Показувати прогрес</string>
+    <string name="show_category_tabs_option">Показувати вкладки категорій</string>
+    <string name="show_default_tab_option">Показувати вкладку «Усі»</string>
+    <string name="show_book_count_option">Показувати кількість книг</string>
+    <string name="sort_settings">Сортування</string>
+    <string name="sort_order_option">Порядок сортування</string>
+    <string name="sort_direction_option">Напрямок сортування</string>
+    <string name="sort_direction_ascending">За зростанням</string>
+    <string name="sort_direction_descending">За спаданням</string>
+    <string name="per_category_sort_option">Сортування за категоріями</string>
+    <string name="per_category_sort_option_note">Якщо увімкнено, кожна категорія зберігає власний порядок сортування.</string>
+    <string name="category_sort_note">Застосовується, коли ввімкнено «Сортування за категоріями».</string>
+    <string name="sort_order_name">За абеткою</string>
+    <string name="sort_order_last_read">Останнє читання</string>
+    <string name="sort_order_progress">Прогрес</string>
+    <string name="sort_order_author">Автор</string>
 </resources>

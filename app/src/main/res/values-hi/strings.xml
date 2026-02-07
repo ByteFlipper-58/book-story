@@ -718,4 +718,31 @@
     <string name="category_name_placeholder">श्रेणी का नाम दर्ज करें…</string>
     <string name="create_category_dialog_desc">नई श्रेणी के लिए नाम दर्ज करें</string>
     <string name="edit_category_dialog_desc">श्रेणी का नाम बदलें</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">टैब</string>
+    <string name="title_position_option">शीर्षक की स्थिति</string>
+    <string name="library_title_position_off">छिपा हुआ</string>
+    <string name="library_title_position_below">कवर के नीचे</string>
+    <string name="library_title_position_inside">कवर पर</string>
+    <string name="library_grid_size_option">ग्रिड आकार</string>
+    <string name="library_grid_size_auto">स्वचालित</string>
+    <string name="library_grid_size_per_row">प्रति पंक्ति</string>
+    <string name="read_button_option">«पढ़ें» बटन</string>
+    <string name="show_progress_option">प्रगति दिखाएं</string>
+    <string name="show_category_tabs_option">श्रेणी टैब दिखाएं</string>
+    <string name="show_default_tab_option">«सभी» टैब दिखाएं</string>
+    <string name="show_book_count_option">किताबों की संख्या दिखाएं</string>
+    <string name="sort_settings">सॉर्ट</string>
+    <string name="sort_order_option">सॉर्ट क्रम</string>
+    <string name="sort_direction_option">सॉर्ट दिशा</string>
+    <string name="sort_direction_ascending">आरोही</string>
+    <string name="sort_direction_descending">अवरोही</string>
+    <string name="per_category_sort_option">श्रेणी के अनुसार सॉर्ट</string>
+    <string name="per_category_sort_option_note">सक्रिय होने पर, प्रत्येक श्रेणी अपना सॉर्ट क्रम रखती है।</string>
+    <string name="category_sort_note">यह तब लागू होता है जब «श्रेणी के अनुसार सॉर्ट» सक्षम हो।</string>
+    <string name="sort_order_name">वर्णानुक्रम</string>
+    <string name="sort_order_last_read">आखिरी बार पढ़ी गई</string>
+    <string name="sort_order_progress">प्रगति</string>
+    <string name="sort_order_author">लेखक</string>
 </resources>

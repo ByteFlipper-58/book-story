@@ -717,4 +717,31 @@
     <string name="category_name_placeholder">输入类别名称…</string>
     <string name="create_category_dialog_desc">为新类别输入名称</string>
     <string name="edit_category_dialog_desc">更改类别名称</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">标签页</string>
+    <string name="title_position_option">标题位置</string>
+    <string name="library_title_position_off">隐藏</string>
+    <string name="library_title_position_below">下方</string>
+    <string name="library_title_position_inside">内部</string>
+    <string name="library_grid_size_option">网格大小</string>
+    <string name="library_grid_size_auto">自动</string>
+    <string name="library_grid_size_per_row">每行</string>
+    <string name="read_button_option">显示“阅读”按钮</string>
+    <string name="show_progress_option">显示进度</string>
+    <string name="show_category_tabs_option">显示分类标签页</string>
+    <string name="show_default_tab_option">显示“全部”标签页</string>
+    <string name="show_book_count_option">显示书籍数</string>
+    <string name="sort_settings">排序</string>
+    <string name="sort_order_option">排序方式</string>
+    <string name="sort_direction_option">排序方向</string>
+    <string name="sort_direction_ascending">升序</string>
+    <string name="sort_direction_descending">降序</string>
+    <string name="per_category_sort_option">每个分类不同排序依据</string>
+    <string name="per_category_sort_option_note">开启后，每个分类都会保留自己的排序方式。</string>
+    <string name="category_sort_note">仅在启用“每个分类不同排序依据”时生效。</string>
+    <string name="sort_order_name">字母顺序</string>
+    <string name="sort_order_last_read">上次阅读</string>
+    <string name="sort_order_progress">进度</string>
+    <string name="sort_order_author">作者</string>
 </resources>

@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.byteflipper.everbook.BuildConfig
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.constants.provideContributorsPage
@@ -93,7 +94,10 @@ fun AboutLayout(
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     AboutItem(
                         title = stringResource(id = R.string.app_version_option),
-                        description = "EverBook v${stringResource(id = R.string.app_version)}",
+                        description = stringResource(
+                            id = R.string.app_version_option_desc_1,
+                            BuildConfig.VERSION_NAME
+                        ),
                     ) {
                         navigateToBrowserPage(
                             AboutEvent.OnNavigateToBrowserPage(

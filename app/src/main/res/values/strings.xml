@@ -1,6 +1,5 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Default</string>
     <string name="random_string">Random</string>
@@ -8,13 +7,8 @@
     <!-- Notifications -->
     <string name="updates_notification_channel">New updates</string>
     <string name="updates_notification_title">New update of EverBook!</string>
-    <string name="updates_notification_desc">
-        Update %1$s just released!
-        Click to go to the release page.
-    </string>
-    <string name="updates_notification_action">
-        Download
-    </string>
+    <string name="updates_notification_desc">Update %1$s just released!\nClick to go to the release page.</string>
+    <string name="updates_notification_action">Download</string>
 
     <!-- Screens -->
     <string name="library_screen">Library</string>
@@ -36,41 +30,14 @@
     <string name="edit">Edit</string>
 
     <!-- Dialog Descriptions -->
-    <string name="add_books_description">
-        You can choose which books you want to add.
-        You can edit Title and Cover image of the book later.
-        The loading process can take up to several minutes.
-    </string>
-    <string name="move_books_description">
-        Choose the category to which you want to move all the selected books(%1$s).
-        All selected books will be moved to the selected category.
-    </string>
-    <string name="delete_books_description">
-        It will delete all selected books(%1$s) from the database.
-        It will not delete selected books from your device.
-    </string>
-    <string name="delete_book_description">
-        It will delete this book from the database.
-        It will not delete this book from your device.
-    </string>
-    <string name="move_book_description">
-        Choose the category to which you want to move this book.
-        This book will be moved to the selected category.
-    </string>
-    <string name="delete_history_description">
-        It will delete the whole history from the database.
-        After deleting the whole history, the order of the books will be reset.
-    </string>
-    <string name="update_app_description">
-        New app version was found.
-        Do you want to proceed and go to the release page?
-    </string>
-    <string name="enable_check_for_updates_description">
-        By enabling «Check for updates»
-        the app will retrieve latest release information from «api.github.com» each time
-        when app starts.
-        Do you want to proceed and enable «Check for updates»?
-    </string>
+    <string name="add_books_description">You can choose which books you want to add.\nYou can edit Title and Cover image of the book later.\nThe loading process can take up to several minutes.</string>
+    <string name="move_books_description">Choose the category to which you want to move all the selected books(%1$s).\nAll selected books will be moved to the selected category.</string>
+    <string name="delete_books_description">It will delete all selected books(%1$s) from the database.\nIt will not delete selected books from your device.</string>
+    <string name="delete_book_description">It will delete this book from the database.\nIt will not delete this book from your device.</string>
+    <string name="move_book_description">Choose the category to which you want to move this book.\nThis book will be moved to the selected category.</string>
+    <string name="delete_history_description">It will delete the whole history from the database.\nAfter deleting the whole history, the order of the books will be reset.</string>
+    <string name="update_app_description">New app version was found.\nDo you want to proceed and go to the release page?</string>
+    <string name="enable_check_for_updates_description">By enabling «Check for updates»\nthe app will retrieve latest release information from «api.github.com» each time\nwhen app starts.\nDo you want to proceed and enable «Check for updates»?</string>
 
     <!-- Errors -->
     <string name="error_no_description">No description.</string>
@@ -79,34 +46,23 @@
     <string name="error_no_dictionary">No dictionary app found.</string>
     <string name="error_no_browser">No browser app found.</string>
     <string name="error_no_share_app">No app to share found.</string>
-    <string name="error_could_not_get_text">
-        File is empty, missing, or inaccessible.
-        Verify the file, scan settings or change the path, then try again.
-    </string>
-    <string name="error_check_internet">
-        Something went wrong.
-        Try again later.
-    </string>
+    <string name="error_could_not_get_text">File is empty, missing, or inaccessible.\nVerify the file, scan settings or change the path, then try again.</string>
+    <string name="error_check_internet">Something went wrong.\nTry again later.</string>
     <string name="error_could_not_reset_cover">Could not reset cover image.</string>
     <string name="error_closed_source">Closed source</string>
     <string name="error_no_file">File does not exist or inaccessible</string>
 
     <!-- Is Empty messages -->
-    <string name="search_field_empty">
-        Search…
-    </string>
-    <string name="browse_empty">
-        Expand the library\'s book collection with your downloads
-    </string>
-    <string name="library_empty">
-        Read your favorite books and sort them between categories
-    </string>
-    <string name="history_empty">
-        Let your last book you read open the pages of a new great story of your reading journey
-    </string>
+    <string name="search_field_empty">Search…</string>
+    <string name="browse_empty">Expand the library\'s book collection with your downloads</string>
+    <string name="library_empty">Read your favorite books and sort them between categories</string>
+    <string name="history_empty">Let your last book you read open the pages of a new great story of your reading journey</string>
 
     <!-- Query strings -->
-    <string name="selected_items_count_query">%1$s selected</string>
+    <plurals name="selected_items_count_query">
+        <item quantity="one">%1$d selected</item>
+        <item quantity="other">%1$d selected</item>
+    </plurals>
     <string name="file_path_query">File path: %1$s</string>
     <string name="update_query">Update %1$s</string>
     <string name="color_preset_query">Preset %1$s</string>
@@ -165,11 +121,7 @@
     <string name="reader_tab">Reader</string>
 
     <!-- Settings notes -->
-    <string name="browse_scan_option_note">
-        These folders are used to scan and retrieve files in the Browse.
-        Removing a folder here will not delete actual files or books from the Library.
-        To revoke access, click the corresponding button.
-    </string>
+    <string name="browse_scan_option_note">These folders are used to scan and retrieve files in the Browse.\nRemoving a folder here will not delete actual files or books from the Library.\nTo revoke access, click the corresponding button.</string>
     <!-- Settings categories -->
     <string name="general_settings">General</string>
     <string name="general_settings_desc">App language</string>
@@ -239,9 +191,7 @@
     <string name="keep_screen_on_option">Keep screen on</string>
     <string name="hide_bars_on_fast_scroll_option">Hide bars on fast scroll</string>
     <string name="perception_expander_option">Perception expander</string>
-    <string name="perception_expander_option_desc">
-        Increase your reading speed by focusing on center
-    </string>
+    <string name="perception_expander_option_desc">Increase your reading speed by focusing on center</string>
     <string name="perception_expander_padding_option">Line side margin</string>
     <string name="perception_expander_thickness_option">Line thickness</string>
     <string name="screen_orientation_option">Screen orientation</string>
@@ -251,13 +201,9 @@
     <string name="horizontal_gesture_scroll_option">Scroll fraction</string>
     <string name="horizontal_gesture_sensitivity_option">Sensitivity</string>
     <string name="horizontal_gesture_alpha_anim_option">Visibility animation</string>
-    <string name="horizontal_gesture_alpha_anim_option_desc">
-        Enable visibility animation when using horizontal gesture
-    </string>
+    <string name="horizontal_gesture_alpha_anim_option_desc">Enable visibility animation when using horizontal gesture</string>
     <string name="horizontal_gesture_pull_anim_option">Pull animation</string>
-    <string name="horizontal_gesture_pull_anim_option_desc">
-        Enable pull animation when using horizontal gesture
-    </string>
+    <string name="horizontal_gesture_pull_anim_option_desc">Enable pull animation when using horizontal gesture</string>
     <string name="bottom_bar_padding_option">Bottom bar margin</string>
     <string name="highlighted_reading_option">Highlight words</string>
     <string name="highlighted_reading_option_desc">Highlight the beginning of each word</string>
@@ -279,9 +225,7 @@
     <string name="browse_files_structure_option">Files structure</string>
     <string name="browse_grid_size_option">Grid size</string>
     <string name="browse_pin_favorite_directories_option">Pin favorite directories</string>
-    <string name="browse_pin_favorite_directories_option_desc">
-        Pin your favorite directories to the top of the screen
-    </string>
+    <string name="browse_pin_favorite_directories_option_desc">Pin your favorite directories to the top of the screen</string>
 
     <!-- Color presets -->
     <string name="red_color">Red</string>
@@ -453,161 +397,60 @@
     <string name="help_title_how_to_add_books">How do I add books to the Library?</string>
     <string name="help_desc_how_to_add_books_1">Go to the</string>
     <string name="help_desc_how_to_add_books_2">Browse</string>
-    <string name="help_desc_how_to_add_books_3">
-        If you don\'t see downloaded books try to refresh list by pulling it down.
-        Make sure your books has supported file format.
-        Then click the book to select it or hold to show it\'s location.
-        After you selected all books you want, click the checkmark icon in the upper right corner,
-        wait for all books to load and click «Add».
-        Now you should see all books you have added in the
-    </string>
+    <string name="help_desc_how_to_add_books_3">If you don\'t see downloaded books try to refresh list by pulling it down.\nMake sure your books has supported file format.\nThen click the book to select it or hold to show it\'s location.\nAfter you selected all books you want, click the checkmark icon in the upper right corner,\nwait for all books to load and click «Add».\nNow you should see all books you have added in the</string>
     <string name="help_desc_how_to_add_books_4">Library</string>
 
     <string name="help_title_how_to_customize_app">How do I customize the app?</string>
     <string name="help_desc_how_to_customize_app_1">Go to the</string>
     <string name="help_desc_how_to_customize_app_2">Settings</string>
-    <string name="help_desc_how_to_customize_app_3">
-        You can do this from the Library, History and Browse screens
-        by clicking three dots in the upper right corner
-        and selecting «Settings» from the drop-down menu.
-        Then you will see all available settings for this app.
-        Feel free to experiment with those!
-    </string>
+    <string name="help_desc_how_to_customize_app_3">You can do this from the Library, History and Browse screens\nby clicking three dots in the upper right corner\nand selecting «Settings» from the drop-down menu.\nThen you will see all available settings for this app.\nFeel free to experiment with those!</string>
 
     <string name="help_title_how_to_move_or_delete_books">How do I move or delete books?</string>
     <string name="help_desc_how_to_move_or_delete_books_1">Go to the</string>
     <string name="help_desc_how_to_move_or_delete_books_2">Library</string>
-    <string name="help_desc_how_to_move_or_delete_books_3">
-        Hold down the first book\'s cover image until it is selected,
-        now you can simply click all cover images of books you want to select.
-        You can also select books in multiple categories.
-        After you have chosen all desired books, you can click the arrow icon to move
-        and trash bin icon to delete books.
-    </string>
+    <string name="help_desc_how_to_move_or_delete_books_3">Hold down the first book\'s cover image until it is selected,\nnow you can simply click all cover images of books you want to select.\nYou can also select books in multiple categories.\nAfter you have chosen all desired books, you can click the arrow icon to move\nand trash bin icon to delete books.</string>
 
     <string name="help_title_how_to_edit_book">How do I edit a book?</string>
     <string name="help_desc_how_to_edit_book_1">Go to the</string>
     <string name="help_desc_how_to_edit_book_2">Library</string>
-    <string name="help_desc_how_to_edit_book_3">
-        and click the book\'s cover image to see book\'s details.
-        Now you can hold down the book\'s title, author or description to edit it
-        or cover image to change, reset or delete cover image.
-    </string>
+    <string name="help_desc_how_to_edit_book_3">and click the book\'s cover image to see book\'s details.\nNow you can hold down the book\'s title, author or description to edit it\nor cover image to change, reset or delete cover image.</string>
 
     <string name="help_title_how_to_read_book">How do I read a book?</string>
     <string name="help_desc_how_to_read_book_1">Go to the</string>
     <string name="help_desc_how_to_read_book_2">Library</string>
-    <string name="help_desc_how_to_read_book_3">
-        To start reading the book click the button in the bottom right corner of the book you want to read.
-        Also you can start reading the book by clicking it\'s cover image
-        to see book\'s details and then click the button in the bottom right corner.
-        The progress will be saved and restored automatically.
-        You can bring top and bottom bars by clicking anywhere on the screen.
-        By clicking the title of the book you will be transferred to the book\'s details.
-        By clicking the gear icon you will see Reader settings.
-        You can use bottom bar\'s slider to change progress.
-    </string>
+    <string name="help_desc_how_to_read_book_3">To start reading the book click the button in the bottom right corner of the book you want to read.\nAlso you can start reading the book by clicking it\'s cover image\nto see book\'s details and then click the button in the bottom right corner.\nThe progress will be saved and restored automatically.\nYou can bring top and bottom bars by clicking anywhere on the screen.\nBy clicking the title of the book you will be transferred to the book\'s details.\nBy clicking the gear icon you will see Reader settings.\nYou can use bottom bar\'s slider to change progress.</string>
 
     <string name="help_title_how_to_customize_reader">How do I customize the Reader?</string>
-    <string name="help_desc_how_to_customize_reader_1">
-        Start reading the book(see: How do I read a book?),
-        after that bring top and bottom bars by clicking anywhere on the screen.
-        Then click the gear icon in the upper right corner.
-        This will show all Reader settings.
-        Second way is to go to the
-    </string>
-    <string name="help_desc_how_to_customize_reader_2">
-        Settings
-    </string>
-    <string name="help_desc_how_to_customize_reader_3">
-        and select Reader category to customize General settings,
-        or Appearance category to customize Colors settings.
-    </string>
+    <string name="help_desc_how_to_customize_reader_1">Start reading the book(see: How do I read a book?),\nafter that bring top and bottom bars by clicking anywhere on the screen.\nThen click the gear icon in the upper right corner.\nThis will show all Reader settings.\nSecond way is to go to the</string>
+    <string name="help_desc_how_to_customize_reader_2">Settings</string>
+    <string name="help_desc_how_to_customize_reader_3">and select Reader category to customize General settings,\nor Appearance category to customize Colors settings.</string>
 
     <string name="help_title_how_to_manage_history">How do I manage history?</string>
     <string name="help_desc_how_to_manage_history_1">Go to the</string>
     <string name="help_desc_how_to_manage_history_2">History</string>
-    <string name="help_desc_how_to_manage_history_3">
-        By clicking the delete button to the right of the history element, it will be deleted.
-        History affects books order in Library,
-        by deleting history element it will also reorder a book.
-        Last opened book is always the first in Library and History.
-    </string>
+    <string name="help_desc_how_to_manage_history_3">By clicking the delete button to the right of the history element, it will be deleted.\nHistory affects books order in Library,\nby deleting history element it will also reorder a book.\nLast opened book is always the first in Library and History.</string>
 
     <string name="help_title_how_to_use_tooltip">How do I use tooltips?</string>
-    <string name="help_desc_how_to_use_tooltip_1">
-        Most icon-buttons have tooltips, they can help you if you don\'t know what an icon-button does.
-        To show tooltip you can hold on an icon-button.
-    </string>
+    <string name="help_desc_how_to_use_tooltip_1">Most icon-buttons have tooltips, they can help you if you don\'t know what an icon-button does.\nTo show tooltip you can hold on an icon-button.</string>
 
-    <string name="help_title_how_to_use_double_click_translation">
-        How do I use double click translation?
-    </string>
-    <string name="help_desc_how_to_use_double_click_translation_1">
-        Firstly, go to the Reader settings(see: How do I customize the Reader?),
-        then turn on corresponding setting. After that,
-        start reading the book(see: How do I read a book?).
-        Now if you double click on desired paragraph,
-        external translator will be opened with paragraph\'s text.
-    </string>
+    <string name="help_title_how_to_use_double_click_translation">How do I use double click translation?</string>
+    <string name="help_desc_how_to_use_double_click_translation_1">Firstly, go to the Reader settings(see: How do I customize the Reader?),\nthen turn on corresponding setting. After that,\nstart reading the book(see: How do I read a book?).\nNow if you double click on desired paragraph,\nexternal translator will be opened with paragraph\'s text.</string>
 
-    <string name="help_title_how_to_create_color_presets">
-        How do I create and modify color presets?
-    </string>
-    <string name="help_desc_how_to_create_color_presets_1">
-        Go to the Appearance settings(see: How do I customize the Reader?).
-        You can modify all color preset\'s settings in the box under «Color Preset» in «Colors» subcategory.
-        To create a new color preset, click the «Add» icon-button.
-        There are multiple ways to modify a color preset:
-        by clicking the text field you can change the name of the color preset,
-        by moving sliders you can change colors of the color preset,
-        by clicking the «Shuffle» icon-button you can shuffle all colors.
-        If you want to delete color preset, click the «Delete» icon-button.
-    </string>
+    <string name="help_title_how_to_create_color_presets">How do I create and modify color presets?</string>
+    <string name="help_desc_how_to_create_color_presets_1">Go to the Appearance settings(see: How do I customize the Reader?).\nYou can modify all color preset\'s settings in the box under «Color Preset» in «Colors» subcategory.\nTo create a new color preset, click the «Add» icon-button.\nThere are multiple ways to modify a color preset:\nby clicking the text field you can change the name of the color preset,\nby moving sliders you can change colors of the color preset,\nby clicking the «Shuffle» icon-button you can shuffle all colors.\nIf you want to delete color preset, click the «Delete» icon-button.</string>
 
-    <string name="help_title_how_to_use_color_presets">
-        How do I use color presets?
-    </string>
-    <string name="help_desc_how_to_use_color_presets_1">
-        Go to the Appearance settings(see: How do I customize the Reader?).
-        You can choose which color preset to use in «Color Preset» setting.
-        Click the desired color preset to select it, this will also change your colors in Reader.
-        If you want to reorder color preset, select it and hold «Handle» icon-button,
-        then move it to the desired position.
-        You can fast change color presets by enabling corresponding setting
-        in Appearance setting\'s «Colors» subcategory, then swiping top bar left or right in Reader,
-        to fast change color preset.
-    </string>
+    <string name="help_title_how_to_use_color_presets">How do I use color presets?</string>
+    <string name="help_desc_how_to_use_color_presets_1">Go to the Appearance settings(see: How do I customize the Reader?).\nYou can choose which color preset to use in «Color Preset» setting.\nClick the desired color preset to select it, this will also change your colors in Reader.\nIf you want to reorder color preset, select it and hold «Handle» icon-button,\nthen move it to the desired position.\nYou can fast change color presets by enabling corresponding setting\nin Appearance setting\'s «Colors» subcategory, then swiping top bar left or right in Reader,\nto fast change color preset.</string>
 
-    <string name="help_title_how_to_use_perception_expander">
-        What is and how do I use perception expander?
-    </string>
-    <string name="help_title_how_to_use_perception_expander_1">
-        Perception expander may help you read faster.
-        First, enable it in the Reader settings(see: How do I customize the Reader?).
-        Once enabled, two vertical lines will appear on either side of the Reader.
-        To optimize your reading speed further,
-        adjust the margin to create less space around the center.
-        To use it, focus on the center of the screen while
-        allowing your peripheral vision to pick up the text on the sides.
-        As you read, maintain your focus on the center without directly
-        looking at the sides after each line.
-    </string>
+    <string name="help_title_how_to_use_perception_expander">What is and how do I use perception expander?</string>
+    <string name="help_title_how_to_use_perception_expander_1">Perception expander may help you read faster.\nFirst, enable it in the Reader settings(see: How do I customize the Reader?).\nOnce enabled, two vertical lines will appear on either side of the Reader.\nTo optimize your reading speed further,\nadjust the margin to create less space around the center.\nTo use it, focus on the center of the screen while\nallowing your peripheral vision to pick up the text on the sides.\nAs you read, maintain your focus on the center without directly\nlooking at the sides after each line.</string>
 
     <string name="help_title_how_to_manage_categories">How to manage categories?</string>
-    <string name="help_desc_how_to_manage_categories_1">
-        The app now has new features for working with categories:
-        By default, there are 5 categories: All (stores all books), Reading, Finished, Planning, and Dropped. Default categories can only be hidden and reordered. Custom categories can be created, renamed, deleted, and hidden.
-        To create a new category, press the "Create category" button. To reorder categories, use the button with four lines (drag-and-drop). To delete a custom category, swipe it to the left. Books can be stored in multiple categories at once.
-    </string>
+    <string name="help_desc_how_to_manage_categories_1">The app now has new features for working with categories:\nBy default, there are 5 categories: All (stores all books), Reading, Finished, Planning, and Dropped. Default categories can only be hidden and reordered. Custom categories can be created, renamed, deleted, and hidden.\nTo create a new category, press the "Create category" button. To reorder categories, use the button with four lines (drag-and-drop). To delete a custom category, swipe it to the left. Books can be stored in multiple categories at once.</string>
 
     <!-- Start -->
     <string name="start_welcome">Welcome to EverBook!</string>
-    <string name="start_welcome_desc">
-        To a world where words charm,
-        teach and lead on incredible adventures!
-        Let\'s set some things up!
-    </string>
+    <string name="start_welcome_desc">To a world where words charm,\nteach and lead on incredible adventures!\nLet\'s set some things up!</string>
     <string name="start_language_preferences">Language preferences</string>
     <string name="start_theme_preferences">Theme preferences</string>
     <string name="start_scan_preferences">Scan preferences</string>
@@ -621,10 +464,7 @@
     <string name="start_privacy_policy_accept">I accept the privacy policy</string>
     <string name="privacy_policy_icon_content_desc">Privacy policy icon</string>
     <string name="start_done">Everything\'s done!</string>
-    <string name="start_done_desc">
-        You\'re successfully done basic setting of the app.
-        Would you like to learn how to use the app by reading Help screen?
-    </string>
+    <string name="start_done_desc">You\'re successfully done basic setting of the app.\nWould you like to learn how to use the app by reading Help screen?</string>
 
     <!-- History -->
     <string name="today">Today</string>
@@ -745,12 +585,8 @@
     <string name="sort_direction_ascending">Ascending</string>
     <string name="sort_direction_descending">Descending</string>
     <string name="per_category_sort_option">Sort per category</string>
-    <string name="per_category_sort_option_note">
-        When enabled, each category keeps its own sort order.
-    </string>
-    <string name="category_sort_note">
-        Applies when Sort per category is enabled.
-    </string>
+    <string name="per_category_sort_option_note">When enabled, each category keeps its own sort order.</string>
+    <string name="category_sort_note">Applies when Sort per category is enabled.</string>
     <string name="sort_order_name">Alphabetically</string>
     <string name="sort_order_last_read">Last read</string>
     <string name="sort_order_progress">Progress</string>

@@ -65,9 +65,8 @@ fun LibraryTabs(
                         targetValue = tabPositions[safeIndex].contentWidth,
                         label = ""
                     )
-
                     TabRowDefaults.PrimaryIndicator(
-                        Modifier.tabIndicatorOffset(tabPositions[safeIndex]),
+                        modifier = Modifier.tabIndicatorOffset(tabPositions[safeIndex]),
                         width = width
                     )
                 }

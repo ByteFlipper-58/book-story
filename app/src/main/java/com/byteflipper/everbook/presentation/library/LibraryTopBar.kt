@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -197,8 +198,9 @@ fun LibraryTopBar(
                 },
                 contentTitle = {
                     StyledText(
-                        text = stringResource(
-                            id = R.string.selected_items_count_query,
+                        text = pluralStringResource(
+                            id = R.plurals.selected_items_count_query,
+                            count = selectedItemsCount.coerceAtLeast(1),
                             selectedItemsCount.coerceAtLeast(1)
                         ),
                         maxLines = 1

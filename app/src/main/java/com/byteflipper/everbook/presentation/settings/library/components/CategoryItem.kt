@@ -159,7 +159,7 @@ fun CategoryItem(
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     CircularProgressIndicator(
-                        progress = progress,
+                        progress = { progress },
                         strokeWidth = 2.dp,
                         modifier = Modifier
                             .size(36.dp),

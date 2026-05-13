@@ -19,15 +19,14 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Sync repository labels
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.sha }}
         run: |
           ruby <<'RUBY'
+          require "base64"
           require "json"
           require "net/http"
           require "uri"
@@ -35,8 +34,8 @@ jobs:
 
           token = ENV.fetch("GH_TOKEN")
           repository = ENV.fetch("REPOSITORY")
-          labels = YAML.load_file(".github/labels.yml")
-          api_root = "https://api.github.com/repos/#{repository}/labels"
+          ref = ENV.fetch("REF")
+          api_root = "https://api.github.com/repos/#{repository}"
 
           def request(method, url, token, body = nil)
             uri = URI(url)
@@ -53,31 +52,60 @@ jobs:
             http.request(req)
           end
 
-          labels.each do |label|
-            create_payload = {
-              name: label.fetch("name"),
-              color: label.fetch("color").to_s.delete_prefix("#"),
-              description: label.fetch("description")
-            }
-            update_payload = create_payload.merge(new_name: create_payload[:name])
-            update_payload.delete(:name)
+          def label_path(name)
+            URI.encode_www_form_component(name).gsub("+", "%20")
+          end
 
-            encoded_name = URI.encode_www_form_component(create_payload[:name])
-            update_response = request(Net::HTTP::Patch, "#{api_root}/#{encoded_name}", token, update_payload)
+          labels_response = request(
+            Net::HTTP::Get,
+            "#{api_root}/contents/.github/labels.yml?ref=#{ref}",
+            token
+          )
+
+          unless labels_response.code.to_i == 200
+            warn "failed to read .github/labels.yml: #{labels_response.code} #{labels_response.body}"
+            exit 1
+          end
+
+          labels_file = JSON.parse(labels_response.body)
+          labels = YAML.safe_load(Base64.decode64(labels_file.fetch("content")))
+          labels_api = "#{api_root}/labels"
+
+          labels.each do |label|
+            name = label.fetch("name")
+            payload = {
+              color: label.fetch("color").to_s.delete_prefix("#"),
+              description: label.fetch("description").to_s
+            }
+
+            update_response = request(
+              Net::HTTP::Patch,
+              "#{labels_api}/#{label_path(name)}",
+              token,
+              payload.merge(new_name: name)
+            )
 
             case update_response.code.to_i
             when 200
-              puts "updated #{create_payload[:name]}"
+              puts "updated #{name}"
             when 404
-              create_response = request(Net::HTTP::Post, api_root, token, create_payload)
+              create_response = request(
+                Net::HTTP::Post,
+                labels_api,
+                token,
+                payload.merge(name: name)
+              )
+
               if create_response.code.to_i == 201
-                puts "created #{create_payload[:name]}"
+                puts "created #{name}"
+              elsif create_response.code.to_i == 422 && create_response.body.include?("already_exists")
+                puts "already exists #{name}"
               else
-                warn "failed to create #{create_payload[:name]}: #{create_response.code} #{create_response.body}"
+                warn "failed to create #{name}: #{create_response.code} #{create_response.body}"
                 exit 1
               end
             else
-              warn "failed to update #{create_payload[:name]}: #{update_response.code} #{update_response.body}"
+              warn "failed to update #{name}: #{update_response.code} #{update_response.body}"
               exit 1
             end
           end

@@ -56,7 +56,7 @@ jobs:
           labels.each do |label|
             payload = {
               name: label.fetch("name"),
-              color: label.fetch("color").delete_prefix("#"),
+              color: label.fetch("color").to_s.delete_prefix("#"),
               description: label.fetch("description")
             }
 

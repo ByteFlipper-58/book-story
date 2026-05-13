@@ -1,0 +1,48 @@
+- name: "type: bug"
+  color: d73a4a
+  description: Something is broken or behaves incorrectly.
+- name: "type: feature"
+  color: a2eeef
+  description: New feature or improvement request.
+- name: "type: parser"
+  color: c5def5
+  description: Book parsing, importing, or file format issue.
+- name: "type: documentation"
+  color: 0075ca
+  description: Documentation, README, help text, or translation issue.
+- name: "type: question"
+  color: d876e3
+  description: Question about usage, setup, or contribution.
+- name: "priority: low"
+  color: cfd3d7
+  description: Useful but not urgent.
+- name: "priority: medium"
+  color: fbca04
+  description: Normal priority.
+- name: "priority: high"
+  color: b60205
+  description: Important or time-sensitive.
+- name: "status: needs triage"
+  color: ededed
+  description: Needs review before work starts.
+- name: "status: blocked"
+  color: 5319e7
+  description: Cannot move forward until something else is resolved.
+- name: "status: good first issue"
+  color: 7057ff
+  description: Good candidate for a first contribution.
+- name: "area: reader"
+  color: 1d76db
+  description: Reader screen and reading experience.
+- name: "area: library"
+  color: 1d76db
+  description: Library management and book organization.
+- name: "area: import"
+  color: 1d76db
+  description: Browse, import, export, and file loading.
+- name: "area: ui"
+  color: 1d76db
+  description: Visual design, themes, and user interface.
+- name: "area: build"
+  color: 1d76db
+  description: Build, CI, releases, or project setup.

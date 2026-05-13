@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Read the project README
+    url: https://github.com/ByteFlipper-58/book-story#readme
+    about: Check setup, download, and usage notes before opening an issue.

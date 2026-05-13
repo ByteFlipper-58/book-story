@@ -1,0 +1,33 @@
+name: Question
+description: Ask a focused question about using or contributing to the project.
+title: "[Question]: "
+labels:
+  - "type: question"
+body:
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      options:
+        - App usage
+        - Installation
+        - Supported formats
+        - Contribution
+        - Build setup
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Explain what you are trying to do and where you are stuck.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Add screenshots, links, versions, or steps already tried.
+    validations:
+      required: false

@@ -2,8 +2,7 @@ name: Documentation
 description: Report missing, outdated, or unclear documentation.
 title: "[Docs]: "
 labels:
-  - "type: documentation"
-  - "status: needs triage"
+  - "documentation"
 body:
   - type: dropdown
     id: docs-area

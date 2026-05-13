@@ -2,10 +2,8 @@ name: Parser issue
 description: Report problems with parsing, importing, or adding books.
 title: "[Parser]: "
 labels:
-  - "type: parser"
-  - "area: import"
-  - "area: parser"
-  - "status: needs triage"
+  - "parser"
+  - "import"
 body:
   - type: markdown
     attributes:

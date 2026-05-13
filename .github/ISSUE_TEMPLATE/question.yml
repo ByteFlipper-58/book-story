@@ -2,8 +2,7 @@ name: Question
 description: Ask a focused question about using or contributing to the project.
 title: "[Question]: "
 labels:
-  - "type: question"
-  - "status: needs triage"
+  - "question"
 body:
   - type: dropdown
     id: topic

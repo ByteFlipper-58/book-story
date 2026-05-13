@@ -70,6 +70,33 @@ jobs:
           labels_file = JSON.parse(labels_response.body)
           labels = YAML.safe_load(Base64.decode64(labels_file.fetch("content")))
           labels_api = "#{api_root}/labels"
+          obsolete_prefixes = ["type:", "area:", "priority:", "status:"]
+
+          existing_response = request(Net::HTTP::Get, "#{labels_api}?per_page=100", token)
+          unless existing_response.code.to_i == 200
+            warn "failed to list labels: #{existing_response.code} #{existing_response.body}"
+            exit 1
+          end
+
+          JSON.parse(existing_response.body).each do |label|
+            name = label.fetch("name")
+            next unless obsolete_prefixes.any? { |prefix| name.start_with?(prefix) }
+
+            delete_response = request(
+              Net::HTTP::Delete,
+              "#{labels_api}/#{label_path(name)}",
+              token
+            )
+
+            if delete_response.code.to_i == 204
+              puts "deleted #{name}"
+            elsif delete_response.code.to_i == 404
+              puts "already deleted #{name}"
+            else
+              warn "failed to delete #{name}: #{delete_response.code} #{delete_response.body}"
+              exit 1
+            end
+          end
 
           labels.each do |label|
             name = label.fetch("name")

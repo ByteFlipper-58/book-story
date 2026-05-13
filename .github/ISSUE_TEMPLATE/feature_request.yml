@@ -3,6 +3,7 @@ description: Suggest a new app feature or improvement.
 title: "[Feature]: "
 labels:
   - "type: feature"
+  - "status: needs triage"
 body:
   - type: markdown
     attributes:

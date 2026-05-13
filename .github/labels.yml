@@ -13,6 +13,12 @@
 - name: "type: question"
   color: d876e3
   description: Question about usage, setup, or contribution.
+- name: "type: refactor"
+  color: e4e669
+  description: Internal code cleanup without intended behavior changes.
+- name: "type: maintenance"
+  color: fef2c0
+  description: Project maintenance, dependencies, tooling, or housekeeping.
 - name: "priority: low"
   color: cfd3d7
   description: Useful but not urgent.
@@ -22,15 +28,30 @@
 - name: "priority: high"
   color: b60205
   description: Important or time-sensitive.
+- name: "priority: critical"
+  color: 8b0000
+  description: Severe issue that needs immediate attention.
 - name: "status: needs triage"
   color: ededed
   description: Needs review before work starts.
+- name: "status: needs info"
+  color: d4c5f9
+  description: Waiting for more details from the reporter.
+- name: "status: accepted"
+  color: 0e8a16
+  description: Accepted and ready to be worked on.
 - name: "status: blocked"
   color: 5319e7
   description: Cannot move forward until something else is resolved.
-- name: "status: good first issue"
-  color: 7057ff
-  description: Good candidate for a first contribution.
+- name: "status: in progress"
+  color: 0052cc
+  description: Work is currently in progress.
+- name: "status: duplicate"
+  color: cccccc
+  description: Duplicate of another issue.
+- name: "status: wontfix"
+  color: ffffff
+  description: This will not be worked on.
 - name: "area: reader"
   color: 1d76db
   description: Reader screen and reading experience.
@@ -40,9 +61,27 @@
 - name: "area: import"
   color: 1d76db
   description: Browse, import, export, and file loading.
+- name: "area: parser"
+  color: 1d76db
+  description: Parsing logic and supported file formats.
 - name: "area: ui"
   color: 1d76db
   description: Visual design, themes, and user interface.
+- name: "area: themes"
+  color: 1d76db
+  description: App themes, colors, and customization.
+- name: "area: settings"
+  color: 1d76db
+  description: Settings and preferences.
 - name: "area: build"
   color: 1d76db
   description: Build, CI, releases, or project setup.
+- name: "area: release"
+  color: 1d76db
+  description: APKs, release notes, and distribution.
+- name: "good first issue"
+  color: 7057ff
+  description: Good candidate for a first contribution.
+- name: "help wanted"
+  color: 008672
+  description: Community contributions are welcome.

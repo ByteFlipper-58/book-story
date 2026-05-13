@@ -3,6 +3,7 @@ description: Report a reproducible problem in the app.
 title: "[Bug]: "
 labels:
   - "type: bug"
+  - "status: needs triage"
 body:
   - type: markdown
     attributes:

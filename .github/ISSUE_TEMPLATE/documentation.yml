@@ -3,6 +3,7 @@ description: Report missing, outdated, or unclear documentation.
 title: "[Docs]: "
 labels:
   - "type: documentation"
+  - "status: needs triage"
 body:
   - type: dropdown
     id: docs-area

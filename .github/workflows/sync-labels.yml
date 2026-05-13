@@ -54,28 +54,30 @@ jobs:
           end
 
           labels.each do |label|
-            payload = {
+            create_payload = {
               name: label.fetch("name"),
               color: label.fetch("color").to_s.delete_prefix("#"),
               description: label.fetch("description")
             }
+            update_payload = create_payload.merge(new_name: create_payload[:name])
+            update_payload.delete(:name)
 
-            encoded_name = URI.encode_www_form_component(payload[:name])
-            update_response = request(Net::HTTP::Patch, "#{api_root}/#{encoded_name}", token, payload)
+            encoded_name = URI.encode_www_form_component(create_payload[:name])
+            update_response = request(Net::HTTP::Patch, "#{api_root}/#{encoded_name}", token, update_payload)
 
             case update_response.code.to_i
             when 200
-              puts "updated #{payload[:name]}"
+              puts "updated #{create_payload[:name]}"
             when 404
-              create_response = request(Net::HTTP::Post, api_root, token, payload)
+              create_response = request(Net::HTTP::Post, api_root, token, create_payload)
               if create_response.code.to_i == 201
-                puts "created #{payload[:name]}"
+                puts "created #{create_payload[:name]}"
               else
-                warn "failed to create #{payload[:name]}: #{create_response.code} #{create_response.body}"
+                warn "failed to create #{create_payload[:name]}: #{create_response.code} #{create_response.body}"
                 exit 1
               end
             else
-              warn "failed to update #{payload[:name]}: #{update_response.code} #{update_response.body}"
+              warn "failed to update #{create_payload[:name]}: #{update_response.code} #{update_response.body}"
               exit 1
             end
           end

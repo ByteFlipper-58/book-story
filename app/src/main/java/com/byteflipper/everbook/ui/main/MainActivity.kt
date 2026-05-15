@@ -10,25 +10,35 @@
 package com.byteflipper.everbook.ui.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.database.CursorWindow
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.togetherWith
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.core.content.IntentCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import okhttp3.internal.immutableListOf
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.navigator.NavigatorItem
 import com.byteflipper.everbook.domain.navigator.StackEvent
+import com.byteflipper.everbook.presentation.browse.BrowseAddDialog
 import com.byteflipper.everbook.presentation.core.components.navigation_bar.NavigationBar
 import com.byteflipper.everbook.presentation.core.components.navigation_rail.NavigationRail
+import com.byteflipper.everbook.presentation.core.util.showToast
 import com.byteflipper.everbook.presentation.main.MainActivityKeyboardManager
+import com.byteflipper.everbook.presentation.navigator.LocalNavigator
 import com.byteflipper.everbook.presentation.navigator.Navigator
 import com.byteflipper.everbook.presentation.navigator.NavigatorTabs
 import com.byteflipper.everbook.ui.browse.BrowseModel
@@ -36,8 +46,10 @@ import com.byteflipper.everbook.ui.browse.BrowseScreen
 import com.byteflipper.everbook.ui.history.HistoryModel
 import com.byteflipper.everbook.ui.history.HistoryScreen
 import com.byteflipper.everbook.ui.library.CategoriesModel
+import com.byteflipper.everbook.ui.library.LibraryEvent
 import com.byteflipper.everbook.ui.library.LibraryModel
 import com.byteflipper.everbook.ui.library.LibraryScreen
+import com.byteflipper.everbook.ui.reader.ReaderScreen
 import com.byteflipper.everbook.ui.settings.SettingsModel
 import com.byteflipper.everbook.ui.start.StartScreen
 import com.byteflipper.everbook.ui.theme.BookStoryTheme
@@ -54,6 +66,7 @@ class MainActivity : AppCompatActivity() {
     private val mainModel: MainModel by viewModels()
     private val settingsModel: SettingsModel by viewModels()
     private val categoriesModel: CategoriesModel by viewModels()
+    private val externalImportModel: ExternalImportModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Splash screen
@@ -149,6 +162,66 @@ class MainActivity : AppCompatActivity() {
                         },
                         backHandlerEnabled = { it != StartScreen }
                     ) { screen ->
+                        val navigator = LocalNavigator.current
+                        val externalImportState by externalImportModel.state
+                            .collectAsStateWithLifecycle()
+
+                        LaunchedEffect(navigator) {
+                            externalImportModel.openBookChannel.receiveAsFlow().collectLatest { bookId ->
+                                libraryModel.refresh()
+                                navigator.push(ReaderScreen(bookId))
+                            }
+                        }
+
+                        LaunchedEffect(navigator) {
+                            externalImportModel.booksAddedChannel.receiveAsFlow().collectLatest {
+                                navigator.push(
+                                    LibraryScreen,
+                                    popping = true,
+                                    saveInBackStack = false
+                                )
+                                libraryModel.refresh()
+                                LibraryScreen.scrollToPageCompositionChannel.trySend(0)
+                                getString(R.string.books_added).showToast(this@MainActivity)
+                            }
+                        }
+
+                        LaunchedEffect(Unit) {
+                            externalImportModel.importFailedChannel.receiveAsFlow().collectLatest {
+                                getString(R.string.error_something_went_wrong)
+                                    .showToast(this@MainActivity)
+                            }
+                        }
+
+                        if (externalImportState.showAddDialog) {
+                            BrowseAddDialog(
+                                loadingAddDialog = externalImportState.loadingAddDialog,
+                                selectedBooksAddDialog = externalImportState.booksAddDialog,
+                                dismissAddDialog = {
+                                    externalImportModel.onEvent(
+                                        ExternalImportEvent.OnDismissAddDialog
+                                    )
+                                },
+                                actionAddDialog = {
+                                    externalImportModel.onEvent(
+                                        ExternalImportEvent.OnActionAddDialog
+                                    )
+                                },
+                                selectAddDialog = { event ->
+                                    externalImportModel.onEvent(
+                                        ExternalImportEvent.OnSelectAddDialog(event.book)
+                                    )
+                                },
+                                navigateToLibrary = {
+                                    navigator.push(
+                                        LibraryScreen,
+                                        popping = true,
+                                        saveInBackStack = false
+                                    )
+                                }
+                            )
+                        }
+
                         when (screen) {
                             LibraryScreen, HistoryScreen, BrowseScreen -> {
                                 NavigatorTabs(
@@ -172,10 +245,67 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        if (savedInstanceState == null) {
+            handleIncomingIntent(intent)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIncomingIntent(intent)
     }
 
     override fun onDestroy() {
         cacheDir.deleteRecursively()
         super.onDestroy()
+    }
+
+    private fun handleIncomingIntent(intent: Intent?) {
+        val uris = intent.extractBookUris()
+        if (uris.isEmpty()) return
+
+        externalImportModel.onEvent(ExternalImportEvent.OnHandleUris(uris))
+    }
+
+    private fun Intent?.extractBookUris(): List<Uri> {
+        if (this == null) return emptyList()
+
+        return buildList {
+            when (action) {
+                Intent.ACTION_VIEW -> data?.let(::add)
+                Intent.ACTION_SEND -> {
+                    IntentCompat.getParcelableExtra(
+                        this@extractBookUris,
+                        Intent.EXTRA_STREAM,
+                        Uri::class.java
+                    )?.let(::add)
+                }
+
+                Intent.ACTION_SEND_MULTIPLE -> {
+                    IntentCompat.getParcelableArrayListExtra(
+                        this@extractBookUris,
+                        Intent.EXTRA_STREAM,
+                        Uri::class.java
+                    )?.let(::addAll)
+                }
+            }
+
+            clipData?.let { data ->
+                repeat(data.itemCount) { index ->
+                    data.getItemAt(index).uri?.let(::add)
+                }
+            }
+        }.distinct()
+    }
+
+    private fun LibraryModel.refresh() {
+        onEvent(
+            LibraryEvent.OnRefreshList(
+                loading = false,
+                hideSearch = false
+            )
+        )
     }
 }

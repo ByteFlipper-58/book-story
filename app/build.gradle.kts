@@ -66,6 +66,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     dependenciesInfo {
         includeInApk = false

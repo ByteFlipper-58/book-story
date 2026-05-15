@@ -12,6 +12,7 @@ import android.net.Uri
 import android.provider.DocumentsContract
 import com.anggrayudi.storage.file.DocumentFileCompat
 import com.anggrayudi.storage.file.getAbsolutePath
+import java.io.File
 
 object CachedFileCompat {
     fun fromUri(context: Context, uri: Uri, builder: CachedFileBuilder? = null): CachedFile {
@@ -38,6 +39,21 @@ object CachedFileCompat {
         path: String,
         builder: CachedFileBuilder? = null
     ): CachedFile? {
+        val localFile = File(path)
+        if (localFile.exists() && localFile.canRead()) {
+            return CachedFile(
+                context = context,
+                uri = Uri.fromFile(localFile),
+                builder = builder ?: build(
+                    name = localFile.name,
+                    path = localFile.absolutePath,
+                    size = localFile.length(),
+                    lastModified = localFile.lastModified(),
+                    isDirectory = localFile.isDirectory
+                )
+            )
+        }
+
         val uri = try {
             val storageId = DocumentFileCompat.getStorageId(context, path)
             if (storageId.isBlank()) throw NullPointerException("Could not get storageId.")

@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.domain.repository
 
+import android.net.Uri
 import com.byteflipper.everbook.domain.browse.SelectableFile
 import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.library.book.NullableBook
@@ -20,4 +21,8 @@ interface FileSystemRepository {
     suspend fun getBookFromFile(
         cachedFile: CachedFile
     ): NullableBook
+
+    suspend fun copyExternalBookToPrivateStorage(
+        uri: Uri
+    ): CachedFile?
 }

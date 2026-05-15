@@ -52,6 +52,10 @@ class CachedFile(
 
     fun canAccess(): Boolean {
         return try {
+            if (uri.scheme == "file") {
+                return File(uri.path.orEmpty()).canRead()
+            }
+
             context.contentResolver.query(uri, null, null, null, null)?.let {
                 it.close()
                 return true
@@ -64,6 +68,10 @@ class CachedFile(
 
     fun openInputStream(): InputStream? {
         return try {
+            if (uri.scheme == "file") {
+                return File(uri.path.orEmpty()).inputStream()
+            }
+
             context.contentResolver.openInputStream(uri)
                 ?: throw Exception("Failed to open InputStream for URI: $uri")
         } catch (e: Exception) {

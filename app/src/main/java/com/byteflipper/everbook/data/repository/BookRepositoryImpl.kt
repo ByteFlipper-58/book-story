@@ -144,7 +144,7 @@ class BookRepositoryImpl @Inject constructor(
      */
     override suspend fun insertBook(
         bookWithCover: BookWithCover
-    ) {
+    ): Int {
         Log.i(INSERT_BOOK, "Inserting ${bookWithCover.book.title}.")
 
         val filesDir = application.filesDir
@@ -196,6 +196,7 @@ class BookRepositoryImpl @Inject constructor(
         }
         bookCategoryDao.insertAll(refs)
         Log.i(INSERT_BOOK, "Successfully inserted book.")
+        return generatedId
     }
 
     /**

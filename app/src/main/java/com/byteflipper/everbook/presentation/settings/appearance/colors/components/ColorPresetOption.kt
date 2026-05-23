@@ -77,7 +77,10 @@ import com.byteflipper.everbook.ui.theme.FadeTransitionPreservingSpace
 import com.byteflipper.everbook.ui.theme.Transitions
 
 @Composable
-fun ColorPresetOption(backgroundColor: Color) {
+fun ColorPresetOption(
+    backgroundColor: Color,
+    showFontColor: Boolean = true
+) {
     val settingsModel = hiltViewModel<SettingsModel>()
     val state = settingsModel.state.collectAsStateWithLifecycle()
 
@@ -181,7 +184,8 @@ fun ColorPresetOption(backgroundColor: Color) {
                 onShuffle = {
                     settingsModel.onEvent(
                         SettingsEvent.OnShuffleColorPreset(
-                            id = state.value.selectedColorPreset.id
+                            id = state.value.selectedColorPreset.id,
+                            includeFontColor = showFontColor
                         )
                     )
                 },
@@ -211,20 +215,23 @@ fun ColorPresetOption(backgroundColor: Color) {
                     )
                 }
             )
-            ColorPickerWithTitle(
-                value = state.value.selectedColorPreset.fontColor,
-                presetId = state.value.selectedColorPreset.id,
-                title = stringResource(id = R.string.font_color_option),
-                onValueChange = {
-                    settingsModel.onEvent(
-                        SettingsEvent.OnUpdateColorPresetColor(
-                            id = state.value.selectedColorPreset.id,
-                            backgroundColor = null,
-                            fontColor = it
+
+            if (showFontColor) {
+                ColorPickerWithTitle(
+                    value = state.value.selectedColorPreset.fontColor,
+                    presetId = state.value.selectedColorPreset.id,
+                    title = stringResource(id = R.string.font_color_option),
+                    onValueChange = {
+                        settingsModel.onEvent(
+                            SettingsEvent.OnUpdateColorPresetColor(
+                                id = state.value.selectedColorPreset.id,
+                                backgroundColor = null,
+                                fontColor = it
+                            )
                         )
-                    )
-                }
-            )
+                    }
+                )
+            }
 
             Spacer(modifier = Modifier.height(10.dp))
         }

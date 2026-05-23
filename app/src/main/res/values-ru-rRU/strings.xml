@@ -356,6 +356,19 @@
     <string name="help_desc_how_to_read_book_2">Библиотека</string>
     <string name="help_desc_how_to_read_book_3">Чтобы начать чтение книги, нажмите на кнопку в правом нижнем углу книги, которую вы хотите прочитать.\nТакже вы можете начать читать книгу, нажав на ее изображение обложки,\nчтобы увидеть сведения о книге, а затем нажать на кнопку в правом нижнем углу.\nПрогресс будет сохранен и восстановлен автоматически.\nВы можете вызвать верхнюю и нижнюю панели, нажав в любом месте экрана.\nНажав на название книги, вы перейдете к сведениям о книге.\nНажав на значок шестеренки, вы увидите настройки читалки.\nВы можете использовать ползунок нижней панели для изменения прогресса.</string>
 
+    <string name="help_title_how_to_read_pdf_in_native_mode">Как работают режимы просмотра PDF?</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_1">PDF-книги можно открывать как</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_2">Текстовую версию</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_3">или</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_4">оригинальный PDF</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_5">Нажмите на страницу, чтобы показать верхнюю и нижнюю панели. Кнопка режима PDF открывает выбор режима просмотра, а шестеренка открывает</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_6">настройки PDF-читалки,</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_7">где можно выбрать один из режимов страниц:</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_8">непрерывно</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_9">и</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_10">постранично</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, кнопки зума, масштабирование двумя пальцами, цветовые пресеты, отступы, полноэкранный режим, режим «Не гасить экран», яркость и ориентацию.\nВ выборе режима можно включить «Запомнить для будущих PDF», чтобы новые PDF открывались так же.\nПрогресс сохраняется автоматически. Зум живет только в текущей сессии и сбрасывается при смене страницы, переходе к другой книге или повторном открытии.</string>
+
     <string name="help_title_how_to_customize_reader">Как настроить читалку?</string>
     <string name="help_desc_how_to_customize_reader_1">Начните читать книгу (см.: Как читать книгу?),\nпосле этого вызовите верхнюю и нижнюю панели, нажав в любом месте экрана.\nЗатем нажмите на значок шестеренки в верхнем правом углу.\nЭто покажет все настройки читалки.\nВторой способ — перейти в</string>
     <string name="help_desc_how_to_customize_reader_2">Настройки</string>
@@ -383,6 +396,14 @@
 
     <string name="help_title_how_to_manage_categories">Как управлять категориями?</string>
     <string name="help_desc_how_to_manage_categories_1">Теперь в приложении есть новые возможности для работы с категориями:\nПо умолчанию доступно 5 категорий: Все (здесь хранятся все книги), Читаю, Прочитано, Планирую и Брошено. Категории по умолчанию можно только скрывать и менять их порядок. Кастомные категории можно создавать, переименовывать, удалять и скрывать.\nЧтобы создать новую категорию, нажмите на кнопку «Создать категорию». Для изменения порядка категорий используйте кнопку с четырьмя линиями (drag-and-drop). Чтобы удалить кастомную категорию, сделайте свайп влево по ней. Книги можно хранить сразу в нескольких категориях.</string>
+
+    <string name="pdf_reading_mode_parsed_text">Текстовая версия</string>
+    <string name="pdf_reading_mode_original_pdf">Оригинальный PDF</string>
+    <string name="pdf_reading_mode_bottom_sheet_title">Режим просмотра PDF</string>
+    <string name="pdf_reading_mode_text_version_desc">Обычная читалка: текст, темы, шрифты, перевод и настройки чтения.</string>
+    <string name="pdf_reading_mode_original_pdf_desc">Страницы как в файле: оригинальная верстка, постраничный режим и зум.</string>
+    <string name="pdf_reading_mode_remember_default">Запомнить для будущих PDF</string>
+    <string name="pdf_reading_mode_remember_default_desc">Использовать выбранный режим по умолчанию для новых PDF-книг</string>
 
     <!-- Start -->
     <string name="start_welcome">Добро пожаловать в EverBook!</string>
@@ -435,6 +456,7 @@
     <string name="history_content_desc">История чтения</string>
     <string name="browse_content_desc">Добавить книги</string>
     <string name="arrow_content_desc">Стрелка</string>
+    <string name="open_parsed_text_content_desc">Открыть текстовую версию</string>
     <string name="required_content_desc">Требуется</string>
     <string name="reset_start_content_desc">Сбросить руководство по началу работы</string>
     <string name="exit_editing_content_desc">Выйти из режима редактирования</string>
@@ -468,6 +490,17 @@
     <string name="progress_bar_alignment_option">Выравнивание</string>
     <string name="progress_bar_font_size_option">Размер шрифта</string>
     <string name="progress_count_option">Счетчик прогресса</string>
+    <string name="pdf_reading_mode_option">Режим просмотра PDF</string>
+    <string name="pdf_reading_mode_option_desc">Выберите режим просмотра PDF</string>
+    <string name="pdf_prefer_original_pdf_option">Предпочитать оригинальный PDF</string>
+    <string name="pdf_prefer_original_pdf_option_desc">Открывать новые PDF-книги сразу в нативном режиме</string>
+    <string name="pdf_page_display_mode_option">Страницы PDF</string>
+    <string name="pdf_show_zoom_controls_option">Кнопки зума PDF</string>
+    <string name="pdf_show_zoom_controls_option_desc">Показывать кнопки зума в нижней панели PDF</string>
+    <string name="pdf_pinch_zoom_option">Зум жестом PDF</string>
+    <string name="pdf_pinch_zoom_option_desc">Изменять масштаб PDF жестом двумя пальцами</string>
+    <string name="pdf_page_display_mode_continuous">Непрерывно</string>
+    <string name="pdf_page_display_mode_paged">Постранично</string>
 
     <!-- Свойства цветовых эффектов -->
     <string name="color_effects_off">Выключено</string>

@@ -21,5 +21,9 @@ data class BookEntity(
     val scrollOffset: Int,
     val progress: Float,
     val image: String? = null,
-    val categoryId: Int
+    val categoryId: Int,
+    val pdfReadingMode: String = "PARSED_TEXT",
+    val pdfTextModeAvailable: Boolean = true,
+    val pdfPageIndex: Int = 0,
+    val pdfPageOffset: Int = 0
 )

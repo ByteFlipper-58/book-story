@@ -47,6 +47,7 @@
     <string name="error_no_browser">No browser app found.</string>
     <string name="error_no_share_app">No app to share found.</string>
     <string name="error_could_not_get_text">File is empty, missing, or inaccessible.\nVerify the file, scan settings or change the path, then try again.</string>
+    <string name="error_could_not_open_pdf">PDF file is missing, inaccessible, encrypted, or unsupported.</string>
     <string name="error_check_internet">Something went wrong.\nTry again later.</string>
     <string name="error_could_not_reset_cover">Could not reset cover image.</string>
     <string name="error_closed_source">Closed source</string>
@@ -220,6 +221,15 @@
     <string name="progress_bar_alignment_option">Alignment</string>
     <string name="progress_bar_font_size_option">Font size</string>
     <string name="progress_count_option">Progress count</string>
+    <string name="pdf_reading_mode_option">PDF view mode</string>
+    <string name="pdf_reading_mode_option_desc">Choose the PDF view mode</string>
+    <string name="pdf_prefer_original_pdf_option">Prefer original PDF</string>
+    <string name="pdf_prefer_original_pdf_option_desc">Open new PDF books in native mode by default</string>
+    <string name="pdf_page_display_mode_option">PDF pages</string>
+    <string name="pdf_show_zoom_controls_option">PDF zoom controls</string>
+    <string name="pdf_show_zoom_controls_option_desc">Show zoom buttons in the PDF bottom bar</string>
+    <string name="pdf_pinch_zoom_option">PDF pinch zoom</string>
+    <string name="pdf_pinch_zoom_option_desc">Change PDF zoom with a two-finger pinch gesture</string>
 
     <!-- Browse -->
     <string name="browse_files_structure_option">Files structure</string>
@@ -309,6 +319,15 @@
     <!-- Progress Count properties -->
     <string name="progress_count_percentage">Percentage</string>
     <string name="progress_count_quantity">Quantity</string>
+    <string name="pdf_reading_mode_parsed_text">Text version</string>
+    <string name="pdf_reading_mode_original_pdf">Original PDF</string>
+    <string name="pdf_page_display_mode_continuous">Continuous</string>
+    <string name="pdf_page_display_mode_paged">Paged</string>
+    <string name="pdf_reading_mode_bottom_sheet_title">PDF view mode</string>
+    <string name="pdf_reading_mode_text_version_desc">Reader view with text, themes, fonts, translation and reading settings.</string>
+    <string name="pdf_reading_mode_original_pdf_desc">Original page layout with native rendering, page mode and zoom.</string>
+    <string name="pdf_reading_mode_remember_default">Remember for future PDFs</string>
+    <string name="pdf_reading_mode_remember_default_desc">Use the selected mode as the default for new PDF books</string>
 
     <!-- Themes -->
     <string name="dynamic_theme">Mercury</string>
@@ -364,6 +383,8 @@
     <!-- Reader -->
     <string name="no_chapters">No chapters</string>
     <string name="chapters">Chapters</string>
+    <string name="open_original_pdf">Open original PDF</string>
+    <string name="open_parsed_text">Open text version</string>
 
     <!-- About -->
     <string name="app_version_option">App version</string>
@@ -419,6 +440,19 @@
     <string name="help_desc_how_to_read_book_1">Go to the</string>
     <string name="help_desc_how_to_read_book_2">Library</string>
     <string name="help_desc_how_to_read_book_3">To start reading the book click the button in the bottom right corner of the book you want to read.\nAlso you can start reading the book by clicking it\'s cover image\nto see book\'s details and then click the button in the bottom right corner.\nThe progress will be saved and restored automatically.\nYou can bring top and bottom bars by clicking anywhere on the screen.\nBy clicking the title of the book you will be transferred to the book\'s details.\nBy clicking the gear icon you will see Reader settings.\nYou can use bottom bar\'s slider to change progress.</string>
+
+    <string name="help_title_how_to_read_pdf_in_native_mode">How do PDF view modes work?</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_1">PDF books can be opened as</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_2">Text version</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_3">or</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_4">Original PDF</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_5">Tap the page to show the top and bottom bars. The PDF mode button opens the view mode chooser, and the gear icon opens</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_6">PDF reader settings,</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_7">where you can choose between page modes:</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_8">Continuous</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_9">and</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_10">Paged</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, zoom buttons, pinch zoom, color presets, padding, fullscreen, keep screen on, brightness and orientation.\nIn the mode chooser, turn on Remember for future PDFs to use the same mode for new PDF books.\nProgress is saved automatically. Zoom only lives in the current session and resets when you change the page, switch books or reopen the book.</string>
 
     <string name="help_title_how_to_customize_reader">How do I customize the Reader?</string>
     <string name="help_desc_how_to_customize_reader_1">Start reading the book(see: How do I read a book?),\nafter that bring top and bottom bars by clicking anywhere on the screen.\nThen click the gear icon in the upper right corner.\nThis will show all Reader settings.\nSecond way is to go to the</string>
@@ -520,6 +554,11 @@
     <string name="checkpoint_back_content_desc">Checkpoint back</string>
     <string name="checkpoint_forward_content_desc">Checkpoint forward</string>
     <string name="chapters_content_desc">Chapters</string>
+    <string name="pdf_original_mode_content_desc">Original PDF mode</string>
+    <string name="open_parsed_text_content_desc">Open text version mode</string>
+    <string name="pdf_page_content_desc">PDF page %1$d</string>
+    <string name="zoom_in_content_desc">Zoom in</string>
+    <string name="zoom_out_content_desc">Zoom out</string>
     <string name="more_content_desc">More</string>
     <string name="pin_content_desc">Pin</string>
     <string name="show_less_content_desc">Show less</string>

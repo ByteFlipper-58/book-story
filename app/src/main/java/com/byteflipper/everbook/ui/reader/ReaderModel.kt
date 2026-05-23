@@ -37,6 +37,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
 import com.byteflipper.everbook.domain.ui.UIText
@@ -72,6 +73,7 @@ class ReaderModel @Inject constructor(
     private var resetJob: Job? = null
 
     private var scrollJob: Job? = null
+    private var progressJob: Job? = null
 
     fun onEvent(event: ReaderEvent) {
         viewModelScope.launch(eventJob + Dispatchers.Main) {
@@ -82,6 +84,22 @@ class ReaderModel @Inject constructor(
                         yield()
 
                         if (text.isEmpty()) {
+                            if (_state.value.book.filePath.endsWith(".pdf", ignoreCase = true)) {
+                                _state.update {
+                                    it.copy(
+                                        book = it.book.copy(
+                                            pdfReadingMode = PdfReadingMode.ORIGINAL_PDF,
+                                            pdfTextModeAvailable = false
+                                        ),
+                                        isLoading = false,
+                                        errorMessage = null,
+                                        pdfTextModeUnavailable = true
+                                    )
+                                }
+                                updateBook.execute(_state.value.book)
+                                return@launch
+                            }
+
                             _state.update {
                                 it.copy(
                                     isLoading = false,
@@ -164,6 +182,38 @@ class ReaderModel @Inject constructor(
                                 }
                             )
                         }
+                    }
+                }
+
+                is ReaderEvent.OnChangePdfReadingMode -> {
+                    launch {
+                        if (
+                            event.mode == PdfReadingMode.PARSED_TEXT &&
+                            !_state.value.book.pdfTextModeAvailable
+                        ) {
+                            return@launch
+                        }
+
+                        _state.update {
+                            it.copy(
+                                book = it.book.copy(pdfReadingMode = event.mode),
+                                isLoading = event.mode == PdfReadingMode.PARSED_TEXT,
+                                errorMessage = null
+                            )
+                        }
+                        updateBook.execute(_state.value.book)
+
+                        LibraryScreen.refreshListChannel.trySend(0)
+                        HistoryScreen.refreshListChannel.trySend(0)
+                    }
+                }
+
+                is ReaderEvent.OnShowPdfReadingModeBottomSheet -> {
+                    _state.update {
+                        it.copy(
+                            bottomSheet = ReaderScreen.PDF_READING_MODE_BOTTOM_SHEET,
+                            drawer = null
+                        )
                     }
                 }
 
@@ -485,6 +535,23 @@ class ReaderModel @Inject constructor(
                 ReaderState(book = book)
             }
 
+            if (
+                book.filePath.endsWith(".pdf", ignoreCase = true) &&
+                book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF
+            ) {
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        showMenu = false
+                    )
+                }
+                systemBarsVisibility(
+                    show = !fullscreenMode,
+                    activity = activity
+                )
+                return@launch
+            }
+
             onEvent(
                 ReaderEvent.OnLoadText(
                     activity = activity,
@@ -496,7 +563,8 @@ class ReaderModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     fun updateProgress(listState: LazyListState) {
-        viewModelScope.launch(Dispatchers.Main) {
+        progressJob?.cancel()
+        progressJob = viewModelScope.launch(Dispatchers.Main) {
             snapshotFlow {
                 listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset
             }.distinctUntilChanged().debounce(300).collectLatest { (index, offset) ->
@@ -639,6 +707,7 @@ class ReaderModel @Inject constructor(
     fun resetScreen() {
         resetJob = viewModelScope.launch(Dispatchers.Main) {
             eventJob.cancel()
+            progressJob?.cancel()
             eventJob = SupervisorJob()
 
             yield()

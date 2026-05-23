@@ -31,6 +31,8 @@ import com.byteflipper.everbook.domain.library.display.toLibraryTitlePosition
 import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toFontThickness
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
+import com.byteflipper.everbook.domain.reader.toPdfPageDisplayMode
+import com.byteflipper.everbook.domain.reader.toPdfReadingMode
 import com.byteflipper.everbook.domain.reader.toProgressCount
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
@@ -608,6 +610,38 @@ class MainModel @Inject constructor(
                 value = event.value,
                 updateState = {
                     it.copy(progressCount = this.toProgressCount())
+                }
+            )
+
+            is MainEvent.OnChangePdfDefaultReadingMode -> handleDatastoreUpdate(
+                key = DataStoreConstants.PDF_DEFAULT_READING_MODE,
+                value = event.value,
+                updateState = {
+                    it.copy(pdfDefaultReadingMode = this.toPdfReadingMode())
+                }
+            )
+
+            is MainEvent.OnChangePdfPageDisplayMode -> handleDatastoreUpdate(
+                key = DataStoreConstants.PDF_PAGE_DISPLAY_MODE,
+                value = event.value,
+                updateState = {
+                    it.copy(pdfPageDisplayMode = this.toPdfPageDisplayMode())
+                }
+            )
+
+            is MainEvent.OnChangePdfShowZoomControls -> handleDatastoreUpdate(
+                key = DataStoreConstants.PDF_SHOW_ZOOM_CONTROLS,
+                value = event.value,
+                updateState = {
+                    it.copy(pdfShowZoomControls = this)
+                }
+            )
+
+            is MainEvent.OnChangePdfPinchZoom -> handleDatastoreUpdate(
+                key = DataStoreConstants.PDF_PINCH_ZOOM,
+                value = event.value,
+                updateState = {
+                    it.copy(pdfPinchZoom = this)
                 }
             )
 

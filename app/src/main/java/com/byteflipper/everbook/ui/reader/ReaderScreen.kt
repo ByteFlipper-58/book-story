@@ -46,6 +46,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.parcelize.Parcelize
 import com.byteflipper.everbook.domain.navigator.Screen
+import com.byteflipper.everbook.domain.reader.PdfPageDisplayMode
+import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.ReaderColorEffects
 import com.byteflipper.everbook.domain.reader.ReaderProgressCount
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
@@ -54,9 +56,13 @@ import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.presentation.core.util.calculateProgress
 import com.byteflipper.everbook.presentation.core.util.setBrightness
 import com.byteflipper.everbook.presentation.navigator.LocalNavigator
+import com.byteflipper.everbook.presentation.pdf_reader.PdfReaderContent
 import com.byteflipper.everbook.presentation.reader.ReaderContent
+import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.book_info.BookInfoScreen
 import com.byteflipper.everbook.ui.main.MainModel
+import com.byteflipper.everbook.ui.pdf_reader.PdfReaderEvent
+import com.byteflipper.everbook.ui.pdf_reader.PdfReaderModel
 import com.byteflipper.everbook.ui.settings.SettingsModel
 import kotlin.math.roundToInt
 
@@ -66,6 +72,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
     companion object {
         const val CHAPTERS_DRAWER = "chapters_drawer"
         const val SETTINGS_BOTTOM_SHEET = "settings_bottom_sheet"
+        const val PDF_READING_MODE_BOTTOM_SHEET = "pdf_reading_mode_bottom_sheet"
     }
 
     @OptIn(ExperimentalLayoutApi::class)
@@ -73,10 +80,12 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
     override fun Content() {
         val navigator = LocalNavigator.current
         val screenModel = hiltViewModel<ReaderModel>()
+        val pdfScreenModel = hiltViewModel<PdfReaderModel>()
         val mainModel = hiltViewModel<MainModel>()
         val settingsModel = hiltViewModel<SettingsModel>()
 
         val state = screenModel.state.collectAsStateWithLifecycle()
+        val pdfState = pdfScreenModel.state.collectAsStateWithLifecycle()
         val mainState = mainModel.state.collectAsStateWithLifecycle()
         val settingsState = settingsModel.state.collectAsStateWithLifecycle()
 
@@ -87,6 +96,29 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
             saver = LazyListState.Saver
         ) {
             state.value.listState
+        }
+        val pdfListState = rememberSaveable(
+            pdfState.value.listState,
+            saver = LazyListState.Saver
+        ) {
+            pdfState.value.listState
+        }
+        val activePdfMode = remember(
+            bookId,
+            state.value.book.id,
+            state.value.book.pdfReadingMode,
+            pdfState.value.book.id,
+            pdfState.value.book.pdfReadingMode
+        ) {
+            when {
+                pdfState.value.book.id == bookId ->
+                    pdfState.value.book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF
+
+                state.value.book.id == bookId ->
+                    state.value.book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF
+
+                else -> false
+            }
         }
         val nestedScrollConnection = remember {
             derivedStateOf {
@@ -349,18 +381,74 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 }
             )
         }
-        LaunchedEffect(mainState.value.fullscreen) {
-            screenModel.onEvent(
-                ReaderEvent.OnMenuVisibility(
-                    show = state.value.showMenu,
+        LaunchedEffect(activePdfMode, state.value.book.id, pdfState.value.book.pdfReadingMode) {
+            if (activePdfMode && state.value.book.id == bookId) {
+                pdfScreenModel.init(
+                    bookId = bookId,
                     fullscreenMode = mainState.value.fullscreen,
-                    saveCheckpoint = false,
-                    activity = activity
+                    activity = activity,
+                    navigateBack = {
+                        navigator.pop()
+                    }
                 )
-            )
+            }
+
+            if (
+                !activePdfMode &&
+                pdfState.value.book.id == bookId &&
+                pdfState.value.book.pdfReadingMode == PdfReadingMode.PARSED_TEXT
+            ) {
+                screenModel.init(
+                    bookId = bookId,
+                    fullscreenMode = mainState.value.fullscreen,
+                    activity = activity,
+                    navigateBack = {
+                        navigator.pop()
+                    }
+                )
+                pdfScreenModel.resetScreen()
+            }
+        }
+        LaunchedEffect(mainState.value.fullscreen) {
+            if (activePdfMode) {
+                pdfScreenModel.onEvent(
+                    PdfReaderEvent.OnMenuVisibility(
+                        show = pdfState.value.showMenu,
+                        fullscreenMode = mainState.value.fullscreen,
+                        activity = activity
+                    )
+                )
+            } else {
+                screenModel.onEvent(
+                    ReaderEvent.OnMenuVisibility(
+                        show = state.value.showMenu,
+                        fullscreenMode = mainState.value.fullscreen,
+                        saveCheckpoint = false,
+                        activity = activity
+                    )
+                )
+            }
         }
         LaunchedEffect(listState) {
             screenModel.updateProgress(listState)
+        }
+        LaunchedEffect(pdfListState) {
+            pdfScreenModel.updateProgress(pdfListState)
+        }
+        LaunchedEffect(
+            pdfState.value.pageCount,
+            activePdfMode,
+            pdfState.value.book.pdfPageIndex,
+            mainState.value.pdfPageDisplayMode
+        ) {
+            if (activePdfMode && pdfState.value.pageCount > 0) {
+                pdfListState.scrollToItem(
+                    pdfState.value.book.pdfPageIndex.coerceIn(0, pdfState.value.pageCount - 1),
+                    if (mainState.value.pdfPageDisplayMode == PdfPageDisplayMode.PAGED) {
+                        0
+                    } else pdfState.value.book.pdfPageOffset
+                )
+            }
         }
 
         DisposableEffect(mainState.value.screenOrientation) {
@@ -395,6 +483,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         DisposableEffect(Unit) {
             onDispose {
                 screenModel.resetScreen()
+                pdfScreenModel.resetScreen()
                 WindowCompat.getInsetsController(
                     activity.window,
                     activity.window.decorView
@@ -402,89 +491,144 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
             }
         }
 
-        ReaderContent(
-            book = state.value.book,
-            text = state.value.text,
-            bottomSheet = state.value.bottomSheet,
-            drawer = state.value.drawer,
-            listState = listState,
-            currentChapter = state.value.currentChapter,
-            nestedScrollConnection = nestedScrollConnection.value,
-            fastColorPresetChange = mainState.value.fastColorPresetChange,
-            perceptionExpander = mainState.value.perceptionExpander,
-            perceptionExpanderPadding = perceptionExpanderPadding,
-            perceptionExpanderThickness = perceptionExpanderThickness,
-            currentChapterProgress = state.value.currentChapterProgress,
-            isLoading = state.value.isLoading,
-            errorMessage = state.value.errorMessage,
-            checkpoint = state.value.checkpoint,
-            showMenu = state.value.showMenu,
-            lockMenu = state.value.lockMenu,
-            contentPadding = contentPadding,
-            verticalPadding = verticalPadding,
-            horizontalGesture = mainState.value.horizontalGesture,
-            horizontalGestureScroll = mainState.value.horizontalGestureScroll,
-            horizontalGestureSensitivity = horizontalGestureSensitivity,
-            horizontalGestureAlphaAnim = mainState.value.horizontalGestureAlphaAnim,
-            horizontalGesturePullAnim = mainState.value.horizontalGesturePullAnim,
-            highlightedReading = mainState.value.highlightedReading,
-            highlightedReadingThickness = highlightedReadingThickness,
-            progress = progress,
-            progressBar = mainState.value.progressBar,
-            progressBarPadding = progressBarPadding,
-            progressBarAlignment = mainState.value.progressBarAlignment,
-            progressBarFontSize = progressBarFontSize,
-            paragraphHeight = paragraphHeight,
-            sidePadding = sidePadding,
-            bottomBarPadding = bottomBarPadding,
-            backgroundColor = backgroundColor.value,
-            fontColor = fontColor.value,
-            images = mainState.value.images,
-            imagesCornersRoundness = imagesCornersRoundness,
-            imagesAlignment = mainState.value.imagesAlignment,
-            imagesWidth = imagesWidth,
-            imagesColorEffects = imagesColorEffects,
-            fontFamily = fontFamily,
-            lineHeight = lineHeight,
-            fontThickness = mainState.value.fontThickness,
-            fontStyle = fontStyle,
-            chapterTitleAlignment = mainState.value.chapterTitleAlignment,
-            textAlignment = mainState.value.textAlignment,
-            horizontalAlignment = horizontalAlignment,
-            fontSize = mainState.value.fontSize.sp,
-            letterSpacing = letterSpacing,
-            paragraphIndentation = paragraphIndentation,
-            doubleClickTranslation = mainState.value.doubleClickTranslation,
-            fullscreenMode = mainState.value.fullscreen,
-            selectPreviousPreset = settingsModel::onEvent,
-            selectNextPreset = settingsModel::onEvent,
-            leave = screenModel::onEvent,
-            restoreCheckpoint = screenModel::onEvent,
-            scroll = screenModel::onEvent,
-            changeProgress = screenModel::onEvent,
-            menuVisibility = screenModel::onEvent,
-            openShareApp = screenModel::onEvent,
-            openWebBrowser = screenModel::onEvent,
-            openTranslator = screenModel::onEvent,
-            openDictionary = screenModel::onEvent,
-            scrollToChapter = screenModel::onEvent,
-            showSettingsBottomSheet = screenModel::onEvent,
-            dismissBottomSheet = screenModel::onEvent,
-            showChaptersDrawer = screenModel::onEvent,
-            dismissDrawer = screenModel::onEvent,
-            navigateBack = {
-                navigator.pop()
-            },
-            navigateToBookInfo = { changePath ->
-                if (changePath) BookInfoScreen.changePathChannel.trySend(true)
-                navigator.push(
-                    BookInfoScreen(
-                        bookId = bookId,
-                    ),
-                    popping = true,
-                    saveInBackStack = false
-                )
-            }
-        )
+        if (activePdfMode) {
+            PdfReaderContent(
+                book = pdfState.value.book.takeIf { it.id == bookId } ?: state.value.book,
+                pageCount = pdfState.value.pageCount,
+                listState = pdfListState,
+                isLoading = pdfState.value.isLoading,
+                errorMessage = pdfState.value.errorMessage,
+                showMenu = pdfState.value.showMenu,
+                bottomSheet = pdfState.value.bottomSheet,
+                zoom = pdfState.value.zoom,
+                zoomPageIndex = pdfState.value.zoomPageIndex,
+                zoomSessionId = pdfState.value.zoomSessionId,
+                pdfTextModeUnavailable = state.value.pdfTextModeUnavailable ||
+                        !state.value.book.pdfTextModeAvailable,
+                contentPadding = contentPadding,
+                bottomBarPadding = bottomBarPadding,
+                backgroundColor = backgroundColor.value,
+                pageDisplayMode = mainState.value.pdfPageDisplayMode,
+                showZoomControls = mainState.value.pdfShowZoomControls,
+                pinchZoom = mainState.value.pdfPinchZoom,
+                fullscreenMode = mainState.value.fullscreen,
+                renderPage = pdfScreenModel::renderPage,
+                menuVisibility = pdfScreenModel::onEvent,
+                scrollToPage = pdfScreenModel::onEvent,
+                changeZoom = pdfScreenModel::onEvent,
+                changePdfReadingMode = pdfScreenModel::onEvent,
+                changePdfDefaultReadingMode = {
+                    mainModel.onEvent(MainEvent.OnChangePdfDefaultReadingMode(it.name))
+                },
+                showPdfReadingModeBottomSheet = pdfScreenModel::onEvent,
+                showSettingsBottomSheet = pdfScreenModel::onEvent,
+                dismissBottomSheet = pdfScreenModel::onEvent,
+                leave = pdfScreenModel::onEvent,
+                navigateBack = {
+                    navigator.pop()
+                },
+                navigateToBookInfo = {
+                    navigator.push(
+                        BookInfoScreen(
+                            bookId = bookId,
+                        ),
+                        popping = true,
+                        saveInBackStack = false
+                    )
+                }
+            )
+        } else {
+            ReaderContent(
+                book = state.value.book,
+                text = state.value.text,
+                bottomSheet = state.value.bottomSheet,
+                drawer = state.value.drawer,
+                listState = listState,
+                currentChapter = state.value.currentChapter,
+                nestedScrollConnection = nestedScrollConnection.value,
+                fastColorPresetChange = mainState.value.fastColorPresetChange,
+                perceptionExpander = mainState.value.perceptionExpander,
+                perceptionExpanderPadding = perceptionExpanderPadding,
+                perceptionExpanderThickness = perceptionExpanderThickness,
+                currentChapterProgress = state.value.currentChapterProgress,
+                isLoading = state.value.isLoading,
+                errorMessage = state.value.errorMessage,
+                pdfTextModeUnavailable = state.value.pdfTextModeUnavailable ||
+                        !state.value.book.pdfTextModeAvailable,
+                checkpoint = state.value.checkpoint,
+                showMenu = state.value.showMenu,
+                lockMenu = state.value.lockMenu,
+                contentPadding = contentPadding,
+                verticalPadding = verticalPadding,
+                horizontalGesture = mainState.value.horizontalGesture,
+                horizontalGestureScroll = mainState.value.horizontalGestureScroll,
+                horizontalGestureSensitivity = horizontalGestureSensitivity,
+                horizontalGestureAlphaAnim = mainState.value.horizontalGestureAlphaAnim,
+                horizontalGesturePullAnim = mainState.value.horizontalGesturePullAnim,
+                highlightedReading = mainState.value.highlightedReading,
+                highlightedReadingThickness = highlightedReadingThickness,
+                progress = progress,
+                progressBar = mainState.value.progressBar,
+                progressBarPadding = progressBarPadding,
+                progressBarAlignment = mainState.value.progressBarAlignment,
+                progressBarFontSize = progressBarFontSize,
+                paragraphHeight = paragraphHeight,
+                sidePadding = sidePadding,
+                bottomBarPadding = bottomBarPadding,
+                backgroundColor = backgroundColor.value,
+                fontColor = fontColor.value,
+                images = mainState.value.images,
+                imagesCornersRoundness = imagesCornersRoundness,
+                imagesAlignment = mainState.value.imagesAlignment,
+                imagesWidth = imagesWidth,
+                imagesColorEffects = imagesColorEffects,
+                fontFamily = fontFamily,
+                lineHeight = lineHeight,
+                fontThickness = mainState.value.fontThickness,
+                fontStyle = fontStyle,
+                chapterTitleAlignment = mainState.value.chapterTitleAlignment,
+                textAlignment = mainState.value.textAlignment,
+                horizontalAlignment = horizontalAlignment,
+                fontSize = mainState.value.fontSize.sp,
+                letterSpacing = letterSpacing,
+                paragraphIndentation = paragraphIndentation,
+                doubleClickTranslation = mainState.value.doubleClickTranslation,
+                fullscreenMode = mainState.value.fullscreen,
+                selectPreviousPreset = settingsModel::onEvent,
+                selectNextPreset = settingsModel::onEvent,
+                leave = screenModel::onEvent,
+                restoreCheckpoint = screenModel::onEvent,
+                scroll = screenModel::onEvent,
+                changeProgress = screenModel::onEvent,
+                menuVisibility = screenModel::onEvent,
+                openShareApp = screenModel::onEvent,
+                openWebBrowser = screenModel::onEvent,
+                openTranslator = screenModel::onEvent,
+                openDictionary = screenModel::onEvent,
+                scrollToChapter = screenModel::onEvent,
+                showPdfReadingModeBottomSheet = screenModel::onEvent,
+                showSettingsBottomSheet = screenModel::onEvent,
+                dismissBottomSheet = screenModel::onEvent,
+                showChaptersDrawer = screenModel::onEvent,
+                dismissDrawer = screenModel::onEvent,
+                changePdfReadingMode = screenModel::onEvent,
+                changePdfDefaultReadingMode = {
+                    mainModel.onEvent(MainEvent.OnChangePdfDefaultReadingMode(it.name))
+                },
+                navigateBack = {
+                    navigator.pop()
+                },
+                navigateToBookInfo = { changePath ->
+                    if (changePath) BookInfoScreen.changePathChannel.trySend(true)
+                    navigator.push(
+                        BookInfoScreen(
+                            bookId = bookId,
+                        ),
+                        popping = true,
+                        saveInBackStack = false
+                    )
+                }
+            )
+        }
     }
 }

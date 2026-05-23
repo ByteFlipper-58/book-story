@@ -28,7 +28,6 @@ import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.launch
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.components.modal_bottom_sheet.ModalBottomSheet
-import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.presentation.settings.appearance.colors.ColorsSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.chapters.ChaptersSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.font.FontSubcategory
@@ -41,7 +40,6 @@ import com.byteflipper.everbook.presentation.settings.reader.reading_speed.Readi
 import com.byteflipper.everbook.presentation.settings.reader.system.SystemSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.text.TextSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.translator.TranslatorSubcategory
-import com.byteflipper.everbook.ui.reader.ReaderEvent
 
 private var initialPage = 0
 
@@ -49,10 +47,9 @@ private var initialPage = 0
 @Composable
 fun ReaderSettingsBottomSheet(
     fullscreenMode: Boolean,
-    menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit,
-    dismissBottomSheet: (ReaderEvent.OnDismissBottomSheet) -> Unit
+    menuVisibility: (show: Boolean, fullscreenMode: Boolean) -> Unit,
+    dismissBottomSheet: () -> Unit
 ) {
-    val activity = LocalActivity.current
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(initialPage) { 3 }
     DisposableEffect(Unit) { onDispose { initialPage = pagerState.currentPage } }
@@ -69,12 +66,8 @@ fun ReaderSettingsBottomSheet(
 
     LaunchedEffect(pagerState.currentPage) {
         menuVisibility(
-            ReaderEvent.OnMenuVisibility(
-                show = pagerState.currentPage != 2,
-                fullscreenMode = fullscreenMode,
-                saveCheckpoint = false,
-                activity = activity
-            )
+            pagerState.currentPage != 2,
+            fullscreenMode
         )
     }
 
@@ -86,7 +79,7 @@ fun ReaderSettingsBottomSheet(
             .fillMaxHeight(animatedHeight),
         dragHandle = {},
         onDismissRequest = {
-            dismissBottomSheet(ReaderEvent.OnDismissBottomSheet)
+            dismissBottomSheet()
         },
         sheetGesturesEnabled = false
     ) {
@@ -104,7 +97,9 @@ fun ReaderSettingsBottomSheet(
                 0 -> {
                     LazyColumnWithScrollbar(Modifier.fillMaxSize()) {
                         ReadingModeSubcategory(
-                            titleColor = { MaterialTheme.colorScheme.onSurface }
+                            titleColor = { MaterialTheme.colorScheme.onSurface },
+                            showPdfReadingMode = false,
+                            showHorizontalGesture = true
                         )
                         PaddingSubcategory(
                             titleColor = { MaterialTheme.colorScheme.onSurface }

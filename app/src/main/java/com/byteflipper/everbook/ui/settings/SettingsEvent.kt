@@ -50,7 +50,8 @@ sealed class SettingsEvent {
     ) : SettingsEvent()
 
     data class OnShuffleColorPreset(
-        val id: ID
+        val id: ID,
+        val includeFontColor: Boolean = true
     ) : SettingsEvent()
 
     data class OnAddColorPreset(

@@ -27,12 +27,16 @@ import com.byteflipper.everbook.domain.library.display.toLibraryTitlePosition
 import com.byteflipper.everbook.domain.reader.ReaderColorEffects
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
+import com.byteflipper.everbook.domain.reader.PdfPageDisplayMode
+import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.ReaderProgressCount
 import com.byteflipper.everbook.domain.reader.ReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toFontThickness
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
+import com.byteflipper.everbook.domain.reader.toPdfPageDisplayMode
+import com.byteflipper.everbook.domain.reader.toPdfReadingMode
 import com.byteflipper.everbook.domain.reader.toProgressCount
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
@@ -124,6 +128,12 @@ data class MainState(
     val progressBarAlignment: HorizontalAlignment = provideDefaultValue { HorizontalAlignment.CENTER },
     val progressBarFontSize: Int = provideDefaultValue { 8 },
     val progressCount: ReaderProgressCount = provideDefaultValue { ReaderProgressCount.PERCENTAGE },
+    val pdfDefaultReadingMode: PdfReadingMode = provideDefaultValue { PdfReadingMode.PARSED_TEXT },
+    val pdfPageDisplayMode: PdfPageDisplayMode = provideDefaultValue {
+        PdfPageDisplayMode.CONTINUOUS
+    },
+    val pdfShowZoomControls: Boolean = provideDefaultValue { true },
+    val pdfPinchZoom: Boolean = provideDefaultValue { true },
 
     // Library Settings
     val libraryLayout: LibraryLayout = provideDefaultValue { LibraryLayout.GRID },
@@ -445,6 +455,22 @@ data class MainState(
                     progressCount = provideValue(
                         PROGRESS_COUNT, convert = { toProgressCount() }
                     ) { progressCount },
+
+                    pdfDefaultReadingMode = provideValue(
+                        PDF_DEFAULT_READING_MODE, convert = { toPdfReadingMode() }
+                    ) { pdfDefaultReadingMode },
+
+                    pdfPageDisplayMode = provideValue(
+                        PDF_PAGE_DISPLAY_MODE, convert = { toPdfPageDisplayMode() }
+                    ) { pdfPageDisplayMode },
+
+                    pdfShowZoomControls = provideValue(
+                        PDF_SHOW_ZOOM_CONTROLS
+                    ) { pdfShowZoomControls },
+
+                    pdfPinchZoom = provideValue(
+                        PDF_PINCH_ZOOM
+                    ) { pdfPinchZoom },
 
                     horizontalGestureAlphaAnim = provideValue(
                         HORIZONTAL_GESTURE_ALPHA_ANIM

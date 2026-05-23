@@ -12,6 +12,7 @@ import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.local.dto.BookEntity
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.library.category.Category
+import com.byteflipper.everbook.domain.reader.toPdfReadingMode
 import com.byteflipper.everbook.domain.ui.UIText
 import javax.inject.Inject
 
@@ -33,7 +34,11 @@ class BookMapperImpl @Inject constructor() : BookMapper {
             author = book.author.getAsString(),
             description = book.description,
             image = book.coverImage?.toString(),
-            categoryId = resolvedCategoryId
+            categoryId = resolvedCategoryId,
+            pdfReadingMode = book.pdfReadingMode.name,
+            pdfTextModeAvailable = book.pdfTextModeAvailable,
+            pdfPageIndex = book.pdfPageIndex,
+            pdfPageOffset = book.pdfPageOffset
         )
     }
 
@@ -58,6 +63,10 @@ class BookMapperImpl @Inject constructor() : BookMapper {
                 4 -> Category.DROPPED
                 else -> null
             },
+            pdfReadingMode = bookEntity.pdfReadingMode.toPdfReadingMode(),
+            pdfTextModeAvailable = bookEntity.pdfTextModeAvailable,
+            pdfPageIndex = bookEntity.pdfPageIndex,
+            pdfPageOffset = bookEntity.pdfPageOffset,
             coverImage = if (bookEntity.image != null) bookEntity.image.toUri() else null
         )
     }

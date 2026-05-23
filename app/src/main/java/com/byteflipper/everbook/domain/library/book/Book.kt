@@ -12,6 +12,7 @@ import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.Parcelize
 import com.byteflipper.everbook.domain.library.category.Category
+import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.ui.UIText
 
 @Parcelize
@@ -34,6 +35,11 @@ data class Book(
     val categoryId: Int = 0,
     @Deprecated("Use categoryId")
     val category: Category? = null,
+
+    val pdfReadingMode: PdfReadingMode = PdfReadingMode.PARSED_TEXT,
+    val pdfTextModeAvailable: Boolean = true,
+    val pdfPageIndex: Int = 0,
+    val pdfPageOffset: Int = 0,
 
     /**
      * Список всех категорий, к которым принадлежит книга (включая 0 – «Все»).

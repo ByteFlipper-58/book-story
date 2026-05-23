@@ -21,10 +21,10 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.getOrElse
 import kotlinx.parcelize.Parcelize
 import com.byteflipper.everbook.domain.navigator.Screen
-import com.byteflipper.everbook.presentation.book_info.BookInfoContent
-import com.byteflipper.everbook.presentation.navigator.LocalNavigator
 import com.byteflipper.everbook.ui.history.HistoryScreen
 import com.byteflipper.everbook.ui.library.LibraryScreen
+import com.byteflipper.everbook.presentation.book_info.BookInfoContent
+import com.byteflipper.everbook.presentation.navigator.LocalNavigator
 import com.byteflipper.everbook.ui.reader.ReaderScreen
 
 @Parcelize

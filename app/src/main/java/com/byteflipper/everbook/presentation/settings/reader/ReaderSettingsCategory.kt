@@ -7,6 +7,8 @@
 
 @file:Suppress("FunctionName")
 
+package com.byteflipper.everbook.presentation.settings.reader
+
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -16,6 +18,10 @@ import com.byteflipper.everbook.presentation.settings.reader.font.FontSubcategor
 import com.byteflipper.everbook.presentation.settings.reader.images.ImagesSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.misc.MiscSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.padding.PaddingSubcategory
+import com.byteflipper.everbook.presentation.settings.reader.pdf.PdfColorsSubcategory
+import com.byteflipper.everbook.presentation.settings.reader.pdf.PdfDisplaySubcategory
+import com.byteflipper.everbook.presentation.settings.reader.pdf.PdfPaddingSubcategory
+import com.byteflipper.everbook.presentation.settings.reader.pdf.PdfSystemSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.progress.ProgressSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.reading_mode.ReadingModeSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.reading_speed.ReadingSpeedSubcategory
@@ -39,6 +45,18 @@ fun LazyListScope.ReaderSettingsCategory(
         titleColor = titleColor
     )
     ReadingModeSubcategory(
+        titleColor = titleColor
+    )
+    PdfDisplaySubcategory(
+        titleColor = titleColor
+    )
+    PdfPaddingSubcategory(
+        titleColor = titleColor
+    )
+    PdfSystemSubcategory(
+        titleColor = titleColor
+    )
+    PdfColorsSubcategory(
         titleColor = titleColor
     )
     PaddingSubcategory(

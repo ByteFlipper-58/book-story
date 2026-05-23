@@ -67,6 +67,10 @@ object DataStoreConstants {
     val PROGRESS_BAR_ALIGNMENT = stringPreferencesKey("progress_bar_alignment")
     val PROGRESS_BAR_FONT_SIZE = intPreferencesKey("progress_bar_font_size")
     val PROGRESS_COUNT = stringPreferencesKey("progress_count")
+    val PDF_DEFAULT_READING_MODE = stringPreferencesKey("pdf_default_reading_mode")
+    val PDF_PAGE_DISPLAY_MODE = stringPreferencesKey("pdf_page_display_mode")
+    val PDF_SHOW_ZOOM_CONTROLS = booleanPreferencesKey("pdf_show_zoom_controls")
+    val PDF_PINCH_ZOOM = booleanPreferencesKey("pdf_pinch_zoom")
 
     // Math renderer
     val RENDER_MATH = booleanPreferencesKey("render_math")

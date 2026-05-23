@@ -33,7 +33,10 @@ import com.byteflipper.everbook.domain.navigator.NavigatorItem
 import com.byteflipper.everbook.presentation.navigator.LocalNavigator
 
 @Composable
-fun NavigationRail(tabs: List<NavigatorItem>) {
+fun NavigationRail(
+    tabs: List<NavigatorItem>,
+    onTabReselected: (NavigatorItem) -> Unit = {}
+) {
     val navigator = LocalNavigator.current
     val layoutDirection = LocalLayoutDirection.current
     val lastItem = navigator.lastItem.collectAsStateWithLifecycle()
@@ -72,7 +75,11 @@ fun NavigationRail(tabs: List<NavigatorItem>) {
                     item = tab,
                     isSelected = currentTab.value::class == tab.screen::class
                 ) {
-                    navigator.push(tab.screen)
+                    if (currentTab.value::class == tab.screen::class) {
+                        onTabReselected(tab)
+                    } else {
+                        navigator.push(tab.screen)
+                    }
                 }
             }
         }

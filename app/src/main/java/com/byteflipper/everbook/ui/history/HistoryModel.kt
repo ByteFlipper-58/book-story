@@ -13,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,6 +31,7 @@ import com.byteflipper.everbook.domain.use_case.book.GetBooksById
 import com.byteflipper.everbook.domain.use_case.history.DeleteHistory
 import com.byteflipper.everbook.domain.use_case.history.DeleteWholeHistory
 import com.byteflipper.everbook.domain.use_case.history.GetHistory
+import com.byteflipper.everbook.domain.use_case.history.GetLatestAvailableHistoryBook
 import com.byteflipper.everbook.domain.use_case.history.InsertHistory
 import com.byteflipper.everbook.presentation.core.util.showToast
 import com.byteflipper.everbook.ui.library.LibraryScreen
@@ -45,6 +47,7 @@ import kotlin.collections.component2
 class HistoryModel @Inject constructor(
     private val getHistory: GetHistory,
     private val getBooksById: GetBooksById,
+    private val getLatestAvailableHistoryBook: GetLatestAvailableHistoryBook,
     private val insertHistory: InsertHistory,
     private val deleteHistory: DeleteHistory,
     private val deleteWholeHistory: DeleteWholeHistory
@@ -54,6 +57,8 @@ class HistoryModel @Inject constructor(
 
     private val _state = MutableStateFlow(HistoryState())
     val state = _state.asStateFlow()
+
+    val openLatestBookChannel: Channel<Int> = Channel(Channel.CONFLATED)
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -197,6 +202,14 @@ class HistoryModel @Inject constructor(
                             hideSearch = false
                         )
                     )
+                }
+            }
+
+            is HistoryEvent.OnOpenLatestBookFromHistory -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    getLatestAvailableHistoryBook.execute()?.let { bookId ->
+                        openLatestBookChannel.trySend(bookId)
+                    }
                 }
             }
 

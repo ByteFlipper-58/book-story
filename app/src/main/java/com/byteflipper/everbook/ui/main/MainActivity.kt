@@ -43,6 +43,7 @@ import com.byteflipper.everbook.presentation.navigator.Navigator
 import com.byteflipper.everbook.presentation.navigator.NavigatorTabs
 import com.byteflipper.everbook.ui.browse.BrowseModel
 import com.byteflipper.everbook.ui.browse.BrowseScreen
+import com.byteflipper.everbook.ui.history.HistoryEvent
 import com.byteflipper.everbook.ui.history.HistoryModel
 import com.byteflipper.everbook.ui.history.HistoryScreen
 import com.byteflipper.everbook.ui.library.CategoriesModel
@@ -186,6 +187,13 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
 
+                        LaunchedEffect(historyModel, navigator) {
+                            historyModel.openLatestBookChannel.receiveAsFlow().collectLatest {
+                                HistoryScreen.insertHistoryChannel.trySend(it)
+                                navigator.push(ReaderScreen(it))
+                            }
+                        }
+
                         LaunchedEffect(Unit) {
                             externalImportModel.importFailedChannel.receiveAsFlow().collectLatest {
                                 getString(R.string.error_something_went_wrong)
@@ -230,8 +238,30 @@ class MainActivity : AppCompatActivity() {
                                         Transitions.FadeTransitionIn
                                             .togetherWith(Transitions.FadeTransitionOut)
                                     },
-                                    navigationBar = { NavigationBar(tabs = tabs) },
-                                    navigationRail = { NavigationRail(tabs = tabs) }
+                                    navigationBar = {
+                                        NavigationBar(
+                                            tabs = tabs,
+                                            onTabReselected = {
+                                                if (it.screen == HistoryScreen) {
+                                                    historyModel.onEvent(
+                                                        HistoryEvent.OnOpenLatestBookFromHistory
+                                                    )
+                                                }
+                                            }
+                                        )
+                                    },
+                                    navigationRail = {
+                                        NavigationRail(
+                                            tabs = tabs,
+                                            onTabReselected = {
+                                                if (it.screen == HistoryScreen) {
+                                                    historyModel.onEvent(
+                                                        HistoryEvent.OnOpenLatestBookFromHistory
+                                                    )
+                                                }
+                                            }
+                                        )
+                                    }
                                 ) { tab ->
                                     tab.Content()
                                 }

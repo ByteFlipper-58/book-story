@@ -128,6 +128,10 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                         available: Offset,
                         source: NestedScrollSource
                     ): Offset {
+                        if (source != NestedScrollSource.UserInput) {
+                            return super.onPostScroll(consumed, available, source)
+                        }
+
                         consumed.y.let { velocity ->
                             if (velocity in -70f..70f) return@let
                             if (!state.value.showMenu) return@let
@@ -331,9 +335,14 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
 
         val bookProgress = remember(
             state.value.book.progress,
-            state.value.text,
+            state.value.text.size,
+            state.value.isParsing,
             mainState.value.progressCount
         ) {
+            if (state.value.isParsing || state.value.text.isEmpty()) {
+                return@remember "${state.value.book.progress.calculateProgress(2)}%"
+            }
+
             when (mainState.value.progressCount) {
                 ReaderProgressCount.PERCENTAGE -> {
                     "${state.value.book.progress.calculateProgress(2)}%"
@@ -347,12 +356,14 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
             }
         }
         val chapterProgress = remember(
-            state.value.text,
+            state.value.text.size,
             state.value.book.progress,
             state.value.currentChapter,
             state.value.currentChapterProgress,
+            state.value.isParsing,
             mainState.value.progressCount
         ) {
+            if (state.value.isParsing) return@remember ""
             if (state.value.currentChapter == null) return@remember ""
             when (mainState.value.progressCount) {
                 ReaderProgressCount.PERCENTAGE -> {
@@ -541,6 +552,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
             ReaderContent(
                 book = state.value.book,
                 text = state.value.text,
+                chapters = state.value.chapters,
                 bottomSheet = state.value.bottomSheet,
                 drawer = state.value.drawer,
                 listState = listState,
@@ -552,6 +564,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 perceptionExpanderThickness = perceptionExpanderThickness,
                 currentChapterProgress = state.value.currentChapterProgress,
                 isLoading = state.value.isLoading,
+                isParsing = state.value.isParsing,
                 errorMessage = state.value.errorMessage,
                 pdfTextModeUnavailable = state.value.pdfTextModeUnavailable ||
                         !state.value.book.pdfTextModeAvailable,

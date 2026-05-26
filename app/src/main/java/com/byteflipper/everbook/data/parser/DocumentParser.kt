@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import kotlinx.coroutines.yield
 import org.jsoup.nodes.Document
 import com.byteflipper.everbook.domain.reader.ReaderText
+import com.byteflipper.everbook.domain.reader.hasReadableReaderText
 import com.byteflipper.everbook.presentation.core.util.clearAllMarkdown
 import com.byteflipper.everbook.presentation.core.util.clearMarkdown
 import com.byteflipper.everbook.presentation.core.util.containsVisibleText
@@ -20,6 +21,11 @@ import java.io.File
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import javax.inject.Inject
+
+private val BOLD_ITALIC_REGEX = Regex("""\*\*\*\s*(.*?)\s*\*\*\*""")
+private val BOLD_REGEX = Regex("""\*\*\s*(.*?)\s*\*\*""")
+private val ITALIC_REGEX = Regex("""_\s*(.*?)\s*_""")
+private val IMAGE_TOKEN_REGEX = Regex("""\[\[(.*?)\|(.*?)]]""")
 
 class DocumentParser @Inject constructor(
     private val markdownParser: MarkdownParser
@@ -34,25 +40,26 @@ class DocumentParser @Inject constructor(
     suspend fun parseDocument(
         document: Document,
         zipFile: ZipFile? = null,
-        imageEntries: List<ZipEntry>? = null,
-        includeChapter: Boolean = true
+        imageEntriesByName: Map<String, ZipEntry>? = null,
+        includeChapter: Boolean = true,
+        onChunk: ReaderTextChunkSink? = null
     ): List<ReaderText> {
         yield()
 
         val readerText = mutableListOf<ReaderText>()
+        val chunkBuffer = ReaderTextChunkBuffer(onChunk = onChunk)
         var chapterAdded = false
+        val imagesByName = imageEntriesByName.orEmpty()
 
-        document.selectFirst("body")
+        val body = document.selectFirst("body")
             .run { this ?: document.body() }
             .apply {
                 // Remove manual line breaks from all <p>, <a>
                 select("p").forEach { element ->
-                    yield()
                     element.html(element.html().replace(Regex("\\n+"), " "))
                     element.append("\n")
                 }
                 select("a").forEach { element ->
-                    yield()
                     element.html(element.html().replace(Regex("\\n+"), ""))
                 }
 
@@ -83,12 +90,11 @@ class DocumentParser @Inject constructor(
                 select("img").forEach { element ->
                     val src = element.attr("src")
                         .trim()
+                        .substringAfterLast('/')
                         .substringAfterLast(File.separator)
                         .lowercase()
                         .takeIf {
-                            it.containsVisibleText() && imageEntries?.any { image ->
-                                it == image.name.substringAfterLast(File.separator).lowercase()
-                            } == true
+                            it.containsVisibleText() && imagesByName.containsKey(it)
                         } ?: return@forEach
 
                     val alt = element.attr("alt").trim().takeIf {
@@ -102,97 +108,94 @@ class DocumentParser @Inject constructor(
                 select("image").forEach { element ->
                     val src = element.attr("xlink:href")
                         .trim()
+                        .substringAfterLast('/')
                         .substringAfterLast(File.separator)
                         .lowercase()
                         .takeIf {
-                            it.containsVisibleText() && imageEntries?.any { image ->
-                                it == image.name.substringAfterLast(File.separator).lowercase()
-                            } == true
+                            it.containsVisibleText() && imagesByName.containsKey(it)
                         } ?: return@forEach
 
                     val alt = src.substringBeforeLast(".")
 
                     element.append("\n[[$src|$alt]]\n")
                 }
-            }.wholeText().lines().forEach { line ->
-                yield()
+            }
 
-                val formattedLine = line.replace(
-                    Regex("""\*\*\*\s*(.*?)\s*\*\*\*"""), "_**$1**_"
-                ).replace(
-                    Regex("""\*\*\s*(.*?)\s*\*\*"""), "**$1**"
-                ).replace(
-                    Regex("""_\s*(.*?)\s*_"""), "_$1_"
-                ).trim()
+        for (line in body.wholeText().lines()) {
+            val formattedLine = line
+                .replace(BOLD_ITALIC_REGEX, "_**$1**_")
+                .replace(BOLD_REGEX, "**$1**")
+                .replace(ITALIC_REGEX, "_$1_")
+                .trim()
 
-                val imageRegex = Regex("""\[\[(.*?)\|(.*?)]]""")
+            if (line.containsVisibleText()) {
+                when {
+                    IMAGE_TOKEN_REGEX.matches(line) -> {
+                        val trimmedLine = line.removeSurrounding("[[", "]]")
+                        val src = trimmedLine.substringBefore("|")
+                        val alt = "_${trimmedLine.substringAfter("|")}_"
+                        val imageEntry = imagesByName[src] ?: continue
 
-                if (line.containsVisibleText()) {
-                    when {
-                        imageRegex.matches(line) -> {
-                            val trimmedLine = line.removeSurrounding("[[", "]]")
-                            val src = trimmedLine.substringBefore("|")
-                            val alt = "_${trimmedLine.substringAfter("|")}_"
+                        val image = try {
+                            zipFile?.getImage(imageEntry)?.asImageBitmap()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            null
+                        } ?: continue
 
-                            val image = try {
-                                val imageEntry = imageEntries?.find { image ->
-                                    src == image.name.substringAfterLast(File.separator).lowercase()
-                                } ?: return@forEach
+                        image.prepareToDraw()
+                        val imageText = ReaderText.Image(
+                            imageBitmap = image
+                        )
+                        readerText.add(imageText)
+                        chunkBuffer.add(imageText)
 
-                                zipFile?.getImage(imageEntry)?.asImageBitmap()
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                null
-                            } ?: return@forEach
+                        val captionText = ReaderText.Text(
+                            line = markdownParser.parse(alt),
+                            source = alt
+                        )
+                        readerText.add(captionText)
+                        chunkBuffer.add(captionText)
+                    }
 
-                            image.prepareToDraw()
-                            readerText.add( // Adding image
-                                ReaderText.Image(
-                                    imageBitmap = image
-                                )
+                    line == "---" || line == "***" -> {
+                        readerText.add(ReaderText.Separator)
+                        chunkBuffer.add(ReaderText.Separator)
+                    }
+
+                    else -> {
+                        if (
+                            !chapterAdded &&
+                            formattedLine.clearAllMarkdown().containsVisibleText() &&
+                            includeChapter
+                        ) {
+                            val chapter = ReaderText.Chapter(
+                                title = formattedLine.clearAllMarkdown(),
+                                nested = false
                             )
-                            readerText.add( // Adding alternative text (caption) for image
-                                ReaderText.Text(
-                                    markdownParser.parse(alt)
-                                )
+                            readerText.add(0, chapter)
+                            chunkBuffer.add(chapter)
+                            chapterAdded = true
+                        } else if (
+                            formattedLine.clearMarkdown().containsVisibleText()
+                        ) {
+                            val text = ReaderText.Text(
+                                line = markdownParser.parse(formattedLine),
+                                source = formattedLine
                             )
-                        }
-
-                        line == "---" || line == "***" -> readerText.add(ReaderText.Separator)
-
-                        else -> {
-                            if (
-                                !chapterAdded &&
-                                formattedLine.clearAllMarkdown().containsVisibleText() &&
-                                includeChapter
-                            ) {
-                                readerText.add(
-                                    0, ReaderText.Chapter(
-                                        title = formattedLine.clearAllMarkdown(),
-                                        nested = false
-                                    )
-                                )
-                                chapterAdded = true
-                            } else if (
-                                formattedLine.clearMarkdown().containsVisibleText()
-                            ) {
-                                readerText.add(
-                                    ReaderText.Text(
-                                        line = markdownParser.parse(formattedLine)
-                                    )
-                                )
-                            }
+                            readerText.add(text)
+                            chunkBuffer.add(text)
                         }
                     }
                 }
             }
+        }
+
+        chunkBuffer.flush()
 
         yield()
 
-        if (
-            readerText.filterIsInstance<ReaderText.Text>().isEmpty() ||
-            (includeChapter && readerText.filterIsInstance<ReaderText.Chapter>().isEmpty())
-        ) {
+        if (!readerText.hasReadableReaderText(requireChapter = includeChapter)) {
             return emptyList()
         }
 

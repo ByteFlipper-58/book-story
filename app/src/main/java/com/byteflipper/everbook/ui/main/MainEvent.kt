@@ -86,4 +86,5 @@ sealed class MainEvent {
     data class OnChangeHorizontalGestureAlphaAnim(val value: Boolean) : MainEvent()
     data class OnChangeHorizontalGesturePullAnim(val value: Boolean) : MainEvent()
     data class OnChangeRenderMath(val value: Boolean) : MainEvent()
+    data class OnChangeReaderCacheWarmUp(val value: Boolean) : MainEvent()
 }

@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.byteflipper.everbook.presentation.settings.reader.chapters.ChaptersSubcategory
+import com.byteflipper.everbook.presentation.settings.reader.experiments.ExperimentsSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.font.FontSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.images.ImagesSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.misc.MiscSubcategory
@@ -72,6 +73,9 @@ fun LazyListScope.ReaderSettingsCategory(
         titleColor = titleColor
     )
     TranslatorSubcategory(
+        titleColor = titleColor
+    )
+    ExperimentsSubcategory(
         titleColor = titleColor
     )
     MiscSubcategory(

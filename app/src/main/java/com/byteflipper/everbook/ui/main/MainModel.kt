@@ -36,6 +36,7 @@ import com.byteflipper.everbook.domain.reader.toPdfReadingMode
 import com.byteflipper.everbook.domain.reader.toProgressCount
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
+import com.byteflipper.everbook.domain.use_case.book.CancelReaderCacheWarmUps
 import com.byteflipper.everbook.domain.use_case.data_store.ChangeLanguage
 import com.byteflipper.everbook.domain.use_case.data_store.GetAllSettings
 import com.byteflipper.everbook.domain.use_case.data_store.SetDatastore
@@ -56,7 +57,8 @@ class MainModel @Inject constructor(
 
     private val setDatastore: SetDatastore,
     private val changeLanguage: ChangeLanguage,
-    private val getAllSettings: GetAllSettings
+    private val getAllSettings: GetAllSettings,
+    private val cancelReaderCacheWarmUps: CancelReaderCacheWarmUps
 ) : ViewModel() {
 
     private val initialState: MainState = stateHandle[provideMainState()] ?: MainState()
@@ -669,6 +671,8 @@ class MainModel @Inject constructor(
                     it.copy(renderMath = this)
                 }
             )
+
+            is MainEvent.OnChangeReaderCacheWarmUp -> handleReaderCacheWarmUpUpdate(event)
         }
     }
 
@@ -709,6 +713,20 @@ class MainModel @Inject constructor(
                 it.copy(language = event.value)
             }
         }
+    }
+
+    private fun handleReaderCacheWarmUpUpdate(event: MainEvent.OnChangeReaderCacheWarmUp) {
+        if (!event.value) {
+            cancelReaderCacheWarmUps.execute()
+        }
+
+        handleDatastoreUpdate(
+            key = DataStoreConstants.READER_CACHE_WARM_UP,
+            value = event.value,
+            updateState = {
+                it.copy(readerCacheWarmUp = this)
+            }
+        )
     }
 
     private fun handleBrowseIncludedFilterItemUpdate(

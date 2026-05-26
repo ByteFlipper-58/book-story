@@ -10,7 +10,6 @@ package com.byteflipper.everbook.presentation.reader
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -39,6 +38,7 @@ import com.byteflipper.everbook.ui.settings.SettingsEvent
 fun ReaderContent(
     book: Book,
     text: List<ReaderText>,
+    chapters: List<Chapter>,
     bottomSheet: BottomSheet?,
     drawer: Drawer?,
     listState: LazyListState,
@@ -50,6 +50,7 @@ fun ReaderContent(
     perceptionExpanderThickness: Dp,
     currentChapterProgress: Float,
     isLoading: Boolean,
+    isParsing: Boolean,
     errorMessage: UIText?,
     pdfTextModeUnavailable: Boolean,
     checkpoint: Checkpoint,
@@ -137,6 +138,7 @@ fun ReaderContent(
             perceptionExpanderThickness = perceptionExpanderThickness,
             currentChapterProgress = currentChapterProgress,
             isLoading = isLoading,
+            isParsing = isParsing,
             checkpoint = checkpoint,
             showMenu = showMenu,
             lockMenu = lockMenu,
@@ -205,7 +207,7 @@ fun ReaderContent(
 
     ReaderDrawer(
         drawer = drawer,
-        chapters = remember(text) { text.filterIsInstance<Chapter>() },
+        chapters = chapters,
         currentChapter = currentChapter,
         currentChapterProgress = currentChapterProgress,
         scrollToChapter = scrollToChapter,

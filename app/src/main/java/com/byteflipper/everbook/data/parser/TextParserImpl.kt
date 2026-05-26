@@ -32,7 +32,10 @@ class TextParserImpl @Inject constructor(
     private val xmlTextParser: XmlTextParser
 ) : TextParser {
 
-    override suspend fun parse(cachedFile: CachedFile): List<ReaderText> {
+    override suspend fun parse(
+        cachedFile: CachedFile,
+        onChunk: ReaderTextChunkSink?
+    ): List<ReaderText> {
         if (!cachedFile.canAccess()) {
             Log.e(TEXT_PARSER, "File does not exist or no read access is granted.")
             return emptyList()
@@ -42,31 +45,31 @@ class TextParserImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             when (fileFormat) {
                 ".pdf" -> {
-                    pdfTextParser.parse(cachedFile)
+                    pdfTextParser.parse(cachedFile, onChunk)
                 }
 
                 ".epub" -> {
-                    epubTextParser.parse(cachedFile)
+                    epubTextParser.parse(cachedFile, onChunk)
                 }
 
                 ".txt" -> {
-                    txtTextParser.parse(cachedFile)
+                    txtTextParser.parse(cachedFile, onChunk)
                 }
 
                 ".fb2" -> {
-                    xmlTextParser.parse(cachedFile)
+                    xmlTextParser.parse(cachedFile, onChunk)
                 }
 
                 ".html" -> {
-                    htmlTextParser.parse(cachedFile)
+                    htmlTextParser.parse(cachedFile, onChunk)
                 }
 
                 ".htm" -> {
-                    htmlTextParser.parse(cachedFile)
+                    htmlTextParser.parse(cachedFile, onChunk)
                 }
 
                 ".md" -> {
-                    htmlTextParser.parse(cachedFile)
+                    htmlTextParser.parse(cachedFile, onChunk)
                 }
 
                 else -> {

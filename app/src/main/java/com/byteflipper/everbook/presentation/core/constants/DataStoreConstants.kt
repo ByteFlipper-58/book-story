@@ -75,6 +75,9 @@ object DataStoreConstants {
     // Math renderer
     val RENDER_MATH = booleanPreferencesKey("render_math")
 
+    // Reader experiments
+    val READER_CACHE_WARM_UP = booleanPreferencesKey("reader_cache_warm_up")
+
     // Library settings
     val LIBRARY_LAYOUT = stringPreferencesKey("library_layout")
     val LIBRARY_AUTO_GRID_SIZE = booleanPreferencesKey("library_auto_grid_size")

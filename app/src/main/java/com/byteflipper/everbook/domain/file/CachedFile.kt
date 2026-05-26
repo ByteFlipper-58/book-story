@@ -183,6 +183,9 @@ class CachedFile(
      */
     private fun storeInCache(): File? {
         if (isDirectory) return null
+        if (uri.scheme == "file") {
+            return File(uri.path.orEmpty()).takeIf { it.exists() && it.canRead() }
+        }
 
         val cacheDir = context.cacheDir
         val fileName = path.replace("_", "-").replace("/", "_")

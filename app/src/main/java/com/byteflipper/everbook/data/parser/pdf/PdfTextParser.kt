@@ -9,6 +9,8 @@ package com.byteflipper.everbook.data.parser.pdf
 
 import android.app.Application
 import android.util.Log
+import com.byteflipper.everbook.data.parser.ReaderTextChunkBuffer
+import com.byteflipper.everbook.data.parser.ReaderTextChunkSink
 import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.text.PDFTextStripper
@@ -17,17 +19,23 @@ import com.byteflipper.everbook.data.parser.MarkdownParser
 import com.byteflipper.everbook.data.parser.TextParser
 import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.reader.ReaderText
+import com.byteflipper.everbook.domain.reader.hasReadableReaderText
 import com.byteflipper.everbook.presentation.core.util.clearAllMarkdown
 import javax.inject.Inject
 
 private const val PDF_TAG = "PDF Parser"
+private const val PDF_PARAGRAPH_START = "</br>"
+private val PDF_PARAGRAPH_SPLIT_REGEX = Regex("$PDF_PARAGRAPH_START|\\n")
 
 class PdfTextParser @Inject constructor(
     private val markdownParser: MarkdownParser,
     private val application: Application
 ) : TextParser {
 
-    override suspend fun parse(cachedFile: CachedFile): List<ReaderText> {
+    override suspend fun parse(
+        cachedFile: CachedFile,
+        onChunk: ReaderTextChunkSink?
+    ): List<ReaderText> {
         Log.i(PDF_TAG, "Started PDF parsing: ${cachedFile.name}.")
 
         return try {
@@ -37,119 +45,78 @@ class PdfTextParser @Inject constructor(
 
             yield()
 
-            val oldText: String
-
             val pdfStripper = PDFTextStripper()
-            pdfStripper.paragraphStart = "</br>"
+            pdfStripper.paragraphStart = PDF_PARAGRAPH_START
+            val readerText = mutableListOf<ReaderText>()
+            val chunkBuffer = ReaderTextChunkBuffer(onChunk = onChunk)
+            var chapterAdded = false
 
             PDDocument.load(cachedFile.openInputStream()).use {
-                oldText = pdfStripper.getText(it)
-                    .replace("\r", "")
-            }
-
-            yield()
-
-            val readerText = mutableListOf<ReaderText>()
-            val text = oldText.filterIndexed { index, c ->
-                yield()
-
-                if (c == ' ') {
-                    oldText[index - 1] != ' '
-                } else {
-                    true
-                }
-            }
-
-            yield()
-
-            val unformattedLines = text.split("${pdfStripper.paragraphStart}|\\n".toRegex())
-                .filter { it.isNotBlank() }
-
-            yield()
-
-            val lines = mutableListOf<String>()
-            unformattedLines.forEachIndexed { index, string ->
-                try {
+                for (pageIndex in 1..it.numberOfPages) {
                     yield()
+                    pdfStripper.startPage = pageIndex
+                    pdfStripper.endPage = pageIndex
 
-                    val line = string.trim()
+                    val pageText = pdfStripper.getText(it)
+                        .replace("\r", "")
+                    val compactText = normalizePdfTextStageOne(pageText)
+                    val paragraphLines = normalizePdfTextStageTwo(text = compactText)
+                    val lines = normalizePdfTextStageThree(paragraphLines)
 
-                    if (index == 0) {
-                        lines.add(line)
-                        return@forEachIndexed
-                    }
+                    for (line in lines) {
+                        if (line.isBlank()) continue
 
-                    if (line.all { it.isDigit() }) {
-                        return@forEachIndexed
-                    }
-
-                    if (line.first().isLowerCase()) {
-                        val currentLine = lines[lines.lastIndex]
-
-                        if (currentLine.last() == '-') {
-                            if (currentLine[currentLine.lastIndex - 1].isLowerCase()) {
-                                lines[lines.lastIndex] = currentLine.dropLast(1) + line
-                                return@forEachIndexed
+                        when (line) {
+                            "***", "---" -> {
+                                readerText.add(ReaderText.Separator)
+                                chunkBuffer.add(ReaderText.Separator)
                             }
-                        }
 
-                        lines[lines.lastIndex] += " $line"
-                        return@forEachIndexed
-                    }
+                            else -> {
+                                val chapterTitle = line.clearAllMarkdown()
 
-                    if (line.first().isUpperCase() || line.first().isDigit()) {
-                        lines.add(line)
-                        return@forEachIndexed
-                    }
-
-                    if (line.first().isLetter()) {
-                        lines[lines.lastIndex] += " $line"
-                        return@forEachIndexed
-                    }
-
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    return@forEachIndexed
-                }
-            }
-
-            yield()
-
-            var chapterAdded = false
-            lines.forEach { line ->
-                yield()
-
-                if (line.isNotBlank()) {
-                    when (line) {
-                        "***", "---" -> readerText.add(
-                            ReaderText.Separator
-                        )
-
-                        else -> {
-                            if (!chapterAdded && line.clearAllMarkdown().isNotBlank()) {
-                                readerText.add(
-                                    0, ReaderText.Chapter(
-                                        title = line.clearAllMarkdown(),
+                                if (!chapterAdded && chapterTitle.isNotBlank()) {
+                                    val chapter = ReaderText.Chapter(
+                                        title = chapterTitle,
                                         nested = false
                                     )
-                                )
-                                chapterAdded = true
-                            } else readerText.add(
-                                ReaderText.Text(
-                                    line = markdownParser.parse(line)
-                                )
-                            )
+                                    readerText.add(0, chapter)
+                                    chunkBuffer.add(chapter)
+                                    chapterAdded = true
+                                } else {
+                                    val text = ReaderText.Text(
+                                        line = markdownParser.parse(line),
+                                        source = line
+                                    )
+                                    readerText.add(text)
+                                    chunkBuffer.add(text)
+                                }
+                            }
                         }
                     }
                 }
             }
 
+            chunkBuffer.flush()
             yield()
 
-            if (
-                readerText.filterIsInstance<ReaderText.Text>().isEmpty() ||
-                readerText.filterIsInstance<ReaderText.Chapter>().isEmpty()
-            ) {
+            if (!chapterAdded) {
+                readerText.firstOrNull { it is ReaderText.Text }?.let { firstText ->
+                    val chapterTitle = (firstText as ReaderText.Text).source.clearAllMarkdown()
+                    if (chapterTitle.isNotBlank()) {
+                        readerText.add(
+                            0,
+                            ReaderText.Chapter(
+                                title = chapterTitle,
+                                nested = false
+                            )
+                        )
+                        chapterAdded = true
+                    }
+                }
+            }
+
+            if (!readerText.hasReadableReaderText()) {
                 Log.e(PDF_TAG, "Could not extract text from PDF.")
                 return emptyList()
             }
@@ -160,5 +127,73 @@ class PdfTextParser @Inject constructor(
             e.printStackTrace()
             emptyList()
         }
+    }
+
+    private fun normalizePdfTextStageOne(text: String): String {
+        val builder = StringBuilder(text.length)
+        var previousWasSpace = false
+        text.forEach { char ->
+            if (char == ' ') {
+                if (!previousWasSpace) builder.append(char)
+                previousWasSpace = true
+            } else {
+                builder.append(char)
+                previousWasSpace = false
+            }
+        }
+        return builder.toString()
+    }
+
+    private fun normalizePdfTextStageTwo(text: String): List<String> {
+        return text.split(PDF_PARAGRAPH_SPLIT_REGEX)
+            .filter { it.isNotBlank() }
+    }
+
+    private fun normalizePdfTextStageThree(unformattedLines: List<String>): List<String> {
+        val lines = mutableListOf<String>()
+
+        unformattedLines.forEachIndexed { index, string ->
+            try {
+                val line = string.trim()
+
+                if (index == 0) {
+                    lines.add(line)
+                    return@forEachIndexed
+                }
+
+                if (line.all { it.isDigit() }) {
+                    return@forEachIndexed
+                }
+
+                if (line.first().isLowerCase()) {
+                    val currentLine = lines[lines.lastIndex]
+
+                    if (currentLine.length > 1 && currentLine.last() == '-') {
+                        if (currentLine[currentLine.lastIndex - 1].isLowerCase()) {
+                            lines[lines.lastIndex] = currentLine.dropLast(1) + line
+                            return@forEachIndexed
+                        }
+                    }
+
+                    lines[lines.lastIndex] += " $line"
+                    return@forEachIndexed
+                }
+
+                if (line.first().isUpperCase() || line.first().isDigit()) {
+                    lines.add(line)
+                    return@forEachIndexed
+                }
+
+                if (line.first().isLetter()) {
+                    lines[lines.lastIndex] += " $line"
+                    return@forEachIndexed
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return@forEachIndexed
+            }
+        }
+
+        return lines
     }
 }

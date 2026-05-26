@@ -47,12 +47,14 @@
         tools:ignore="DataExtractionRules"
         tools:targetApi="tiramisu">
 
+        <!-- Release lint does not resolve the Hilt/AppCompat superclass chain here. -->
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|locale|density|uiMode"
             android:exported="true"
             android:theme="@style/Theme.Start.Splash"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

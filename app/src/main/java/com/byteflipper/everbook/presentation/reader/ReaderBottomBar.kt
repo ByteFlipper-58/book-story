@@ -49,6 +49,7 @@ fun ReaderBottomBar(
     text: List<ReaderText>,
     listState: LazyListState,
     lockMenu: Boolean,
+    isParsing: Boolean,
     checkpoint: Checkpoint,
     bottomBarPadding: Dp,
     restoreCheckpoint: (ReaderEvent.OnRestoreCheckpoint) -> Unit,
@@ -74,7 +75,8 @@ fun ReaderBottomBar(
     }
     val checkpointProgress = remember(checkpoint.index, text.lastIndex) {
         derivedStateOf {
-            (checkpoint.index / text.lastIndex.toFloat()) * 0.987f
+            val lastIndex = text.lastIndex.takeIf { it > 0 } ?: return@derivedStateOf 0f
+            ((checkpoint.index / lastIndex.toFloat()) * 0.987f).coerceIn(0f, 0.987f)
         }
     }
 
@@ -122,6 +124,7 @@ fun ReaderBottomBar(
                 ReaderBottomBarSlider(
                     book = book,
                     lockMenu = lockMenu,
+                    isParsing = isParsing,
                     listState = listState,
                     scroll = scroll,
                     changeProgress = changeProgress

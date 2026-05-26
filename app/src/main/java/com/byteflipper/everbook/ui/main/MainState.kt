@@ -134,6 +134,7 @@ data class MainState(
     },
     val pdfShowZoomControls: Boolean = provideDefaultValue { true },
     val pdfPinchZoom: Boolean = provideDefaultValue { true },
+    val readerCacheWarmUp: Boolean = provideDefaultValue { false },
 
     // Library Settings
     val libraryLayout: LibraryLayout = provideDefaultValue { LibraryLayout.GRID },
@@ -479,6 +480,10 @@ data class MainState(
                     horizontalGesturePullAnim = provideValue(
                         HORIZONTAL_GESTURE_PULL_ANIM
                     ) { horizontalGesturePullAnim },
+
+                    readerCacheWarmUp = provideValue(
+                        READER_CACHE_WARM_UP
+                    ) { readerCacheWarmUp },
                 )
             }
         }

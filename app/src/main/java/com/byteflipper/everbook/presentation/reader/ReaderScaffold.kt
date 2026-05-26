@@ -54,6 +54,7 @@ fun ReaderScaffold(
     perceptionExpanderThickness: Dp,
     currentChapterProgress: Float,
     isLoading: Boolean,
+    isParsing: Boolean,
     checkpoint: Checkpoint,
     showMenu: Boolean,
     lockMenu: Boolean,
@@ -153,6 +154,7 @@ fun ReaderScaffold(
                     text = text,
                     listState = listState,
                     lockMenu = lockMenu,
+                    isParsing = isParsing,
                     checkpoint = checkpoint,
                     bottomBarPadding = bottomBarPadding,
                     restoreCheckpoint = restoreCheckpoint,
@@ -216,7 +218,7 @@ fun ReaderScaffold(
             perceptionExpanderColor = fontColor
         )
 
-        if (isLoading) {
+        if (isLoading && text.isEmpty()) {
             ReaderLoadingPlaceholder()
         }
     }

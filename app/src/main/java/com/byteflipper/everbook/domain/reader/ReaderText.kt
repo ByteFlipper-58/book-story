@@ -22,14 +22,18 @@ sealed class ReaderText {
     ) : ReaderText()
 
     @Immutable
-    data class Text(val line: AnnotatedString) : ReaderText()
+    data class Text(
+        val line: AnnotatedString,
+        val source: String = line.text
+    ) : ReaderText()
 
     @Immutable
     data object Separator : ReaderText()
 
     @Immutable
     data class Image(
-        val imageBitmap: ImageBitmap
+        val imageBitmap: ImageBitmap? = null,
+        val imagePath: String? = null
     ) : ReaderText()
 
     /**

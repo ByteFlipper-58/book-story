@@ -133,6 +133,7 @@
     <string name="system_reader_settings">Система</string>
     <string name="chapters_reader_settings">Главы</string>
     <string name="images_reader_settings">Изображения</string>
+    <string name="experiments_reader_settings">Эксперименты</string>
     <string name="theme_appearance_settings">Настройки темы</string>
     <string name="colors_appearance_settings">Цвета</string>
     <string name="filter_browse_settings">Фильтр</string>
@@ -177,6 +178,8 @@
     <string name="fullscreen_option_desc">Скрыть системные панели и отступы</string>
     <string name="keep_screen_on_option">Не выключать экран</string>
     <string name="hide_bars_on_fast_scroll_option">Скрывать панели при быстрой прокрутке</string>
+    <string name="reader_cache_warm_up_option">Прогревать кэш читалки в фоне</string>
+    <string name="reader_cache_warm_up_option_desc">Экспериментально. Обрабатывает новые книги после добавления, чтобы потом они открывались быстрее.</string>
     <string name="perception_expander_option">Расширитель восприятия</string>
     <string name="perception_expander_option_desc">Увеличьте скорость чтения, сосредоточившись на центре</string>
     <string name="perception_expander_padding_option">Боковой отступ линии</string>

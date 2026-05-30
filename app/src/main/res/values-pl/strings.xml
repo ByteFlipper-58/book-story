@@ -617,8 +617,6 @@
     <string name="pdf_reading_mode_bottom_sheet_title">Tryb wyświetlania PDF</string>
     <string name="pdf_reading_mode_text_version_desc">Widok czytnika z tekstem, motywami, czcionkami, tłumaczeniem i ustawieniami czytania.</string>
     <string name="pdf_reading_mode_original_pdf_desc">Oryginalny układ strony z natywnym renderowaniem, trybem stron i zoomem.</string>
-    <string name="pdf_reading_mode_remember_default">Zapamiętaj dla przyszłych PDF-ów</string>
-    <string name="pdf_reading_mode_remember_default_desc">Używaj wybranego trybu jako domyślnego dla nowych książek PDF</string>
     <string name="open_original_pdf">Otwórz oryginalny PDF</string>
     <string name="open_parsed_text">Otwórz wersję tekstową</string>
     <string name="help_title_how_to_read_pdf_in_native_mode">Jak działają tryby wyświetlania PDF?</string>
@@ -632,7 +630,7 @@
     <string name="help_desc_how_to_read_pdf_in_native_mode_8">Ciągły</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_9">i</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_10">Stronicowany</string>
-    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, przyciski zoomu, zoom gestem szczypania, presety kolorów, marginesy, pełny ekran, utrzymywanie ekranu włączonego, jasność i orientację.\nW wyborze trybu włącz Zapamiętaj dla przyszłych PDF-ów, aby używać tego samego trybu dla nowych książek PDF.\nPostęp jest zapisywany automatycznie. Zoom działa tylko w bieżącej sesji i resetuje się, gdy zmienisz stronę, zmienisz książkę lub ponownie otworzysz książkę.</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, przyciski zoomu, zoom gestem szczypania, presety kolorów, marginesy, pełny ekran, utrzymywanie ekranu włączonego, jasność i orientację.\nW wyborze trybu wybranie trybu zapisuje go też dla przyszłych książek PDF.\nPostęp jest zapisywany automatycznie. Zoom działa tylko w bieżącej sesji i resetuje się, gdy zmienisz stronę, zmienisz książkę lub ponownie otworzysz książkę.</string>
     <string name="open_parsed_text_content_desc">Otwórz tryb wersji tekstowej</string>
     <string name="pdf_original_mode_content_desc">Tryb oryginalnego PDF</string>
     <string name="pdf_page_content_desc">Strona PDF %1$d</string>

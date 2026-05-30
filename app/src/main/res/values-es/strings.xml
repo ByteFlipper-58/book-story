@@ -616,8 +616,6 @@
     <string name="pdf_reading_mode_bottom_sheet_title">Modo de visualización de PDF</string>
     <string name="pdf_reading_mode_text_version_desc">Vista del lector con texto, temas, fuentes, traducción y ajustes de lectura.</string>
     <string name="pdf_reading_mode_original_pdf_desc">Diseño de página original con renderizado nativo, modo de páginas y zoom.</string>
-    <string name="pdf_reading_mode_remember_default">Recordar para futuros PDF</string>
-    <string name="pdf_reading_mode_remember_default_desc">Usar el modo seleccionado como predeterminado para nuevos libros PDF</string>
     <string name="open_original_pdf">Abrir PDF original</string>
     <string name="open_parsed_text">Abrir versión de texto</string>
     <string name="help_title_how_to_read_pdf_in_native_mode">¿Cómo funcionan los modos de visualización de PDF?</string>
@@ -631,7 +629,7 @@
     <string name="help_desc_how_to_read_pdf_in_native_mode_8">Continuo</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_9">y</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_10">Paginado</string>
-    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, botones de zoom, zoom con pellizco, preajustes de color, márgenes, pantalla completa, mantener la pantalla encendida, brillo y orientación.\nEn el selector de modo, activa Recordar para futuros PDF para usar el mismo modo en nuevos libros PDF.\nEl progreso se guarda automáticamente. El zoom solo existe en la sesión actual y se restablece al cambiar de página, cambiar de libro o volver a abrir el libro.</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, botones de zoom, zoom con pellizco, preajustes de color, márgenes, pantalla completa, mantener la pantalla encendida, brillo y orientación.\nEn el selector de modo, al elegir un modo también se guarda para futuros libros PDF.\nEl progreso se guarda automáticamente. El zoom solo existe en la sesión actual y se restablece al cambiar de página, cambiar de libro o volver a abrir el libro.</string>
     <string name="open_parsed_text_content_desc">Abrir modo de versión de texto</string>
     <string name="pdf_original_mode_content_desc">Modo PDF original</string>
     <string name="pdf_page_content_desc">Página PDF %1$d</string>

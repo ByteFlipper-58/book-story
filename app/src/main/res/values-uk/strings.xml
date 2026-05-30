@@ -619,8 +619,6 @@
     <string name="pdf_reading_mode_bottom_sheet_title">Режим перегляду PDF</string>
     <string name="pdf_reading_mode_text_version_desc">Вигляд читача з текстом, темами, шрифтами, перекладом і налаштуваннями читання.</string>
     <string name="pdf_reading_mode_original_pdf_desc">Оригінальна розкладка сторінок із нативним відтворенням, режимом сторінок і масштабом.</string>
-    <string name="pdf_reading_mode_remember_default">Запам’ятати для майбутніх PDF</string>
-    <string name="pdf_reading_mode_remember_default_desc">Використовувати вибраний режим за замовчуванням для нових PDF-книг</string>
     <string name="open_original_pdf">Відкрити оригінальний PDF</string>
     <string name="open_parsed_text">Відкрити текстову версію</string>
     <string name="help_title_how_to_read_pdf_in_native_mode">Як працюють режими перегляду PDF?</string>
@@ -634,7 +632,7 @@
     <string name="help_desc_how_to_read_pdf_in_native_mode_8">Безперервно</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_9">і</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_10">Посторінково</string>
-    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, кнопки масштабування, масштабування щипком, колірні пресети, відступи, повний екран, утримання екрана ввімкненим, яскравість і орієнтацію.\nУ виборі режиму увімкніть Запам’ятати для майбутніх PDF, щоб використовувати той самий режим для нових PDF-книг.\nПрогрес зберігається автоматично. Масштаб діє лише в поточній сесії та скидається, коли ви змінюєте сторінку, перемикаєте книгу або знову відкриваєте книгу.</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, кнопки масштабування, масштабування щипком, колірні пресети, відступи, повний екран, утримання екрана ввімкненим, яскравість і орієнтацію.\nУ виборі режиму вибраний режим одразу зберігається для майбутніх PDF-книг.\nПрогрес зберігається автоматично. Масштаб діє лише в поточній сесії та скидається, коли ви змінюєте сторінку, перемикаєте книгу або знову відкриваєте книгу.</string>
     <string name="open_parsed_text_content_desc">Відкрити режим текстової версії</string>
     <string name="pdf_original_mode_content_desc">Режим оригінального PDF</string>
     <string name="pdf_page_content_desc">Сторінка PDF %1$d</string>

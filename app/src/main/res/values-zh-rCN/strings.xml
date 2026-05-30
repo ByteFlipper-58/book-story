@@ -615,8 +615,6 @@
     <string name="pdf_reading_mode_bottom_sheet_title">PDF 查看模式</string>
     <string name="pdf_reading_mode_text_version_desc">包含文本、主题、字体、翻译和阅读设置的阅读器视图。</string>
     <string name="pdf_reading_mode_original_pdf_desc">使用原生渲染、页面模式和缩放的原始页面布局。</string>
-    <string name="pdf_reading_mode_remember_default">为以后的 PDF 记住此设置</string>
-    <string name="pdf_reading_mode_remember_default_desc">将所选模式作为新 PDF 书籍的默认模式</string>
     <string name="open_original_pdf">打开原始 PDF</string>
     <string name="open_parsed_text">打开文本版本</string>
     <string name="help_title_how_to_read_pdf_in_native_mode">PDF 查看模式如何工作？</string>
@@ -630,7 +628,7 @@
     <string name="help_desc_how_to_read_pdf_in_native_mode_8">连续</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_9">和</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_10">分页</string>
-    <string name="help_desc_how_to_read_pdf_in_native_mode_11">、缩放按钮、捏合缩放、颜色预设、边距、全屏、保持屏幕常亮、亮度和方向。\n在模式选择器中，开启“为以后的 PDF 记住此设置”，即可让新的 PDF 书籍使用相同模式。\n阅读进度会自动保存。缩放只在当前会话中有效，并会在切换页面、切换书籍或重新打开书籍时重置。</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">、缩放按钮、捏合缩放、颜色预设、边距、全屏、保持屏幕常亮、亮度和方向。\n在模式选择器中选择某个模式后，也会自动保存为以后 PDF 书籍的默认模式。\n阅读进度会自动保存。缩放只在当前会话中有效，并会在切换页面、切换书籍或重新打开书籍时重置。</string>
     <string name="open_parsed_text_content_desc">打开文本版本模式</string>
     <string name="pdf_original_mode_content_desc">原始 PDF 模式</string>
     <string name="pdf_page_content_desc">PDF 第 %1$d 页</string>

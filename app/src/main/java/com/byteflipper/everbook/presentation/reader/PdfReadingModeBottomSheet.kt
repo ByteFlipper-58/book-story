@@ -23,8 +23,6 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Subject
 import androidx.compose.material.icons.filled.PictureAsPdf
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -46,14 +44,11 @@ import com.byteflipper.everbook.presentation.settings.components.SettingsSubcate
 @Composable
 fun PdfReadingModeBottomSheet(
     book: Book,
-    pdfDefaultReadingMode: PdfReadingMode,
     pdfTextModeUnavailable: Boolean,
     changePdfReadingMode: (PdfReadingMode) -> Unit,
     changePdfDefaultReadingMode: (PdfReadingMode) -> Unit,
     dismissBottomSheet: () -> Unit
 ) {
-    val showRememberForFuturePdfs = book.pdfReadingMode != pdfDefaultReadingMode
-
     ModalBottomSheet(
         modifier = Modifier.fillMaxWidth(),
         onDismissRequest = dismissBottomSheet,
@@ -82,6 +77,7 @@ fun PdfReadingModeBottomSheet(
                     enabled = !pdfTextModeUnavailable,
                     onClick = {
                         changePdfReadingMode(PdfReadingMode.PARSED_TEXT)
+                        changePdfDefaultReadingMode(PdfReadingMode.PARSED_TEXT)
                         dismissBottomSheet()
                     }
                 )
@@ -96,22 +92,10 @@ fun PdfReadingModeBottomSheet(
                     enabled = true,
                     onClick = {
                         changePdfReadingMode(PdfReadingMode.ORIGINAL_PDF)
+                        changePdfDefaultReadingMode(PdfReadingMode.ORIGINAL_PDF)
                         dismissBottomSheet()
                     }
                 )
-            }
-
-            if (showRememberForFuturePdfs) {
-                item {
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    PdfReadingModeRememberOption(
-                        selected = false,
-                        onClick = {
-                            changePdfDefaultReadingMode(book.pdfReadingMode)
-                        }
-                    )
-                }
             }
         }
     }
@@ -189,50 +173,5 @@ private fun LazyItemScope.PdfReadingModeBottomSheetItem(
                 unselectedColor = MaterialTheme.colorScheme.onSurfaceVariant
             )
         )
-    }
-}
-
-@Composable
-private fun PdfReadingModeRememberOption(
-    selected: Boolean,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                onClick()
-            }
-            .padding(horizontal = 14.dp, vertical = 2.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Checkbox(
-            checked = selected,
-            colors = CheckboxDefaults.colors(
-                checkedColor = MaterialTheme.colorScheme.secondary,
-                checkmarkColor = MaterialTheme.colorScheme.onSecondary
-            ),
-            onCheckedChange = { onClick() }
-        )
-        Spacer(modifier = Modifier.width(14.dp))
-
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.Center
-        ) {
-            StyledText(
-                text = stringResource(id = R.string.pdf_reading_mode_remember_default),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            )
-
-            StyledText(
-                text = stringResource(id = R.string.pdf_reading_mode_remember_default_desc),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            )
-        }
     }
 }

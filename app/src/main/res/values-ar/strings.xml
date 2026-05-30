@@ -612,8 +612,6 @@
     <string name="pdf_reading_mode_bottom_sheet_title">وضع عرض PDF</string>
     <string name="pdf_reading_mode_text_version_desc">عرض القارئ مع النص والسمات والخطوط والترجمة وإعدادات القراءة.</string>
     <string name="pdf_reading_mode_original_pdf_desc">تخطيط الصفحات الأصلي مع العرض الأصلي ووضع الصفحات والتكبير.</string>
-    <string name="pdf_reading_mode_remember_default">تذكّر لملفات PDF المستقبلية</string>
-    <string name="pdf_reading_mode_remember_default_desc">استخدم الوضع المحدد كافتراضي لكتب PDF الجديدة</string>
     <string name="open_original_pdf">فتح PDF الأصلي</string>
     <string name="open_parsed_text">فتح النسخة النصية</string>
     <string name="help_title_how_to_read_pdf_in_native_mode">كيف تعمل أوضاع عرض PDF؟</string>
@@ -627,7 +625,7 @@
     <string name="help_desc_how_to_read_pdf_in_native_mode_8">مستمر</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_9">و</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_10">صفحات</string>
-    <string name="help_desc_how_to_read_pdf_in_native_mode_11">، وأزرار التكبير، والتكبير بالقرص، وإعدادات الألوان، والهوامش، وملء الشاشة، وإبقاء الشاشة قيد التشغيل، والسطوع والاتجاه.\nفي محدد الوضع، فعّل تذكّر لملفات PDF المستقبلية لاستخدام الوضع نفسه لكتب PDF الجديدة.\nيُحفظ التقدم تلقائيًا. يبقى التكبير في الجلسة الحالية فقط ويُعاد ضبطه عند تغيير الصفحة أو تبديل الكتب أو إعادة فتح الكتاب.</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">، وأزرار التكبير، والتكبير بالقرص، وإعدادات الألوان، والهوامش، وملء الشاشة، وإبقاء الشاشة قيد التشغيل، والسطوع والاتجاه.\nفي محدد الوضع، يؤدي اختيار وضع إلى حفظه أيضًا لكتب PDF المستقبلية.\nيُحفظ التقدم تلقائيًا. يبقى التكبير في الجلسة الحالية فقط ويُعاد ضبطه عند تغيير الصفحة أو تبديل الكتب أو إعادة فتح الكتاب.</string>
     <string name="open_parsed_text_content_desc">فتح وضع النسخة النصية</string>
     <string name="pdf_original_mode_content_desc">وضع PDF الأصلي</string>
     <string name="pdf_page_content_desc">صفحة PDF %1$d</string>

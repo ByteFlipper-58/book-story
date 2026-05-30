@@ -615,8 +615,6 @@
     <string name="pdf_reading_mode_bottom_sheet_title">PDF görünüm modu</string>
     <string name="pdf_reading_mode_text_version_desc">Metin, temalar, yazı tipleri, çeviri ve okuma ayarlarıyla okuyucu görünümü.</string>
     <string name="pdf_reading_mode_original_pdf_desc">Yerel işleme, sayfa modu ve yakınlaştırma ile orijinal sayfa düzeni.</string>
-    <string name="pdf_reading_mode_remember_default">Gelecekteki PDF’ler için hatırla</string>
-    <string name="pdf_reading_mode_remember_default_desc">Seçilen modu yeni PDF kitapları için varsayılan olarak kullan</string>
     <string name="open_original_pdf">Orijinal PDF’yi aç</string>
     <string name="open_parsed_text">Metin sürümünü aç</string>
     <string name="help_title_how_to_read_pdf_in_native_mode">PDF görünüm modları nasıl çalışır?</string>
@@ -630,7 +628,7 @@
     <string name="help_desc_how_to_read_pdf_in_native_mode_8">Sürekli</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_9">ve</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_10">Sayfalı</string>
-    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, yakınlaştırma düğmeleri, sıkıştırarak yakınlaştırma, renk ön ayarları, boşluklar, tam ekran, ekranı açık tutma, parlaklık ve yönlendirme.\nMod seçicide, yeni PDF kitaplarında aynı modu kullanmak için Gelecekteki PDF’ler için hatırla seçeneğini açın.\nİlerleme otomatik olarak kaydedilir. Yakınlaştırma yalnızca geçerli oturumda kalır ve sayfayı değiştirdiğinizde, kitap değiştirdiğinizde veya kitabı yeniden açtığınızda sıfırlanır.</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, yakınlaştırma düğmeleri, sıkıştırarak yakınlaştırma, renk ön ayarları, boşluklar, tam ekran, ekranı açık tutma, parlaklık ve yönlendirme.\nMod seçicide bir mod seçtiğinizde, bu seçim gelecekteki PDF kitapları için de kaydedilir.\nİlerleme otomatik olarak kaydedilir. Yakınlaştırma yalnızca geçerli oturumda kalır ve sayfayı değiştirdiğinizde, kitap değiştirdiğinizde veya kitabı yeniden açtığınızda sıfırlanır.</string>
     <string name="open_parsed_text_content_desc">Metin sürümü modunu aç</string>
     <string name="pdf_original_mode_content_desc">Orijinal PDF modu</string>
     <string name="pdf_page_content_desc">PDF sayfası %1$d</string>

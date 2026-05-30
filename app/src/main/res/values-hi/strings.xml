@@ -614,8 +614,6 @@
     <string name="pdf_reading_mode_bottom_sheet_title">PDF दृश्य मोड</string>
     <string name="pdf_reading_mode_text_version_desc">टेक्स्ट, थीम, फ़ॉन्ट, अनुवाद और पढ़ने की सेटिंग के साथ रीडर दृश्य।</string>
     <string name="pdf_reading_mode_original_pdf_desc">मूल पृष्ठ लेआउट, नेटिव रेंडरिंग, पृष्ठ मोड और ज़ूम के साथ।</string>
-    <string name="pdf_reading_mode_remember_default">भविष्य के PDF के लिए याद रखें</string>
-    <string name="pdf_reading_mode_remember_default_desc">नई PDF पुस्तकों के लिए चयनित मोड को डिफ़ॉल्ट के रूप में उपयोग करें</string>
     <string name="open_original_pdf">मूल PDF खोलें</string>
     <string name="open_parsed_text">टेक्स्ट संस्करण खोलें</string>
     <string name="help_title_how_to_read_pdf_in_native_mode">PDF दृश्य मोड कैसे काम करते हैं?</string>
@@ -629,7 +627,7 @@
     <string name="help_desc_how_to_read_pdf_in_native_mode_8">निरंतर</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_9">और</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_10">पृष्ठ-दर-पृष्ठ</string>
-    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, ज़ूम बटन, पिंच ज़ूम, रंग प्रीसेट, पैडिंग, फ़ुलस्क्रीन, स्क्रीन चालू रखें, चमक और अभिविन्यास।\nमोड चयनकर्ता में, नई PDF पुस्तकों के लिए वही मोड उपयोग करने हेतु भविष्य के PDF के लिए याद रखें चालू करें।\nप्रगति अपने आप सहेजी जाती है। ज़ूम केवल वर्तमान सत्र में रहता है और पृष्ठ बदलने, पुस्तक बदलने या पुस्तक फिर से खोलने पर रीसेट हो जाता है।</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, ज़ूम बटन, पिंच ज़ूम, रंग प्रीसेट, पैडिंग, फ़ुलस्क्रीन, स्क्रीन चालू रखें, चमक और अभिविन्यास।\nमोड चयनकर्ता में कोई मोड चुनने पर वह भविष्य की PDF पुस्तकों के लिए भी सहेजा जाता है।\nप्रगति अपने आप सहेजी जाती है। ज़ूम केवल वर्तमान सत्र में रहता है और पृष्ठ बदलने, पुस्तक बदलने या पुस्तक फिर से खोलने पर रीसेट हो जाता है।</string>
     <string name="open_parsed_text_content_desc">टेक्स्ट संस्करण मोड खोलें</string>
     <string name="pdf_original_mode_content_desc">मूल PDF मोड</string>
     <string name="pdf_page_content_desc">PDF पृष्ठ %1$d</string>

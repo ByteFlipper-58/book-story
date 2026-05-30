@@ -329,8 +329,6 @@
     <string name="pdf_reading_mode_bottom_sheet_title">PDF view mode</string>
     <string name="pdf_reading_mode_text_version_desc">Reader view with text, themes, fonts, translation and reading settings.</string>
     <string name="pdf_reading_mode_original_pdf_desc">Original page layout with native rendering, page mode and zoom.</string>
-    <string name="pdf_reading_mode_remember_default">Remember for future PDFs</string>
-    <string name="pdf_reading_mode_remember_default_desc">Use the selected mode as the default for new PDF books</string>
 
     <!-- Themes -->
     <string name="dynamic_theme">Mercury</string>
@@ -461,7 +459,7 @@
     <string name="help_desc_how_to_read_pdf_in_native_mode_8">Continuous</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_9">and</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_10">Paged</string>
-    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, zoom buttons, pinch zoom, color presets, padding, fullscreen, keep screen on, brightness and orientation.\nIn the mode chooser, turn on Remember for future PDFs to use the same mode for new PDF books.\nProgress is saved automatically. Zoom only lives in the current session and resets when you change the page, switch books or reopen the book.</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, zoom buttons, pinch zoom, color presets, padding, fullscreen, keep screen on, brightness and orientation.\nIn the mode chooser, selecting a mode also saves it for future PDF books.\nProgress is saved automatically. Zoom only lives in the current session and resets when you change the page, switch books or reopen the book.</string>
 
     <string name="help_title_how_to_customize_reader">How do I customize the Reader?</string>
     <string name="help_desc_how_to_customize_reader_1">Start reading the book(see: How do I read a book?),\nafter that bring top and bottom bars by clicking anywhere on the screen.\nThen click the gear icon in the upper right corner.\nThis will show all Reader settings.\nSecond way is to go to the</string>

@@ -376,7 +376,7 @@
     <string name="help_desc_how_to_read_pdf_in_native_mode_8">непрерывно</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_9">и</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_10">постранично</string>
-    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, кнопки зума, масштабирование двумя пальцами, цветовые пресеты, отступы, полноэкранный режим, режим «Не гасить экран», яркость и ориентацию.\nВ выборе режима можно включить «Запомнить для будущих PDF», чтобы новые PDF открывались так же.\nПрогресс сохраняется автоматически. Зум живет только в текущей сессии и сбрасывается при смене страницы, переходе к другой книге или повторном открытии.</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, кнопки зума, масштабирование двумя пальцами, цветовые пресеты, отступы, полноэкранный режим, режим «Не гасить экран», яркость и ориентацию.\nВ выборе режима выбранный режим сразу сохраняется для будущих PDF-книг.\nПрогресс сохраняется автоматически. Зум живет только в текущей сессии и сбрасывается при смене страницы, переходе к другой книге или повторном открытии.</string>
 
     <string name="help_title_how_to_customize_reader">Как настроить читалку?</string>
     <string name="help_desc_how_to_customize_reader_1">Начните читать книгу (см.: Как читать книгу?),\nпосле этого вызовите верхнюю и нижнюю панели, нажав в любом месте экрана.\nЗатем нажмите на значок шестеренки в верхнем правом углу.\nЭто покажет все настройки читалки.\nВторой способ — перейти в</string>
@@ -411,8 +411,6 @@
     <string name="pdf_reading_mode_bottom_sheet_title">Режим просмотра PDF</string>
     <string name="pdf_reading_mode_text_version_desc">Обычная читалка: текст, темы, шрифты, перевод и настройки чтения.</string>
     <string name="pdf_reading_mode_original_pdf_desc">Страницы как в файле: оригинальная верстка, постраничный режим и зум.</string>
-    <string name="pdf_reading_mode_remember_default">Запомнить для будущих PDF</string>
-    <string name="pdf_reading_mode_remember_default_desc">Использовать выбранный режим по умолчанию для новых PDF-книг</string>
 
     <!-- Start -->
     <string name="start_welcome">Добро пожаловать в EverBook!</string>

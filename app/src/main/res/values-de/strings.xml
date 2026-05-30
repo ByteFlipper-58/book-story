@@ -613,8 +613,6 @@
     <string name="pdf_reading_mode_bottom_sheet_title">PDF-Ansichtsmodus</string>
     <string name="pdf_reading_mode_text_version_desc">Leseransicht mit Text, Designs, Schriften, Übersetzung und Leseeinstellungen.</string>
     <string name="pdf_reading_mode_original_pdf_desc">Originales Seitenlayout mit nativer Darstellung, Seitenmodus und Zoom.</string>
-    <string name="pdf_reading_mode_remember_default">Für zukünftige PDFs merken</string>
-    <string name="pdf_reading_mode_remember_default_desc">Den ausgewählten Modus als Standard für neue PDF-Bücher verwenden</string>
     <string name="open_original_pdf">Original-PDF öffnen</string>
     <string name="open_parsed_text">Textversion öffnen</string>
     <string name="help_title_how_to_read_pdf_in_native_mode">Wie funktionieren PDF-Ansichtsmodi?</string>
@@ -628,7 +626,7 @@
     <string name="help_desc_how_to_read_pdf_in_native_mode_8">Fortlaufend</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_9">und</string>
     <string name="help_desc_how_to_read_pdf_in_native_mode_10">Seitenweise</string>
-    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, Zoom-Schaltflächen, Pinch-Zoom, Farbvorgaben, Abstände, Vollbild, Bildschirm eingeschaltet lassen, Helligkeit und Ausrichtung.\nAktiviere in der Modusauswahl „Für zukünftige PDFs merken“, um denselben Modus für neue PDF-Bücher zu verwenden.\nDer Fortschritt wird automatisch gespeichert. Der Zoom gilt nur für die aktuelle Sitzung und wird zurückgesetzt, wenn du die Seite wechselst, das Buch wechselst oder das Buch erneut öffnest.</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, Zoom-Schaltflächen, Pinch-Zoom, Farbvorgaben, Abstände, Vollbild, Bildschirm eingeschaltet lassen, Helligkeit und Ausrichtung.\nWenn du in der Modusauswahl einen Modus auswählst, wird er auch für zukünftige PDF-Bücher gespeichert.\nDer Fortschritt wird automatisch gespeichert. Der Zoom gilt nur für die aktuelle Sitzung und wird zurückgesetzt, wenn du die Seite wechselst, das Buch wechselst oder das Buch erneut öffnest.</string>
     <string name="open_parsed_text_content_desc">Textversionsmodus öffnen</string>
     <string name="pdf_original_mode_content_desc">Original-PDF-Modus</string>
     <string name="pdf_page_content_desc">PDF-Seite %1$d</string>

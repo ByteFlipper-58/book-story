@@ -9,6 +9,7 @@ package com.byteflipper.everbook.ui.reader
 
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Immutable
+import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
 
 @Immutable
@@ -18,6 +19,12 @@ sealed class ReaderEvent {
         val activity: ComponentActivity,
         val fullscreenMode: Boolean
     ) : ReaderEvent()
+
+    data class OnChangePdfReadingMode(
+        val mode: PdfReadingMode
+    ) : ReaderEvent()
+
+    data object OnShowPdfReadingModeBottomSheet : ReaderEvent()
 
     data class OnMenuVisibility(
         val show: Boolean,

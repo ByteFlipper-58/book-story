@@ -1,6 +1,5 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">Padrão</string>
     <string name="random_string">Aleatório</string>
@@ -8,13 +7,8 @@
     <!-- Notifications -->
     <string name="updates_notification_channel">Novas atualizações</string>
     <string name="updates_notification_title">Nova atualização do EverBook!</string>
-    <string name="updates_notification_desc">
-        Atualização %1$s lançada!
-        Clique para ir para a página de lançamento.
-    </string>
-    <string name="updates_notification_action">
-        Baixar
-    </string>
+    <string name="updates_notification_desc">Atualização %1$s lançada!\nClique para ir para a página de lançamento.</string>
+    <string name="updates_notification_action">Baixar</string>
 
     <!-- Screens -->
     <string name="library_screen">Biblioteca</string>
@@ -35,79 +29,38 @@
     <string name="enable_check_for_updates">Ativar verificação de atualizações?</string>
 
     <!-- Dialog Descriptions -->
-    <string name="add_books_description">
-        Você pode escolher quais livros deseja adicionar.
-        Você pode editar o título e a imagem da capa do livro mais tarde.
-        O processo de carregamento pode levar vários minutos.
-    </string>
-    <string name="move_books_description">
-        Escolha a categoria para a qual deseja mover todos os livros selecionados(%1$s).
-        Todos os livros selecionados serão movidos para a categoria selecionada.
-    </string>
-    <string name="delete_books_description">
-        Isso excluirá todos os livros selecionados(%1$s) do banco de dados.
-        Não excluirá os livros selecionados do seu dispositivo.
-    </string>
-    <string name="delete_book_description">
-        Isso excluirá este livro do banco de dados.
-        Não excluirá este livro do seu dispositivo.
-    </string>
-    <string name="move_book_description">
-        Escolha a categoria para a qual deseja mover este livro.
-        Este livro será movido para a categoria selecionada.
-    </string>
-    <string name="delete_history_description">
-        Isso excluirá todo o histórico do banco de dados.
-        Depois de excluir todo o histórico, a ordem dos livros será redefinida.
-    </string>
-    <string name="update_app_description">
-        Nova versão do aplicativo foi encontrada.
-        Deseja prosseguir e ir para a página de lançamento?
-    </string>
-    <string name="enable_check_for_updates_description">
-        Ao ativar "Verificar atualizações"
-        o aplicativo recuperará as informações mais recentes do lançamento em "api.github.com" sempre que
-        o aplicativo for iniciado.
-        Deseja prosseguir e ativar "Verificar atualizações"?
-    </string>
+    <string name="add_books_description">Você pode escolher quais livros deseja adicionar.\nVocê pode editar o título e a imagem da capa do livro mais tarde.\nO processo de carregamento pode levar vários minutos.</string>
+    <string name="move_books_description">Escolha a categoria para a qual deseja mover todos os livros selecionados(%1$s).\nTodos os livros selecionados serão movidos para a categoria selecionada.</string>
+    <string name="delete_books_description">Isso excluirá todos os livros selecionados(%1$s) do banco de dados.\nNão excluirá os livros selecionados do seu dispositivo.</string>
+    <string name="delete_book_description">Isso excluirá este livro do banco de dados.\nNão excluirá este livro do seu dispositivo.</string>
+    <string name="move_book_description">Escolha a categoria para a qual deseja mover este livro.\nEste livro será movido para a categoria selecionada.</string>
+    <string name="delete_history_description">Isso excluirá todo o histórico do banco de dados.\nDepois de excluir todo o histórico, a ordem dos livros será redefinida.</string>
+    <string name="update_app_description">Nova versão do aplicativo foi encontrada.\nDeseja prosseguir e ir para a página de lançamento?</string>
+    <string name="enable_check_for_updates_description">Ao ativar "Verificar atualizações"\no aplicativo recuperará as informações mais recentes do lançamento em "api.github.com" sempre que\no aplicativo for iniciado.\nDeseja prosseguir e ativar "Verificar atualizações"?</string>
 
     <!-- Errors -->
-    <string name="error_no_description">
-        Sem descrição.
-    </string>
-    <string name="error_something_went_wrong">
-        Algo deu errado.
-    </string>
+    <string name="error_no_description">Sem descrição.</string>
+    <string name="error_something_went_wrong">Algo deu errado.</string>
     <string name="error_no_translator">Nenhum aplicativo de tradução encontrado.</string>
     <string name="error_no_dictionary">Nenhum aplicativo de dicionário encontrado.</string>
     <string name="error_no_browser">Nenhum aplicativo de navegador encontrado.</string>
     <string name="error_no_share_app">Nenhum aplicativo para compartilhar encontrado.</string>
-    <string name="error_could_not_get_text">
-        O arquivo está vazio, corrompido ou não existe. Verifique e tente novamente.
-    </string>
-    <string name="error_check_internet">
-        Algo deu errado.
-        Tente novamente mais tarde.
-    </string>
+    <string name="error_could_not_get_text">O arquivo está vazio, corrompido ou não existe. Verifique e tente novamente.</string>
+    <string name="error_check_internet">Algo deu errado.\nTente novamente mais tarde.</string>
     <string name="error_could_not_reset_cover">Não foi possível redefinir a imagem da capa.</string>
     <string name="error_closed_source">Código fechado</string>
 
     <!-- Is Empty messages -->
-    <string name="search_field_empty">
-        Pesquisar…
-    </string>
-    <string name="browse_empty">
-        Expanda a coleção de livros da biblioteca com seus downloads
-    </string>
-    <string name="library_empty">
-        Leia seus livros favoritos e classifique-os entre categorias
-    </string>
-    <string name="history_empty">
-        Deixe seu último livro que você leu abrir as páginas de uma nova grande história de sua jornada de leitura
-    </string>
+    <string name="search_field_empty">Pesquisar…</string>
+    <string name="browse_empty">Expanda a coleção de livros da biblioteca com seus downloads</string>
+    <string name="library_empty">Leia seus livros favoritos e classifique-os entre categorias</string>
+    <string name="history_empty">Deixe seu último livro que você leu abrir as páginas de uma nova grande história de sua jornada de leitura</string>
 
     <!-- Query strings -->
-    <string name="selected_items_count_query">%1$s selecionados</string>
+    <plurals name="selected_items_count_query">
+        <item quantity="one">%1$d selecionado</item>
+        <item quantity="other">%1$d selecionados</item>
+    </plurals>
     <string name="file_path_query">Caminho do arquivo: %1$s</string>
     <string name="update_query">Atualização %1$s</string>
     <string name="color_preset_query">Predefinição %1$s</string>
@@ -225,9 +178,7 @@
     <string name="keep_screen_on_option">Manter a tela ligada</string>
     <string name="hide_bars_on_fast_scroll_option">Ocultar barras em rolagem rápida</string>
     <string name="perception_expander_option">Expansor de percepção</string>
-    <string name="perception_expander_option_desc">
-        Aumente sua velocidade de leitura focando no centro
-    </string>
+    <string name="perception_expander_option_desc">Aumente sua velocidade de leitura focando no centro</string>
     <string name="perception_expander_padding_option">Margem lateral da linha</string>
     <string name="perception_expander_thickness_option">Espessura da linha</string>
     <string name="screen_orientation_option">Orientação da tela</string>
@@ -250,9 +201,7 @@
     <string name="browse_files_structure_option">Estrutura dos arquivos</string>
     <string name="browse_grid_size_option">Tamanho da grade</string>
     <string name="browse_pin_favorite_directories_option">Fixar diretórios favoritos</string>
-    <string name="browse_pin_favorite_directories_option_desc">
-        Fixar seus diretórios favoritos na parte superior da tela
-    </string>
+    <string name="browse_pin_favorite_directories_option_desc">Fixar seus diretórios favoritos na parte superior da tela</string>
 
     <!-- Color presets -->
     <string name="red_color">Vermelho</string>
@@ -364,11 +313,21 @@
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">Clique para verificar atualizações</string>
     <string name="report_bug_option">Reportar um bug</string>
-    <string name="whats_new_option">O que há de novo</string>
+    <string name="changelog_option">O que há de novo</string>
     <string name="licenses_option">Licenças de código aberto</string>
     <string name="credits_option">Créditos</string>
     <string name="help_translate_option">Ajudar a traduzir</string>
     <string name="contributors_option">Contribuidores</string>
+    <string name="changelog_option_desc">Leia as notas de versão como capítulos curtos</string>
+    <string name="changelog_release_version">Versão %1$s</string>
+    <string name="changelog_empty">Ainda não há notas de versão disponíveis.</string>
+    <string name="changelog_language_title">Idioma das notas</string>
+    <string name="report_bug_option_desc">Abra o GitHub para relatar um problema ou sugerir uma melhoria</string>
+    <string name="contributors_option_desc">Veja as pessoas que ajudam a criar e melhorar o EverBook</string>
+    <string name="licenses_option_desc">Veja as licenças das bibliotecas de código aberto usadas no app</string>
+    <string name="credits_option_desc">Veja agradecimentos e créditos do projeto</string>
+    <string name="help_translate_option_desc">Ajude a tornar o EverBook disponível em mais idiomas</string>
+    <string name="support_development_option_desc">Apoie o projeto e futuras atualizações do EverBook</string>
     <string name="slava_ukraini">Glória à Ucrânia!</string>
 
     <!-- Credits -->
@@ -384,162 +343,61 @@
     <string name="help_title_how_to_add_books">Como adiciono livros à Biblioteca?</string>
     <string name="help_desc_how_to_add_books_1">Vá para</string>
     <string name="help_desc_how_to_add_books_2">Navegar</string>
-    <string name="help_desc_how_to_add_books_3">
-        Se você não vir os livros baixados, tente atualizar a lista puxando-a para baixo.
-        Certifique-se de que seus livros tenham um formato de arquivo suportado.
-        Em seguida, clique no livro para selecioná-lo ou segure para mostrar sua localização.
-        Depois de selecionar todos os livros que deseja, clique no ícone de marca de seleção no canto superior direito,
-        espere todos os livros carregarem e clique em "Adicionar".
-        Agora você deve ver todos os livros que adicionou em
-    </string>
+    <string name="help_desc_how_to_add_books_3">Se você não vir os livros baixados, tente atualizar a lista puxando-a para baixo.\nCertifique-se de que seus livros tenham um formato de arquivo suportado.\nEm seguida, clique no livro para selecioná-lo ou segure para mostrar sua localização.\nDepois de selecionar todos os livros que deseja, clique no ícone de marca de seleção no canto superior direito,\nespere todos os livros carregarem e clique em "Adicionar".\nAgora você deve ver todos os livros que adicionou em</string>
     <string name="help_desc_how_to_add_books_4">Biblioteca</string>
 
     <string name="help_title_how_to_customize_app">Como personalizo o aplicativo?</string>
     <string name="help_desc_how_to_customize_app_1">Vá para</string>
     <string name="help_desc_how_to_customize_app_2">Configurações</string>
-    <string name="help_desc_how_to_customize_app_3">
-        Você pode fazer isso nas telas Biblioteca, Histórico e Navegar
-        clicando em três pontos no canto superior direito
-        e selecionando "Configurações" no menu suspenso.
-        Em seguida, você verá todas as configurações disponíveis para este aplicativo.
-        Sinta-se à vontade para experimentar com elas!
-    </string>
+    <string name="help_desc_how_to_customize_app_3">Você pode fazer isso nas telas Biblioteca, Histórico e Navegar\nclicando em três pontos no canto superior direito\ne selecionando "Configurações" no menu suspenso.\nEm seguida, você verá todas as configurações disponíveis para este aplicativo.\nSinta-se à vontade para experimentar com elas!</string>
 
     <string name="help_title_how_to_move_or_delete_books">Como movo ou excluo livros?</string>
     <string name="help_desc_how_to_move_or_delete_books_1">Vá para</string>
     <string name="help_desc_how_to_move_or_delete_books_2">Biblioteca</string>
-    <string name="help_desc_how_to_move_or_delete_books_3">
-        Mantenha pressionada a imagem da capa do primeiro livro até que ele seja selecionado,
-        agora você pode simplesmente clicar em todas as imagens da capa dos livros que deseja selecionar.
-        Você também pode selecionar livros em várias categorias.
-        Depois de escolher todos os livros desejados, você pode clicar no ícone de seta para mover
-        e no ícone da lixeira para excluir livros.
-    </string>
+    <string name="help_desc_how_to_move_or_delete_books_3">Mantenha pressionada a imagem da capa do primeiro livro até que ele seja selecionado,\nagora você pode simplesmente clicar em todas as imagens da capa dos livros que deseja selecionar.\nVocê também pode selecionar livros em várias categorias.\nDepois de escolher todos os livros desejados, você pode clicar no ícone de seta para mover\ne no ícone da lixeira para excluir livros.</string>
 
     <string name="help_title_how_to_edit_book">Como edito um livro?</string>
     <string name="help_desc_how_to_edit_book_1">Vá para</string>
     <string name="help_desc_how_to_edit_book_2">Biblioteca</string>
-    <string name="help_desc_how_to_edit_book_3">
-        e clique na imagem da capa do livro para ver os detalhes do livro.
-        Agora você pode manter pressionado o título, o autor ou a descrição do livro para editá-lo
-        ou a imagem da capa para alterar, redefinir ou excluir a imagem da capa.
-    </string>
+    <string name="help_desc_how_to_edit_book_3">e clique na imagem da capa do livro para ver os detalhes do livro.\nAgora você pode manter pressionado o título, o autor ou a descrição do livro para editá-lo\nou a imagem da capa para alterar, redefinir ou excluir a imagem da capa.</string>
 
     <string name="help_title_how_to_read_book">Como leio um livro?</string>
     <string name="help_desc_how_to_read_book_1">Vá para</string>
     <string name="help_desc_how_to_read_book_2">Biblioteca</string>
-    <string name="help_desc_how_to_read_book_3">
-        Para começar a ler o livro, clique no botão no canto inferior direito do livro que deseja ler.
-        Você também pode começar a ler o livro clicando na imagem da capa
-        para ver os detalhes do livro e, em seguida, clicar no botão no canto inferior direito.
-        O progresso será salvo e restaurado automaticamente.
-        Você pode trazer as barras superior e inferior clicando em qualquer lugar da tela.
-        Ao clicar no título do livro, você será transferido para os detalhes do livro.
-        Ao clicar no ícone de engrenagem, você verá as configurações do Leitor.
-        Você pode usar o controle deslizante da barra inferior para alterar o progresso.
-    </string>
+    <string name="help_desc_how_to_read_book_3">Para começar a ler o livro, clique no botão no canto inferior direito do livro que deseja ler.\nVocê também pode começar a ler o livro clicando na imagem da capa\npara ver os detalhes do livro e, em seguida, clicar no botão no canto inferior direito.\nO progresso será salvo e restaurado automaticamente.\nVocê pode trazer as barras superior e inferior clicando em qualquer lugar da tela.\nAo clicar no título do livro, você será transferido para os detalhes do livro.\nAo clicar no ícone de engrenagem, você verá as configurações do Leitor.\nVocê pode usar o controle deslizante da barra inferior para alterar o progresso.</string>
 
     <string name="help_title_how_to_customize_reader">Como personalizo o Leitor?</string>
-    <string name="help_desc_how_to_customize_reader_1">
-        Comece a ler o livro (veja: Como leio um livro?),
-        depois disso, traga as barras superior e inferior clicando em qualquer lugar da tela.
-        Em seguida, clique no ícone de engrenagem no canto superior direito.
-        Isso mostrará todas as configurações do Leitor.
-        A segunda maneira é ir para
-    </string>
-    <string name="help_desc_how_to_customize_reader_2">
-        Configurações
-    </string>
-    <string name="help_desc_how_to_customize_reader_3">
-        e selecione a categoria Leitor para personalizar as configurações Gerais,
-        ou a categoria Aparência para personalizar as configurações de Cores.
-    </string>
+    <string name="help_desc_how_to_customize_reader_1">Comece a ler o livro (veja: Como leio um livro?),\ndepois disso, traga as barras superior e inferior clicando em qualquer lugar da tela.\nEm seguida, clique no ícone de engrenagem no canto superior direito.\nIsso mostrará todas as configurações do Leitor.\nA segunda maneira é ir para</string>
+    <string name="help_desc_how_to_customize_reader_2">Configurações</string>
+    <string name="help_desc_how_to_customize_reader_3">e selecione a categoria Leitor para personalizar as configurações Gerais,\nou a categoria Aparência para personalizar as configurações de Cores.</string>
 
     <string name="help_title_how_to_manage_history">Como gerencio o histórico?</string>
     <string name="help_desc_how_to_manage_history_1">Vá para</string>
     <string name="help_desc_how_to_manage_history_2">Histórico</string>
-    <string name="help_desc_how_to_manage_history_3">
-        Ao clicar no botão de exclusão à direita do elemento do histórico, ele será excluído.
-        O histórico afeta a ordem dos livros na Biblioteca,
-        ao excluir um elemento do histórico, ele também reordenará um livro.
-        O último livro aberto é sempre o primeiro na Biblioteca e no Histórico.
-    </string>
+    <string name="help_desc_how_to_manage_history_3">Ao clicar no botão de exclusão à direita do elemento do histórico, ele será excluído.\nO histórico afeta a ordem dos livros na Biblioteca,\nao excluir um elemento do histórico, ele também reordenará um livro.\nO último livro aberto é sempre o primeiro na Biblioteca e no Histórico.</string>
 
     <string name="help_title_how_to_use_tooltip">Como uso as dicas de ferramentas?</string>
-    <string name="help_desc_how_to_use_tooltip_1">
-        A maioria dos botões de ícone tem dicas de ferramentas, elas podem ajudá-lo se você não souber o que um botão de ícone faz.
-        Para mostrar a dica de ferramenta, você pode manter pressionado um botão de ícone.
-    </string>
+    <string name="help_desc_how_to_use_tooltip_1">A maioria dos botões de ícone tem dicas de ferramentas, elas podem ajudá-lo se você não souber o que um botão de ícone faz.\nPara mostrar a dica de ferramenta, você pode manter pressionado um botão de ícone.</string>
 
-    <string name="help_title_how_to_use_double_click_translation">
-        Como uso a tradução com clique duplo?
-    </string>
-    <string name="help_desc_how_to_use_double_click_translation_1">
-        Primeiramente, vá para as configurações do Leitor (veja: Como personalizo o Leitor?),
-        depois ative a configuração correspondente. Depois disso,
-        comece a ler o livro (veja: Como leio um livro?).
-        Agora, se você clicar duas vezes no parágrafo desejado,
-        um tradutor externo será aberto com o texto do parágrafo.
-    </string>
+    <string name="help_title_how_to_use_double_click_translation">Como uso a tradução com clique duplo?</string>
+    <string name="help_desc_how_to_use_double_click_translation_1">Primeiramente, vá para as configurações do Leitor (veja: Como personalizo o Leitor?),\ndepois ative a configuração correspondente. Depois disso,\ncomece a ler o livro (veja: Como leio um livro?).\nAgora, se você clicar duas vezes no parágrafo desejado,\num tradutor externo será aberto com o texto do parágrafo.</string>
 
-    <string name="help_title_how_to_create_color_presets">
-        Como crio e modifico predefinições de cores?
-    </string>
-    <string name="help_desc_how_to_create_color_presets_1">
-        Vá para as configurações de Aparência (veja: Como personalizo o Leitor?).
-        Você pode modificar todas as configurações de predefinição de cores na caixa em "Predefinição de cor" na subcategoria "Cores".
-        Para criar uma nova predefinição de cores, clique no botão de ícone "Adicionar".
-        Existem várias maneiras de modificar uma predefinição de cores:
-        ao clicar no campo de texto, você pode alterar o nome da predefinição de cores,
-        ao mover os controles deslizantes, você pode alterar as cores da predefinição de cores,
-        ao clicar no botão de ícone "Aleatório", você pode embaralhar todas as cores.
-        Se você quiser excluir a predefinição de cores, clique no botão de ícone "Excluir".
-    </string>
+    <string name="help_title_how_to_create_color_presets">Como crio e modifico predefinições de cores?</string>
+    <string name="help_desc_how_to_create_color_presets_1">Vá para as configurações de Aparência (veja: Como personalizo o Leitor?).\nVocê pode modificar todas as configurações de predefinição de cores na caixa em "Predefinição de cor" na subcategoria "Cores".\nPara criar uma nova predefinição de cores, clique no botão de ícone "Adicionar".\nExistem várias maneiras de modificar uma predefinição de cores:\nao clicar no campo de texto, você pode alterar o nome da predefinição de cores,\nao mover os controles deslizantes, você pode alterar as cores da predefinição de cores,\nao clicar no botão de ícone "Aleatório", você pode embaralhar todas as cores.\nSe você quiser excluir a predefinição de cores, clique no botão de ícone "Excluir".</string>
 
-    <string name="help_title_how_to_use_color_presets">
-        Como uso predefinições de cores?
-    </string>
-    <string name="help_desc_how_to_use_color_presets_1">
-        Vá para as configurações de Aparência (veja: Como personalizo o Leitor?).
-        Você pode escolher qual predefinição de cores usar na configuração "Predefinição de cor".
-        Clique na predefinição de cores desejada para selecioná-la, isso também mudará suas cores no Leitor.
-        Se você quiser reordenar a predefinição de cores, selecione-a e segure o botão de ícone "Alça",
-        em seguida, mova-o para a posição desejada.
-        Você pode alterar rapidamente as predefinições de cores ativando a configuração correspondente
-        na subcategoria "Cores" das configurações de Aparência, em seguida, deslizando a barra superior para a esquerda ou direita no Leitor,
-        para alterar rapidamente a predefinição de cores.
-    </string>
+    <string name="help_title_how_to_use_color_presets">Como uso predefinições de cores?</string>
+    <string name="help_desc_how_to_use_color_presets_1">Vá para as configurações de Aparência (veja: Como personalizo o Leitor?).\nVocê pode escolher qual predefinição de cores usar na configuração "Predefinição de cor".\nClique na predefinição de cores desejada para selecioná-la, isso também mudará suas cores no Leitor.\nSe você quiser reordenar a predefinição de cores, selecione-a e segure o botão de ícone "Alça",\nem seguida, mova-o para a posição desejada.\nVocê pode alterar rapidamente as predefinições de cores ativando a configuração correspondente\nna subcategoria "Cores" das configurações de Aparência, em seguida, deslizando a barra superior para a esquerda ou direita no Leitor,\npara alterar rapidamente a predefinição de cores.</string>
 
-    <string name="help_title_how_to_use_perception_expander">
-        O que é e como uso o expansor de percepção?
-    </string>
-    <string name="help_title_how_to_use_perception_expander_1">
-        O expansor de percepção pode ajudá-lo a ler mais rápido.
-        Primeiro, ative-o nas configurações do Leitor (veja: Como personalizo o Leitor?).
-        Depois de ativado, duas linhas verticais aparecerão em cada lado do Leitor.
-        Para otimizar ainda mais sua velocidade de leitura,
-        ajuste a margem para criar menos espaço ao redor do centro.
-        Para usá-lo, concentre-se no centro da tela enquanto
-        permite que sua visão periférica capte o texto nas laterais.
-        À medida que você lê, mantenha o foco no centro sem olhar diretamente
-        para os lados após cada linha.
-    </string>
+    <string name="help_title_how_to_use_perception_expander">O que é e como uso o expansor de percepção?</string>
+    <string name="help_title_how_to_use_perception_expander_1">O expansor de percepção pode ajudá-lo a ler mais rápido.\nPrimeiro, ative-o nas configurações do Leitor (veja: Como personalizo o Leitor?).\nDepois de ativado, duas linhas verticais aparecerão em cada lado do Leitor.\nPara otimizar ainda mais sua velocidade de leitura,\najuste a margem para criar menos espaço ao redor do centro.\nPara usá-lo, concentre-se no centro da tela enquanto\npermite que sua visão periférica capte o texto nas laterais.\nÀ medida que você lê, mantenha o foco no centro sem olhar diretamente\npara os lados após cada linha.</string>
 
     <string name="help_title_how_to_manage_categories">Como gerenciar categorias?</string>
-    <string name="help_desc_how_to_manage_categories_1">
-    O app agora tem novos recursos para trabalhar com categorias:
-    Por padrão, existem 5 categorias: Todas (armazenam todos os livros), Lendo, Finalizado, Planejando e Abandonado. Categorias padrão só podem ser ocultadas e reordenadas. Categorias personalizadas podem ser criadas, renomeadas, excluídas e ocultadas.
-    Para criar uma nova categoria, pressione o botão "Criar categoria". Para reordenar categorias, use o botão com quatro linhas (arrastar e soltar). Para excluir uma categoria personalizada, deslize para a esquerda. Os livros podem ser armazenados em várias categorias ao mesmo tempo.
-    </string>
+    <string name="help_desc_how_to_manage_categories_1">O app agora tem novos recursos para trabalhar com categorias:\nPor padrão, existem 5 categorias: Todas (armazenam todos os livros), Lendo, Finalizado, Planejando e Abandonado. Categorias padrão só podem ser ocultadas e reordenadas. Categorias personalizadas podem ser criadas, renomeadas, excluídas e ocultadas.\nPara criar uma nova categoria, pressione o botão "Criar categoria". Para reordenar categorias, use o botão com quatro linhas (arrastar e soltar). Para excluir uma categoria personalizada, deslize para a esquerda. Os livros podem ser armazenados em várias categorias ao mesmo tempo.</string>
 
 
     <!-- Start -->
     <string name="start_welcome">Bem-vindo ao EverBook!</string>
-    <string name="start_welcome_desc">
-        Para um mundo onde as palavras encantam,
-        ensinam e levam a aventuras incríveis!
-        Vamos configurar algumas coisas!
-    </string>
+    <string name="start_welcome_desc">Para um mundo onde as palavras encantam,\nensinam e levam a aventuras incríveis!\nVamos configurar algumas coisas!</string>
     <string name="start_language_preferences">Preferências de idioma</string>
     <string name="start_theme_preferences">Preferências de tema</string>
      <string name="start_permissions_notifications">Permissão de notificações</string>
@@ -552,10 +410,7 @@
     <string name="start_privacy_policy_accept">Eu aceito a política de privacidade</string>
     <string name="privacy_policy_icon_content_desc">Ícone da política de privacidade</string>
     <string name="start_done">Tudo feito!</string>
-    <string name="start_done_desc">
-        Você concluiu com sucesso a configuração básica do aplicativo.
-        Gostaria de aprender a usar o aplicativo lendo a tela de Ajuda?
-    </string>
+    <string name="start_done_desc">Você concluiu com sucesso a configuração básica do aplicativo.\nGostaria de aprender a usar o aplicativo lendo a tela de Ajuda?</string>
 
     <!-- History -->
     <string name="today">Hoje</string>
@@ -658,20 +513,12 @@
     <string name="set_up_scanning">Configurar digitalização</string>
     <string name="scan_browse_settings">Digitalizar</string>
     <string name="display_tab">Exibição</string>
-    <string name="browse_scan_option_note">
-    Essas pastas são usadas para digitalizar e recuperar arquivos na navegação.
-    Remover uma pasta aqui não excluirá arquivos ou livros da biblioteca.
-    Para revogar o acesso, clique no botão correspondente.
-</string>
+    <string name="browse_scan_option_note">Essas pastas são usadas para digitalizar e recuperar arquivos na navegação.\nRemover uma pasta aqui não excluirá arquivos ou livros da biblioteca.\nPara revogar o acesso, clique no botão correspondente.</string>
     <string name="display_settings">Configurações de exibição</string>
     <string name="horizontal_gesture_alpha_anim_option">Animação de visibilidade</string>
-    <string name="horizontal_gesture_alpha_anim_option_desc">
-    Ativar animação de visibilidade ao usar o gesto horizontal
-</string>
+    <string name="horizontal_gesture_alpha_anim_option_desc">Ativar animação de visibilidade ao usar o gesto horizontal</string>
     <string name="horizontal_gesture_pull_anim_option">Animação de puxar</string>
-    <string name="horizontal_gesture_pull_anim_option_desc">
-    Ativar animação de puxar ao usar o gesto horizontal
-</string>
+    <string name="horizontal_gesture_pull_anim_option_desc">Ativar animação de puxar ao usar o gesto horizontal</string>
     <string name="layout_option">Modo de exibição</string>
     <string name="layout_list">Lista</string>
     <string name="layout_grid">Grade</string>
@@ -721,4 +568,71 @@
     <string name="category_name_placeholder">Digite o nome da categoria…</string>
     <string name="create_category_dialog_desc">Digite um nome para a nova categoria</string>
     <string name="edit_category_dialog_desc">Altere o nome da categoria</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">Abas</string>
+    <string name="title_position_option">Posição do título</string>
+    <string name="library_title_position_off">Oculto</string>
+    <string name="library_title_position_below">Sob</string>
+    <string name="library_title_position_inside">Dentro</string>
+    <string name="library_grid_size_option">Tamanho da grade</string>
+    <string name="library_grid_size_auto">Automático</string>
+    <string name="library_grid_size_per_row">por linha</string>
+    <string name="read_button_option">Mostrar botão «Ler»</string>
+    <string name="show_progress_option">Mostrar progresso</string>
+    <string name="show_category_tabs_option">Mostrar abas de categoria</string>
+    <string name="show_default_tab_option">Mostrar aba «Todas»</string>
+    <string name="show_book_count_option">Mostrar quantidade de livros</string>
+    <string name="sort_settings">Organizar</string>
+    <string name="sort_order_option">Ordem de classificação</string>
+    <string name="sort_direction_option">Direção da classificação</string>
+    <string name="sort_direction_ascending">Crescente</string>
+    <string name="sort_direction_descending">Decrescente</string>
+    <string name="per_category_sort_option">Ordenação por categoria</string>
+    <string name="per_category_sort_option_note">Quando ativado, cada categoria mantém sua própria ordem de classificação.</string>
+    <string name="category_sort_note">Aplica-se quando «Ordenação por categoria» está ativada.</string>
+    <string name="sort_order_name">Alfabeticamente</string>
+    <string name="sort_order_last_read">Lido por último</string>
+    <string name="sort_order_progress">Progresso</string>
+    <string name="sort_order_author">Autor</string>
+    <!-- PDF reader additions -->
+    <string name="error_could_not_open_pdf">O arquivo PDF está ausente, inacessível, criptografado ou não é compatível.</string>
+    <string name="experiments_reader_settings">Experimentos</string>
+    <string name="reader_cache_warm_up_option">Armazenar novos livros em cache em segundo plano</string>
+    <string name="reader_cache_warm_up_option_desc">Experimental. Analisa os livros recém-adicionados após a importação para que abram mais rápido depois.</string>
+    <string name="pdf_reading_mode_option">Modo de visualização do PDF</string>
+    <string name="pdf_reading_mode_option_desc">Escolha o modo de visualização do PDF</string>
+    <string name="pdf_prefer_original_pdf_option">Preferir PDF original</string>
+    <string name="pdf_prefer_original_pdf_option_desc">Abrir novos livros PDF no modo nativo por padrão</string>
+    <string name="pdf_page_display_mode_option">Páginas do PDF</string>
+    <string name="pdf_show_zoom_controls_option">Controles de zoom do PDF</string>
+    <string name="pdf_show_zoom_controls_option_desc">Mostrar botões de zoom na barra inferior do PDF</string>
+    <string name="pdf_pinch_zoom_option">Zoom por pinça no PDF</string>
+    <string name="pdf_pinch_zoom_option_desc">Alterar o zoom do PDF com um gesto de pinça com dois dedos</string>
+    <string name="pdf_reading_mode_parsed_text">Versão em texto</string>
+    <string name="pdf_reading_mode_original_pdf">PDF original</string>
+    <string name="pdf_page_display_mode_continuous">Contínuo</string>
+    <string name="pdf_page_display_mode_paged">Paginado</string>
+    <string name="pdf_reading_mode_bottom_sheet_title">Modo de visualização do PDF</string>
+    <string name="pdf_reading_mode_text_version_desc">Visualização do leitor com texto, temas, fontes, tradução e configurações de leitura.</string>
+    <string name="pdf_reading_mode_original_pdf_desc">Layout original da página com renderização nativa, modo de páginas e zoom.</string>
+    <string name="open_original_pdf">Abrir PDF original</string>
+    <string name="open_parsed_text">Abrir versão em texto</string>
+    <string name="help_title_how_to_read_pdf_in_native_mode">Como funcionam os modos de visualização do PDF?</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_1">Livros PDF podem ser abertos como</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_2">Versão em texto</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_3">ou</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_4">PDF original</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_5">Toque na página para mostrar as barras superior e inferior. O botão de modo PDF abre o seletor de modo, e o ícone de engrenagem abre</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_6">as configurações do leitor de PDF,</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_7">onde você pode escolher entre modos de página:</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_8">Contínuo</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_9">e</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_10">Paginado</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, botões de zoom, zoom por pinça, predefinições de cores, margens, tela cheia, manter a tela ligada, brilho e orientação.\nNo seletor de modo, escolher um modo também o salva para futuros livros PDF.\nO progresso é salvo automaticamente. O zoom só existe na sessão atual e é redefinido quando você muda de página, troca de livro ou reabre o livro.</string>
+    <string name="open_parsed_text_content_desc">Abrir modo de versão em texto</string>
+    <string name="pdf_original_mode_content_desc">Modo PDF original</string>
+    <string name="pdf_page_content_desc">Página PDF %1$d</string>
+    <string name="zoom_in_content_desc">Aumentar zoom</string>
+    <string name="zoom_out_content_desc">Diminuir zoom</string>
 </resources>

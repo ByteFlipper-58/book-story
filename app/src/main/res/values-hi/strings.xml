@@ -1,6 +1,5 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">एवरबुक</string>
     <string name="default_string">डिफ़ॉल्ट</string>
     <string name="random_string">रैंडम</string>
@@ -8,13 +7,8 @@
     <!-- Notifications -->
     <string name="updates_notification_channel">नए अपडेट</string>
     <string name="updates_notification_title">एवरबुक का नया अपडेट!</string>
-    <string name="updates_notification_desc">
-        अपडेट %1$s अभी जारी किया गया!
-        रिलीज़ पेज पर जाने के लिए क्लिक करें।
-    </string>
-    <string name="updates_notification_action">
-        डाउनलोड करें
-    </string>
+    <string name="updates_notification_desc">अपडेट %1$s अभी जारी किया गया!\nरिलीज़ पेज पर जाने के लिए क्लिक करें।</string>
+    <string name="updates_notification_action">डाउनलोड करें</string>
 
     <!-- Screens -->
     <string name="library_screen">पुस्तकालय</string>
@@ -35,79 +29,38 @@
     <string name="enable_check_for_updates">अपडेट की जांच सक्षम करें?</string>
 
     <!-- Dialog Descriptions -->
-    <string name="add_books_description">
-        आप चुन सकते हैं कि आप कौन सी पुस्तकें जोड़ना चाहते हैं।
-        आप बाद में पुस्तक का शीर्षक और कवर छवि संपादित कर सकते हैं।
-        लोड होने की प्रक्रिया में कुछ मिनट तक लग सकते हैं.
-    </string>
-    <string name="move_books_description">
-        उस श्रेणी को चुनें जिसमें आप सभी चयनित पुस्तकों (%1$s) को ले जाना चाहते हैं।
-        सभी चयनित पुस्तकें चयनित श्रेणी में ले जाई जाएँगी।
-    </string>
-    <string name="delete_books_description">
-        यह सभी चयनित पुस्तकों (%1$s) को डेटाबेस से मिटा देगा।
-        यह आपके डिवाइस से चयनित पुस्तकों को नहीं मिटाएगा।
-    </string>
-    <string name="delete_book_description">
-        यह इस पुस्तक को डेटाबेस से मिटा देगा।
-        यह आपके डिवाइस से इस पुस्तक को नहीं मिटाएगा।
-    </string>
-    <string name="move_book_description">
-        उस श्रेणी को चुनें जिसमें आप इस पुस्तक को ले जाना चाहते हैं।
-        यह पुस्तक चयनित श्रेणी में ले जाई जाएगी।
-    </string>
-    <string name="delete_history_description">
-        यह डेटाबेस से पूरा इतिहास मिटा देगा।
-        पूरा इतिहास मिटाने के बाद, पुस्तकों का क्रम रीसेट हो जाएगा।
-    </string>
-    <string name="update_app_description">
-        ऐप का नया संस्करण मिला।
-        क्या आप आगे बढ़ना और रिलीज़ पेज पर जाना चाहते हैं?
-    </string>
-    <string name="enable_check_for_updates_description">
-        «अपडेट के लिए जांचें» को सक्षम करने से
-        ऐप हर बार «api.github.com» से नवीनतम रिलीज़ जानकारी प्राप्त करेगा
-        जब ऐप शुरू होता है।
-        क्या आप आगे बढ़ना और «अपडेट के लिए जांचें» सक्षम करना चाहते हैं?
-    </string>
+    <string name="add_books_description">आप चुन सकते हैं कि आप कौन सी पुस्तकें जोड़ना चाहते हैं।\nआप बाद में पुस्तक का शीर्षक और कवर छवि संपादित कर सकते हैं।\nलोड होने की प्रक्रिया में कुछ मिनट तक लग सकते हैं.</string>
+    <string name="move_books_description">उस श्रेणी को चुनें जिसमें आप सभी चयनित पुस्तकों (%1$s) को ले जाना चाहते हैं।\nसभी चयनित पुस्तकें चयनित श्रेणी में ले जाई जाएँगी।</string>
+    <string name="delete_books_description">यह सभी चयनित पुस्तकों (%1$s) को डेटाबेस से मिटा देगा।\nयह आपके डिवाइस से चयनित पुस्तकों को नहीं मिटाएगा।</string>
+    <string name="delete_book_description">यह इस पुस्तक को डेटाबेस से मिटा देगा।\nयह आपके डिवाइस से इस पुस्तक को नहीं मिटाएगा।</string>
+    <string name="move_book_description">उस श्रेणी को चुनें जिसमें आप इस पुस्तक को ले जाना चाहते हैं।\nयह पुस्तक चयनित श्रेणी में ले जाई जाएगी।</string>
+    <string name="delete_history_description">यह डेटाबेस से पूरा इतिहास मिटा देगा।\nपूरा इतिहास मिटाने के बाद, पुस्तकों का क्रम रीसेट हो जाएगा।</string>
+    <string name="update_app_description">ऐप का नया संस्करण मिला।\nक्या आप आगे बढ़ना और रिलीज़ पेज पर जाना चाहते हैं?</string>
+    <string name="enable_check_for_updates_description">«अपडेट के लिए जांचें» को सक्षम करने से\nऐप हर बार «api.github.com» से नवीनतम रिलीज़ जानकारी प्राप्त करेगा\nजब ऐप शुरू होता है।\nक्या आप आगे बढ़ना और «अपडेट के लिए जांचें» सक्षम करना चाहते हैं?</string>
 
     <!-- Errors -->
-    <string name="error_no_description">
-        कोई विवरण नहीं।
-    </string>
-    <string name="error_something_went_wrong">
-        कुछ गड़बड़ हो गया।
-    </string>
+    <string name="error_no_description">कोई विवरण नहीं।</string>
+    <string name="error_something_went_wrong">कुछ गड़बड़ हो गया।</string>
     <string name="error_no_translator">कोई अनुवादक ऐप नहीं मिला.</string>
     <string name="error_no_dictionary">कोई शब्दकोश ऐप नहीं मिला.</string>
     <string name="error_no_browser">कोई ब्राउज़र ऐप नहीं मिला.</string>
     <string name="error_no_share_app">साझा करने के लिए कोई ऐप नहीं मिला.</string>
-    <string name="error_could_not_get_text">
-        फ़ाइल खाली है, दूषित है या मौजूद नहीं है. कृपया सत्यापित करें और पुनः प्रयास करें।
-    </string>
-    <string name="error_check_internet">
-        कुछ गड़बड़ हो गया।
-        बाद में पुनः प्रयास करें।
-    </string>
+    <string name="error_could_not_get_text">फ़ाइल खाली है, दूषित है या मौजूद नहीं है. कृपया सत्यापित करें और पुनः प्रयास करें।</string>
+    <string name="error_check_internet">कुछ गड़बड़ हो गया।\nबाद में पुनः प्रयास करें।</string>
     <string name="error_could_not_reset_cover">कवर छवि रीसेट नहीं कर सका.</string>
     <string name="error_closed_source">क्लोज्ड सोर्स</string>
 
     <!-- Is Empty messages -->
-    <string name="search_field_empty">
-        खोजें...
-    </string>
-    <string name="browse_empty">
-        अपने डाउनलोड के साथ पुस्तकालय के पुस्तक संग्रह का विस्तार करें
-    </string>
-    <string name="library_empty">
-        अपनी पसंदीदा पुस्तकें पढ़ें और उन्हें श्रेणियों के बीच क्रमबद्ध करें
-    </string>
-    <string name="history_empty">
-        अपनी पढ़ने की यात्रा की एक नई महान कहानी के पृष्ठों को खोलने के लिए अपनी अंतिम पुस्तक पढ़ने दें
-    </string>
+    <string name="search_field_empty">खोजें...</string>
+    <string name="browse_empty">अपने डाउनलोड के साथ पुस्तकालय के पुस्तक संग्रह का विस्तार करें</string>
+    <string name="library_empty">अपनी पसंदीदा पुस्तकें पढ़ें और उन्हें श्रेणियों के बीच क्रमबद्ध करें</string>
+    <string name="history_empty">अपनी पढ़ने की यात्रा की एक नई महान कहानी के पृष्ठों को खोलने के लिए अपनी अंतिम पुस्तक पढ़ने दें</string>
 
     <!-- Query strings -->
-    <string name="selected_items_count_query">%1$s चयनित</string>
+    <plurals name="selected_items_count_query">
+        <item quantity="one">%1$d चयनित</item>
+        <item quantity="other">%1$d चयनित</item>
+    </plurals>
     <string name="file_path_query">फ़ाइल पथ: %1$s</string>
     <string name="update_query">अपडेट करें %1$s</string>
     <string name="color_preset_query">प्रीसेट %1$s</string>
@@ -225,9 +178,7 @@
     <string name="keep_screen_on_option">स्क्रीन को चालू रखें</string>
     <string name="hide_bars_on_fast_scroll_option">तेजी से स्क्रॉल करने पर बार छिपाएँ</string>
     <string name="perception_expander_option">बोध विस्तारक</string>
-    <string name="perception_expander_option_desc">
-        केंद्र पर ध्यान केंद्रित करके अपनी पढ़ने की गति बढ़ाएँ
-    </string>
+    <string name="perception_expander_option_desc">केंद्र पर ध्यान केंद्रित करके अपनी पढ़ने की गति बढ़ाएँ</string>
     <string name="perception_expander_padding_option">लाइन साइड मार्जिन</string>
     <string name="perception_expander_thickness_option">लाइन की मोटाई</string>
     <string name="screen_orientation_option">स्क्रीन ओरिएंटेशन</string>
@@ -250,9 +201,7 @@
     <string name="browse_files_structure_option">फ़ाइलें संरचना</string>
     <string name="browse_grid_size_option">ग्रिड आकार</string>
     <string name="browse_pin_favorite_directories_option">पसंदीदा निर्देशिकाएँ पिन करें</string>
-    <string name="browse_pin_favorite_directories_option_desc">
-        अपनी पसंदीदा निर्देशिकाओं को स्क्रीन के शीर्ष पर पिन करें
-    </string>
+    <string name="browse_pin_favorite_directories_option_desc">अपनी पसंदीदा निर्देशिकाओं को स्क्रीन के शीर्ष पर पिन करें</string>
 
     <!-- Color presets -->
     <string name="red_color">लाल</string>
@@ -363,11 +312,21 @@
     <string name="app_version_option_desc_1">एवरबुक v%1$s</string>
     <string name="app_version_option_desc_2">अपडेट के लिए जांच करने के लिए क्लिक करें</string>
     <string name="report_bug_option">बग रिपोर्ट करें</string>
-    <string name="whats_new_option">नया क्या है</string>
+    <string name="changelog_option">नया क्या है</string>
     <string name="licenses_option">ओपन सोर्स लाइसेंस</string>
     <string name="credits_option">क्रेडिट</string>
     <string name="help_translate_option">अनुवाद करने में मदद करें</string>
     <string name="contributors_option">योगदानकर्ता</string>
+    <string name="changelog_option_desc">रिलीज नोट्स को छोटे अध्यायों की तरह पढ़ें</string>
+    <string name="changelog_release_version">वर्शन %1$s</string>
+    <string name="changelog_empty">अभी कोई रिलीज नोट उपलब्ध नहीं है.</string>
+    <string name="changelog_language_title">रिलीज नोट्स की भाषा</string>
+    <string name="report_bug_option_desc">समस्या बताने या सुधार सुझाने के लिए GitHub खोलें</string>
+    <string name="contributors_option_desc">EverBook बनाने और बेहतर करने में मदद करने वाले लोगों को देखें</string>
+    <string name="licenses_option_desc">ऐप में इस्तेमाल की गई ओपन सोर्स लाइब्रेरी के लाइसेंस देखें</string>
+    <string name="credits_option_desc">प्रोजेक्ट के आभार और क्रेडिट देखें</string>
+    <string name="help_translate_option_desc">EverBook को और भाषाओं में उपलब्ध कराने में मदद करें</string>
+    <string name="support_development_option_desc">प्रोजेक्ट और भविष्य के EverBook अपडेट का समर्थन करें</string>
     <string name="slava_ukraini">स्लावा यूक्रेन!</string>
 
     <!-- Credits -->
@@ -383,160 +342,60 @@
     <string name="help_title_how_to_add_books">मैं लाइब्रेरी में पुस्तकें कैसे जोड़ूँ?</string>
     <string name="help_desc_how_to_add_books_1">इस पर जाएँ</string>
     <string name="help_desc_how_to_add_books_2">ब्राउज़ करें</string>
-    <string name="help_desc_how_to_add_books_3">
-        यदि आपको डाउनलोड की गई पुस्तकें नहीं दिखती हैं, तो सूची को नीचे खींचकर रीफ़्रेश करने का प्रयास करें।
-        सुनिश्चित करें कि आपकी पुस्तकों का फ़ाइल स्वरूप समर्थित है।
-        फिर इसे चुनने के लिए पुस्तक पर क्लिक करें या इसका स्थान दिखाने के लिए होल्ड करें।
-        आप सभी वांछित पुस्तकों का चयन करने के बाद, ऊपरी दाएं कोने में चेक मार्क आइकन पर क्लिक करें,
-        सभी पुस्तकों के लोड होने की प्रतीक्षा करें और «जोड़ें» पर क्लिक करें।
-        अब आपको लाइब्रेरी में अपनी जोड़ी गई सभी पुस्तकें दिखाई देनी चाहिए।
-    </string>
+    <string name="help_desc_how_to_add_books_3">यदि आपको डाउनलोड की गई पुस्तकें नहीं दिखती हैं, तो सूची को नीचे खींचकर रीफ़्रेश करने का प्रयास करें।\nसुनिश्चित करें कि आपकी पुस्तकों का फ़ाइल स्वरूप समर्थित है।\nफिर इसे चुनने के लिए पुस्तक पर क्लिक करें या इसका स्थान दिखाने के लिए होल्ड करें।\nआप सभी वांछित पुस्तकों का चयन करने के बाद, ऊपरी दाएं कोने में चेक मार्क आइकन पर क्लिक करें,\nसभी पुस्तकों के लोड होने की प्रतीक्षा करें और «जोड़ें» पर क्लिक करें।\nअब आपको लाइब्रेरी में अपनी जोड़ी गई सभी पुस्तकें दिखाई देनी चाहिए।</string>
     <string name="help_desc_how_to_add_books_4">पुस्तकालय</string>
 
     <string name="help_title_how_to_customize_app">मैं ऐप को कैसे कस्टमाइज़ करूँ?</string>
     <string name="help_desc_how_to_customize_app_1">इस पर जाएँ</string>
     <string name="help_desc_how_to_customize_app_2">सेटिंग</string>
-    <string name="help_desc_how_to_customize_app_3">
-        आप इसे लाइब्रेरी, इतिहास और ब्राउज़ स्क्रीन से कर सकते हैं
-        ऊपरी दाएं कोने में तीन बिंदुओं पर क्लिक करके
-        और ड्रॉप-डाउन मेनू से «सेटिंग» का चयन करें।
-        फिर आपको इस ऐप के लिए सभी उपलब्ध सेटिंग दिखाई देंगी।
-        उनके साथ प्रयोग करने के लिए स्वतंत्र महसूस करें!
-    </string>
+    <string name="help_desc_how_to_customize_app_3">आप इसे लाइब्रेरी, इतिहास और ब्राउज़ स्क्रीन से कर सकते हैं\nऊपरी दाएं कोने में तीन बिंदुओं पर क्लिक करके\nऔर ड्रॉप-डाउन मेनू से «सेटिंग» का चयन करें।\nफिर आपको इस ऐप के लिए सभी उपलब्ध सेटिंग दिखाई देंगी।\nउनके साथ प्रयोग करने के लिए स्वतंत्र महसूस करें!</string>
 
     <string name="help_title_how_to_move_or_delete_books">मैं पुस्तकें कैसे ले जाऊँ या मिटाऊँ?</string>
     <string name="help_desc_how_to_move_or_delete_books_1">इस पर जाएँ</string>
     <string name="help_desc_how_to_move_or_delete_books_2">पुस्तकालय</string>
-    <string name="help_desc_how_to_move_or_delete_books_3">
-        पहली पुस्तक की कवर छवि को तब तक दबाए रखें जब तक वह चयनित न हो जाए,
-        अब आप उन पुस्तकों की सभी कवर छवियों पर आसानी से क्लिक कर सकते हैं जिन्हें आप चुनना चाहते हैं।
-        आप एकाधिक श्रेणियों में पुस्तकें भी चुन सकते हैं।
-        अपनी सभी वांछित पुस्तकों को चुनने के बाद, आप पुस्तकों को स्थानांतरित करने के लिए तीर आइकन पर क्लिक कर सकते हैं
-        और पुस्तकों को मिटाने के लिए ट्रैश बिन आइकन पर क्लिक कर सकते हैं।
-    </string>
+    <string name="help_desc_how_to_move_or_delete_books_3">पहली पुस्तक की कवर छवि को तब तक दबाए रखें जब तक वह चयनित न हो जाए,\nअब आप उन पुस्तकों की सभी कवर छवियों पर आसानी से क्लिक कर सकते हैं जिन्हें आप चुनना चाहते हैं।\nआप एकाधिक श्रेणियों में पुस्तकें भी चुन सकते हैं।\nअपनी सभी वांछित पुस्तकों को चुनने के बाद, आप पुस्तकों को स्थानांतरित करने के लिए तीर आइकन पर क्लिक कर सकते हैं\nऔर पुस्तकों को मिटाने के लिए ट्रैश बिन आइकन पर क्लिक कर सकते हैं।</string>
 
     <string name="help_title_how_to_edit_book">मैं किसी पुस्तक को कैसे संपादित करूँ?</string>
     <string name="help_desc_how_to_edit_book_1">इस पर जाएँ</string>
     <string name="help_desc_how_to_edit_book_2">पुस्तकालय</string>
-    <string name="help_desc_how_to_edit_book_3">
-        और पुस्तक का विवरण देखने के लिए पुस्तक की कवर छवि पर क्लिक करें।
-        अब आप इसे संपादित करने के लिए पुस्तक का शीर्षक, लेखक या विवरण दबाए रख सकते हैं
-        या कवर छवि को बदलने, रीसेट करने या हटाने के लिए कवर छवि दबा सकते हैं।
-    </string>
+    <string name="help_desc_how_to_edit_book_3">और पुस्तक का विवरण देखने के लिए पुस्तक की कवर छवि पर क्लिक करें।\nअब आप इसे संपादित करने के लिए पुस्तक का शीर्षक, लेखक या विवरण दबाए रख सकते हैं\nया कवर छवि को बदलने, रीसेट करने या हटाने के लिए कवर छवि दबा सकते हैं।</string>
 
     <string name="help_title_how_to_read_book">मैं कोई पुस्तक कैसे पढ़ूँ?</string>
     <string name="help_desc_how_to_read_book_1">इस पर जाएँ</string>
     <string name="help_desc_how_to_read_book_2">पुस्तकालय</string>
-    <string name="help_desc_how_to_read_book_3">
-        पुस्तक को पढ़ना शुरू करने के लिए, उस पुस्तक के निचले दाएं कोने में स्थित बटन पर क्लिक करें जिसे आप पढ़ना चाहते हैं।
-        आप पुस्तक का विवरण देखने के लिए पुस्तक की कवर छवि पर क्लिक करके भी पुस्तक पढ़ना शुरू कर सकते हैं
-        और फिर निचले दाएं कोने में स्थित बटन पर क्लिक करें।
-        प्रगति स्वचालित रूप से सहेज ली जाएगी और पुनर्स्थापित की जाएगी।
-        आप स्क्रीन पर कहीं भी क्लिक करके शीर्ष और नीचे के बार ला सकते हैं।
-        पुस्तक के शीर्षक पर क्लिक करके आपको पुस्तक के विवरण पर स्थानांतरित कर दिया जाएगा।
-        गियर आइकन पर क्लिक करके आपको रीडर सेटिंग दिखाई देंगी।
-        आप प्रगति को बदलने के लिए बॉटम बार के स्लाइडर का उपयोग कर सकते हैं।
-    </string>
+    <string name="help_desc_how_to_read_book_3">पुस्तक को पढ़ना शुरू करने के लिए, उस पुस्तक के निचले दाएं कोने में स्थित बटन पर क्लिक करें जिसे आप पढ़ना चाहते हैं।\nआप पुस्तक का विवरण देखने के लिए पुस्तक की कवर छवि पर क्लिक करके भी पुस्तक पढ़ना शुरू कर सकते हैं\nऔर फिर निचले दाएं कोने में स्थित बटन पर क्लिक करें।\nप्रगति स्वचालित रूप से सहेज ली जाएगी और पुनर्स्थापित की जाएगी।\nआप स्क्रीन पर कहीं भी क्लिक करके शीर्ष और नीचे के बार ला सकते हैं।\nपुस्तक के शीर्षक पर क्लिक करके आपको पुस्तक के विवरण पर स्थानांतरित कर दिया जाएगा।\nगियर आइकन पर क्लिक करके आपको रीडर सेटिंग दिखाई देंगी।\nआप प्रगति को बदलने के लिए बॉटम बार के स्लाइडर का उपयोग कर सकते हैं।</string>
 
     <string name="help_title_how_to_customize_reader">मैं रीडर को कैसे कस्टमाइज़ करूँ?</string>
-    <string name="help_desc_how_to_customize_reader_1">
-        पुस्तक पढ़ना शुरू करें (देखें: मैं कोई पुस्तक कैसे पढ़ूँ?),
-        उसके बाद स्क्रीन पर कहीं भी क्लिक करके ऊपर और नीचे के बार लाएँ।
-        फिर ऊपरी दाएं कोने में गियर आइकन पर क्लिक करें।
-        यह सभी रीडर सेटिंग दिखाएगा।
-        दूसरा तरीका है इस पर जाना
-    </string>
-    <string name="help_desc_how_to_customize_reader_2">
-        सेटिंग
-    </string>
-    <string name="help_desc_how_to_customize_reader_3">
-        और सामान्य सेटिंग को कस्टमाइज़ करने के लिए रीडर श्रेणी का चयन करें,
-        या रंग सेटिंग को कस्टमाइज़ करने के लिए उपस्थिति श्रेणी का चयन करें।
-    </string>
+    <string name="help_desc_how_to_customize_reader_1">पुस्तक पढ़ना शुरू करें (देखें: मैं कोई पुस्तक कैसे पढ़ूँ?),\nउसके बाद स्क्रीन पर कहीं भी क्लिक करके ऊपर और नीचे के बार लाएँ।\nफिर ऊपरी दाएं कोने में गियर आइकन पर क्लिक करें।\nयह सभी रीडर सेटिंग दिखाएगा।\nदूसरा तरीका है इस पर जाना</string>
+    <string name="help_desc_how_to_customize_reader_2">सेटिंग</string>
+    <string name="help_desc_how_to_customize_reader_3">और सामान्य सेटिंग को कस्टमाइज़ करने के लिए रीडर श्रेणी का चयन करें,\nया रंग सेटिंग को कस्टमाइज़ करने के लिए उपस्थिति श्रेणी का चयन करें।</string>
 
     <string name="help_title_how_to_manage_history">मैं इतिहास का प्रबंधन कैसे करूँ?</string>
     <string name="help_desc_how_to_manage_history_1">इस पर जाएँ</string>
     <string name="help_desc_how_to_manage_history_2">इतिहास</string>
-    <string name="help_desc_how_to_manage_history_3">
-        इतिहास तत्व के दाईं ओर स्थित हटाएँ बटन पर क्लिक करने से वह मिट जाएगा।
-        इतिहास लाइब्रेरी में पुस्तकों के क्रम को प्रभावित करता है,
-        इतिहास तत्व को मिटाने से एक पुस्तक भी पुन: व्यवस्थित हो जाएगी।
-        अंतिम खोली गई पुस्तक हमेशा लाइब्रेरी और इतिहास में पहली होती है।
-    </string>
+    <string name="help_desc_how_to_manage_history_3">इतिहास तत्व के दाईं ओर स्थित हटाएँ बटन पर क्लिक करने से वह मिट जाएगा।\nइतिहास लाइब्रेरी में पुस्तकों के क्रम को प्रभावित करता है,\nइतिहास तत्व को मिटाने से एक पुस्तक भी पुन: व्यवस्थित हो जाएगी।\nअंतिम खोली गई पुस्तक हमेशा लाइब्रेरी और इतिहास में पहली होती है।</string>
 
     <string name="help_title_how_to_use_tooltip">मैं टूलटिप्स का उपयोग कैसे करूँ?</string>
-    <string name="help_desc_how_to_use_tooltip_1">
-        अधिकांश आइकन-बटन में टूलटिप्स होते हैं, वे आपकी मदद कर सकते हैं यदि आप नहीं जानते कि आइकन-बटन क्या करता है।
-        टूलटिप दिखाने के लिए आप किसी आइकन-बटन को होल्ड कर सकते हैं।
-    </string>
+    <string name="help_desc_how_to_use_tooltip_1">अधिकांश आइकन-बटन में टूलटिप्स होते हैं, वे आपकी मदद कर सकते हैं यदि आप नहीं जानते कि आइकन-बटन क्या करता है।\nटूलटिप दिखाने के लिए आप किसी आइकन-बटन को होल्ड कर सकते हैं।</string>
 
-    <string name="help_title_how_to_use_double_click_translation">
-        मैं डबल क्लिक अनुवाद का उपयोग कैसे करूँ?
-    </string>
-    <string name="help_desc_how_to_use_double_click_translation_1">
-        सबसे पहले, रीडर सेटिंग पर जाएँ (देखें: मैं रीडर को कैसे कस्टमाइज़ करूँ?),
-        फिर संबंधित सेटिंग चालू करें। उसके बाद,
-        पुस्तक पढ़ना शुरू करें (देखें: मैं कोई पुस्तक कैसे पढ़ूँ?)।
-        अब यदि आप वांछित पैराग्राफ पर डबल क्लिक करते हैं,
-        तो पैराग्राफ के टेक्स्ट के साथ बाहरी अनुवादक खोला जाएगा।
-    </string>
+    <string name="help_title_how_to_use_double_click_translation">मैं डबल क्लिक अनुवाद का उपयोग कैसे करूँ?</string>
+    <string name="help_desc_how_to_use_double_click_translation_1">सबसे पहले, रीडर सेटिंग पर जाएँ (देखें: मैं रीडर को कैसे कस्टमाइज़ करूँ?),\nफिर संबंधित सेटिंग चालू करें। उसके बाद,\nपुस्तक पढ़ना शुरू करें (देखें: मैं कोई पुस्तक कैसे पढ़ूँ?)।\nअब यदि आप वांछित पैराग्राफ पर डबल क्लिक करते हैं,\nतो पैराग्राफ के टेक्स्ट के साथ बाहरी अनुवादक खोला जाएगा।</string>
 
-    <string name="help_title_how_to_create_color_presets">
-         मैं रंग प्रीसेट कैसे बनाऊं और संशोधित करूं?
-    </string>
-    <string name="help_desc_how_to_create_color_presets_1">
-        उपस्थिति सेटिंग पर जाएँ (देखें: मैं रीडर को कैसे कस्टमाइज़ करूँ?)।
-        आप «रंग» उपश्रेणी में «रंग प्रीसेट» के अंतर्गत बॉक्स में सभी रंग प्रीसेट की सेटिंग को संशोधित कर सकते हैं।
-        एक नया रंग प्रीसेट बनाने के लिए, «जोड़ें» आइकन-बटन पर क्लिक करें।
-        रंग प्रीसेट को संशोधित करने के कई तरीके हैं:
-        टेक्स्ट फ़ील्ड पर क्लिक करके आप रंग प्रीसेट का नाम बदल सकते हैं,
-        स्लाइडर को घुमाकर आप रंग प्रीसेट के रंग बदल सकते हैं,
-        «शफ़ल» आइकन-बटन पर क्लिक करके आप सभी रंगों को शफ़ल कर सकते हैं।
-        यदि आप रंग प्रीसेट को हटाना चाहते हैं, तो «हटाएँ» आइकन-बटन पर क्लिक करें।
-    </string>
+    <string name="help_title_how_to_create_color_presets"> मैं रंग प्रीसेट कैसे बनाऊं और संशोधित करूं?</string>
+    <string name="help_desc_how_to_create_color_presets_1">उपस्थिति सेटिंग पर जाएँ (देखें: मैं रीडर को कैसे कस्टमाइज़ करूँ?)।\nआप «रंग» उपश्रेणी में «रंग प्रीसेट» के अंतर्गत बॉक्स में सभी रंग प्रीसेट की सेटिंग को संशोधित कर सकते हैं।\nएक नया रंग प्रीसेट बनाने के लिए, «जोड़ें» आइकन-बटन पर क्लिक करें।\nरंग प्रीसेट को संशोधित करने के कई तरीके हैं:\nटेक्स्ट फ़ील्ड पर क्लिक करके आप रंग प्रीसेट का नाम बदल सकते हैं,\nस्लाइडर को घुमाकर आप रंग प्रीसेट के रंग बदल सकते हैं,\n«शफ़ल» आइकन-बटन पर क्लिक करके आप सभी रंगों को शफ़ल कर सकते हैं।\nयदि आप रंग प्रीसेट को हटाना चाहते हैं, तो «हटाएँ» आइकन-बटन पर क्लिक करें।</string>
 
-    <string name="help_title_how_to_use_color_presets">
-        मैं रंग प्रीसेट का उपयोग कैसे करूँ?
-    </string>
-    <string name="help_desc_how_to_use_color_presets_1">
-        उपस्थिति सेटिंग पर जाएँ (देखें: मैं रीडर को कैसे कस्टमाइज़ करूँ?)।
-        आप «रंग प्रीसेट» सेटिंग में कौन सा रंग प्रीसेट उपयोग करना है, यह चुन सकते हैं।
-        इसे चुनने के लिए वांछित रंग प्रीसेट पर क्लिक करें, यह रीडर में आपके रंगों को भी बदल देगा।
-        यदि आप रंग प्रीसेट को पुन: व्यवस्थित करना चाहते हैं, तो इसे चुनें और «हैंडल» आइकन-बटन को होल्ड करें,
-        फिर इसे वांछित स्थिति में ले जाएँ।
-        आप उपस्थिति सेटिंग की «रंग» उपश्रेणी में संबंधित सेटिंग को सक्षम करके रंग प्रीसेट को तेज़ी से बदल सकते हैं,
-        फिर रीडर में रंग प्रीसेट को तेज़ी से बदलने के लिए शीर्ष बार को बाएं या दाएं स्वाइप कर सकते हैं।
-    </string>
+    <string name="help_title_how_to_use_color_presets">मैं रंग प्रीसेट का उपयोग कैसे करूँ?</string>
+    <string name="help_desc_how_to_use_color_presets_1">उपस्थिति सेटिंग पर जाएँ (देखें: मैं रीडर को कैसे कस्टमाइज़ करूँ?)।\nआप «रंग प्रीसेट» सेटिंग में कौन सा रंग प्रीसेट उपयोग करना है, यह चुन सकते हैं।\nइसे चुनने के लिए वांछित रंग प्रीसेट पर क्लिक करें, यह रीडर में आपके रंगों को भी बदल देगा।\nयदि आप रंग प्रीसेट को पुन: व्यवस्थित करना चाहते हैं, तो इसे चुनें और «हैंडल» आइकन-बटन को होल्ड करें,\nफिर इसे वांछित स्थिति में ले जाएँ।\nआप उपस्थिति सेटिंग की «रंग» उपश्रेणी में संबंधित सेटिंग को सक्षम करके रंग प्रीसेट को तेज़ी से बदल सकते हैं,\nफिर रीडर में रंग प्रीसेट को तेज़ी से बदलने के लिए शीर्ष बार को बाएं या दाएं स्वाइप कर सकते हैं।</string>
 
-    <string name="help_title_how_to_use_perception_expander">
-        बोध विस्तारक क्या है और मैं इसका उपयोग कैसे करूँ?
-    </string>
-    <string name="help_title_how_to_use_perception_expander_1">
-        बोध विस्तारक आपको तेज़ी से पढ़ने में मदद कर सकता है।
-        सबसे पहले, रीडर सेटिंग में इसे सक्षम करें (देखें: मैं रीडर को कैसे कस्टमाइज़ करूँ?)।
-        एक बार सक्षम होने के बाद, रीडर के दोनों ओर दो ऊर्ध्वाधर रेखाएँ दिखाई देंगी।
-        अपनी पढ़ने की गति को और बेहतर बनाने के लिए,
-        केंद्र के चारों ओर कम स्थान बनाने के लिए मार्जिन को समायोजित करें।
-        इसका उपयोग करने के लिए, स्क्रीन के केंद्र पर ध्यान केंद्रित करें, जबकि
-        अपनी परिधीय दृष्टि को किनारों पर टेक्स्ट को लेने की अनुमति दें।
-        जैसे ही आप पढ़ते हैं, प्रत्येक पंक्ति के बाद सीधे
-        किनारों पर देखे बिना केंद्र पर अपना ध्यान बनाए रखें।
-    </string>
+    <string name="help_title_how_to_use_perception_expander">बोध विस्तारक क्या है और मैं इसका उपयोग कैसे करूँ?</string>
+    <string name="help_title_how_to_use_perception_expander_1">बोध विस्तारक आपको तेज़ी से पढ़ने में मदद कर सकता है।\nसबसे पहले, रीडर सेटिंग में इसे सक्षम करें (देखें: मैं रीडर को कैसे कस्टमाइज़ करूँ?)।\nएक बार सक्षम होने के बाद, रीडर के दोनों ओर दो ऊर्ध्वाधर रेखाएँ दिखाई देंगी।\nअपनी पढ़ने की गति को और बेहतर बनाने के लिए,\nकेंद्र के चारों ओर कम स्थान बनाने के लिए मार्जिन को समायोजित करें।\nइसका उपयोग करने के लिए, स्क्रीन के केंद्र पर ध्यान केंद्रित करें, जबकि\nअपनी परिधीय दृष्टि को किनारों पर टेक्स्ट को लेने की अनुमति दें।\nजैसे ही आप पढ़ते हैं, प्रत्येक पंक्ति के बाद सीधे\nकिनारों पर देखे बिना केंद्र पर अपना ध्यान बनाए रखें।</string>
 
     <string name="help_title_how_to_manage_categories">कैसे श्रेणियों का प्रबंधन करें?</string>
-    <string name="help_desc_how_to_manage_categories_1">
-    ऐप में अब श्रेणियों के साथ काम करने के नए फीचर्स हैं:
-    डिफ़ॉल्ट रूप से, 5 श्रेणियां हैं: सभी (सभी किताबें संग्रहीत करता है), पढ़ रहा है, पूरा हुआ, योजना बना रहा है, और छोड़ा हुआ। डिफ़ॉल्ट श्रेणियों को केवल छिपाया और पुनः क्रमित किया जा सकता है। कस्टम श्रेणियां बनाई जा सकती हैं, उनका नाम बदला जा सकता है, हटाया और छिपाया जा सकता है।
-    नई श्रेणी बनाने के लिए, "श्रेणी बनाएं" बटन दबाएं। श्रेणियों को पुनः क्रमित करने के लिए, चार लाइनों वाले बटन का उपयोग करें (ड्रैग-एंड-ड्रॉप)। कस्टम श्रेणी हटाने के लिए, इसे बाएं स्वाइप करें। किताबें एक साथ कई श्रेणियों में रखी जा सकती हैं।
-    </string>
+    <string name="help_desc_how_to_manage_categories_1">ऐप में अब श्रेणियों के साथ काम करने के नए फीचर्स हैं:\nडिफ़ॉल्ट रूप से, 5 श्रेणियां हैं: सभी (सभी किताबें संग्रहीत करता है), पढ़ रहा है, पूरा हुआ, योजना बना रहा है, और छोड़ा हुआ। डिफ़ॉल्ट श्रेणियों को केवल छिपाया और पुनः क्रमित किया जा सकता है। कस्टम श्रेणियां बनाई जा सकती हैं, उनका नाम बदला जा सकता है, हटाया और छिपाया जा सकता है।\nनई श्रेणी बनाने के लिए, "श्रेणी बनाएं" बटन दबाएं। श्रेणियों को पुनः क्रमित करने के लिए, चार लाइनों वाले बटन का उपयोग करें (ड्रैग-एंड-ड्रॉप)। कस्टम श्रेणी हटाने के लिए, इसे बाएं स्वाइप करें। किताबें एक साथ कई श्रेणियों में रखी जा सकती हैं।</string>
 
     <!-- Start -->
     <string name="start_welcome">एवरबुक में आपका स्वागत है!</string>
-    <string name="start_welcome_desc">
-        एक ऐसी दुनिया में जहाँ शब्द मोहित करते हैं,
-        सिखाते हैं और अविश्वसनीय रोमांचों पर ले जाते हैं!
-        आइए कुछ चीजें सेट करते हैं!
-    </string>
+    <string name="start_welcome_desc">एक ऐसी दुनिया में जहाँ शब्द मोहित करते हैं,\nसिखाते हैं और अविश्वसनीय रोमांचों पर ले जाते हैं!\nआइए कुछ चीजें सेट करते हैं!</string>
     <string name="start_language_preferences">भाषा प्राथमिकताएँ</string>
     <string name="start_theme_preferences">थीम प्राथमिकताएँ</string>
     <string name="start_permissions_notifications">अधिसूचना अनुमति</string>
@@ -549,10 +408,7 @@
     <string name="start_privacy_policy_accept">मैं गोपनीयता नीति स्वीकार करता/करती हूँ</string>
     <string name="privacy_policy_icon_content_desc">गोपनीयता नीति का आइकन</string>
     <string name="start_done">सब कुछ हो गया!</string>
-    <string name="start_done_desc">
-        आपने ऐप की बुनियादी सेटिंग सफलतापूर्वक कर ली है।
-        क्या आप मदद स्क्रीन को पढ़कर ऐप का उपयोग करना सीखना चाहेंगे?
-    </string>
+    <string name="start_done_desc">आपने ऐप की बुनियादी सेटिंग सफलतापूर्वक कर ली है।\nक्या आप मदद स्क्रीन को पढ़कर ऐप का उपयोग करना सीखना चाहेंगे?</string>
 
     <!-- History -->
     <string name="today">आज</string>
@@ -659,20 +515,12 @@
     <string name="set_up_scanning">स्कैनिंग सेट करें</string>
     <string name="scan_browse_settings">स्कैन करें</string>
     <string name="display_tab">प्रदर्शन</string>
-    <string name="browse_scan_option_note">
-    ये फ़ोल्डर ब्राउज़ में फ़ाइलों को स्कैन और पुनः प्राप्त करने के लिए उपयोग किए जाते हैं।
-    यहां से फ़ोल्डर हटाने से लाइब्रेरी से वास्तविक फ़ाइलें या पुस्तकें नहीं हटेंगी।
-    पहुंच रद्द करने के लिए, संबंधित बटन पर क्लिक करें।
-</string>
+    <string name="browse_scan_option_note">ये फ़ोल्डर ब्राउज़ में फ़ाइलों को स्कैन और पुनः प्राप्त करने के लिए उपयोग किए जाते हैं।\nयहां से फ़ोल्डर हटाने से लाइब्रेरी से वास्तविक फ़ाइलें या पुस्तकें नहीं हटेंगी।\nपहुंच रद्द करने के लिए, संबंधित बटन पर क्लिक करें।</string>
     <string name="display_settings">प्रदर्शन सेटिंग्स</string>
     <string name="horizontal_gesture_alpha_anim_option">दृश्यता एनीमेशन</string>
-    <string name="horizontal_gesture_alpha_anim_option_desc">
-    क्षैतिज इशारे का उपयोग करते समय दृश्यता एनीमेशन सक्षम करें
-</string>
+    <string name="horizontal_gesture_alpha_anim_option_desc">क्षैतिज इशारे का उपयोग करते समय दृश्यता एनीमेशन सक्षम करें</string>
     <string name="horizontal_gesture_pull_anim_option">पुल एनीमेशन</string>
-    <string name="horizontal_gesture_pull_anim_option_desc">
-    क्षैतिज इशारे का उपयोग करते समय पुल एनीमेशन सक्षम करें
-</string>
+    <string name="horizontal_gesture_pull_anim_option_desc">क्षैतिज इशारे का उपयोग करते समय पुल एनीमेशन सक्षम करें</string>
     <string name="layout_option">प्रदर्शन मोड</string>
     <string name="layout_list">सूची</string>
     <string name="layout_grid">ग्रिड</string>
@@ -718,4 +566,71 @@
     <string name="category_name_placeholder">श्रेणी का नाम दर्ज करें…</string>
     <string name="create_category_dialog_desc">नई श्रेणी के लिए नाम दर्ज करें</string>
     <string name="edit_category_dialog_desc">श्रेणी का नाम बदलें</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">टैब</string>
+    <string name="title_position_option">शीर्षक की स्थिति</string>
+    <string name="library_title_position_off">छिपा हुआ</string>
+    <string name="library_title_position_below">कवर के नीचे</string>
+    <string name="library_title_position_inside">कवर पर</string>
+    <string name="library_grid_size_option">ग्रिड आकार</string>
+    <string name="library_grid_size_auto">स्वचालित</string>
+    <string name="library_grid_size_per_row">प्रति पंक्ति</string>
+    <string name="read_button_option">«पढ़ें» बटन</string>
+    <string name="show_progress_option">प्रगति दिखाएं</string>
+    <string name="show_category_tabs_option">श्रेणी टैब दिखाएं</string>
+    <string name="show_default_tab_option">«सभी» टैब दिखाएं</string>
+    <string name="show_book_count_option">किताबों की संख्या दिखाएं</string>
+    <string name="sort_settings">सॉर्ट</string>
+    <string name="sort_order_option">सॉर्ट क्रम</string>
+    <string name="sort_direction_option">सॉर्ट दिशा</string>
+    <string name="sort_direction_ascending">आरोही</string>
+    <string name="sort_direction_descending">अवरोही</string>
+    <string name="per_category_sort_option">श्रेणी के अनुसार सॉर्ट</string>
+    <string name="per_category_sort_option_note">सक्रिय होने पर, प्रत्येक श्रेणी अपना सॉर्ट क्रम रखती है।</string>
+    <string name="category_sort_note">यह तब लागू होता है जब «श्रेणी के अनुसार सॉर्ट» सक्षम हो।</string>
+    <string name="sort_order_name">वर्णानुक्रम</string>
+    <string name="sort_order_last_read">आखिरी बार पढ़ी गई</string>
+    <string name="sort_order_progress">प्रगति</string>
+    <string name="sort_order_author">लेखक</string>
+    <!-- PDF reader additions -->
+    <string name="error_could_not_open_pdf">PDF फ़ाइल मौजूद नहीं है, पहुँच योग्य नहीं है, एन्क्रिप्टेड है या समर्थित नहीं है।</string>
+    <string name="experiments_reader_settings">प्रयोग</string>
+    <string name="reader_cache_warm_up_option">नई पुस्तकों को पृष्ठभूमि में कैश करें</string>
+    <string name="reader_cache_warm_up_option_desc">प्रायोगिक। नई जोड़ी गई पुस्तकों को आयात के बाद पार्स करता है ताकि वे बाद में तेज़ी से खुल सकें।</string>
+    <string name="pdf_reading_mode_option">PDF दृश्य मोड</string>
+    <string name="pdf_reading_mode_option_desc">PDF दृश्य मोड चुनें</string>
+    <string name="pdf_prefer_original_pdf_option">मूल PDF को प्राथमिकता दें</string>
+    <string name="pdf_prefer_original_pdf_option_desc">नई PDF पुस्तकों को डिफ़ॉल्ट रूप से मूल मोड में खोलें</string>
+    <string name="pdf_page_display_mode_option">PDF पृष्ठ</string>
+    <string name="pdf_show_zoom_controls_option">PDF ज़ूम नियंत्रण</string>
+    <string name="pdf_show_zoom_controls_option_desc">PDF की निचली पट्टी में ज़ूम बटन दिखाएँ</string>
+    <string name="pdf_pinch_zoom_option">PDF पिंच ज़ूम</string>
+    <string name="pdf_pinch_zoom_option_desc">दो उँगलियों की पिंच इशारे से PDF ज़ूम बदलें</string>
+    <string name="pdf_reading_mode_parsed_text">टेक्स्ट संस्करण</string>
+    <string name="pdf_reading_mode_original_pdf">मूल PDF</string>
+    <string name="pdf_page_display_mode_continuous">निरंतर</string>
+    <string name="pdf_page_display_mode_paged">पृष्ठ-दर-पृष्ठ</string>
+    <string name="pdf_reading_mode_bottom_sheet_title">PDF दृश्य मोड</string>
+    <string name="pdf_reading_mode_text_version_desc">टेक्स्ट, थीम, फ़ॉन्ट, अनुवाद और पढ़ने की सेटिंग के साथ रीडर दृश्य।</string>
+    <string name="pdf_reading_mode_original_pdf_desc">मूल पृष्ठ लेआउट, नेटिव रेंडरिंग, पृष्ठ मोड और ज़ूम के साथ।</string>
+    <string name="open_original_pdf">मूल PDF खोलें</string>
+    <string name="open_parsed_text">टेक्स्ट संस्करण खोलें</string>
+    <string name="help_title_how_to_read_pdf_in_native_mode">PDF दृश्य मोड कैसे काम करते हैं?</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_1">PDF पुस्तकों को इस रूप में खोला जा सकता है</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_2">टेक्स्ट संस्करण</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_3">या</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_4">मूल PDF</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_5">ऊपर और नीचे की पट्टियाँ दिखाने के लिए पृष्ठ पर टैप करें। PDF मोड बटन दृश्य मोड चयनकर्ता खोलता है, और गियर आइकन खोलता है</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_6">PDF रीडर सेटिंग,</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_7">जहाँ आप पृष्ठ मोड में से चुन सकते हैं:</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_8">निरंतर</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_9">और</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_10">पृष्ठ-दर-पृष्ठ</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, ज़ूम बटन, पिंच ज़ूम, रंग प्रीसेट, पैडिंग, फ़ुलस्क्रीन, स्क्रीन चालू रखें, चमक और अभिविन्यास।\nमोड चयनकर्ता में कोई मोड चुनने पर वह भविष्य की PDF पुस्तकों के लिए भी सहेजा जाता है।\nप्रगति अपने आप सहेजी जाती है। ज़ूम केवल वर्तमान सत्र में रहता है और पृष्ठ बदलने, पुस्तक बदलने या पुस्तक फिर से खोलने पर रीसेट हो जाता है।</string>
+    <string name="open_parsed_text_content_desc">टेक्स्ट संस्करण मोड खोलें</string>
+    <string name="pdf_original_mode_content_desc">मूल PDF मोड</string>
+    <string name="pdf_page_content_desc">PDF पृष्ठ %1$d</string>
+    <string name="zoom_in_content_desc">ज़ूम इन</string>
+    <string name="zoom_out_content_desc">ज़ूम आउट</string>
 </resources>

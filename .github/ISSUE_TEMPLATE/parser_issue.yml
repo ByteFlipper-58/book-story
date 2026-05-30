@@ -1,0 +1,66 @@
+name: Parser issue
+description: Report problems with parsing, importing, or adding books.
+title: "[Parser]: "
+labels:
+  - "parser"
+  - "import"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Parser reports are much easier to fix when the problematic file or a minimal sample is attached.
+  - type: dropdown
+    id: file-type
+    attributes:
+      label: File type
+      options:
+        - PDF
+        - TXT
+        - EPUB
+        - FB2
+        - HTML / HTM
+        - Markdown
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What is wrong?
+      description: Describe the parsing/import problem.
+      placeholder: Weird line breaks, missing text, wrong chapters, empty file error...
+    validations:
+      required: true
+  - type: textarea
+    id: location
+    attributes:
+      label: Where did it happen?
+      description: Mention progress percentage, chapter, screen, or import step.
+      placeholder: Around 40.1%, chapter 3, Browse screen...
+    validations:
+      required: true
+  - type: textarea
+    id: file
+    attributes:
+      label: Problematic file or sample
+      description: Attach the file if possible. If you cannot attach it, explain why and provide a minimal sample.
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Add screenshots if they help explain the problem.
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I attached the problematic file or explained why I cannot share it.
+          required: true
+        - label: I searched existing open and closed issues.
+          required: true
+        - label: I used a clear title with the book/file format when possible.
+          required: true

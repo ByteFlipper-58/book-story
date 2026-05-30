@@ -1,6 +1,5 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">默认</string>
     <string name="random_string">随机</string>
@@ -8,13 +7,8 @@
     <!-- Notifications -->
     <string name="updates_notification_channel">新更新</string>
     <string name="updates_notification_title">EverBook 的新更新！</string>
-    <string name="updates_notification_desc">
-        更新 %1$s 刚刚发布！
-        点击前往发布页面。
-    </string>
-    <string name="updates_notification_action">
-        下载
-    </string>
+    <string name="updates_notification_desc">更新 %1$s 刚刚发布！\n点击前往发布页面。</string>
+    <string name="updates_notification_action">下载</string>
 
     <!-- Screens -->
     <string name="library_screen">图书馆</string>
@@ -35,78 +29,38 @@
     <string name="enable_check_for_updates">启用检查更新？</string>
 
     <!-- Dialog Descriptions -->
-    <string name="add_books_description">
-        您可以选择要添加的书籍。
-        您可以在稍后编辑书的标题和封面图像。
-        加载过程可能需要几分钟。
-    </string>
-    <string name="move_books_description">
-        选择要将所有选定书籍（%1$s）移动到的类别。
-        所有选定的书籍将移动到选定的类别。
-    </string>
-    <string name="delete_books_description">
-        它将从数据库中删除所有选定的书籍（%1$s）。
-        它不会从您的设备中删除选定的书籍。
-    </string>
-    <string name="delete_book_description">
-        它将从数据库中删除这本书。
-        它不会从您的设备中删除这本书。
-    </string>
-    <string name="move_book_description">
-        选择要将这本书移动到的类别。
-        这本书将移动到选定的类别。
-    </string>
-    <string name="delete_history_description">
-        它将从数据库中删除整个历史记录。
-        删除整个历史记录后，书籍的顺序将重置。
-    </string>
-    <string name="update_app_description">
-        发现新的应用程序版本。
-        您要继续并转到发布页面吗？
-    </string>
-    <string name="enable_check_for_updates_description">
-        通过启用«检查更新»，
-        应用程序将在每次应用程序启动时从 «api.github.com»检索最新版本信息。
-        您要继续并启用 «检查更新» 吗？
-    </string>
+    <string name="add_books_description">您可以选择要添加的书籍。\n您可以在稍后编辑书的标题和封面图像。\n加载过程可能需要几分钟。</string>
+    <string name="move_books_description">选择要将所有选定书籍（%1$s）移动到的类别。\n所有选定的书籍将移动到选定的类别。</string>
+    <string name="delete_books_description">它将从数据库中删除所有选定的书籍（%1$s）。\n它不会从您的设备中删除选定的书籍。</string>
+    <string name="delete_book_description">它将从数据库中删除这本书。\n它不会从您的设备中删除这本书。</string>
+    <string name="move_book_description">选择要将这本书移动到的类别。\n这本书将移动到选定的类别。</string>
+    <string name="delete_history_description">它将从数据库中删除整个历史记录。\n删除整个历史记录后，书籍的顺序将重置。</string>
+    <string name="update_app_description">发现新的应用程序版本。\n您要继续并转到发布页面吗？</string>
+    <string name="enable_check_for_updates_description">通过启用«检查更新»，\n应用程序将在每次应用程序启动时从 «api.github.com»检索最新版本信息。\n您要继续并启用 «检查更新» 吗？</string>
 
     <!-- Errors -->
-    <string name="error_no_description">
-        没有描述。
-    </string>
-    <string name="error_something_went_wrong">
-        出了点问题。
-    </string>
+    <string name="error_no_description">没有描述。</string>
+    <string name="error_something_went_wrong">出了点问题。</string>
     <string name="error_no_translator">未找到翻译应用程序。</string>
     <string name="error_no_dictionary">未找到字典应用程序。</string>
     <string name="error_no_browser">未找到浏览器应用程序。</string>
     <string name="error_no_share_app">未找到可共享的应用程序。</string>
-    <string name="error_could_not_get_text">
-        文件为空、已损坏或不存在。请验证并重试。
-    </string>
-    <string name="error_check_internet">
-        出了点问题。
-        请稍后重试。
-    </string>
+    <string name="error_could_not_get_text">文件为空、已损坏或不存在。请验证并重试。</string>
+    <string name="error_check_internet">出了点问题。\n请稍后重试。</string>
     <string name="error_could_not_reset_cover">无法重置封面图像。</string>
     <string name="error_closed_source">闭源</string>
 
     <!-- Is Empty messages -->
-    <string name="search_field_empty">
-        搜索…
-    </string>
-    <string name="browse_empty">
-        通过下载来扩展图书馆的藏书
-    </string>
-    <string name="library_empty">
-        阅读您喜欢的书籍，并在类别之间进行排序
-    </string>
-    <string name="history_empty">
-        让您最后阅读的书打开阅读旅程中新的伟大故事的篇章
-    </string>
+    <string name="search_field_empty">搜索…</string>
+    <string name="browse_empty">通过下载来扩展图书馆的藏书</string>
+    <string name="library_empty">阅读您喜欢的书籍，并在类别之间进行排序</string>
+    <string name="history_empty">让您最后阅读的书打开阅读旅程中新的伟大故事的篇章</string>
 
     <!-- Query strings -->
-    <string name="selected_items_count_query">%1$s 已选择</string>
+    <plurals name="selected_items_count_query">
+        <item quantity="one">%1$d 已选择</item>
+        <item quantity="other">%1$d 已选择</item>
+    </plurals>
     <string name="file_path_query">文件路径：%1$s</string>
     <string name="update_query">更新 %1$s</string>
     <string name="color_preset_query">预设 %1$s</string>
@@ -224,9 +178,7 @@
     <string name="keep_screen_on_option">保持屏幕开启</string>
     <string name="hide_bars_on_fast_scroll_option">快速滚动时隐藏栏</string>
     <string name="perception_expander_option">感知扩展器</string>
-    <string name="perception_expander_option_desc">
-        通过专注于中心来提高您的阅读速度
-    </string>
+    <string name="perception_expander_option_desc">通过专注于中心来提高您的阅读速度</string>
     <string name="perception_expander_padding_option">线条侧边距</string>
     <string name="perception_expander_thickness_option">线条粗细</string>
     <string name="screen_orientation_option">屏幕方向</string>
@@ -249,9 +201,7 @@
     <string name="browse_files_structure_option">文件结构</string>
     <string name="browse_grid_size_option">网格大小</string>
     <string name="browse_pin_favorite_directories_option">固定收藏目录</string>
-    <string name="browse_pin_favorite_directories_option_desc">
-        将您喜欢的目录固定到屏幕顶部
-    </string>
+    <string name="browse_pin_favorite_directories_option_desc">将您喜欢的目录固定到屏幕顶部</string>
 
     <!-- Color presets -->
     <string name="red_color">红色</string>
@@ -363,11 +313,21 @@
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">点击检查更新</string>
     <string name="report_bug_option">报告错误</string>
-    <string name="whats_new_option">新功能</string>
+    <string name="changelog_option">新功能</string>
     <string name="licenses_option">开源许可证</string>
     <string name="credits_option">鸣谢</string>
     <string name="help_translate_option">帮助翻译</string>
     <string name="contributors_option">贡献者</string>
+    <string name="changelog_option_desc">像短章节一样阅读版本说明</string>
+    <string name="changelog_release_version">版本 %1$s</string>
+    <string name="changelog_empty">暂时没有可用的版本说明。</string>
+    <string name="changelog_language_title">版本说明语言</string>
+    <string name="report_bug_option_desc">打开 GitHub 报告问题或提出改进建议</string>
+    <string name="contributors_option_desc">查看帮助构建和改进 EverBook 的人员</string>
+    <string name="licenses_option_desc">查看应用所用开源库的许可证</string>
+    <string name="credits_option_desc">查看项目致谢和鸣谢</string>
+    <string name="help_translate_option_desc">帮助 EverBook 支持更多语言</string>
+    <string name="support_development_option_desc">支持项目和未来的 EverBook 更新</string>
     <string name="slava_ukraini">光荣属于乌克兰！</string>
 
     <!-- Credits -->
@@ -383,159 +343,60 @@
     <string name="help_title_how_to_add_books">如何将书籍添加到图书馆？</string>
     <string name="help_desc_how_to_add_books_1">转到</string>
     <string name="help_desc_how_to_add_books_2">浏览</string>
-    <string name="help_desc_how_to_add_books_3">
-        如果您没有看到下载的书籍，请尝试下拉刷新列表。
-        确保您的书籍具有支持的文件格式。
-        然后单击该书以选择它或按住以显示其位置。
-        在选择完所有想要的书籍后，单击右上角的复选标记图标，
-        等待所有书籍加载并单击«添加»。
-        现在您应该在以下位置看到所有添加的书籍：
-    </string>
+    <string name="help_desc_how_to_add_books_3">如果您没有看到下载的书籍，请尝试下拉刷新列表。\n确保您的书籍具有支持的文件格式。\n然后单击该书以选择它或按住以显示其位置。\n在选择完所有想要的书籍后，单击右上角的复选标记图标，\n等待所有书籍加载并单击«添加»。\n现在您应该在以下位置看到所有添加的书籍：</string>
     <string name="help_desc_how_to_add_books_4">图书馆</string>
 
     <string name="help_title_how_to_customize_app">如何自定义应用程序？</string>
     <string name="help_desc_how_to_customize_app_1">转到</string>
     <string name="help_desc_how_to_customize_app_2">设置</string>
-    <string name="help_desc_how_to_customize_app_3">
-        您可以通过单击右上角的三个点来从“图书馆”、“历史记录”和“浏览”屏幕执行此操作
-        并从下拉菜单中选择«设置»。
-        然后您将看到此应用程序的所有可用设置。
-        请随意尝试这些设置！
-    </string>
+    <string name="help_desc_how_to_customize_app_3">您可以通过单击右上角的三个点来从“图书馆”、“历史记录”和“浏览”屏幕执行此操作\n并从下拉菜单中选择«设置»。\n然后您将看到此应用程序的所有可用设置。\n请随意尝试这些设置！</string>
 
     <string name="help_title_how_to_move_or_delete_books">如何移动或删除书籍？</string>
     <string name="help_desc_how_to_move_or_delete_books_1">转到</string>
     <string name="help_desc_how_to_move_or_delete_books_2">图书馆</string>
-    <string name="help_desc_how_to_move_or_delete_books_3">
-        按住第一本书的封面图像，直到它被选中，
-        现在您可以简单地单击想要选择的书籍的所有封面图像。
-        您还可以在多个类别中选择书籍。
-        选择完所有想要的书籍后，您可以单击箭头图标移动
-        并单击垃圾桶图标以删除书籍。
-    </string>
+    <string name="help_desc_how_to_move_or_delete_books_3">按住第一本书的封面图像，直到它被选中，\n现在您可以简单地单击想要选择的书籍的所有封面图像。\n您还可以在多个类别中选择书籍。\n选择完所有想要的书籍后，您可以单击箭头图标移动\n并单击垃圾桶图标以删除书籍。</string>
 
     <string name="help_title_how_to_edit_book">如何编辑书籍？</string>
     <string name="help_desc_how_to_edit_book_1">转到</string>
     <string name="help_desc_how_to_edit_book_2">图书馆</string>
-    <string name="help_desc_how_to_edit_book_3">
-        并单击书籍的封面图像以查看书籍的详细信息。
-        现在您可以按住书的标题、作者或描述来编辑它，
-        或按住封面图像以更改、重置或删除封面图像。
-    </string>
+    <string name="help_desc_how_to_edit_book_3">并单击书籍的封面图像以查看书籍的详细信息。\n现在您可以按住书的标题、作者或描述来编辑它，\n或按住封面图像以更改、重置或删除封面图像。</string>
 
     <string name="help_title_how_to_read_book">如何阅读书籍？</string>
     <string name="help_desc_how_to_read_book_1">转到</string>
     <string name="help_desc_how_to_read_book_2">图书馆</string>
-    <string name="help_desc_how_to_read_book_3">
-        要开始阅读书籍，请单击您要阅读的书籍右下角的按钮。
-        您也可以通过单击其封面图像来开始阅读该书
-        以查看书籍的详细信息，然后单击右下角的按钮。
-        进度将自动保存和恢复。
-        您可以通过单击屏幕上的任意位置来调出顶部和底部栏。
-        通过单击书的标题，您将被转移到书的详细信息。
-        通过单击齿轮图标，您将看到阅读器设置。
-        您可以使用底部栏的滑块来更改进度。
-    </string>
+    <string name="help_desc_how_to_read_book_3">要开始阅读书籍，请单击您要阅读的书籍右下角的按钮。\n您也可以通过单击其封面图像来开始阅读该书\n以查看书籍的详细信息，然后单击右下角的按钮。\n进度将自动保存和恢复。\n您可以通过单击屏幕上的任意位置来调出顶部和底部栏。\n通过单击书的标题，您将被转移到书的详细信息。\n通过单击齿轮图标，您将看到阅读器设置。\n您可以使用底部栏的滑块来更改进度。</string>
 
     <string name="help_title_how_to_customize_reader">如何自定义阅读器？</string>
-    <string name="help_desc_how_to_customize_reader_1">
-        开始阅读书籍（请参阅：如何阅读书籍？），
-        之后单击屏幕上的任意位置以调出顶部和底部栏。
-        然后单击右上角的齿轮图标。
-        这将显示所有阅读器设置。
-        第二种方法是转到
-    </string>
-    <string name="help_desc_how_to_customize_reader_2">
-        设置
-    </string>
-    <string name="help_desc_how_to_customize_reader_3">
-        并选择“阅读器”类别以自定义“常规”设置，
-        或选择“外观”类别以自定义“颜色”设置。
-    </string>
+    <string name="help_desc_how_to_customize_reader_1">开始阅读书籍（请参阅：如何阅读书籍？），\n之后单击屏幕上的任意位置以调出顶部和底部栏。\n然后单击右上角的齿轮图标。\n这将显示所有阅读器设置。\n第二种方法是转到</string>
+    <string name="help_desc_how_to_customize_reader_2">设置</string>
+    <string name="help_desc_how_to_customize_reader_3">并选择“阅读器”类别以自定义“常规”设置，\n或选择“外观”类别以自定义“颜色”设置。</string>
 
     <string name="help_title_how_to_manage_history">如何管理历史记录？</string>
     <string name="help_desc_how_to_manage_history_1">转到</string>
     <string name="help_desc_how_to_manage_history_2">历史记录</string>
-    <string name="help_desc_how_to_manage_history_3">
-        通过单击历史记录元素右侧的删除按钮，它将被删除。
-        历史记录会影响库中书籍的顺序，
-        删除历史记录元素也会重新排序书籍。
-        上次打开的书籍始终是“图书馆”和“历史记录”中的第一本。
-    </string>
+    <string name="help_desc_how_to_manage_history_3">通过单击历史记录元素右侧的删除按钮，它将被删除。\n历史记录会影响库中书籍的顺序，\n删除历史记录元素也会重新排序书籍。\n上次打开的书籍始终是“图书馆”和“历史记录”中的第一本。</string>
 
     <string name="help_title_how_to_use_tooltip">如何使用工具提示？</string>
-    <string name="help_desc_how_to_use_tooltip_1">
-        大多数图标按钮都有工具提示，如果您不知道图标按钮的作用，它们可以帮助您。
-        要显示工具提示，您可以按住图标按钮。
-    </string>
+    <string name="help_desc_how_to_use_tooltip_1">大多数图标按钮都有工具提示，如果您不知道图标按钮的作用，它们可以帮助您。\n要显示工具提示，您可以按住图标按钮。</string>
 
-    <string name="help_title_how_to_use_double_click_translation">
-        如何使用双击翻译？
-    </string>
-    <string name="help_desc_how_to_use_double_click_translation_1">
-        首先，转到阅读器设置（请参阅：如何自定义阅读器？），
-        然后打开相应的设置。之后，
-        开始阅读书籍（请参阅：如何阅读书籍？）。
-        现在，如果您双击所需的段落，
-        将打开带有段落文本的外部翻译器。
-    </string>
+    <string name="help_title_how_to_use_double_click_translation">如何使用双击翻译？</string>
+    <string name="help_desc_how_to_use_double_click_translation_1">首先，转到阅读器设置（请参阅：如何自定义阅读器？），\n然后打开相应的设置。之后，\n开始阅读书籍（请参阅：如何阅读书籍？）。\n现在，如果您双击所需的段落，\n将打开带有段落文本的外部翻译器。</string>
 
-    <string name="help_title_how_to_create_color_presets">
-        如何创建和修改颜色预设？
-    </string>
-    <string name="help_desc_how_to_create_color_presets_1">
-        转到“外观”设置（请参阅：如何自定义阅读器？）。
-        您可以在“颜色”子类别中的“颜色预设”下的框中修改所有颜色预设的设置。
-        要创建新的颜色预设，请单击«添加»图标按钮。
-        有多种方法可以修改颜色预设：
-        通过单击文本字段，您可以更改颜色预设的名称，
-        通过移动滑块，您可以更改颜色预设的颜色，
-        通过单击 «随机» 图标按钮，您可以随机播放所有颜色。
-        如果您想删除颜色预设，请单击«删除»图标按钮。
-    </string>
+    <string name="help_title_how_to_create_color_presets">如何创建和修改颜色预设？</string>
+    <string name="help_desc_how_to_create_color_presets_1">转到“外观”设置（请参阅：如何自定义阅读器？）。\n您可以在“颜色”子类别中的“颜色预设”下的框中修改所有颜色预设的设置。\n要创建新的颜色预设，请单击«添加»图标按钮。\n有多种方法可以修改颜色预设：\n通过单击文本字段，您可以更改颜色预设的名称，\n通过移动滑块，您可以更改颜色预设的颜色，\n通过单击 «随机» 图标按钮，您可以随机播放所有颜色。\n如果您想删除颜色预设，请单击«删除»图标按钮。</string>
 
-    <string name="help_title_how_to_use_color_presets">
-        如何使用颜色预设？
-    </string>
-    <string name="help_desc_how_to_use_color_presets_1">
-        转到“外观”设置（请参阅：如何自定义阅读器？）。
-        您可以在 «颜色预设» 设置中选择要使用的颜色预设。
-        单击所需的颜色预设以选择它，这也将更改阅读器中的颜色。
-        如果要重新排序颜色预设，请选择它并按住 «手柄» 图标按钮，
-        然后将其移动到所需的位置。
-        您可以通过在“外观”设置的“颜色”子类别中启用相应的设置来快速更改颜色预设，然后在阅读器中向左或向右滑动顶部栏，
-        以快速更改颜色预设。
-    </string>
+    <string name="help_title_how_to_use_color_presets">如何使用颜色预设？</string>
+    <string name="help_desc_how_to_use_color_presets_1">转到“外观”设置（请参阅：如何自定义阅读器？）。\n您可以在 «颜色预设» 设置中选择要使用的颜色预设。\n单击所需的颜色预设以选择它，这也将更改阅读器中的颜色。\n如果要重新排序颜色预设，请选择它并按住 «手柄» 图标按钮，\n然后将其移动到所需的位置。\n您可以通过在“外观”设置的“颜色”子类别中启用相应的设置来快速更改颜色预设，然后在阅读器中向左或向右滑动顶部栏，\n以快速更改颜色预设。</string>
 
-    <string name="help_title_how_to_use_perception_expander">
-        什么是感知扩展器以及如何使用它？
-    </string>
-    <string name="help_title_how_to_use_perception_expander_1">
-        感知扩展器可能会帮助您更快地阅读。
-        首先，在阅读器设置中启用它（请参阅：如何自定义阅读器？）。
-        启用后，阅读器的两侧将出现两条垂直线。
-        为了进一步优化您的阅读速度，
-        调整边距以在中心周围创建更少的空间。
-        要使用它，请专注于屏幕中心，同时
-        允许您的周边视觉接收两侧的文本。
-        阅读时，保持对中心的关注，而不要直接
-        每行后看向两侧。
-    </string>
+    <string name="help_title_how_to_use_perception_expander">什么是感知扩展器以及如何使用它？</string>
+    <string name="help_title_how_to_use_perception_expander_1">感知扩展器可能会帮助您更快地阅读。\n首先，在阅读器设置中启用它（请参阅：如何自定义阅读器？）。\n启用后，阅读器的两侧将出现两条垂直线。\n为了进一步优化您的阅读速度，\n调整边距以在中心周围创建更少的空间。\n要使用它，请专注于屏幕中心，同时\n允许您的周边视觉接收两侧的文本。\n阅读时，保持对中心的关注，而不要直接\n每行后看向两侧。</string>
 
     <string name="help_title_how_to_manage_categories">如何管理分类？</string>
-    <string name="help_desc_how_to_manage_categories_1">
-    应用程序现在新增了分类管理功能：
-    默认有5个分类：全部（存储所有书籍）、阅读中、已完成、计划中和放弃。默认分类只能隐藏和重新排序。自定义分类可以创建、重命名、删除和隐藏。
-    要创建新分类，点击“创建分类”按钮。要重新排序分类，使用带有四条线的按钮（拖放操作）。要删除自定义分类，向左滑动它。书籍可以同时存储在多个分类中。
-    </string>
+    <string name="help_desc_how_to_manage_categories_1">应用程序现在新增了分类管理功能：\n默认有5个分类：全部（存储所有书籍）、阅读中、已完成、计划中和放弃。默认分类只能隐藏和重新排序。自定义分类可以创建、重命名、删除和隐藏。\n要创建新分类，点击“创建分类”按钮。要重新排序分类，使用带有四条线的按钮（拖放操作）。要删除自定义分类，向左滑动它。书籍可以同时存储在多个分类中。</string>
 
     <!-- Start -->
     <string name="start_welcome">欢迎来到 EverBook！</string>
-    <string name="start_welcome_desc">
-        进入一个文字充满魅力、
-        教导和带领您进行不可思议的冒险的世界！
-        让我们做一些设置吧！
-    </string>
+    <string name="start_welcome_desc">进入一个文字充满魅力、\n教导和带领您进行不可思议的冒险的世界！\n让我们做一些设置吧！</string>
     <string name="start_language_preferences">语言偏好设置</string>
     <string name="start_theme_preferences">主题偏好设置</string>
     <string name="start_permissions_notifications">通知权限</string>
@@ -548,10 +409,7 @@
     <string name="start_privacy_policy_accept">我接受隐私政策</string>
     <string name="privacy_policy_icon_content_desc">隐私政策图标</string>
     <string name="start_done">一切都完成了！</string>
-    <string name="start_done_desc">
-        您已成功完成应用程序的基本设置。
-        您想通过阅读“帮助”屏幕来学习如何使用该应用程序吗？
-    </string>
+    <string name="start_done_desc">您已成功完成应用程序的基本设置。\n您想通过阅读“帮助”屏幕来学习如何使用该应用程序吗？</string>
 
     <!-- History -->
     <string name="today">今天</string>
@@ -658,20 +516,12 @@
     <string name="set_up_scanning">设置扫描</string>
     <string name="scan_browse_settings">扫描</string>
     <string name="display_tab">显示</string>
-    <string name="browse_scan_option_note">
-    这些文件夹用于在浏览时扫描和检索文件。
-    在此删除文件夹不会从库中删除文件或书籍。
-    若要撤销访问权限，请单击相应的按钮。
-</string>
+    <string name="browse_scan_option_note">这些文件夹用于在浏览时扫描和检索文件。\n在此删除文件夹不会从库中删除文件或书籍。\n若要撤销访问权限，请单击相应的按钮。</string>
     <string name="display_settings">显示设置</string>
     <string name="horizontal_gesture_alpha_anim_option">可见性动画</string>
-    <string name="horizontal_gesture_alpha_anim_option_desc">
-    使用水平手势时启用可见性动画
-</string>
+    <string name="horizontal_gesture_alpha_anim_option_desc">使用水平手势时启用可见性动画</string>
     <string name="horizontal_gesture_pull_anim_option">拉动动画</string>
-    <string name="horizontal_gesture_pull_anim_option_desc">
-    使用水平手势时启用拉动动画
-</string>
+    <string name="horizontal_gesture_pull_anim_option_desc">使用水平手势时启用拉动动画</string>
     <string name="layout_option">显示模式</string>
     <string name="layout_list">列表</string>
     <string name="layout_grid">网格</string>
@@ -717,4 +567,71 @@
     <string name="category_name_placeholder">输入类别名称…</string>
     <string name="create_category_dialog_desc">为新类别输入名称</string>
     <string name="edit_category_dialog_desc">更改类别名称</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">标签页</string>
+    <string name="title_position_option">标题位置</string>
+    <string name="library_title_position_off">隐藏</string>
+    <string name="library_title_position_below">下方</string>
+    <string name="library_title_position_inside">内部</string>
+    <string name="library_grid_size_option">网格大小</string>
+    <string name="library_grid_size_auto">自动</string>
+    <string name="library_grid_size_per_row">每行</string>
+    <string name="read_button_option">显示“阅读”按钮</string>
+    <string name="show_progress_option">显示进度</string>
+    <string name="show_category_tabs_option">显示分类标签页</string>
+    <string name="show_default_tab_option">显示“全部”标签页</string>
+    <string name="show_book_count_option">显示书籍数</string>
+    <string name="sort_settings">排序</string>
+    <string name="sort_order_option">排序方式</string>
+    <string name="sort_direction_option">排序方向</string>
+    <string name="sort_direction_ascending">升序</string>
+    <string name="sort_direction_descending">降序</string>
+    <string name="per_category_sort_option">每个分类不同排序依据</string>
+    <string name="per_category_sort_option_note">开启后，每个分类都会保留自己的排序方式。</string>
+    <string name="category_sort_note">仅在启用“每个分类不同排序依据”时生效。</string>
+    <string name="sort_order_name">字母顺序</string>
+    <string name="sort_order_last_read">上次阅读</string>
+    <string name="sort_order_progress">进度</string>
+    <string name="sort_order_author">作者</string>
+    <!-- PDF reader additions -->
+    <string name="error_could_not_open_pdf">PDF 文件缺失、无法访问、已加密或不受支持。</string>
+    <string name="experiments_reader_settings">实验</string>
+    <string name="reader_cache_warm_up_option">在后台缓存新书</string>
+    <string name="reader_cache_warm_up_option_desc">实验性功能。导入后解析新添加的书籍，以便之后更快打开。</string>
+    <string name="pdf_reading_mode_option">PDF 查看模式</string>
+    <string name="pdf_reading_mode_option_desc">选择 PDF 查看模式</string>
+    <string name="pdf_prefer_original_pdf_option">优先使用原始 PDF</string>
+    <string name="pdf_prefer_original_pdf_option_desc">默认以原生模式打开新的 PDF 书籍</string>
+    <string name="pdf_page_display_mode_option">PDF 页面</string>
+    <string name="pdf_show_zoom_controls_option">PDF 缩放控件</string>
+    <string name="pdf_show_zoom_controls_option_desc">在 PDF 底部栏显示缩放按钮</string>
+    <string name="pdf_pinch_zoom_option">PDF 捏合缩放</string>
+    <string name="pdf_pinch_zoom_option_desc">使用双指捏合手势调整 PDF 缩放</string>
+    <string name="pdf_reading_mode_parsed_text">文本版本</string>
+    <string name="pdf_reading_mode_original_pdf">原始 PDF</string>
+    <string name="pdf_page_display_mode_continuous">连续</string>
+    <string name="pdf_page_display_mode_paged">分页</string>
+    <string name="pdf_reading_mode_bottom_sheet_title">PDF 查看模式</string>
+    <string name="pdf_reading_mode_text_version_desc">包含文本、主题、字体、翻译和阅读设置的阅读器视图。</string>
+    <string name="pdf_reading_mode_original_pdf_desc">使用原生渲染、页面模式和缩放的原始页面布局。</string>
+    <string name="open_original_pdf">打开原始 PDF</string>
+    <string name="open_parsed_text">打开文本版本</string>
+    <string name="help_title_how_to_read_pdf_in_native_mode">PDF 查看模式如何工作？</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_1">PDF 书籍可以打开为</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_2">文本版本</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_3">或</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_4">原始 PDF</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_5">点按页面可显示顶部和底部栏。PDF 模式按钮会打开查看模式选择器，齿轮图标会打开</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_6">PDF 阅读器设置，</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_7">你可以在其中选择页面模式：</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_8">连续</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_9">和</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_10">分页</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">、缩放按钮、捏合缩放、颜色预设、边距、全屏、保持屏幕常亮、亮度和方向。\n在模式选择器中选择某个模式后，也会自动保存为以后 PDF 书籍的默认模式。\n阅读进度会自动保存。缩放只在当前会话中有效，并会在切换页面、切换书籍或重新打开书籍时重置。</string>
+    <string name="open_parsed_text_content_desc">打开文本版本模式</string>
+    <string name="pdf_original_mode_content_desc">原始 PDF 模式</string>
+    <string name="pdf_page_content_desc">PDF 第 %1$d 页</string>
+    <string name="zoom_in_content_desc">放大</string>
+    <string name="zoom_out_content_desc">缩小</string>
 </resources>

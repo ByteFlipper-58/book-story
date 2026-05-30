@@ -22,6 +22,8 @@ import com.byteflipper.everbook.presentation.core.constants.provideEmptyBook
 data class ReaderState(
     val book: Book = provideEmptyBook(),
     val text: List<ReaderText> = emptyList(),
+    val chapters: List<Chapter> = emptyList(),
+    val chapterIndexes: List<Int> = emptyList(),
     val listState: LazyListState = LazyListState(),
 
     val currentChapter: Chapter? = null,
@@ -29,6 +31,8 @@ data class ReaderState(
 
     val errorMessage: UIText? = null,
     val isLoading: Boolean = true,
+    val isParsing: Boolean = false,
+    val pdfTextModeUnavailable: Boolean = false,
 
     val showMenu: Boolean = false,
     val checkpoint: Checkpoint = Checkpoint(0, 0),

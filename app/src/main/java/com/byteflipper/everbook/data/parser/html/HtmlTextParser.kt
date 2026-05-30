@@ -12,9 +12,11 @@ import kotlinx.coroutines.yield
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
 import com.byteflipper.everbook.data.parser.DocumentParser
+import com.byteflipper.everbook.data.parser.ReaderTextChunkSink
 import com.byteflipper.everbook.data.parser.TextParser
 import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.reader.ReaderText
+import com.byteflipper.everbook.domain.reader.hasReadableReaderText
 import javax.inject.Inject
 
 private const val HTML_TAG = "HTML Parser"
@@ -23,21 +25,23 @@ class HtmlTextParser @Inject constructor(
     private val documentParser: DocumentParser
 ) : TextParser {
 
-    override suspend fun parse(cachedFile: CachedFile): List<ReaderText> {
+    override suspend fun parse(
+        cachedFile: CachedFile,
+        onChunk: ReaderTextChunkSink?
+    ): List<ReaderText> {
         Log.i(HTML_TAG, "Started HTML parsing: ${cachedFile.name}.")
 
         return try {
             val readerText = cachedFile.openInputStream()?.use { stream ->
-                documentParser.parseDocument(Jsoup.parse(stream, null, "", Parser.htmlParser()))
+                documentParser.parseDocument(
+                    document = Jsoup.parse(stream, null, "", Parser.htmlParser()),
+                    onChunk = onChunk
+                )
             }
 
             yield()
 
-            if (
-                readerText.isNullOrEmpty() ||
-                readerText.filterIsInstance<ReaderText.Text>().isEmpty() ||
-                readerText.filterIsInstance<ReaderText.Chapter>().isEmpty()
-            ) {
+            if (readerText.isNullOrEmpty() || !readerText.hasReadableReaderText()) {
                 Log.e(HTML_TAG, "Could not extract text from HTML.")
                 return emptyList()
             }

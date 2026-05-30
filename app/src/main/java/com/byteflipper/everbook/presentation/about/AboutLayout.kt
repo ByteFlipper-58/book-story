@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.byteflipper.everbook.BuildConfig
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.constants.provideContributorsPage
@@ -47,7 +48,8 @@ fun AboutLayout(
     listState: LazyListState,
     navigateToBrowserPage: (AboutEvent.OnNavigateToBrowserPage) -> Unit,
     navigateToLicenses: () -> Unit,
-    navigateToCredits: () -> Unit
+    navigateToCredits: () -> Unit,
+    navigateToChangelog: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -93,7 +95,10 @@ fun AboutLayout(
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     AboutItem(
                         title = stringResource(id = R.string.app_version_option),
-                        description = "EverBook v${stringResource(id = R.string.app_version)}",
+                        description = stringResource(
+                            id = R.string.app_version_option_desc_1,
+                            BuildConfig.VERSION_NAME
+                        ),
                     ) {
                         navigateToBrowserPage(
                             AboutEvent.OnNavigateToBrowserPage(
@@ -104,8 +109,15 @@ fun AboutLayout(
                     }
 
                     AboutItem(
+                        title = stringResource(id = R.string.changelog_option),
+                        description = stringResource(id = R.string.changelog_option_desc)
+                    ) {
+                        navigateToChangelog()
+                    }
+
+                    AboutItem(
                         title = stringResource(id = R.string.report_bug_option),
-                        description = null
+                        description = stringResource(id = R.string.report_bug_option_desc)
                     ) {
                         navigateToBrowserPage(
                             AboutEvent.OnNavigateToBrowserPage(
@@ -117,7 +129,7 @@ fun AboutLayout(
 
                     AboutItem(
                         title = stringResource(id = R.string.contributors_option),
-                        description = null
+                        description = stringResource(id = R.string.contributors_option_desc)
                     ) {
                         navigateToBrowserPage(
                             AboutEvent.OnNavigateToBrowserPage(
@@ -129,21 +141,21 @@ fun AboutLayout(
 
                     AboutItem(
                         title = stringResource(id = R.string.licenses_option),
-                        description = null
+                        description = stringResource(id = R.string.licenses_option_desc)
                     ) {
                         navigateToLicenses()
                     }
 
                     AboutItem(
                         title = stringResource(id = R.string.credits_option),
-                        description = null
+                        description = stringResource(id = R.string.credits_option_desc)
                     ) {
                         navigateToCredits()
                     }
 
                     AboutItem(
                         title = stringResource(id = R.string.help_translate_option),
-                        description = null
+                        description = stringResource(id = R.string.help_translate_option_desc)
                     ) {
                         navigateToBrowserPage(
                             AboutEvent.OnNavigateToBrowserPage(
@@ -155,7 +167,7 @@ fun AboutLayout(
 
                     AboutItem(
                         title = stringResource(id = R.string.support_development_option),
-                        description = null
+                        description = stringResource(id = R.string.support_development_option_desc)
                     ) {
                         navigateToBrowserPage(
                             AboutEvent.OnNavigateToBrowserPage(

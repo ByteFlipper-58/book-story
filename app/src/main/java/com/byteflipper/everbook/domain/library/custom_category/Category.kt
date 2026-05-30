@@ -8,6 +8,7 @@
 package com.byteflipper.everbook.domain.library.custom_category
 
 import androidx.compose.runtime.Immutable
+import com.byteflipper.everbook.domain.library.display.LibrarySortOrder
 import com.byteflipper.everbook.domain.ui.UIText
 
 @Immutable
@@ -18,5 +19,7 @@ data class Category(
     val isVisible: Boolean = true,
     val position: Int = 0,
     val isDefault: Boolean = false,
+    val sortOrder: LibrarySortOrder = LibrarySortOrder.LAST_READ,
+    val sortOrderDescending: Boolean = true,
     val title: UIText = UIText.StringValue("")
 ) 

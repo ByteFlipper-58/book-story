@@ -15,7 +15,13 @@ class GetText @Inject constructor(
     private val repository: BookRepository
 ) {
 
-    suspend fun execute(bookId: Int): List<ReaderText> {
-        return repository.getBookText(bookId = bookId)
+    suspend fun execute(
+        bookId: Int,
+        onChunk: (suspend (List<ReaderText>) -> Unit)? = null
+    ): List<ReaderText> {
+        return repository.getBookText(
+            bookId = bookId,
+            onChunk = onChunk
+        )
     }
 }

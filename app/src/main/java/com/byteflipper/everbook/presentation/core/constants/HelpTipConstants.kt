@@ -89,6 +89,47 @@ fun provideHelpTips() = listOf(
     ),
 
     HelpTip(
+        title = R.string.help_title_how_to_read_pdf_in_native_mode,
+        description = {
+            append(stringResource(id = R.string.help_desc_how_to_read_pdf_in_native_mode_1) + " ")
+
+            HelpAnnotation {
+                append(stringResource(id = R.string.help_desc_how_to_read_pdf_in_native_mode_2))
+            }
+            append(" ")
+
+            append(stringResource(id = R.string.help_desc_how_to_read_pdf_in_native_mode_3) + " ")
+
+            HelpAnnotation {
+                append(stringResource(id = R.string.help_desc_how_to_read_pdf_in_native_mode_4))
+            }
+            append(". ")
+
+            append(stringResource(id = R.string.help_desc_how_to_read_pdf_in_native_mode_5) + " ")
+
+            HelpAnnotation {
+                append(stringResource(id = R.string.help_desc_how_to_read_pdf_in_native_mode_6))
+            }
+            append(" ")
+
+            append(stringResource(id = R.string.help_desc_how_to_read_pdf_in_native_mode_7) + " ")
+
+            HelpAnnotation {
+                append(stringResource(id = R.string.help_desc_how_to_read_pdf_in_native_mode_8))
+            }
+            append(" ")
+
+            append(stringResource(id = R.string.help_desc_how_to_read_pdf_in_native_mode_9) + " ")
+
+            HelpAnnotation {
+                append(stringResource(id = R.string.help_desc_how_to_read_pdf_in_native_mode_10))
+            }
+
+            append(stringResource(id = R.string.help_desc_how_to_read_pdf_in_native_mode_11))
+        }
+    ),
+
+    HelpTip(
         title = R.string.help_title_how_to_customize_reader,
         description = {
             append(stringResource(id = R.string.help_desc_how_to_customize_reader_1) + " ")

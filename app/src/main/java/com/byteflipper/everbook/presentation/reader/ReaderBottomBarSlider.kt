@@ -19,13 +19,14 @@ import com.byteflipper.everbook.ui.reader.ReaderEvent
 fun ReaderBottomBarSlider(
     book: Book,
     lockMenu: Boolean,
+    isParsing: Boolean,
     listState: LazyListState,
     scroll: (ReaderEvent.OnScroll) -> Unit,
     changeProgress: (ReaderEvent.OnChangeProgress) -> Unit
 ) {
     Slider(
         value = book.progress,
-        enabled = !lockMenu,
+        enabled = !lockMenu && !isParsing,
         onValueChange = {
             if (listState.layoutInfo.totalItemsCount > 0) {
                 scroll(ReaderEvent.OnScroll(it))

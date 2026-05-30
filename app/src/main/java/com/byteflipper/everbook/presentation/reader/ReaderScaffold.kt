@@ -54,6 +54,7 @@ fun ReaderScaffold(
     perceptionExpanderThickness: Dp,
     currentChapterProgress: Float,
     isLoading: Boolean,
+    isParsing: Boolean,
     checkpoint: Checkpoint,
     showMenu: Boolean,
     lockMenu: Boolean,
@@ -104,8 +105,10 @@ fun ReaderScaffold(
     openWebBrowser: (ReaderEvent.OnOpenWebBrowser) -> Unit,
     openTranslator: (ReaderEvent.OnOpenTranslator) -> Unit,
     openDictionary: (ReaderEvent.OnOpenDictionary) -> Unit,
+    showPdfReadingModeBottomSheet: (ReaderEvent.OnShowPdfReadingModeBottomSheet) -> Unit,
     showSettingsBottomSheet: (ReaderEvent.OnShowSettingsBottomSheet) -> Unit,
     showChaptersDrawer: (ReaderEvent.OnShowChaptersDrawer) -> Unit,
+    changePdfReadingMode: (ReaderEvent.OnChangePdfReadingMode) -> Unit,
     navigateToBookInfo: (changePath: Boolean) -> Unit,
     navigateBack: () -> Unit
 ) {
@@ -130,6 +133,7 @@ fun ReaderScaffold(
                     leave = leave,
                     selectPreviousPreset = selectPreviousPreset,
                     selectNextPreset = selectNextPreset,
+                    showPdfReadingModeBottomSheet = showPdfReadingModeBottomSheet,
                     showSettingsBottomSheet = showSettingsBottomSheet,
                     showChaptersDrawer = showChaptersDrawer,
                     navigateBack = navigateBack,
@@ -150,6 +154,7 @@ fun ReaderScaffold(
                     text = text,
                     listState = listState,
                     lockMenu = lockMenu,
+                    isParsing = isParsing,
                     checkpoint = checkpoint,
                     bottomBarPadding = bottomBarPadding,
                     restoreCheckpoint = restoreCheckpoint,
@@ -213,7 +218,7 @@ fun ReaderScaffold(
             perceptionExpanderColor = fontColor
         )
 
-        if (isLoading) {
+        if (isLoading && text.isEmpty()) {
             ReaderLoadingPlaceholder()
         }
     }

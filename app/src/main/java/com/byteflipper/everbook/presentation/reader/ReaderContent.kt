@@ -10,7 +10,6 @@ package com.byteflipper.everbook.presentation.reader
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -22,6 +21,7 @@ import androidx.compose.ui.unit.TextUnit
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.FontWithName
+import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
 import com.byteflipper.everbook.domain.reader.ReaderText
@@ -38,6 +38,7 @@ import com.byteflipper.everbook.ui.settings.SettingsEvent
 fun ReaderContent(
     book: Book,
     text: List<ReaderText>,
+    chapters: List<Chapter>,
     bottomSheet: BottomSheet?,
     drawer: Drawer?,
     listState: LazyListState,
@@ -49,7 +50,9 @@ fun ReaderContent(
     perceptionExpanderThickness: Dp,
     currentChapterProgress: Float,
     isLoading: Boolean,
+    isParsing: Boolean,
     errorMessage: UIText?,
+    pdfTextModeUnavailable: Boolean,
     checkpoint: Checkpoint,
     showMenu: Boolean,
     lockMenu: Boolean,
@@ -101,16 +104,23 @@ fun ReaderContent(
     openTranslator: (ReaderEvent.OnOpenTranslator) -> Unit,
     openDictionary: (ReaderEvent.OnOpenDictionary) -> Unit,
     scrollToChapter: (ReaderEvent.OnScrollToChapter) -> Unit,
+    showPdfReadingModeBottomSheet: (ReaderEvent.OnShowPdfReadingModeBottomSheet) -> Unit,
     showSettingsBottomSheet: (ReaderEvent.OnShowSettingsBottomSheet) -> Unit,
     dismissBottomSheet: (ReaderEvent.OnDismissBottomSheet) -> Unit,
     showChaptersDrawer: (ReaderEvent.OnShowChaptersDrawer) -> Unit,
     dismissDrawer: (ReaderEvent.OnDismissDrawer) -> Unit,
+    changePdfReadingMode: (ReaderEvent.OnChangePdfReadingMode) -> Unit,
+    changePdfDefaultReadingMode: (PdfReadingMode) -> Unit,
     navigateToBookInfo: (changePath: Boolean) -> Unit,
     navigateBack: () -> Unit
 ) {
     ReaderBottomSheet(
+        book = book,
         bottomSheet = bottomSheet,
         fullscreenMode = fullscreenMode,
+        pdfTextModeUnavailable = pdfTextModeUnavailable,
+        changePdfReadingMode = changePdfReadingMode,
+        changePdfDefaultReadingMode = changePdfDefaultReadingMode,
         menuVisibility = menuVisibility,
         dismissBottomSheet = dismissBottomSheet
     )
@@ -128,6 +138,7 @@ fun ReaderContent(
             perceptionExpanderThickness = perceptionExpanderThickness,
             currentChapterProgress = currentChapterProgress,
             isLoading = isLoading,
+            isParsing = isParsing,
             checkpoint = checkpoint,
             showMenu = showMenu,
             lockMenu = lockMenu,
@@ -178,8 +189,10 @@ fun ReaderContent(
             openWebBrowser = openWebBrowser,
             openTranslator = openTranslator,
             openDictionary = openDictionary,
+            showPdfReadingModeBottomSheet = showPdfReadingModeBottomSheet,
             showSettingsBottomSheet = showSettingsBottomSheet,
             showChaptersDrawer = showChaptersDrawer,
+            changePdfReadingMode = changePdfReadingMode,
             navigateBack = navigateBack,
             navigateToBookInfo = navigateToBookInfo
         )
@@ -194,7 +207,7 @@ fun ReaderContent(
 
     ReaderDrawer(
         drawer = drawer,
-        chapters = remember(text) { text.filterIsInstance<Chapter>() },
+        chapters = chapters,
         currentChapter = currentChapter,
         currentChapterProgress = currentChapterProgress,
         scrollToChapter = scrollToChapter,

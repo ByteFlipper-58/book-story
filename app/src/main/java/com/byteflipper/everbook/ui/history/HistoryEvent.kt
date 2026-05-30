@@ -34,6 +34,8 @@ sealed class HistoryEvent {
 
     data object OnSearch : HistoryEvent()
 
+    data object OnOpenLatestBookFromHistory : HistoryEvent()
+
     data class OnDeleteHistoryEntry(
         val history: History,
         val snackbarState: SnackbarHostState,

@@ -11,12 +11,19 @@ import androidx.core.net.toUri
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.local.dto.BookEntity
 import com.byteflipper.everbook.domain.library.book.Book
-import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.domain.library.category.Category
+import com.byteflipper.everbook.domain.reader.toPdfReadingMode
+import com.byteflipper.everbook.domain.ui.UIText
 import javax.inject.Inject
 
 class BookMapperImpl @Inject constructor() : BookMapper {
     override suspend fun toBookEntity(book: Book): BookEntity {
+        val resolvedCategoryId = when {
+            book.categoryId != 0 -> book.categoryId
+            book.categoryIds.isNotEmpty() -> book.categoryIds.firstOrNull { it != 0 } ?: 0
+            else -> 0
+        }
+
         return BookEntity(
             id = book.id,
             title = book.title,
@@ -27,13 +34,11 @@ class BookMapperImpl @Inject constructor() : BookMapper {
             author = book.author.getAsString(),
             description = book.description,
             image = book.coverImage?.toString(),
-            categoryId = if (book.categoryId != 0) book.categoryId else when (book.category) {
-                Category.READING -> 1
-                Category.ALREADY_READ -> 2
-                Category.PLANNING -> 3
-                Category.DROPPED -> 4
-                else -> 0
-            }
+            categoryId = resolvedCategoryId,
+            pdfReadingMode = book.pdfReadingMode.name,
+            pdfTextModeAvailable = book.pdfTextModeAvailable,
+            pdfPageIndex = book.pdfPageIndex,
+            pdfPageOffset = book.pdfPageOffset
         )
     }
 
@@ -58,6 +63,10 @@ class BookMapperImpl @Inject constructor() : BookMapper {
                 4 -> Category.DROPPED
                 else -> null
             },
+            pdfReadingMode = bookEntity.pdfReadingMode.toPdfReadingMode(),
+            pdfTextModeAvailable = bookEntity.pdfTextModeAvailable,
+            pdfPageIndex = bookEntity.pdfPageIndex,
+            pdfPageOffset = bookEntity.pdfPageOffset,
             coverImage = if (bookEntity.image != null) bookEntity.image.toUri() else null
         )
     }

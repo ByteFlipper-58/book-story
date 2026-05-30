@@ -18,15 +18,25 @@ import com.byteflipper.everbook.domain.browse.display.BrowseLayout
 import com.byteflipper.everbook.domain.browse.display.BrowseSortOrder
 import com.byteflipper.everbook.domain.browse.display.toBrowseLayout
 import com.byteflipper.everbook.domain.browse.display.toBrowseSortOrder
+import com.byteflipper.everbook.domain.library.display.LibraryLayout
+import com.byteflipper.everbook.domain.library.display.LibrarySortOrder
+import com.byteflipper.everbook.domain.library.display.LibraryTitlePosition
+import com.byteflipper.everbook.domain.library.display.toLibraryLayout
+import com.byteflipper.everbook.domain.library.display.toLibrarySortOrder
+import com.byteflipper.everbook.domain.library.display.toLibraryTitlePosition
 import com.byteflipper.everbook.domain.reader.ReaderColorEffects
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
+import com.byteflipper.everbook.domain.reader.PdfPageDisplayMode
+import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.ReaderProgressCount
 import com.byteflipper.everbook.domain.reader.ReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toFontThickness
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
+import com.byteflipper.everbook.domain.reader.toPdfPageDisplayMode
+import com.byteflipper.everbook.domain.reader.toPdfReadingMode
 import com.byteflipper.everbook.domain.reader.toProgressCount
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
@@ -69,6 +79,7 @@ data class MainState(
     val themeContrast: ThemeContrast = provideDefaultValue { ThemeContrast.STANDARD },
     val showStartScreen: Boolean = provideDefaultValue { true },
     val doublePressExit: Boolean = provideDefaultValue { false },
+    val changelogLastSeenVersionCode: Int = provideDefaultValue { 0 },
 
     // Reader Settings
     val fontFamily: String = provideDefaultValue { provideFonts()[0].id },
@@ -118,6 +129,28 @@ data class MainState(
     val progressBarAlignment: HorizontalAlignment = provideDefaultValue { HorizontalAlignment.CENTER },
     val progressBarFontSize: Int = provideDefaultValue { 8 },
     val progressCount: ReaderProgressCount = provideDefaultValue { ReaderProgressCount.PERCENTAGE },
+    val pdfDefaultReadingMode: PdfReadingMode = provideDefaultValue { PdfReadingMode.PARSED_TEXT },
+    val pdfPageDisplayMode: PdfPageDisplayMode = provideDefaultValue {
+        PdfPageDisplayMode.CONTINUOUS
+    },
+    val pdfShowZoomControls: Boolean = provideDefaultValue { true },
+    val pdfPinchZoom: Boolean = provideDefaultValue { true },
+    val readerCacheWarmUp: Boolean = provideDefaultValue { false },
+
+    // Library Settings
+    val libraryLayout: LibraryLayout = provideDefaultValue { LibraryLayout.GRID },
+    val libraryAutoGridSize: Boolean = provideDefaultValue { true },
+    val libraryGridSize: Int = provideDefaultValue { 0 },
+    val libraryTitlePosition: LibraryTitlePosition = provideDefaultValue { LibraryTitlePosition.BELOW },
+    val libraryShowReadButton: Boolean = provideDefaultValue { true },
+    val libraryShowProgress: Boolean = provideDefaultValue { true },
+    val libraryShowBookCount: Boolean = provideDefaultValue { true },
+    val libraryShowCategoryTabs: Boolean = provideDefaultValue { true },
+    val libraryShowDefaultTab: Boolean = provideDefaultValue { true },
+    val librarySortOrder: LibrarySortOrder = provideDefaultValue { LibrarySortOrder.LAST_READ },
+    val librarySortOrderDescending: Boolean = provideDefaultValue { true },
+    val libraryPerCategorySort: Boolean = provideDefaultValue { false },
+    val libraryLastTabId: Int = provideDefaultValue { 0 },
 
     // Browse Settings
     val browseLayout: BrowseLayout = provideDefaultValue { BrowseLayout.LIST },
@@ -176,6 +209,10 @@ data class MainState(
                     showStartScreen = provideValue(
                         SHOW_START_SCREEN
                     ) { showStartScreen },
+
+                    changelogLastSeenVersionCode = provideValue(
+                        CHANGELOG_LAST_SEEN_VERSION_CODE
+                    ) { changelogLastSeenVersionCode },
 
                     fontFamily = provideValue(
                         FONT
@@ -361,6 +398,58 @@ data class MainState(
                         PROGRESS_BAR_FONT_SIZE
                     ) { progressBarFontSize },
 
+                    libraryLayout = provideValue(
+                        LIBRARY_LAYOUT, convert = { toLibraryLayout() }
+                    ) { libraryLayout },
+
+                    libraryAutoGridSize = provideValue(
+                        LIBRARY_AUTO_GRID_SIZE
+                    ) { libraryAutoGridSize },
+
+                    libraryGridSize = provideValue(
+                        LIBRARY_GRID_SIZE
+                    ) { libraryGridSize },
+
+                    libraryTitlePosition = provideValue(
+                        LIBRARY_TITLE_POSITION, convert = { toLibraryTitlePosition() }
+                    ) { libraryTitlePosition },
+
+                    libraryShowReadButton = provideValue(
+                        LIBRARY_SHOW_READ_BUTTON
+                    ) { libraryShowReadButton },
+
+                    libraryShowProgress = provideValue(
+                        LIBRARY_SHOW_PROGRESS
+                    ) { libraryShowProgress },
+
+                    libraryShowBookCount = provideValue(
+                        LIBRARY_SHOW_BOOK_COUNT
+                    ) { libraryShowBookCount },
+
+                    libraryShowCategoryTabs = provideValue(
+                        LIBRARY_SHOW_CATEGORY_TABS
+                    ) { libraryShowCategoryTabs },
+
+                    libraryShowDefaultTab = provideValue(
+                        LIBRARY_SHOW_DEFAULT_TAB
+                    ) { libraryShowDefaultTab },
+
+                    librarySortOrder = provideValue(
+                        LIBRARY_SORT_ORDER, convert = { toLibrarySortOrder() }
+                    ) { librarySortOrder },
+
+                    librarySortOrderDescending = provideValue(
+                        LIBRARY_SORT_ORDER_DESCENDING
+                    ) { librarySortOrderDescending },
+
+                    libraryPerCategorySort = provideValue(
+                        LIBRARY_PER_CATEGORY_SORT
+                    ) { libraryPerCategorySort },
+
+                    libraryLastTabId = provideValue(
+                        LIBRARY_LAST_TAB_ID
+                    ) { libraryLastTabId },
+
                     browsePinnedPaths = provideValue(
                         BROWSE_PINNED_PATHS, convert = { toList() }
                     ) { browsePinnedPaths },
@@ -373,6 +462,22 @@ data class MainState(
                         PROGRESS_COUNT, convert = { toProgressCount() }
                     ) { progressCount },
 
+                    pdfDefaultReadingMode = provideValue(
+                        PDF_DEFAULT_READING_MODE, convert = { toPdfReadingMode() }
+                    ) { pdfDefaultReadingMode },
+
+                    pdfPageDisplayMode = provideValue(
+                        PDF_PAGE_DISPLAY_MODE, convert = { toPdfPageDisplayMode() }
+                    ) { pdfPageDisplayMode },
+
+                    pdfShowZoomControls = provideValue(
+                        PDF_SHOW_ZOOM_CONTROLS
+                    ) { pdfShowZoomControls },
+
+                    pdfPinchZoom = provideValue(
+                        PDF_PINCH_ZOOM
+                    ) { pdfPinchZoom },
+
                     horizontalGestureAlphaAnim = provideValue(
                         HORIZONTAL_GESTURE_ALPHA_ANIM
                     ) { horizontalGestureAlphaAnim },
@@ -380,6 +485,10 @@ data class MainState(
                     horizontalGesturePullAnim = provideValue(
                         HORIZONTAL_GESTURE_PULL_ANIM
                     ) { horizontalGesturePullAnim },
+
+                    readerCacheWarmUp = provideValue(
+                        READER_CACHE_WARM_UP
+                    ) { readerCacheWarmUp },
                 )
             }
         }

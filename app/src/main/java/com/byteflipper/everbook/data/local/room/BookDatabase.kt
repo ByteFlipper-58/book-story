@@ -32,7 +32,7 @@ import java.io.File
         CategoryEntity::class,
         BookCategoryCrossRef::class,
     ],
-    version = 10,
+    version = 12,
     autoMigrations = [
         AutoMigration(1, 2),
         AutoMigration(2, 3),
@@ -210,6 +210,50 @@ object DatabaseHelper {
     }
 
     /**
+     * Миграция с версии 10 на 11.
+     *
+     * Добавляет поля сортировки для категорий библиотеки.
+     */
+    val MIGRATION_10_11 = object : Migration(10, 11) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "ALTER TABLE CategoryEntity " +
+                        "ADD COLUMN `sortOrder` TEXT NOT NULL DEFAULT 'LAST_READ'"
+            )
+            db.execSQL(
+                "ALTER TABLE CategoryEntity " +
+                        "ADD COLUMN `sortOrderDescending` INTEGER NOT NULL DEFAULT 1"
+            )
+        }
+    }
+
+    /**
+     * Миграция с версии 11 на 12.
+     *
+     * Добавляет настройки режима чтения PDF и отдельный прогресс нативного PDF.
+     */
+    val MIGRATION_11_12 = object : Migration(11, 12) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "ALTER TABLE BookEntity " +
+                        "ADD COLUMN `pdfReadingMode` TEXT NOT NULL DEFAULT 'PARSED_TEXT'"
+            )
+            db.execSQL(
+                "ALTER TABLE BookEntity " +
+                        "ADD COLUMN `pdfTextModeAvailable` INTEGER NOT NULL DEFAULT 1"
+            )
+            db.execSQL(
+                "ALTER TABLE BookEntity " +
+                        "ADD COLUMN `pdfPageIndex` INTEGER NOT NULL DEFAULT 0"
+            )
+            db.execSQL(
+                "ALTER TABLE BookEntity " +
+                        "ADD COLUMN `pdfPageOffset` INTEGER NOT NULL DEFAULT 0"
+            )
+        }
+    }
+
+    /**
      * Callback, который вызывается при создании базы данных (fresh install).
      * Заполняет таблицу `CategoryEntity` четырьмя стандартными категориями, если она пуста.
      */
@@ -249,6 +293,8 @@ object DatabaseHelper {
             .addMigrations(MIGRATION_4_5)
             .addMigrations(MIGRATION_5_6)
             .addMigrations(MIGRATION_9_10)
+            .addMigrations(MIGRATION_10_11)
+            .addMigrations(MIGRATION_11_12)
             .build()
     }
 }

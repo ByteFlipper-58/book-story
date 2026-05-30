@@ -28,6 +28,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Edit
 
+private data class CategoryDialogData(
+    val id: Int?,
+    val name: String,
+    val canRename: Boolean = true
+)
+
 /**
  * @param onReorderModeStateChanged Callback для уведомления о текущем состоянии режима переупорядочивания
  */
@@ -43,7 +49,7 @@ fun LibrarySettingsLayout(
     onSaveOrder: (List<Int>) -> Unit = {},
     onReorderModeStateChanged: (Boolean) -> Unit = {}
 ) {
-    var dialogData by remember { mutableStateOf<Pair<Int?, String>?>(null) }
+    var dialogData by remember { mutableStateOf<CategoryDialogData?>(null) }
     
     var currentCategoryOrder by remember { mutableStateOf(categories.map { it.id }) }
     
@@ -74,10 +80,12 @@ fun LibrarySettingsLayout(
     )
 
     if (dialogData != null) {
-        val isCreating = dialogData!!.first == null
+        val currentDialog = dialogData!!
+        val isCreating = currentDialog.id == null
+
         CategoryDialogWithTextField(
             title = stringResource(
-                if (isCreating) R.string.create_category_dialog_title 
+                if (isCreating) R.string.create_category_dialog_title
                 else R.string.edit_category_dialog_title
             ),
             placeholder = stringResource(R.string.category_name_placeholder),
@@ -86,14 +94,17 @@ fun LibrarySettingsLayout(
                 if (isCreating) R.string.create_category_dialog_desc
                 else R.string.edit_category_dialog_desc
             ),
-            initialValue = dialogData!!.second,
+            initialValue = currentDialog.name,
+            editable = currentDialog.canRename,
             onDismiss = { dialogData = null },
             onAction = { newName ->
-                val id = dialogData!!.first
+                val id = currentDialog.id
                 if (id == null) {
                     onCreate(newName)
                 } else {
-                    onRename(id, newName)
+                    if (currentDialog.canRename && newName != currentDialog.name) {
+                        onRename(id, newName)
+                    }
                 }
                 dialogData = null
             }
@@ -111,8 +122,20 @@ fun LibrarySettingsLayout(
             categories = categories,
             onToggleVisibility = onToggleVisibility,
             onDelete = onDelete,
-            onRequestCreate = { dialogData = Pair(null, "") },
-            onRequestRename = { id, current -> dialogData = Pair(id, current) },
+            onRequestCreate = {
+                dialogData = CategoryDialogData(
+                    id = null,
+                    name = ""
+                )
+            },
+            onRequestRename = { id, current ->
+                val category = categories.firstOrNull { it.id == id }
+                dialogData = CategoryDialogData(
+                    id = id,
+                    name = current,
+                    canRename = category?.isDefault?.not() ?: true
+                )
+            },
             onSaveOrder = { onSaveOrder(currentCategoryOrder) },
             reorderableState = reorderableState,
             currentOrder = currentCategoryOrder,

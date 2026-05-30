@@ -1,6 +1,5 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">За замовчуванням</string>
     <string name="random_string">Випадковий</string>
@@ -8,13 +7,8 @@
     <!-- Notifications -->
     <string name="updates_notification_channel">Нові оновлення</string>
     <string name="updates_notification_title">Нове оновлення EverBook!</string>
-    <string name="updates_notification_desc">
-        Оновлення %1$s щойно вийшло!
-        Натисніть, щоб перейти на сторінку випуску.
-    </string>
-    <string name="updates_notification_action">
-        Завантажити
-    </string>
+    <string name="updates_notification_desc">Оновлення %1$s щойно вийшло!\nНатисніть, щоб перейти на сторінку випуску.</string>
+    <string name="updates_notification_action">Завантажити</string>
 
     <!-- Screens -->
     <string name="library_screen">Бібліотека</string>
@@ -35,79 +29,40 @@
     <string name="enable_check_for_updates">Увімкнути перевірку оновлень?</string>
 
     <!-- Dialog Descriptions -->
-    <string name="add_books_description">
-        Ви можете вибрати, які книги хочете додати.
-        Ви можете редагувати назву та обкладинку книги пізніше.
-        Процес завантаження може зайняти до декількох хвилин.
-    </string>
-    <string name="move_books_description">
-        Виберіть категорію, до якої ви хочете перемістити всі вибрані книги(%1$s).
-        Усі вибрані книги будуть переміщені до вибраної категорії.
-    </string>
-    <string name="delete_books_description">
-        Це видалить усі вибрані книги(%1$s) з бази даних.
-        Це не видалить вибрані книги з вашого пристрою.
-    </string>
-    <string name="delete_book_description">
-        Це видалить цю книгу з бази даних.
-        Це не видалить цю книгу з вашого пристрою.
-    </string>
-    <string name="move_book_description">
-        Виберіть категорію, до якої ви хочете перемістити цю книгу.
-        Ця книга буде переміщена до вибраної категорії.
-    </string>
-    <string name="delete_history_description">
-        Це видалить всю історію з бази даних.
-        Після видалення всієї історії порядок книг буде скинуто.
-    </string>
-    <string name="update_app_description">
-        Знайдено нову версію програми.
-        Хочете продовжити і перейти на сторінку випуску?
-    </string>
-    <string name="enable_check_for_updates_description">
-        Увімкнувши «Перевірку оновлень»,
-        програма отримуватиме останню інформацію про випуск з «api.github.com» кожного разу
-        під час запуску програми.
-        Хочете продовжити та ввімкнути «Перевірку оновлень»?
-    </string>
+    <string name="add_books_description">Ви можете вибрати, які книги хочете додати.\nВи можете редагувати назву та обкладинку книги пізніше.\nПроцес завантаження може зайняти до декількох хвилин.</string>
+    <string name="move_books_description">Виберіть категорію, до якої ви хочете перемістити всі вибрані книги(%1$s).\nУсі вибрані книги будуть переміщені до вибраної категорії.</string>
+    <string name="delete_books_description">Це видалить усі вибрані книги(%1$s) з бази даних.\nЦе не видалить вибрані книги з вашого пристрою.</string>
+    <string name="delete_book_description">Це видалить цю книгу з бази даних.\nЦе не видалить цю книгу з вашого пристрою.</string>
+    <string name="move_book_description">Виберіть категорію, до якої ви хочете перемістити цю книгу.\nЦя книга буде переміщена до вибраної категорії.</string>
+    <string name="delete_history_description">Це видалить всю історію з бази даних.\nПісля видалення всієї історії порядок книг буде скинуто.</string>
+    <string name="update_app_description">Знайдено нову версію програми.\nХочете продовжити і перейти на сторінку випуску?</string>
+    <string name="enable_check_for_updates_description">Увімкнувши «Перевірку оновлень»,\nпрограма отримуватиме останню інформацію про випуск з «api.github.com» кожного разу\nпід час запуску програми.\nХочете продовжити та ввімкнути «Перевірку оновлень»?</string>
 
     <!-- Errors -->
-    <string name="error_no_description">
-        Немає опису.
-    </string>
-    <string name="error_something_went_wrong">
-        Щось пішло не так.
-    </string>
+    <string name="error_no_description">Немає опису.</string>
+    <string name="error_something_went_wrong">Щось пішло не так.</string>
     <string name="error_no_translator">Програму-перекладач не знайдено.</string>
     <string name="error_no_dictionary">Програму-словник не знайдено.</string>
     <string name="error_no_browser">Програму-браузер не знайдено.</string>
     <string name="error_no_share_app">Програму для обміну не знайдено.</string>
-    <string name="error_could_not_get_text">
-        Файл порожній, пошкоджений або не існує. Будь ласка, перевірте та спробуйте ще раз.
-    </string>
-    <string name="error_check_internet">
-        Щось пішло не так.
-        Спробуйте ще раз пізніше.
-    </string>
+    <string name="error_could_not_get_text">Файл порожній, пошкоджений або не існує. Будь ласка, перевірте та спробуйте ще раз.</string>
+    <string name="error_check_internet">Щось пішло не так.\nСпробуйте ще раз пізніше.</string>
     <string name="error_could_not_reset_cover">Не вдалося скинути зображення обкладинки.</string>
     <string name="error_closed_source">Закритий код</string>
 
     <!-- Is Empty messages -->
-    <string name="search_field_empty">
-        Пошук…
-    </string>
-    <string name="browse_empty">
-        Розширте колекцію книг бібліотеки за допомогою завантажень
-    </string>
-    <string name="library_empty">
-        Читайте улюблені книги та сортуйте їх між категоріями
-    </string>
-    <string name="history_empty">
-        Нехай ваша остання прочитана книга відкриє сторінки нової великої історії вашої читацької подорожі
-    </string>
+    <string name="search_field_empty">Пошук…</string>
+    <string name="browse_empty">Розширте колекцію книг бібліотеки за допомогою завантажень</string>
+    <string name="library_empty">Читайте улюблені книги та сортуйте їх між категоріями</string>
+    <string name="history_empty">Нехай ваша остання прочитана книга відкриє сторінки нової великої історії вашої читацької подорожі</string>
 
     <!-- Query strings -->
-    <string name="selected_items_count_query">%1$s вибрано</string>
+    <plurals name="selected_items_count_query">
+        <item quantity="one">%1$d вибрано</item>
+        <item quantity="few">%1$d вибрано</item>
+        <item quantity="many">%1$d вибрано</item>
+        <item quantity="other">%1$d вибрано</item>
+    </plurals>
     <string name="file_path_query">Шлях до файлу: %1$s</string>
     <string name="update_query">Оновлення %1$s</string>
     <string name="color_preset_query">Пресет %1$s</string>
@@ -225,9 +180,7 @@
     <string name="keep_screen_on_option">Не вимикати екран</string>
     <string name="hide_bars_on_fast_scroll_option">Приховувати панелі під час швидкого прокручування</string>
     <string name="perception_expander_option">Розширювач сприйняття</string>
-    <string name="perception_expander_option_desc">
-        Збільште швидкість читання, зосередившись на центрі
-    </string>
+    <string name="perception_expander_option_desc">Збільште швидкість читання, зосередившись на центрі</string>
     <string name="perception_expander_padding_option">Боковий відступ лінії</string>
     <string name="perception_expander_thickness_option">Товщина лінії</string>
     <string name="screen_orientation_option">Орієнтація екрана</string>
@@ -250,9 +203,7 @@
     <string name="browse_files_structure_option">Структура файлів</string>
     <string name="browse_grid_size_option">Розмір сітки</string>
     <string name="browse_pin_favorite_directories_option">Закріпити улюблені каталоги</string>
-    <string name="browse_pin_favorite_directories_option_desc">
-        Закріпити улюблені каталоги у верхній частині екрана
-    </string>
+    <string name="browse_pin_favorite_directories_option_desc">Закріпити улюблені каталоги у верхній частині екрана</string>
 
     <!-- Color presets -->
     <string name="red_color">Червоний</string>
@@ -364,11 +315,17 @@
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">Натисніть, щоб перевірити оновлення</string>
     <string name="report_bug_option">Повідомити про помилку</string>
-    <string name="whats_new_option">Що нового</string>
+    <string name="changelog_option">Що нового</string>
     <string name="licenses_option">Ліцензії відкритого коду</string>
     <string name="credits_option">Автори</string>
     <string name="help_translate_option">Допомогти з перекладом</string>
     <string name="contributors_option">Учасники</string>
+    <string name="report_bug_option_desc">Відкрийте GitHub, щоб повідомити про проблему або запропонувати покращення</string>
+    <string name="contributors_option_desc">Перегляньте людей, які допомагають розвивати EverBook</string>
+    <string name="licenses_option_desc">Перегляньте ліцензії відкритих бібліотек, використаних у застосунку</string>
+    <string name="credits_option_desc">Перегляньте подяки та згадки проєкту</string>
+    <string name="help_translate_option_desc">Допоможіть зробити EverBook доступним іншими мовами</string>
+    <string name="support_development_option_desc">Підтримайте проєкт і майбутні оновлення EverBook</string>
     <string name="slava_ukraini">Слава Україні!</string>
 
     <!-- Credits -->
@@ -384,161 +341,60 @@
     <string name="help_title_how_to_add_books">Як додати книги до Бібліотеки?</string>
     <string name="help_desc_how_to_add_books_1">Перейдіть до</string>
     <string name="help_desc_how_to_add_books_2">Огляд</string>
-    <string name="help_desc_how_to_add_books_3">
-        Якщо ви не бачите завантажених книг, спробуйте оновити список, потягнувши його вниз.
-        Переконайтеся, що ваші книги мають підтримуваний формат файлу.
-        Потім натисніть на книгу, щоб вибрати її, або утримуйте, щоб показати її розташування.
-        Після того, як ви вибрали всі потрібні книги, натисніть на значок галочки у верхньому правому куті,
-        дочекайтеся завантаження всіх книг і натисніть «Додати».
-        Тепер ви повинні побачити всі додані книги в
-    </string>
+    <string name="help_desc_how_to_add_books_3">Якщо ви не бачите завантажених книг, спробуйте оновити список, потягнувши його вниз.\nПереконайтеся, що ваші книги мають підтримуваний формат файлу.\nПотім натисніть на книгу, щоб вибрати її, або утримуйте, щоб показати її розташування.\nПісля того, як ви вибрали всі потрібні книги, натисніть на значок галочки у верхньому правому куті,\nдочекайтеся завантаження всіх книг і натисніть «Додати».\nТепер ви повинні побачити всі додані книги в</string>
     <string name="help_desc_how_to_add_books_4">Бібліотека</string>
 
     <string name="help_title_how_to_customize_app">Як налаштувати програму?</string>
     <string name="help_desc_how_to_customize_app_1">Перейдіть до</string>
     <string name="help_desc_how_to_customize_app_2">Налаштування</string>
-    <string name="help_desc_how_to_customize_app_3">
-        Ви можете зробити це на екранах «Бібліотека», «Історія» та «Огляд»,
-        натиснувши на три крапки у верхньому правому куті
-        і вибравши «Налаштування» з випадаючого меню.
-        Потім ви побачите всі доступні налаштування для цієї програми.
-        Не соромтеся експериментувати з ними!
-    </string>
+    <string name="help_desc_how_to_customize_app_3">Ви можете зробити це на екранах «Бібліотека», «Історія» та «Огляд»,\nнатиснувши на три крапки у верхньому правому куті\nі вибравши «Налаштування» з випадаючого меню.\nПотім ви побачите всі доступні налаштування для цієї програми.\nНе соромтеся експериментувати з ними!</string>
 
     <string name="help_title_how_to_move_or_delete_books">Як перемістити або видалити книги?</string>
     <string name="help_desc_how_to_move_or_delete_books_1">Перейдіть до</string>
     <string name="help_desc_how_to_move_or_delete_books_2">Бібліотека</string>
-    <string name="help_desc_how_to_move_or_delete_books_3">
-        Утримуйте зображення обкладинки першої книги, поки вона не буде вибрана,
-        тепер ви можете просто клацнути всі зображення обкладинок книг, які хочете вибрати.
-        Ви також можете вибрати книги в кількох категоріях.
-        Після того, як ви вибрали всі потрібні книги, ви можете натиснути на значок стрілки, щоб перемістити
-        та на значок кошика, щоб видалити книги.
-    </string>
+    <string name="help_desc_how_to_move_or_delete_books_3">Утримуйте зображення обкладинки першої книги, поки вона не буде вибрана,\nтепер ви можете просто клацнути всі зображення обкладинок книг, які хочете вибрати.\nВи також можете вибрати книги в кількох категоріях.\nПісля того, як ви вибрали всі потрібні книги, ви можете натиснути на значок стрілки, щоб перемістити\nта на значок кошика, щоб видалити книги.</string>
 
     <string name="help_title_how_to_edit_book">Як редагувати книгу?</string>
     <string name="help_desc_how_to_edit_book_1">Перейдіть до</string>
     <string name="help_desc_how_to_edit_book_2">Бібліотека</string>
-    <string name="help_desc_how_to_edit_book_3">
-        і натисніть на зображення обкладинки книги, щоб побачити відомості про книгу.
-        Тепер ви можете утримувати назву, автора або опис книги, щоб відредагувати її
-        або зображення обкладинки, щоб змінити, скинути або видалити зображення обкладинки.
-    </string>
+    <string name="help_desc_how_to_edit_book_3">і натисніть на зображення обкладинки книги, щоб побачити відомості про книгу.\nТепер ви можете утримувати назву, автора або опис книги, щоб відредагувати її\nабо зображення обкладинки, щоб змінити, скинути або видалити зображення обкладинки.</string>
 
     <string name="help_title_how_to_read_book">Як читати книгу?</string>
     <string name="help_desc_how_to_read_book_1">Перейдіть до</string>
     <string name="help_desc_how_to_read_book_2">Бібліотека</string>
-    <string name="help_desc_how_to_read_book_3">
-        Щоб почати читати книгу, натисніть на кнопку в правому нижньому куті книги, яку ви хочете прочитати.
-        Також ви можете почати читати книгу, натиснувши на її зображення обкладинки
-        щоб побачити відомості про книгу, а потім натиснути на кнопку в правому нижньому куті.
-        Прогрес буде збережено та автоматично відновлено.
-        Ви можете викликати верхню та нижню панелі, натиснувши в будь-якому місці екрана.
-        Натиснувши на назву книги, ви перейдете до відомостей про книгу.
-        Натиснувши на значок шестерні, ви побачите налаштування Читача.
-        Ви можете використовувати повзунок нижньої панелі для зміни прогресу.
-    </string>
+    <string name="help_desc_how_to_read_book_3">Щоб почати читати книгу, натисніть на кнопку в правому нижньому куті книги, яку ви хочете прочитати.\nТакож ви можете почати читати книгу, натиснувши на її зображення обкладинки\nщоб побачити відомості про книгу, а потім натиснути на кнопку в правому нижньому куті.\nПрогрес буде збережено та автоматично відновлено.\nВи можете викликати верхню та нижню панелі, натиснувши в будь-якому місці екрана.\nНатиснувши на назву книги, ви перейдете до відомостей про книгу.\nНатиснувши на значок шестерні, ви побачите налаштування Читача.\nВи можете використовувати повзунок нижньої панелі для зміни прогресу.</string>
 
     <string name="help_title_how_to_customize_reader">Як налаштувати Читач?</string>
-    <string name="help_desc_how_to_customize_reader_1">
-        Почніть читати книгу (див.: Як читати книгу?),
-        після цього викличте верхню та нижню панелі, натиснувши в будь-якому місці екрана.
-        Потім натисніть на значок шестерні у верхньому правому куті.
-        Це покаже всі налаштування Читача.
-        Другий спосіб - перейти до
-    </string>
-    <string name="help_desc_how_to_customize_reader_2">
-        Налаштування
-    </string>
-    <string name="help_desc_how_to_customize_reader_3">
-        та виберіть категорію «Читач», щоб налаштувати загальні налаштування,
-        або категорію «Зовнішній вигляд», щоб налаштувати параметри Кольорів.
-    </string>
+    <string name="help_desc_how_to_customize_reader_1">Почніть читати книгу (див.: Як читати книгу?),\nпісля цього викличте верхню та нижню панелі, натиснувши в будь-якому місці екрана.\nПотім натисніть на значок шестерні у верхньому правому куті.\nЦе покаже всі налаштування Читача.\nДругий спосіб - перейти до</string>
+    <string name="help_desc_how_to_customize_reader_2">Налаштування</string>
+    <string name="help_desc_how_to_customize_reader_3">та виберіть категорію «Читач», щоб налаштувати загальні налаштування,\nабо категорію «Зовнішній вигляд», щоб налаштувати параметри Кольорів.</string>
 
     <string name="help_title_how_to_manage_history">Як керувати історією?</string>
     <string name="help_desc_how_to_manage_history_1">Перейдіть до</string>
     <string name="help_desc_how_to_manage_history_2">Історія</string>
-    <string name="help_desc_how_to_manage_history_3">
-        Натиснувши на кнопку видалення праворуч від елемента історії, його буде видалено.
-        Історія впливає на порядок книг у Бібліотеці,
-        видалення елемента історії також змінить порядок книги.
-        Остання відкрита книга завжди перша в Бібліотеці та Історії.
-    </string>
+    <string name="help_desc_how_to_manage_history_3">Натиснувши на кнопку видалення праворуч від елемента історії, його буде видалено.\nІсторія впливає на порядок книг у Бібліотеці,\nвидалення елемента історії також змінить порядок книги.\nОстання відкрита книга завжди перша в Бібліотеці та Історії.</string>
 
     <string name="help_title_how_to_use_tooltip">Як використовувати підказки?</string>
-    <string name="help_desc_how_to_use_tooltip_1">
-        Більшість кнопок-іконок мають підказки, вони можуть допомогти вам, якщо ви не знаєте, що робить кнопка-іконка.
-        Щоб показати підказку, ви можете утримувати кнопку-іконку.
-    </string>
+    <string name="help_desc_how_to_use_tooltip_1">Більшість кнопок-іконок мають підказки, вони можуть допомогти вам, якщо ви не знаєте, що робить кнопка-іконка.\nЩоб показати підказку, ви можете утримувати кнопку-іконку.</string>
 
-    <string name="help_title_how_to_use_double_click_translation">
-        Як використовувати переклад подвійним клацанням?
-    </string>
-    <string name="help_desc_how_to_use_double_click_translation_1">
-        По-перше, перейдіть до налаштувань Читача (див.: Як налаштувати Читача?),
-        потім увімкніть відповідне налаштування. Після цього,
-        почніть читати книгу (див.: Як читати книгу?).
-        Тепер, якщо ви двічі клацнете на потрібному абзаці,
-        буде відкрито зовнішній перекладач із текстом абзацу.
-    </string>
+    <string name="help_title_how_to_use_double_click_translation">Як використовувати переклад подвійним клацанням?</string>
+    <string name="help_desc_how_to_use_double_click_translation_1">По-перше, перейдіть до налаштувань Читача (див.: Як налаштувати Читача?),\nпотім увімкніть відповідне налаштування. Після цього,\nпочніть читати книгу (див.: Як читати книгу?).\nТепер, якщо ви двічі клацнете на потрібному абзаці,\nбуде відкрито зовнішній перекладач із текстом абзацу.</string>
 
-    <string name="help_title_how_to_create_color_presets">
-        Як створювати та змінювати колірні пресети?
-    </string>
-    <string name="help_desc_how_to_create_color_presets_1">
-        Перейдіть до налаштувань «Зовнішній вигляд» (див.: Як налаштувати Читача?).
-        Ви можете змінити всі налаштування колірного пресету в полі під «Колірний пресет» у підкатегорії «Кольори».
-        Щоб створити новий колірний пресет, натисніть на кнопку-іконку «Додати».
-        Є кілька способів змінити колірний пресет:
-        натиснувши на текстове поле, ви можете змінити назву колірного пресету,
-        переміщаючи повзунки, ви можете змінити кольори колірного пресету,
-        натиснувши на кнопку-іконку «Перемішати», ви можете перемішати всі кольори.
-        Якщо ви хочете видалити колірний пресет, натисніть на кнопку-іконку «Видалити».
-    </string>
+    <string name="help_title_how_to_create_color_presets">Як створювати та змінювати колірні пресети?</string>
+    <string name="help_desc_how_to_create_color_presets_1">Перейдіть до налаштувань «Зовнішній вигляд» (див.: Як налаштувати Читача?).\nВи можете змінити всі налаштування колірного пресету в полі під «Колірний пресет» у підкатегорії «Кольори».\nЩоб створити новий колірний пресет, натисніть на кнопку-іконку «Додати».\nЄ кілька способів змінити колірний пресет:\nнатиснувши на текстове поле, ви можете змінити назву колірного пресету,\nпереміщаючи повзунки, ви можете змінити кольори колірного пресету,\nнатиснувши на кнопку-іконку «Перемішати», ви можете перемішати всі кольори.\nЯкщо ви хочете видалити колірний пресет, натисніть на кнопку-іконку «Видалити».</string>
 
-    <string name="help_title_how_to_use_color_presets">
-        Як використовувати колірні пресети?
-    </string>
-    <string name="help_desc_how_to_use_color_presets_1">
-        Перейдіть до налаштувань «Зовнішній вигляд» (див.: Як налаштувати Читача?).
-        Ви можете вибрати, який колірний пресет використовувати в налаштуванні «Колірний пресет».
-        Клацніть на потрібний колірний пресет, щоб вибрати його, це також змінить ваші кольори в Читачі.
-        Якщо ви хочете змінити порядок колірного пресету, виберіть його і утримуйте кнопку-іконку «Ручка»,
-        потім перемістіть його до потрібного положення.
-        Ви можете швидко змінювати колірні пресети, увімкнувши відповідне налаштування
-        в підкатегорії «Кольори» налаштування «Зовнішній вигляд», потім провівши по верхній панелі ліворуч або праворуч у Читачі,
-        щоб швидко змінити колірний пресет.
-    </string>
+    <string name="help_title_how_to_use_color_presets">Як використовувати колірні пресети?</string>
+    <string name="help_desc_how_to_use_color_presets_1">Перейдіть до налаштувань «Зовнішній вигляд» (див.: Як налаштувати Читача?).\nВи можете вибрати, який колірний пресет використовувати в налаштуванні «Колірний пресет».\nКлацніть на потрібний колірний пресет, щоб вибрати його, це також змінить ваші кольори в Читачі.\nЯкщо ви хочете змінити порядок колірного пресету, виберіть його і утримуйте кнопку-іконку «Ручка»,\nпотім перемістіть його до потрібного положення.\nВи можете швидко змінювати колірні пресети, увімкнувши відповідне налаштування\nв підкатегорії «Кольори» налаштування «Зовнішній вигляд», потім провівши по верхній панелі ліворуч або праворуч у Читачі,\nщоб швидко змінити колірний пресет.</string>
 
-    <string name="help_title_how_to_use_perception_expander">
-        Що таке і як використовувати розширювач сприйняття?
-    </string>
-    <string name="help_title_how_to_use_perception_expander_1">
-        Розширювач сприйняття може допомогти вам читати швидше.
-        Спочатку ввімкніть його в налаштуваннях Читача (див.: Як налаштувати Читача?).
-        Після увімкнення з обох боків Читача з\'являться дві вертикальні лінії.
-        Щоб ще більше оптимізувати швидкість читання,
-        відрегулюйте відступ, щоб створити менше простору навколо центру.
-        Щоб використовувати його, зосередьтеся на центрі екрана, поки
-        дозволяючи периферійному зору вловлювати текст по боках.
-        Читаючи, зберігайте фокус на центрі, не дивлячись
-        безпосередньо на сторони після кожного рядка.
-    </string>
+    <string name="help_title_how_to_use_perception_expander">Що таке і як використовувати розширювач сприйняття?</string>
+    <string name="help_title_how_to_use_perception_expander_1">Розширювач сприйняття може допомогти вам читати швидше.\nСпочатку ввімкніть його в налаштуваннях Читача (див.: Як налаштувати Читача?).\nПісля увімкнення з обох боків Читача з\'являться дві вертикальні лінії.\nЩоб ще більше оптимізувати швидкість читання,\nвідрегулюйте відступ, щоб створити менше простору навколо центру.\nЩоб використовувати його, зосередьтеся на центрі екрана, поки\nдозволяючи периферійному зору вловлювати текст по боках.\nЧитаючи, зберігайте фокус на центрі, не дивлячись\nбезпосередньо на сторони після кожного рядка.</string>
 
     <string name="help_title_how_to_manage_categories">Як керувати категоріями?</string>
-    <string name="help_desc_how_to_manage_categories_1">
-    У додатку тепер є нові функції для роботи з категоріями:
-    За замовчуванням є 5 категорій: Всі (зберігає всі книги), Читаю, Закінчені, Планую, Покинуті. Категорії за замовчуванням можна лише приховувати та змінювати їх порядок. Користувацькі категорії можна створювати, перейменовувати, видаляти та приховувати.
-    Щоб створити нову категорію, натисніть кнопку «Створити категорію». Щоб змінити порядок категорій, використовуйте кнопку з чотирма лініями (перетягування). Щоб видалити користувацьку категорію, проведіть її вліво. Книги можна зберігати одночасно в кількох категоріях.
-    </string>
+    <string name="help_desc_how_to_manage_categories_1">У додатку тепер є нові функції для роботи з категоріями:\nЗа замовчуванням є 5 категорій: Всі (зберігає всі книги), Читаю, Закінчені, Планую, Покинуті. Категорії за замовчуванням можна лише приховувати та змінювати їх порядок. Користувацькі категорії можна створювати, перейменовувати, видаляти та приховувати.\nЩоб створити нову категорію, натисніть кнопку «Створити категорію». Щоб змінити порядок категорій, використовуйте кнопку з чотирма лініями (перетягування). Щоб видалити користувацьку категорію, проведіть її вліво. Книги можна зберігати одночасно в кількох категоріях.</string>
 
     <!-- Start -->
     <string name="start_welcome">Ласкаво просимо до EverBook!</string>
-    <string name="start_welcome_desc">
-        У світ, де слова зачаровують,
-        навчають і ведуть у неймовірні пригоди!
-        Давайте дещо налаштуємо!
-    </string>
+    <string name="start_welcome_desc">У світ, де слова зачаровують,\nнавчають і ведуть у неймовірні пригоди!\nДавайте дещо налаштуємо!</string>
     <string name="start_language_preferences">Мовні налаштування</string>
     <string name="start_theme_preferences">Налаштування теми</string>
     <string name="start_permissions_notifications">Дозвіл на сповіщення</string>
@@ -551,10 +407,7 @@
     <string name="start_privacy_policy_accept">Я приймаю політику конфіденційності</string>
     <string name="privacy_policy_icon_content_desc">Значок політики конфіденційності</string>
     <string name="start_done">Все готово!</string>
-    <string name="start_done_desc">
-        Ви успішно завершили базове налаштування програми.
-        Хочете дізнатися, як використовувати програму, прочитавши екран довідки?
-    </string>
+    <string name="start_done_desc">Ви успішно завершили базове налаштування програми.\nХочете дізнатися, як використовувати програму, прочитавши екран довідки?</string>
 
     <!-- History -->
     <string name="today">Сьогодні</string>
@@ -661,20 +514,12 @@
     <string name="set_up_scanning">Налаштувати сканування</string>
     <string name="scan_browse_settings">Сканувати</string>
     <string name="display_tab">Відображення</string>
-    <string name="browse_scan_option_note">
-    Ці папки використовуються для сканування та отримання файлів під час перегляду.
-    Видалення папки тут не видалить файли або книги з бібліотеки.
-    Щоб відкликати доступ, натисніть відповідну кнопку.
-</string>
+    <string name="browse_scan_option_note">Ці папки використовуються для сканування та отримання файлів під час перегляду.\nВидалення папки тут не видалить файли або книги з бібліотеки.\nЩоб відкликати доступ, натисніть відповідну кнопку.</string>
     <string name="display_settings">Налаштування відображення</string>
     <string name="horizontal_gesture_alpha_anim_option">Анімація видимості</string>
-    <string name="horizontal_gesture_alpha_anim_option_desc">
-    Увімкнути анімацію видимості при використанні горизонтального жесту
-</string>
+    <string name="horizontal_gesture_alpha_anim_option_desc">Увімкнути анімацію видимості при використанні горизонтального жесту</string>
     <string name="horizontal_gesture_pull_anim_option">Анімація перетягування</string>
-    <string name="horizontal_gesture_pull_anim_option_desc">
-    Увімкнути анімацію перетягування при використанні горизонтального жесту
-</string>
+    <string name="horizontal_gesture_pull_anim_option_desc">Увімкнути анімацію перетягування при використанні горизонтального жесту</string>
     <string name="layout_option">Режим перегляду</string>
     <string name="layout_list">Список</string>
     <string name="layout_grid">Сітка</string>
@@ -720,4 +565,77 @@
     <string name="category_name_placeholder">Введіть назву категорії…</string>
     <string name="create_category_dialog_desc">Введіть назву нової категорії</string>
     <string name="edit_category_dialog_desc">Змініть назву категорії</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">Вкладки</string>
+    <string name="title_position_option">Положення назви</string>
+    <string name="library_title_position_off">Приховано</string>
+    <string name="library_title_position_below">Під обкладинкою</string>
+    <string name="library_title_position_inside">На обкладинці</string>
+    <string name="library_grid_size_option">Розмір сітки</string>
+    <string name="library_grid_size_auto">Авто</string>
+    <string name="library_grid_size_per_row">на ряд</string>
+    <string name="read_button_option">Кнопка «Читати»</string>
+    <string name="show_progress_option">Показувати прогрес</string>
+    <string name="show_category_tabs_option">Показувати вкладки категорій</string>
+    <string name="show_default_tab_option">Показувати вкладку «Усі»</string>
+    <string name="show_book_count_option">Показувати кількість книг</string>
+    <string name="sort_settings">Сортування</string>
+    <string name="sort_order_option">Порядок сортування</string>
+    <string name="sort_direction_option">Напрямок сортування</string>
+    <string name="sort_direction_ascending">За зростанням</string>
+    <string name="sort_direction_descending">За спаданням</string>
+    <string name="per_category_sort_option">Сортування за категоріями</string>
+    <string name="per_category_sort_option_note">Якщо увімкнено, кожна категорія зберігає власний порядок сортування.</string>
+    <string name="category_sort_note">Застосовується, коли ввімкнено «Сортування за категоріями».</string>
+    <string name="sort_order_name">За абеткою</string>
+    <string name="sort_order_last_read">Останнє читання</string>
+    <string name="sort_order_progress">Прогрес</string>
+    <string name="sort_order_author">Автор</string>
+
+    <!-- Changelog -->
+    <string name="changelog_option_desc">Читайте нотатки до релізів як короткі глави</string>
+    <string name="changelog_release_version">Версія %1$s</string>
+    <string name="changelog_empty">Нотаток до релізів поки немає.</string>
+    <string name="changelog_language_title">Мова нотаток</string>
+    <!-- PDF reader additions -->
+    <string name="error_could_not_open_pdf">PDF-файл відсутній, недоступний, зашифрований або не підтримується.</string>
+    <string name="experiments_reader_settings">Експерименти</string>
+    <string name="reader_cache_warm_up_option">Кешувати нові книги у фоні</string>
+    <string name="reader_cache_warm_up_option_desc">Експериментально. Обробляє нові книги після імпорту, щоб пізніше вони відкривалися швидше.</string>
+    <string name="pdf_reading_mode_option">Режим перегляду PDF</string>
+    <string name="pdf_reading_mode_option_desc">Виберіть режим перегляду PDF</string>
+    <string name="pdf_prefer_original_pdf_option">Надавати перевагу оригінальному PDF</string>
+    <string name="pdf_prefer_original_pdf_option_desc">Відкривати нові PDF-книги в нативному режимі за замовчуванням</string>
+    <string name="pdf_page_display_mode_option">Сторінки PDF</string>
+    <string name="pdf_show_zoom_controls_option">Елементи масштабування PDF</string>
+    <string name="pdf_show_zoom_controls_option_desc">Показувати кнопки масштабування на нижній панелі PDF</string>
+    <string name="pdf_pinch_zoom_option">Масштабування PDF щипком</string>
+    <string name="pdf_pinch_zoom_option_desc">Змінювати масштаб PDF жестом щипка двома пальцями</string>
+    <string name="pdf_reading_mode_parsed_text">Текстова версія</string>
+    <string name="pdf_reading_mode_original_pdf">Оригінальний PDF</string>
+    <string name="pdf_page_display_mode_continuous">Безперервно</string>
+    <string name="pdf_page_display_mode_paged">Посторінково</string>
+    <string name="pdf_reading_mode_bottom_sheet_title">Режим перегляду PDF</string>
+    <string name="pdf_reading_mode_text_version_desc">Вигляд читача з текстом, темами, шрифтами, перекладом і налаштуваннями читання.</string>
+    <string name="pdf_reading_mode_original_pdf_desc">Оригінальна розкладка сторінок із нативним відтворенням, режимом сторінок і масштабом.</string>
+    <string name="open_original_pdf">Відкрити оригінальний PDF</string>
+    <string name="open_parsed_text">Відкрити текстову версію</string>
+    <string name="help_title_how_to_read_pdf_in_native_mode">Як працюють режими перегляду PDF?</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_1">PDF-книги можна відкривати як</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_2">Текстова версія</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_3">або</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_4">Оригінальний PDF</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_5">Торкніться сторінки, щоб показати верхню та нижню панелі. Кнопка режиму PDF відкриває вибір режиму, а іконка шестерні відкриває</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_6">налаштування PDF-читача,</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_7">де можна вибрати режими сторінок:</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_8">Безперервно</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_9">і</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_10">Посторінково</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">, кнопки масштабування, масштабування щипком, колірні пресети, відступи, повний екран, утримання екрана ввімкненим, яскравість і орієнтацію.\nУ виборі режиму вибраний режим одразу зберігається для майбутніх PDF-книг.\nПрогрес зберігається автоматично. Масштаб діє лише в поточній сесії та скидається, коли ви змінюєте сторінку, перемикаєте книгу або знову відкриваєте книгу.</string>
+    <string name="open_parsed_text_content_desc">Відкрити режим текстової версії</string>
+    <string name="pdf_original_mode_content_desc">Режим оригінального PDF</string>
+    <string name="pdf_page_content_desc">Сторінка PDF %1$d</string>
+    <string name="zoom_in_content_desc">Наблизити</string>
+    <string name="zoom_out_content_desc">Віддалити</string>
 </resources>

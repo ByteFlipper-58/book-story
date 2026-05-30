@@ -39,6 +39,7 @@ import com.byteflipper.everbook.R
 fun LibrarySettingsScaffold(onBackPressed: () -> Unit) {
     val viewModel = hiltViewModel<LibrarySettingsViewModel>()
     val categories by viewModel.categories.collectAsStateWithLifecycle()
+    val settingsCategories = categories.filterNot { it.id == 0 }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val listState = rememberLazyListState()
     
@@ -81,7 +82,7 @@ fun LibrarySettingsScaffold(onBackPressed: () -> Unit) {
         LibrarySettingsLayout(
             listState = listState,
             paddingValues = paddingValues,
-            categories = categories,
+            categories = settingsCategories,
             onCreate = { name -> viewModel.createCategory(name) },
             onRename = { id, name -> viewModel.renameCategory(id, name) },
             onDelete = { id, _ -> viewModel.deleteCategory(id) },
@@ -94,7 +95,7 @@ fun LibrarySettingsScaffold(onBackPressed: () -> Unit) {
             onReorderModeStateChanged = { mode ->
                 isReorderMode = mode
                 if (mode) {
-                    lastCategoryOrder = categories.map { it.id }
+                    lastCategoryOrder = settingsCategories.map { it.id }
                 }
             }
         )

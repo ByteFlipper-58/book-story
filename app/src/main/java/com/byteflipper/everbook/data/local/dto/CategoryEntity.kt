@@ -7,8 +7,10 @@
 
 package com.byteflipper.everbook.data.local.dto
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.byteflipper.everbook.domain.library.display.LibrarySortOrder
 
 /**
  * Room-сущность для пользовательских и системных категорий библиотеки.
@@ -25,4 +27,6 @@ data class CategoryEntity(
     val isVisible: Boolean = true,
     val position: Int = 0,
     val isDefault: Boolean = false,
+    @ColumnInfo(defaultValue = "LAST_READ") val sortOrder: LibrarySortOrder = LibrarySortOrder.LAST_READ,
+    @ColumnInfo(defaultValue = "1") val sortOrderDescending: Boolean = true,
 ) 

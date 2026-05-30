@@ -25,15 +25,23 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import com.byteflipper.everbook.domain.browse.display.toBrowseLayout
 import com.byteflipper.everbook.domain.browse.display.toBrowseSortOrder
+import com.byteflipper.everbook.domain.library.display.toLibraryLayout
+import com.byteflipper.everbook.domain.library.display.toLibrarySortOrder
+import com.byteflipper.everbook.domain.library.display.toLibraryTitlePosition
 import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toFontThickness
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
+import com.byteflipper.everbook.domain.reader.toPdfPageDisplayMode
+import com.byteflipper.everbook.domain.reader.toPdfReadingMode
 import com.byteflipper.everbook.domain.reader.toProgressCount
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
+import com.byteflipper.everbook.domain.use_case.book.CancelReaderCacheWarmUps
 import com.byteflipper.everbook.domain.use_case.data_store.ChangeLanguage
 import com.byteflipper.everbook.domain.use_case.data_store.GetAllSettings
 import com.byteflipper.everbook.domain.use_case.data_store.SetDatastore
+import com.byteflipper.everbook.domain.use_case.changelog.GetLatestChangelogRelease
+import com.byteflipper.everbook.domain.changelog.ChangelogRelease
 import com.byteflipper.everbook.domain.util.toHorizontalAlignment
 import com.byteflipper.everbook.presentation.core.constants.DataStoreConstants
 import com.byteflipper.everbook.presentation.core.constants.provideFonts
@@ -51,7 +59,9 @@ class MainModel @Inject constructor(
 
     private val setDatastore: SetDatastore,
     private val changeLanguage: ChangeLanguage,
-    private val getAllSettings: GetAllSettings
+    private val getAllSettings: GetAllSettings,
+    private val cancelReaderCacheWarmUps: CancelReaderCacheWarmUps,
+    private val getLatestChangelogRelease: GetLatestChangelogRelease
 ) : ViewModel() {
 
     private val initialState: MainState = stateHandle[provideMainState()] ?: MainState()
@@ -69,6 +79,8 @@ class MainModel @Inject constructor(
     val isReady = _isReady.asStateFlow()
 
     private val mainModelReady = MutableStateFlow(false)
+    private val _pendingChangelogRelease = MutableStateFlow<ChangelogRelease?>(null)
+    val pendingChangelogRelease = _pendingChangelogRelease.asStateFlow()
 
     fun onEvent(event: MainEvent) {
         when (event) {
@@ -168,6 +180,14 @@ class MainModel @Inject constructor(
                 }
             )
 
+            is MainEvent.OnChangeChangelogLastSeenVersionCode -> handleDatastoreUpdate(
+                key = DataStoreConstants.CHANGELOG_LAST_SEEN_VERSION_CODE,
+                value = event.value,
+                updateState = {
+                    it.copy(changelogLastSeenVersionCode = this)
+                }
+            )
+
             is MainEvent.OnChangeSidePadding -> handleDatastoreUpdate(
                 key = DataStoreConstants.SIDE_PADDING,
                 value = event.value,
@@ -234,6 +254,110 @@ class MainModel @Inject constructor(
 
             is MainEvent.OnChangeBrowseIncludedFilterItem -> handleBrowseIncludedFilterItemUpdate(
                 event = event
+            )
+
+            is MainEvent.OnChangeLibraryLayout -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_LAYOUT,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryLayout = toLibraryLayout())
+                }
+            )
+
+            is MainEvent.OnChangeLibraryAutoGridSize -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_AUTO_GRID_SIZE,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryAutoGridSize = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryGridSize -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_GRID_SIZE,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryGridSize = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryTitlePosition -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_TITLE_POSITION,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryTitlePosition = toLibraryTitlePosition())
+                }
+            )
+
+            is MainEvent.OnChangeLibraryShowReadButton -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SHOW_READ_BUTTON,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryShowReadButton = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryShowProgress -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SHOW_PROGRESS,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryShowProgress = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryShowBookCount -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SHOW_BOOK_COUNT,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryShowBookCount = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryShowCategoryTabs -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SHOW_CATEGORY_TABS,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryShowCategoryTabs = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryShowDefaultTab -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SHOW_DEFAULT_TAB,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryShowDefaultTab = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibrarySortOrder -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SORT_ORDER,
+                value = event.value,
+                updateState = {
+                    it.copy(librarySortOrder = toLibrarySortOrder())
+                }
+            )
+
+            is MainEvent.OnChangeLibrarySortOrderDescending -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_SORT_ORDER_DESCENDING,
+                value = event.value,
+                updateState = {
+                    it.copy(librarySortOrderDescending = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryPerCategorySort -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_PER_CATEGORY_SORT,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryPerCategorySort = this)
+                }
+            )
+
+            is MainEvent.OnChangeLibraryLastTabId -> handleDatastoreUpdate(
+                key = DataStoreConstants.LIBRARY_LAST_TAB_ID,
+                value = event.value,
+                updateState = {
+                    it.copy(libraryLastTabId = this)
+                }
             )
 
             is MainEvent.OnChangeTextAlignment -> handleDatastoreUpdate(
@@ -504,6 +628,38 @@ class MainModel @Inject constructor(
                 }
             )
 
+            is MainEvent.OnChangePdfDefaultReadingMode -> handleDatastoreUpdate(
+                key = DataStoreConstants.PDF_DEFAULT_READING_MODE,
+                value = event.value,
+                updateState = {
+                    it.copy(pdfDefaultReadingMode = this.toPdfReadingMode())
+                }
+            )
+
+            is MainEvent.OnChangePdfPageDisplayMode -> handleDatastoreUpdate(
+                key = DataStoreConstants.PDF_PAGE_DISPLAY_MODE,
+                value = event.value,
+                updateState = {
+                    it.copy(pdfPageDisplayMode = this.toPdfPageDisplayMode())
+                }
+            )
+
+            is MainEvent.OnChangePdfShowZoomControls -> handleDatastoreUpdate(
+                key = DataStoreConstants.PDF_SHOW_ZOOM_CONTROLS,
+                value = event.value,
+                updateState = {
+                    it.copy(pdfShowZoomControls = this)
+                }
+            )
+
+            is MainEvent.OnChangePdfPinchZoom -> handleDatastoreUpdate(
+                key = DataStoreConstants.PDF_PINCH_ZOOM,
+                value = event.value,
+                updateState = {
+                    it.copy(pdfPinchZoom = this)
+                }
+            )
+
             is MainEvent.OnChangeHorizontalGestureAlphaAnim -> handleDatastoreUpdate(
                 key = DataStoreConstants.HORIZONTAL_GESTURE_ALPHA_ANIM,
                 value = event.value,
@@ -528,6 +684,8 @@ class MainModel @Inject constructor(
                     it.copy(renderMath = this)
                 }
             )
+
+            is MainEvent.OnChangeReaderCacheWarmUp -> handleReaderCacheWarmUpUpdate(event)
         }
     }
 
@@ -539,6 +697,7 @@ class MainModel @Inject constructor(
             changeLanguage.execute(settings.language)
 
             updateStateWithSavedHandle { settings }
+            loadPendingChangelogRelease(settings)
             mainModelReady.update { true }
         }
 
@@ -568,6 +727,50 @@ class MainModel @Inject constructor(
                 it.copy(language = event.value)
             }
         }
+    }
+
+    private suspend fun loadPendingChangelogRelease(settings: MainState) {
+        val release = getLatestChangelogRelease.execute(settings.language)
+        if (
+            settings.showStartScreen &&
+            settings.changelogLastSeenVersionCode == 0 &&
+            release != null
+        ) {
+            setDatastore.execute(
+                key = DataStoreConstants.CHANGELOG_LAST_SEEN_VERSION_CODE,
+                value = release.versionCode
+            )
+            updateStateWithSavedHandle {
+                it.copy(changelogLastSeenVersionCode = release.versionCode)
+            }
+            _pendingChangelogRelease.value = null
+            return
+        }
+
+        _pendingChangelogRelease.update {
+            release?.takeIf {
+                !settings.showStartScreen &&
+                    it.versionCode > settings.changelogLastSeenVersionCode
+            }
+        }
+    }
+
+    fun consumePendingChangelogRelease() {
+        _pendingChangelogRelease.value = null
+    }
+
+    private fun handleReaderCacheWarmUpUpdate(event: MainEvent.OnChangeReaderCacheWarmUp) {
+        if (!event.value) {
+            cancelReaderCacheWarmUps.execute()
+        }
+
+        handleDatastoreUpdate(
+            key = DataStoreConstants.READER_CACHE_WARM_UP,
+            value = event.value,
+            updateState = {
+                it.copy(readerCacheWarmUp = this)
+            }
+        )
     }
 
     private fun handleBrowseIncludedFilterItemUpdate(

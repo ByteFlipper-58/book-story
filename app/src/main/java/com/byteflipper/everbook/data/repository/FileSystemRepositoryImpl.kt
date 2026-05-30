@@ -8,7 +8,10 @@
 package com.byteflipper.everbook.data.repository
 
 import android.app.Application
+import android.net.Uri
+import android.provider.OpenableColumns
 import android.util.Log
+import android.webkit.MimeTypeMap
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.local.room.BookDao
 import com.byteflipper.everbook.data.parser.FileParser
@@ -21,12 +24,14 @@ import com.byteflipper.everbook.domain.library.book.NullableBook.Null
 import com.byteflipper.everbook.domain.repository.FileSystemRepository
 import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.presentation.core.constants.provideExtensions
+import java.io.File
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val GET_BOOK_FROM_FILE = "BOOK FROM FILE, REPO"
 private const val GET_FILES = "FILES, REPO"
+private const val IMPORT_BOOK = "IMPORT BOOK, REPO"
 
 /**
  * File System repository.
@@ -151,5 +156,130 @@ class FileSystemRepositoryImpl @Inject constructor(
 
         Log.i(GET_BOOK_FROM_FILE, "Successfully got book from file.")
         return NotNull(bookWithCover = parsedBook)
+    }
+
+    override suspend fun copyExternalBookToPrivateStorage(uri: Uri): CachedFile? {
+        val fileName = resolveFileName(uri)
+        val mimeType = application.contentResolver.getType(uri)
+        val extension = resolveSupportedExtension(fileName, mimeType)
+
+        if (extension == null) {
+            Log.w(IMPORT_BOOK, "Unsupported external book: $uri, mimeType: $mimeType.")
+            return null
+        }
+
+        val importsDir = File(application.filesDir, "imports")
+        if (!importsDir.exists()) {
+            importsDir.mkdirs()
+        }
+
+        val targetFile = resolveTargetFile(
+            importsDir = importsDir,
+            fileName = fileName,
+            extension = extension
+        )
+        val tempFile = File(importsDir, "${targetFile.name}.tmp")
+
+        return try {
+            application.contentResolver.openInputStream(uri)?.use { input ->
+                tempFile.outputStream().buffered().use { output ->
+                    input.copyTo(output)
+                }
+            } ?: throw IllegalStateException("Failed to open external book stream.")
+
+            if (!tempFile.renameTo(targetFile)) {
+                throw IllegalStateException("Failed to rename imported book.")
+            }
+
+            Log.i(IMPORT_BOOK, "Copied external book to ${targetFile.absolutePath}.")
+            CachedFileCompat.fromUri(
+                context = application,
+                uri = Uri.fromFile(targetFile),
+                builder = CachedFileCompat.build(
+                    name = targetFile.name,
+                    path = targetFile.absolutePath,
+                    size = targetFile.length(),
+                    lastModified = targetFile.lastModified(),
+                    isDirectory = false
+                )
+            )
+        } catch (e: Exception) {
+            tempFile.delete()
+            targetFile.delete()
+            e.printStackTrace()
+            Log.e(IMPORT_BOOK, "Could not import external book.")
+            null
+        }
+    }
+
+    private fun resolveFileName(uri: Uri): String {
+        if (uri.scheme == "file") {
+            return File(uri.path.orEmpty()).name
+        }
+
+        application.contentResolver.query(
+            uri,
+            arrayOf(OpenableColumns.DISPLAY_NAME),
+            null,
+            null,
+            null
+        )?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                if (index >= 0) {
+                    val displayName = cursor.getString(index)
+                    if (!displayName.isNullOrBlank()) return displayName
+                }
+            }
+        }
+
+        return uri.lastPathSegment?.substringAfterLast('/') ?: "book"
+    }
+
+    private fun resolveSupportedExtension(fileName: String, mimeType: String?): String? {
+        val extensionFromName = fileName
+            .substringAfterLast('.', missingDelimiterValue = "")
+            .takeIf { it.isNotBlank() }
+            ?.let { ".$it".lowercase() }
+
+        if (extensionFromName in externalImportExtensions) return extensionFromName
+
+        val normalizedMimeType = mimeType?.lowercase()
+        return mimeTypeExtensions[normalizedMimeType]
+            ?: normalizedMimeType
+                ?.let { MimeTypeMap.getSingleton().getExtensionFromMimeType(it) }
+                ?.let { ".$it".lowercase() }
+                ?.takeIf { it in externalImportExtensions }
+    }
+
+    private fun resolveTargetFile(
+        importsDir: File,
+        fileName: String,
+        extension: String
+    ): File {
+        val rawName = fileName.substringBeforeLast('.', missingDelimiterValue = fileName)
+        val sanitizedName = rawName
+            .replace(Regex("[^A-Za-z0-9._ -]"), "_")
+            .trim('.', ' ', '_', '-')
+            .ifBlank { "book" }
+        val targetFile = File(importsDir, "$sanitizedName$extension")
+
+        if (!targetFile.exists()) return targetFile
+
+        return File(importsDir, "${sanitizedName}_${UUID.randomUUID()}$extension")
+    }
+
+    private companion object {
+        val externalImportExtensions = provideExtensions().toSet()
+        val mimeTypeExtensions = mapOf(
+            "application/epub+zip" to ".epub",
+            "application/pdf" to ".pdf",
+            "application/x-fictionbook+xml" to ".fb2",
+            "application/fb2+xml" to ".fb2",
+            "text/plain" to ".txt",
+            "text/html" to ".html",
+            "text/markdown" to ".md",
+            "text/x-markdown" to ".md"
+        )
     }
 }

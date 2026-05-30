@@ -1,6 +1,5 @@
 <resources>
     <!-- Basic Strings -->
-    <string name="app_version" translatable="false">1.4.0</string>
     <string name="app_name" translatable="false">EverBook</string>
     <string name="default_string">افتراضي</string>
     <string name="random_string">عشوائي</string>
@@ -8,13 +7,8 @@
     <!-- Notifications -->
     <string name="updates_notification_channel">تحديثات جديدة</string>
     <string name="updates_notification_title">تحديث جديد لـ EverBook!</string>
-    <string name="updates_notification_desc">
-        تم إصدار التحديث %1$s للتو!
-        انقر للانتقال إلى صفحة الإصدار.
-    </string>
-    <string name="updates_notification_action">
-        تنزيل
-    </string>
+    <string name="updates_notification_desc">تم إصدار التحديث %1$s للتو!\nانقر للانتقال إلى صفحة الإصدار.</string>
+    <string name="updates_notification_action">تنزيل</string>
 
     <!-- Screens -->
     <string name="library_screen">المكتبة</string>
@@ -36,80 +30,43 @@
     <string name="edit">تعديل</string>
 
     <!-- Dialog Descriptions -->
-    <string name="add_books_description">
-        يمكنك اختيار الكتب التي تريد إضافتها.
-        يمكنك تعديل عنوان وصورة غلاف الكتاب لاحقًا.
-        قد تستغرق عملية التحميل عدة دقائق.
-    </string>
-    <string name="move_books_description">
-        اختر الفئة التي تريد نقل جميع الكتب المحددة (%1$s) إليها.
-        سيتم نقل جميع الكتب المحددة إلى الفئة المحددة.
-    </string>
-    <string name="delete_books_description">
-        سيؤدي ذلك إلى حذف جميع الكتب المحددة (%1$s) من قاعدة البيانات.
-        لن يؤدي ذلك إلى حذف الكتب المحددة من جهازك.
-    </string>
-    <string name="delete_book_description">
-        سيؤدي ذلك إلى حذف هذا الكتاب من قاعدة البيانات.
-        لن يؤدي ذلك إلى حذف هذا الكتاب من جهازك.
-    </string>
-    <string name="move_book_description">
-        اختر الفئة التي تريد نقل هذا الكتاب إليها.
-        سيتم نقل هذا الكتاب إلى الفئة المحددة.
-    </string>
-    <string name="delete_history_description">
-        سيؤدي ذلك إلى حذف السجل بأكمله من قاعدة البيانات.
-        بعد حذف السجل بأكمله، سيتم إعادة تعيين ترتيب الكتب.
-    </string>
-    <string name="update_app_description">
-        تم العثور على إصدار جديد من التطبيق.
-        هل تريد المتابعة والانتقال إلى صفحة الإصدار؟
-    </string>
-    <string name="enable_check_for_updates_description">
-        من خلال تمكين "التحقق من وجود تحديثات"
-        سيقوم التطبيق باسترداد أحدث معلومات الإصدار من "api.github.com" في كل مرة
-        عند بدء تشغيل التطبيق.
-        هل تريد المتابعة وتمكين "التحقق من وجود تحديثات"؟
-    </string>
+    <string name="add_books_description">يمكنك اختيار الكتب التي تريد إضافتها.\nيمكنك تعديل عنوان وصورة غلاف الكتاب لاحقًا.\nقد تستغرق عملية التحميل عدة دقائق.</string>
+    <string name="move_books_description">اختر الفئة التي تريد نقل جميع الكتب المحددة (%1$s) إليها.\nسيتم نقل جميع الكتب المحددة إلى الفئة المحددة.</string>
+    <string name="delete_books_description">سيؤدي ذلك إلى حذف جميع الكتب المحددة (%1$s) من قاعدة البيانات.\nلن يؤدي ذلك إلى حذف الكتب المحددة من جهازك.</string>
+    <string name="delete_book_description">سيؤدي ذلك إلى حذف هذا الكتاب من قاعدة البيانات.\nلن يؤدي ذلك إلى حذف هذا الكتاب من جهازك.</string>
+    <string name="move_book_description">اختر الفئة التي تريد نقل هذا الكتاب إليها.\nسيتم نقل هذا الكتاب إلى الفئة المحددة.</string>
+    <string name="delete_history_description">سيؤدي ذلك إلى حذف السجل بأكمله من قاعدة البيانات.\nبعد حذف السجل بأكمله، سيتم إعادة تعيين ترتيب الكتب.</string>
+    <string name="update_app_description">تم العثور على إصدار جديد من التطبيق.\nهل تريد المتابعة والانتقال إلى صفحة الإصدار؟</string>
+    <string name="enable_check_for_updates_description">من خلال تمكين "التحقق من وجود تحديثات"\nسيقوم التطبيق باسترداد أحدث معلومات الإصدار من "api.github.com" في كل مرة\nعند بدء تشغيل التطبيق.\nهل تريد المتابعة وتمكين "التحقق من وجود تحديثات"؟</string>
 
     <!-- Errors -->
-    <string name="error_no_description">
-        لا يوجد وصف.
-    </string>
-    <string name="error_something_went_wrong">
-        حدث خطأ ما.
-    </string>
+    <string name="error_no_description">لا يوجد وصف.</string>
+    <string name="error_something_went_wrong">حدث خطأ ما.</string>
     <string name="error_no_translator">لم يتم العثور على تطبيق ترجمة.</string>
     <string name="error_no_dictionary">لم يتم العثور على تطبيق قاموس.</string>
     <string name="error_no_browser">لم يتم العثور على تطبيق متصفح.</string>
     <string name="error_no_share_app">لم يتم العثور على تطبيق للمشاركة.</string>
-    <string name="error_could_not_get_text">
-        الملف فارغ أو تالف أو غير موجود. يرجى التحقق والمحاولة مرة أخرى.
-    </string>
-    <string name="error_check_internet">
-        حدث خطأ ما.
-        حاول مرة أخرى لاحقًا.
-    </string>
+    <string name="error_could_not_get_text">الملف فارغ أو تالف أو غير موجود. يرجى التحقق والمحاولة مرة أخرى.</string>
+    <string name="error_check_internet">حدث خطأ ما.\nحاول مرة أخرى لاحقًا.</string>
     <string name="error_could_not_reset_cover">تعذر إعادة تعيين صورة الغلاف.</string>
     <string name="error_closed_source">مصدر مغلق</string>
     <string name="error_no_file">الملف غير موجود</string>
 
     <!-- Is Empty messages -->
-    <string name="search_field_empty">
-        بحث…
-    </string>
-    <string name="browse_empty">
-        قم بتوسيع مجموعة الكتب في المكتبة بتنزيلاتك
-    </string>
-    <string name="library_empty">
-        اقرأ كتبك المفضلة وقم بفرزها بين الفئات
-    </string>
-    <string name="history_empty">
-        دع كتابك الأخير الذي قرأته يفتح صفحات قصة رائعة جديدة في رحلة القراءة الخاصة بك
-    </string>
+    <string name="search_field_empty">بحث…</string>
+    <string name="browse_empty">قم بتوسيع مجموعة الكتب في المكتبة بتنزيلاتك</string>
+    <string name="library_empty">اقرأ كتبك المفضلة وقم بفرزها بين الفئات</string>
+    <string name="history_empty">دع كتابك الأخير الذي قرأته يفتح صفحات قصة رائعة جديدة في رحلة القراءة الخاصة بك</string>
 
     <!-- Query strings -->
-    <string name="selected_items_count_query">تم تحديد %1$s</string>
+    <plurals name="selected_items_count_query">
+        <item quantity="zero">تم تحديد %1$d</item>
+        <item quantity="one">تم تحديد %1$d</item>
+        <item quantity="two">تم تحديد %1$d</item>
+        <item quantity="few">تم تحديد %1$d</item>
+        <item quantity="many">تم تحديد %1$d</item>
+        <item quantity="other">تم تحديد %1$d</item>
+    </plurals>
     <string name="file_path_query">مسار الملف: %1$s</string>
     <string name="update_query">تحديث %1$s</string>
     <string name="color_preset_query">إعداد مسبق %1$s</string>
@@ -231,9 +188,7 @@
     <string name="keep_screen_on_option">إبقاء الشاشة قيد التشغيل</string>
     <string name="hide_bars_on_fast_scroll_option">إخفاء الأشرطة عند التمرير السريع</string>
     <string name="perception_expander_option">موسع الإدراك</string>
-    <string name="perception_expander_option_desc">
-        قم بزيادة سرعة القراءة من خلال التركيز على المنتصف
-    </string>
+    <string name="perception_expander_option_desc">قم بزيادة سرعة القراءة من خلال التركيز على المنتصف</string>
     <string name="perception_expander_padding_option">هامش جانب السطر</string>
     <string name="perception_expander_thickness_option">سمك الخط</string>
     <string name="screen_orientation_option">اتجاه الشاشة</string>
@@ -263,9 +218,7 @@
     <string name="browse_files_structure_option">هيكل الملفات</string>
     <string name="browse_grid_size_option">حجم الشبكة</string>
     <string name="browse_pin_favorite_directories_option">تثبيت الدلائل المفضلة</string>
-    <string name="browse_pin_favorite_directories_option_desc">
-        قم بتثبيت الدلائل المفضلة لديك في الجزء العلوي من الشاشة
-    </string>
+    <string name="browse_pin_favorite_directories_option_desc">قم بتثبيت الدلائل المفضلة لديك في الجزء العلوي من الشاشة</string>
 
     <!-- Color presets -->
     <string name="red_color">أحمر</string>
@@ -405,11 +358,21 @@
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">انقر للتحقق من وجود تحديثات</string>
     <string name="report_bug_option">الإبلاغ عن خطأ</string>
-    <string name="whats_new_option">ما الجديد</string>
+    <string name="changelog_option">ما الجديد</string>
     <string name="licenses_option">تراخيص المصادر المفتوحة</string>
     <string name="credits_option">الشكر والتقدير</string>
     <string name="help_translate_option">المساعدة في الترجمة</string>
     <string name="contributors_option">المساهمون</string>
+    <string name="changelog_option_desc">اقرأ ملاحظات الإصدارات كفصول قصيرة</string>
+    <string name="changelog_release_version">الإصدار %1$s</string>
+    <string name="changelog_empty">لا توجد ملاحظات إصدار متاحة بعد.</string>
+    <string name="changelog_language_title">لغة ملاحظات الإصدار</string>
+    <string name="report_bug_option_desc">افتح GitHub للإبلاغ عن مشكلة أو اقتراح تحسين</string>
+    <string name="contributors_option_desc">اعرض الأشخاص الذين يساعدون في تطوير EverBook</string>
+    <string name="licenses_option_desc">اعرض تراخيص مكتبات المصدر المفتوح المستخدمة في التطبيق</string>
+    <string name="credits_option_desc">اعرض الشكر والتقدير الخاص بالمشروع</string>
+    <string name="help_translate_option_desc">ساعد في إتاحة EverBook بمزيد من اللغات</string>
+    <string name="support_development_option_desc">ادعم المشروع وتحديثات EverBook القادمة</string>
     <string name="slava_ukraini">المجد لأوكرانيا!</string>
 
     <!-- Credits -->
@@ -425,161 +388,60 @@
     <string name="help_title_how_to_add_books">كيف يمكنني إضافة كتب إلى المكتبة؟</string>
     <string name="help_desc_how_to_add_books_1">اذهب إلى</string>
     <string name="help_desc_how_to_add_books_2">تصفح</string>
-    <string name="help_desc_how_to_add_books_3">
-        إذا لم ترَ الكتب التي تم تنزيلها، فحاول تحديث القائمة عن طريق سحبها لأسفل.
-        تأكد من أن كتبك بتنسيق ملف مدعوم.
-        ثم انقر على الكتاب لتحديده أو اضغط مع الاستمرار لإظهار موقعه.
-        بعد تحديد جميع الكتب التي تريدها، انقر على أيقونة علامة الاختيار في الزاوية العلوية اليمنى،
-        وانتظر حتى يتم تحميل جميع الكتب ثم انقر على «إضافة».
-        الآن يجب أن ترى جميع الكتب التي أضفتها في
-    </string>
+    <string name="help_desc_how_to_add_books_3">إذا لم ترَ الكتب التي تم تنزيلها، فحاول تحديث القائمة عن طريق سحبها لأسفل.\nتأكد من أن كتبك بتنسيق ملف مدعوم.\nثم انقر على الكتاب لتحديده أو اضغط مع الاستمرار لإظهار موقعه.\nبعد تحديد جميع الكتب التي تريدها، انقر على أيقونة علامة الاختيار في الزاوية العلوية اليمنى،\nوانتظر حتى يتم تحميل جميع الكتب ثم انقر على «إضافة».\nالآن يجب أن ترى جميع الكتب التي أضفتها في</string>
     <string name="help_desc_how_to_add_books_4">المكتبة</string>
 
     <string name="help_title_how_to_customize_app">كيف يمكنني تخصيص التطبيق؟</string>
     <string name="help_desc_how_to_customize_app_1">اذهب إلى</string>
     <string name="help_desc_how_to_customize_app_2">الإعدادات</string>
-    <string name="help_desc_how_to_customize_app_3">
-        يمكنك القيام بذلك من شاشات المكتبة والسجل والتصفح
-        بالنقر على ثلاث نقاط في الزاوية العلوية اليمنى
-        واختيار «الإعدادات» من القائمة المنسدلة.
-        ثم سترى جميع الإعدادات المتاحة لهذا التطبيق.
-        لا تتردد في تجربة تلك الإعدادات!
-    </string>
+    <string name="help_desc_how_to_customize_app_3">يمكنك القيام بذلك من شاشات المكتبة والسجل والتصفح\nبالنقر على ثلاث نقاط في الزاوية العلوية اليمنى\nواختيار «الإعدادات» من القائمة المنسدلة.\nثم سترى جميع الإعدادات المتاحة لهذا التطبيق.\nلا تتردد في تجربة تلك الإعدادات!</string>
 
     <string name="help_title_how_to_move_or_delete_books">كيف يمكنني نقل الكتب أو حذفها؟</string>
     <string name="help_desc_how_to_move_or_delete_books_1">اذهب إلى</string>
     <string name="help_desc_how_to_move_or_delete_books_2">المكتبة</string>
-    <string name="help_desc_how_to_move_or_delete_books_3">
-        اضغط مع الاستمرار على صورة غلاف الكتاب الأول حتى يتم تحديده،
-        الآن يمكنك ببساطة النقر فوق جميع صور أغلفة الكتب التي تريد تحديدها.
-        يمكنك أيضًا تحديد الكتب في فئات متعددة.
-        بعد اختيار جميع الكتب المطلوبة، يمكنك النقر فوق أيقونة السهم للنقل
-        وأيقونة سلة المهملات لحذف الكتب.
-    </string>
+    <string name="help_desc_how_to_move_or_delete_books_3">اضغط مع الاستمرار على صورة غلاف الكتاب الأول حتى يتم تحديده،\nالآن يمكنك ببساطة النقر فوق جميع صور أغلفة الكتب التي تريد تحديدها.\nيمكنك أيضًا تحديد الكتب في فئات متعددة.\nبعد اختيار جميع الكتب المطلوبة، يمكنك النقر فوق أيقونة السهم للنقل\nوأيقونة سلة المهملات لحذف الكتب.</string>
 
     <string name="help_title_how_to_edit_book">كيف يمكنني تعديل كتاب؟</string>
     <string name="help_desc_how_to_edit_book_1">اذهب إلى</string>
     <string name="help_desc_how_to_edit_book_2">المكتبة</string>
-    <string name="help_desc_how_to_edit_book_3">
-        وانقر على صورة غلاف الكتاب للاطلاع على تفاصيل الكتاب.
-        الآن يمكنك الضغط مع الاستمرار على عنوان الكتاب أو المؤلف أو الوصف لتعديله
-        أو صورة الغلاف لتغييرها أو إعادة تعيينها أو حذفها.
-    </string>
+    <string name="help_desc_how_to_edit_book_3">وانقر على صورة غلاف الكتاب للاطلاع على تفاصيل الكتاب.\nالآن يمكنك الضغط مع الاستمرار على عنوان الكتاب أو المؤلف أو الوصف لتعديله\nأو صورة الغلاف لتغييرها أو إعادة تعيينها أو حذفها.</string>
 
     <string name="help_title_how_to_read_book">كيف يمكنني قراءة كتاب؟</string>
     <string name="help_desc_how_to_read_book_1">اذهب إلى</string>
     <string name="help_desc_how_to_read_book_2">المكتبة</string>
-    <string name="help_desc_how_to_read_book_3">
-        لبدء قراءة الكتاب، انقر فوق الزر الموجود في الزاوية السفلية اليمنى من الكتاب الذي تريد قراءته.
-        يمكنك أيضًا بدء قراءة الكتاب بالنقر فوق صورة غلافه
-        للاطلاع على تفاصيل الكتاب ثم انقر فوق الزر الموجود في الزاوية السفلية اليمنى.
-        سيتم حفظ التقدم واستعادته تلقائيًا.
-        يمكنك إظهار الشريطين العلوي والسفلي بالنقر في أي مكان على الشاشة.
-        بالنقر فوق عنوان الكتاب، سيتم نقلك إلى تفاصيل الكتاب.
-        بالنقر فوق أيقونة الترس، سترى إعدادات القارئ.
-        يمكنك استخدام شريط التمرير السفلي لتغيير التقدم.
-    </string>
+    <string name="help_desc_how_to_read_book_3">لبدء قراءة الكتاب، انقر فوق الزر الموجود في الزاوية السفلية اليمنى من الكتاب الذي تريد قراءته.\nيمكنك أيضًا بدء قراءة الكتاب بالنقر فوق صورة غلافه\nللاطلاع على تفاصيل الكتاب ثم انقر فوق الزر الموجود في الزاوية السفلية اليمنى.\nسيتم حفظ التقدم واستعادته تلقائيًا.\nيمكنك إظهار الشريطين العلوي والسفلي بالنقر في أي مكان على الشاشة.\nبالنقر فوق عنوان الكتاب، سيتم نقلك إلى تفاصيل الكتاب.\nبالنقر فوق أيقونة الترس، سترى إعدادات القارئ.\nيمكنك استخدام شريط التمرير السفلي لتغيير التقدم.</string>
 
     <string name="help_title_how_to_customize_reader">كيف يمكنني تخصيص القارئ؟</string>
-    <string name="help_desc_how_to_customize_reader_1">
-        ابدأ في قراءة الكتاب (راجع: كيف يمكنني قراءة كتاب؟)،
-        بعد ذلك قم بإظهار الشريطين العلوي والسفلي بالنقر في أي مكان على الشاشة.
-        ثم انقر فوق أيقونة الترس في الزاوية العلوية اليمنى.
-        سيؤدي ذلك إلى إظهار جميع إعدادات القارئ.
-        الطريقة الثانية هي الانتقال إلى
-    </string>
-    <string name="help_desc_how_to_customize_reader_2">
-        الإعدادات
-    </string>
-    <string name="help_desc_how_to_customize_reader_3">
-        وحدد فئة القارئ لتخصيص الإعدادات العامة،
-        أو فئة المظهر لتخصيص إعدادات الألوان.
-    </string>
+    <string name="help_desc_how_to_customize_reader_1">ابدأ في قراءة الكتاب (راجع: كيف يمكنني قراءة كتاب؟)،\nبعد ذلك قم بإظهار الشريطين العلوي والسفلي بالنقر في أي مكان على الشاشة.\nثم انقر فوق أيقونة الترس في الزاوية العلوية اليمنى.\nسيؤدي ذلك إلى إظهار جميع إعدادات القارئ.\nالطريقة الثانية هي الانتقال إلى</string>
+    <string name="help_desc_how_to_customize_reader_2">الإعدادات</string>
+    <string name="help_desc_how_to_customize_reader_3">وحدد فئة القارئ لتخصيص الإعدادات العامة،\nأو فئة المظهر لتخصيص إعدادات الألوان.</string>
 
     <string name="help_title_how_to_manage_history">كيف يمكنني إدارة السجل؟</string>
     <string name="help_desc_how_to_manage_history_1">اذهب إلى</string>
     <string name="help_desc_how_to_manage_history_2">السجل</string>
-    <string name="help_desc_how_to_manage_history_3">
-        بالنقر فوق زر الحذف الموجود على يمين عنصر السجل، سيتم حذفه.
-        يؤثر السجل على ترتيب الكتب في المكتبة،
-        عن طريق حذف عنصر السجل، سيتم أيضًا إعادة ترتيب الكتاب.
-        دائمًا ما يكون آخر كتاب تم فتحه هو الأول في المكتبة والسجل.
-    </string>
+    <string name="help_desc_how_to_manage_history_3">بالنقر فوق زر الحذف الموجود على يمين عنصر السجل، سيتم حذفه.\nيؤثر السجل على ترتيب الكتب في المكتبة،\nعن طريق حذف عنصر السجل، سيتم أيضًا إعادة ترتيب الكتاب.\nدائمًا ما يكون آخر كتاب تم فتحه هو الأول في المكتبة والسجل.</string>
 
     <string name="help_title_how_to_use_tooltip">كيف يمكنني استخدام تلميحات الأدوات؟</string>
-    <string name="help_desc_how_to_use_tooltip_1">
-        تحتوي معظم أزرار الرموز على تلميحات أدوات، ويمكن أن تساعدك إذا لم تكن تعرف ما يفعله زر الرمز.
-        لإظهار تلميح الأداة، يمكنك الضغط مع الاستمرار على زر الرمز.
-    </string>
+    <string name="help_desc_how_to_use_tooltip_1">تحتوي معظم أزرار الرموز على تلميحات أدوات، ويمكن أن تساعدك إذا لم تكن تعرف ما يفعله زر الرمز.\nلإظهار تلميح الأداة، يمكنك الضغط مع الاستمرار على زر الرمز.</string>
 
-    <string name="help_title_how_to_use_double_click_translation">
-        كيف يمكنني استخدام الترجمة بالنقر المزدوج؟
-    </string>
-    <string name="help_desc_how_to_use_double_click_translation_1">
-        أولاً، اذهب إلى إعدادات القارئ (راجع: كيف يمكنني تخصيص القارئ؟)،
-        ثم قم بتشغيل الإعداد المقابل. بعد ذلك،
-        ابدأ في قراءة الكتاب (راجع: كيف يمكنني قراءة كتاب؟).
-        الآن إذا قمت بالنقر المزدوج على الفقرة المطلوبة،
-        فسيتم فتح مترجم خارجي مع نص الفقرة.
-    </string>
+    <string name="help_title_how_to_use_double_click_translation">كيف يمكنني استخدام الترجمة بالنقر المزدوج؟</string>
+    <string name="help_desc_how_to_use_double_click_translation_1">أولاً، اذهب إلى إعدادات القارئ (راجع: كيف يمكنني تخصيص القارئ؟)،\nثم قم بتشغيل الإعداد المقابل. بعد ذلك،\nابدأ في قراءة الكتاب (راجع: كيف يمكنني قراءة كتاب؟).\nالآن إذا قمت بالنقر المزدوج على الفقرة المطلوبة،\nفسيتم فتح مترجم خارجي مع نص الفقرة.</string>
 
-    <string name="help_title_how_to_create_color_presets">
-        كيف يمكنني إنشاء وتعديل إعدادات الألوان المسبقة؟
-    </string>
-    <string name="help_desc_how_to_create_color_presets_1">
-        انتقل إلى إعدادات المظهر (راجع: كيف يمكنني تخصيص القارئ؟).
-        يمكنك تعديل جميع إعدادات الألوان المسبقة في المربع الموجود أسفل «إعداد مسبق للألوان» في الفئة الفرعية «الألوان».
-        لإنشاء إعداد مسبق جديد للألوان، انقر فوق زر الرمز «إضافة».
-        هناك طرق متعددة لتعديل إعداد مسبق للألوان:
-        بالنقر فوق الحقل النصي، يمكنك تغيير اسم الإعداد المسبق للألوان،
-        عن طريق تحريك أشرطة التمرير، يمكنك تغيير ألوان الإعداد المسبق للألوان،
-        بالنقر فوق زر الرمز «تبديل»، يمكنك تبديل جميع الألوان.
-        إذا كنت تريد حذف إعداد مسبق للألوان، فانقر فوق زر الرمز «حذف».
-    </string>
+    <string name="help_title_how_to_create_color_presets">كيف يمكنني إنشاء وتعديل إعدادات الألوان المسبقة؟</string>
+    <string name="help_desc_how_to_create_color_presets_1">انتقل إلى إعدادات المظهر (راجع: كيف يمكنني تخصيص القارئ؟).\nيمكنك تعديل جميع إعدادات الألوان المسبقة في المربع الموجود أسفل «إعداد مسبق للألوان» في الفئة الفرعية «الألوان».\nلإنشاء إعداد مسبق جديد للألوان، انقر فوق زر الرمز «إضافة».\nهناك طرق متعددة لتعديل إعداد مسبق للألوان:\nبالنقر فوق الحقل النصي، يمكنك تغيير اسم الإعداد المسبق للألوان،\nعن طريق تحريك أشرطة التمرير، يمكنك تغيير ألوان الإعداد المسبق للألوان،\nبالنقر فوق زر الرمز «تبديل»، يمكنك تبديل جميع الألوان.\nإذا كنت تريد حذف إعداد مسبق للألوان، فانقر فوق زر الرمز «حذف».</string>
 
-    <string name="help_title_how_to_use_color_presets">
-        كيف يمكنني استخدام إعدادات الألوان؟
-    </string>
-    <string name="help_desc_how_to_use_color_presets_1">
-        اذهب إلى إعدادات المظهر (انظر: كيف يمكنني تخصيص القارئ؟).
-        يمكنك اختيار إعداد الألوان المسبق الذي تريد استخدامه في إعداد «إعداد الألوان المسبق».
-        انقر على إعداد الألوان المسبق المرغوب لتحديده، سيؤدي هذا أيضًا إلى تغيير ألوانك في القارئ.
-        إذا كنت ترغب في إعادة ترتيب إعداد الألوان المسبق، فحدده واضغط باستمرار على زر «مقبض»،
-        ثم انقله إلى الموضع المطلوب.
-        يمكنك تغيير إعدادات الألوان المسبقة بسرعة عن طريق تمكين الإعداد المناسب
-        في الفئة الفرعية «الألوان» في إعدادات المظهر، ثم التمرير سريعًا على الشريط العلوي إلى اليسار أو اليمين في القارئ،
-        لتغيير إعداد الألوان المسبق بسرعة.
-    </string>
+    <string name="help_title_how_to_use_color_presets">كيف يمكنني استخدام إعدادات الألوان؟</string>
+    <string name="help_desc_how_to_use_color_presets_1">اذهب إلى إعدادات المظهر (انظر: كيف يمكنني تخصيص القارئ؟).\nيمكنك اختيار إعداد الألوان المسبق الذي تريد استخدامه في إعداد «إعداد الألوان المسبق».\nانقر على إعداد الألوان المسبق المرغوب لتحديده، سيؤدي هذا أيضًا إلى تغيير ألوانك في القارئ.\nإذا كنت ترغب في إعادة ترتيب إعداد الألوان المسبق، فحدده واضغط باستمرار على زر «مقبض»،\nثم انقله إلى الموضع المطلوب.\nيمكنك تغيير إعدادات الألوان المسبقة بسرعة عن طريق تمكين الإعداد المناسب\nفي الفئة الفرعية «الألوان» في إعدادات المظهر، ثم التمرير سريعًا على الشريط العلوي إلى اليسار أو اليمين في القارئ،\nلتغيير إعداد الألوان المسبق بسرعة.</string>
 
-    <string name="help_title_how_to_use_perception_expander">
-        ما هو موسع الإدراك وكيف يمكنني استخدامه؟
-    </string>
-    <string name="help_title_how_to_use_perception_expander_1">
-        قد يساعدك موسع الإدراك على القراءة بشكل أسرع.
-        أولاً، قم بتمكينه في إعدادات القارئ (انظر: كيف يمكنني تخصيص القارئ؟).
-        بمجرد التمكين، سيظهر خطان عموديان على جانبي القارئ.
-        لتحسين سرعة القراءة بشكل أكبر،
-        اضبط الهامش لإنشاء مساحة أقل حول المركز.
-        لاستخدامه، ركز على مركز الشاشة بينما
-        تسمح لرؤيتك المحيطية بالتقاط النص الموجود على الجانبين.
-        أثناء القراءة، حافظ على تركيزك على المركز دون النظر مباشرة
-        إلى الجانبين بعد كل سطر.
-    </string>
+    <string name="help_title_how_to_use_perception_expander">ما هو موسع الإدراك وكيف يمكنني استخدامه؟</string>
+    <string name="help_title_how_to_use_perception_expander_1">قد يساعدك موسع الإدراك على القراءة بشكل أسرع.\nأولاً، قم بتمكينه في إعدادات القارئ (انظر: كيف يمكنني تخصيص القارئ؟).\nبمجرد التمكين، سيظهر خطان عموديان على جانبي القارئ.\nلتحسين سرعة القراءة بشكل أكبر،\nاضبط الهامش لإنشاء مساحة أقل حول المركز.\nلاستخدامه، ركز على مركز الشاشة بينما\nتسمح لرؤيتك المحيطية بالتقاط النص الموجود على الجانبين.\nأثناء القراءة، حافظ على تركيزك على المركز دون النظر مباشرة\nإلى الجانبين بعد كل سطر.</string>
 
     <string name="help_title_how_to_manage_categories">كيف تدير الفئات؟</string>
-    <string name="help_desc_how_to_manage_categories_1">
-    يحتوي التطبيق الآن على ميزات جديدة لإدارة الفئات:
-    بشكل افتراضي، هناك 5 فئات: الكل (يخزن جميع الكتب)، القراءة، المنتهية، المخطط لها، والمُهملة. يمكن فقط إخفاء وإعادة ترتيب الفئات الافتراضية. يمكن إنشاء الفئات المخصصة، إعادة تسميتها، حذفها وإخفاؤها.
-    لإنشاء فئة جديدة، اضغط على زر "إنشاء فئة". لإعادة ترتيب الفئات، استخدم زر الخطوط الأربعة (السحب والإفلات). لحذف فئة مخصصة، اسحبها إلى اليسار. يمكن تخزين الكتب في عدة فئات في نفس الوقت.
-    </string>
+    <string name="help_desc_how_to_manage_categories_1">يحتوي التطبيق الآن على ميزات جديدة لإدارة الفئات:\nبشكل افتراضي، هناك 5 فئات: الكل (يخزن جميع الكتب)، القراءة، المنتهية، المخطط لها، والمُهملة. يمكن فقط إخفاء وإعادة ترتيب الفئات الافتراضية. يمكن إنشاء الفئات المخصصة، إعادة تسميتها، حذفها وإخفاؤها.\nلإنشاء فئة جديدة، اضغط على زر "إنشاء فئة". لإعادة ترتيب الفئات، استخدم زر الخطوط الأربعة (السحب والإفلات). لحذف فئة مخصصة، اسحبها إلى اليسار. يمكن تخزين الكتب في عدة فئات في نفس الوقت.</string>
 
     <!-- Start -->
     <string name="start_welcome">مرحبًا بك في EverBook!</string>
-    <string name="start_welcome_desc">
-        إلى عالم تسحر فيه الكلمات،
-        وتعلّم وتقود في مغامرات لا تصدق!
-        دعنا نقم ببعض الإعدادات!
-    </string>
+    <string name="start_welcome_desc">إلى عالم تسحر فيه الكلمات،\nوتعلّم وتقود في مغامرات لا تصدق!\nدعنا نقم ببعض الإعدادات!</string>
     <string name="start_language_preferences">تفضيلات اللغة</string>
     <string name="start_theme_preferences">تفضيلات المظهر</string>
     <string name="start_permissions_notifications">إذن الإشعارات</string>
@@ -592,10 +454,7 @@
     <string name="privacy_policy_icon_content_desc">رمز سياسة الخصوصية</string>
 
     <string name="start_done">تم كل شيء!</string>
-    <string name="start_done_desc">
-        لقد انتهيت بنجاح من الإعداد الأساسي للتطبيق.
-        هل ترغب في معرفة كيفية استخدام التطبيق من خلال قراءة شاشة التعليمات؟
-    </string>
+    <string name="start_done_desc">لقد انتهيت بنجاح من الإعداد الأساسي للتطبيق.\nهل ترغب في معرفة كيفية استخدام التطبيق من خلال قراءة شاشة التعليمات؟</string>
 
     <!-- History -->
     <string name="today">اليوم</string>
@@ -654,20 +513,12 @@
     <string name="set_up_scanning">إعداد المسح</string>
     <string name="scan_browse_settings">مسح</string>
     <string name="display_tab">عرض</string>
-    <string name="browse_scan_option_note">
-    تُستخدم هذه المجلدات لمسح الملفات واستردادها في التصفح.
-    إزالة مجلد هنا لن تحذف الملفات أو الكتب الفعلية من المكتبة.
-    لإلغاء الوصول، اضغط على الزر المقابل.
-</string>
+    <string name="browse_scan_option_note">تُستخدم هذه المجلدات لمسح الملفات واستردادها في التصفح.\nإزالة مجلد هنا لن تحذف الملفات أو الكتب الفعلية من المكتبة.\nلإلغاء الوصول، اضغط على الزر المقابل.</string>
     <string name="display_settings">إعدادات العرض</string>
     <string name="horizontal_gesture_alpha_anim_option">تحريك الرؤية</string>
-    <string name="horizontal_gesture_alpha_anim_option_desc">
-    تمكين تحريك الرؤية عند استخدام الإيماءة الأفقية
-</string>
+    <string name="horizontal_gesture_alpha_anim_option_desc">تمكين تحريك الرؤية عند استخدام الإيماءة الأفقية</string>
     <string name="horizontal_gesture_pull_anim_option">تحريك السحب</string>
-    <string name="horizontal_gesture_pull_anim_option_desc">
-    تمكين تحريك السحب عند استخدام الإيماءة الأفقية
-</string>
+    <string name="horizontal_gesture_pull_anim_option_desc">تمكين تحريك السحب عند استخدام الإيماءة الأفقية</string>
     <string name="layout_option">وضع العرض</string>
     <string name="layout_list">قائمة</string>
     <string name="layout_grid">شبكة</string>
@@ -713,4 +564,71 @@
     <string name="category_name_placeholder">أدخل اسم الفئة…</string>
     <string name="create_category_dialog_desc">أدخل اسمًا للفئة الجديدة</string>
     <string name="edit_category_dialog_desc">غيّر اسم الفئة</string>
+
+    <!-- Library display/sort settings -->
+    <string name="tabs_settings">علامات التبويب</string>
+    <string name="title_position_option">المسمى الوظيفي</string>
+    <string name="library_title_position_off">مخفي</string>
+    <string name="library_title_position_below">أسفل</string>
+    <string name="library_title_position_inside">الداخل</string>
+    <string name="library_grid_size_option">حجم الشبكة</string>
+    <string name="library_grid_size_auto">تلقائي</string>
+    <string name="library_grid_size_per_row">لكل صف</string>
+    <string name="read_button_option">أظهر زر «قراءة»</string>
+    <string name="show_progress_option">أظهر التقدم</string>
+    <string name="show_category_tabs_option">أظهر علامات تبويب الفئات</string>
+    <string name="show_default_tab_option">إظهار علامة تبويب «الكل»</string>
+    <string name="show_book_count_option">أظهر عدد الكتب</string>
+    <string name="sort_settings">ترتيب</string>
+    <string name="sort_order_option">ترتيب الفرز</string>
+    <string name="sort_direction_option">اتجاه الفرز</string>
+    <string name="sort_direction_ascending">تصاعدي</string>
+    <string name="sort_direction_descending">تنازلي</string>
+    <string name="per_category_sort_option">الفرز حسب الفئة</string>
+    <string name="per_category_sort_option_note">عند التفعيل، يحتفظ كل تصنيف بترتيب الفرز الخاص به.</string>
+    <string name="category_sort_note">ينطبق عند تفعيل الفرز حسب الفئة.</string>
+    <string name="sort_order_name">أبجديا</string>
+    <string name="sort_order_last_read">آخر قراءة</string>
+    <string name="sort_order_progress">التقدم</string>
+    <string name="sort_order_author">المؤلف</string>
+    <!-- PDF reader additions -->
+    <string name="error_could_not_open_pdf">ملف PDF مفقود أو غير قابل للوصول أو مشفّر أو غير مدعوم.</string>
+    <string name="experiments_reader_settings">تجارب</string>
+    <string name="reader_cache_warm_up_option">تخزين الكتب الجديدة مؤقتًا في الخلفية</string>
+    <string name="reader_cache_warm_up_option_desc">تجريبي. يعالج الكتب المضافة حديثًا بعد الاستيراد حتى تُفتح أسرع لاحقًا.</string>
+    <string name="pdf_reading_mode_option">وضع عرض PDF</string>
+    <string name="pdf_reading_mode_option_desc">اختر وضع عرض PDF</string>
+    <string name="pdf_prefer_original_pdf_option">تفضيل PDF الأصلي</string>
+    <string name="pdf_prefer_original_pdf_option_desc">افتح كتب PDF الجديدة في الوضع الأصلي افتراضيًا</string>
+    <string name="pdf_page_display_mode_option">صفحات PDF</string>
+    <string name="pdf_show_zoom_controls_option">أزرار تكبير PDF</string>
+    <string name="pdf_show_zoom_controls_option_desc">إظهار أزرار التكبير في الشريط السفلي لملف PDF</string>
+    <string name="pdf_pinch_zoom_option">تكبير PDF بالقرص</string>
+    <string name="pdf_pinch_zoom_option_desc">غيّر تكبير PDF بإيماءة القرص بإصبعين</string>
+    <string name="pdf_reading_mode_parsed_text">نسخة نصية</string>
+    <string name="pdf_reading_mode_original_pdf">PDF الأصلي</string>
+    <string name="pdf_page_display_mode_continuous">مستمر</string>
+    <string name="pdf_page_display_mode_paged">صفحات</string>
+    <string name="pdf_reading_mode_bottom_sheet_title">وضع عرض PDF</string>
+    <string name="pdf_reading_mode_text_version_desc">عرض القارئ مع النص والسمات والخطوط والترجمة وإعدادات القراءة.</string>
+    <string name="pdf_reading_mode_original_pdf_desc">تخطيط الصفحات الأصلي مع العرض الأصلي ووضع الصفحات والتكبير.</string>
+    <string name="open_original_pdf">فتح PDF الأصلي</string>
+    <string name="open_parsed_text">فتح النسخة النصية</string>
+    <string name="help_title_how_to_read_pdf_in_native_mode">كيف تعمل أوضاع عرض PDF؟</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_1">يمكن فتح كتب PDF كـ</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_2">نسخة نصية</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_3">أو</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_4">PDF الأصلي</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_5">اضغط على الصفحة لإظهار الشريطين العلوي والسفلي. يفتح زر وضع PDF محدد وضع العرض، ويفتح رمز الترس</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_6">إعدادات قارئ PDF،</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_7">حيث يمكنك الاختيار بين أوضاع الصفحات:</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_8">مستمر</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_9">و</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_10">صفحات</string>
+    <string name="help_desc_how_to_read_pdf_in_native_mode_11">، وأزرار التكبير، والتكبير بالقرص، وإعدادات الألوان، والهوامش، وملء الشاشة، وإبقاء الشاشة قيد التشغيل، والسطوع والاتجاه.\nفي محدد الوضع، يؤدي اختيار وضع إلى حفظه أيضًا لكتب PDF المستقبلية.\nيُحفظ التقدم تلقائيًا. يبقى التكبير في الجلسة الحالية فقط ويُعاد ضبطه عند تغيير الصفحة أو تبديل الكتب أو إعادة فتح الكتاب.</string>
+    <string name="open_parsed_text_content_desc">فتح وضع النسخة النصية</string>
+    <string name="pdf_original_mode_content_desc">وضع PDF الأصلي</string>
+    <string name="pdf_page_content_desc">صفحة PDF %1$d</string>
+    <string name="zoom_in_content_desc">تكبير</string>
+    <string name="zoom_out_content_desc">تصغير</string>
 </resources>

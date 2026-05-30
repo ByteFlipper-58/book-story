@@ -15,6 +15,7 @@ import com.byteflipper.everbook.data.local.room.CategoryDao
 import com.byteflipper.everbook.data.mapper.category.CategoryMapper
 import com.byteflipper.everbook.domain.library.custom_category.Category
 import com.byteflipper.everbook.domain.repository.CategoryRepository
+import com.byteflipper.everbook.domain.library.display.LibrarySortOrder
 import com.byteflipper.everbook.data.local.dto.CategoryEntity
 import com.byteflipper.everbook.data.local.room.BookDao
 
@@ -46,6 +47,20 @@ class CategoryRepositoryImpl @Inject constructor(
         val entity = categoryDao.findById(id) ?: return
         if (entity.kind == "SYSTEM_MAIN") return
         categoryDao.update(entity.copy(name = newName))
+    }
+
+    override suspend fun updateCategorySort(
+        id: Int,
+        sortOrder: LibrarySortOrder,
+        sortOrderDescending: Boolean
+    ) {
+        val entity = categoryDao.findById(id) ?: return
+        categoryDao.update(
+            entity.copy(
+                sortOrder = sortOrder,
+                sortOrderDescending = sortOrderDescending
+            )
+        )
     }
 
     override suspend fun deleteCategory(id: Int, targetId: Int?) {

@@ -8,23 +8,57 @@
 package com.byteflipper.everbook.presentation.reader
 
 import androidx.compose.runtime.Composable
+import com.byteflipper.everbook.domain.library.book.Book
+import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.util.BottomSheet
+import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.ui.reader.ReaderEvent
 import com.byteflipper.everbook.ui.reader.ReaderScreen
 
 @Composable
 fun ReaderBottomSheet(
+    book: Book,
     bottomSheet: BottomSheet?,
     fullscreenMode: Boolean,
+    pdfTextModeUnavailable: Boolean,
+    changePdfReadingMode: (ReaderEvent.OnChangePdfReadingMode) -> Unit,
+    changePdfDefaultReadingMode: (PdfReadingMode) -> Unit,
     menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit,
     dismissBottomSheet: (ReaderEvent.OnDismissBottomSheet) -> Unit
 ) {
+    val activity = LocalActivity.current
+
     when (bottomSheet) {
         ReaderScreen.SETTINGS_BOTTOM_SHEET -> {
             ReaderSettingsBottomSheet(
                 fullscreenMode = fullscreenMode,
-                menuVisibility = menuVisibility,
-                dismissBottomSheet = dismissBottomSheet
+                menuVisibility = { show, fullscreen ->
+                    menuVisibility(
+                        ReaderEvent.OnMenuVisibility(
+                            show = show,
+                            fullscreenMode = fullscreen,
+                            saveCheckpoint = false,
+                            activity = activity
+                        )
+                    )
+                },
+                dismissBottomSheet = {
+                    dismissBottomSheet(ReaderEvent.OnDismissBottomSheet)
+                }
+            )
+        }
+
+        ReaderScreen.PDF_READING_MODE_BOTTOM_SHEET -> {
+            PdfReadingModeBottomSheet(
+                book = book,
+                pdfTextModeUnavailable = pdfTextModeUnavailable,
+                changePdfReadingMode = {
+                    changePdfReadingMode(ReaderEvent.OnChangePdfReadingMode(it))
+                },
+                changePdfDefaultReadingMode = changePdfDefaultReadingMode,
+                dismissBottomSheet = {
+                    dismissBottomSheet(ReaderEvent.OnDismissBottomSheet)
+                }
             )
         }
     }

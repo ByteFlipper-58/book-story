@@ -10,6 +10,7 @@ package com.byteflipper.everbook.presentation.settings.library
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.byteflipper.everbook.domain.library.custom_category.Category
+import com.byteflipper.everbook.domain.library.display.LibrarySortOrder
 import com.byteflipper.everbook.domain.repository.CategoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -43,6 +44,16 @@ class LibrarySettingsViewModel @Inject constructor(
             viewModelScope.launch {
                 categoryRepository.renameCategory(id, newName)
             }
+        }
+    }
+
+    fun updateCategorySort(
+        id: Int,
+        sortOrder: LibrarySortOrder,
+        sortOrderDescending: Boolean
+    ) {
+        viewModelScope.launch {
+            categoryRepository.updateCategorySort(id, sortOrder, sortOrderDescending)
         }
     }
 

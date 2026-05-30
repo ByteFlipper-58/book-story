@@ -8,6 +8,8 @@
 package com.byteflipper.everbook.data.parser.txt
 
 import android.util.Log
+import com.byteflipper.everbook.data.parser.ReaderTextChunkBuffer
+import com.byteflipper.everbook.data.parser.ReaderTextChunkSink
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
@@ -15,6 +17,7 @@ import com.byteflipper.everbook.data.parser.MarkdownParser
 import com.byteflipper.everbook.data.parser.TextParser
 import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.reader.ReaderText
+import com.byteflipper.everbook.domain.reader.hasReadableReaderText
 import com.byteflipper.everbook.presentation.core.util.clearAllMarkdown
 import javax.inject.Inject
 
@@ -24,36 +27,46 @@ class TxtTextParser @Inject constructor(
     private val markdownParser: MarkdownParser
 ) : TextParser {
 
-    override suspend fun parse(cachedFile: CachedFile): List<ReaderText> {
+    override suspend fun parse(
+        cachedFile: CachedFile,
+        onChunk: ReaderTextChunkSink?
+    ): List<ReaderText> {
         Log.i(TXT_TAG, "Started TXT parsing: ${cachedFile.name}.")
 
         return try {
             val readerText = mutableListOf<ReaderText>()
+            val chunkBuffer = ReaderTextChunkBuffer(onChunk = onChunk)
             var chapterAdded = false
 
             withContext(Dispatchers.IO) {
-                cachedFile.openInputStream()?.bufferedReader()?.use { reader ->
-                    reader.forEachLine { line ->
-                        if (line.isNotBlank()) {
-                            when (line) {
-                                "***", "---" -> readerText.add(
-                                    ReaderText.Separator
-                                )
+                cachedFile.openInputStream()?.bufferedReader()?.useLines { lines ->
+                    for (line in lines) {
+                        if (line.isBlank()) continue
 
-                                else -> {
-                                    if (!chapterAdded && line.clearAllMarkdown().isNotBlank()) {
-                                        readerText.add(
-                                            0, ReaderText.Chapter(
-                                                title = line.clearAllMarkdown(),
-                                                nested = false
-                                            )
-                                        )
-                                        chapterAdded = true
-                                    } else readerText.add(
-                                        ReaderText.Text(
-                                            line = markdownParser.parse(line)
-                                        )
+                        when (line) {
+                            "***", "---" -> {
+                                readerText.add(ReaderText.Separator)
+                                chunkBuffer.add(ReaderText.Separator)
+                            }
+
+                            else -> {
+                                val chapterTitle = line.clearAllMarkdown()
+
+                                if (!chapterAdded && chapterTitle.isNotBlank()) {
+                                    val chapter = ReaderText.Chapter(
+                                        title = chapterTitle,
+                                        nested = false
                                     )
+                                    readerText.add(0, chapter)
+                                    chunkBuffer.add(chapter)
+                                    chapterAdded = true
+                                } else {
+                                    val text = ReaderText.Text(
+                                        line = markdownParser.parse(line),
+                                        source = line
+                                    )
+                                    readerText.add(text)
+                                    chunkBuffer.add(text)
                                 }
                             }
                         }
@@ -61,12 +74,10 @@ class TxtTextParser @Inject constructor(
                 }
             }
 
+            chunkBuffer.flush()
             yield()
 
-            if (
-                readerText.filterIsInstance<ReaderText.Text>().isEmpty() ||
-                readerText.filterIsInstance<ReaderText.Chapter>().isEmpty()
-            ) {
+            if (!readerText.hasReadableReaderText()) {
                 Log.e(TXT_TAG, "Could not extract text from TXT.")
                 return emptyList()
             }

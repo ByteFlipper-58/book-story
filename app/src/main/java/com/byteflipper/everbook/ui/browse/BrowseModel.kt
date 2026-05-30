@@ -28,6 +28,7 @@ import com.byteflipper.everbook.domain.browse.SelectableFile
 import com.byteflipper.everbook.domain.library.book.NullableBook
 import com.byteflipper.everbook.domain.library.book.SelectableNullableBook
 import com.byteflipper.everbook.domain.use_case.book.InsertBook
+import com.byteflipper.everbook.domain.use_case.data_store.GetAllSettings
 import com.byteflipper.everbook.domain.use_case.file_system.GetBookFromFile
 import com.byteflipper.everbook.domain.use_case.file_system.GetFiles
 import com.byteflipper.everbook.presentation.core.util.showToast
@@ -38,7 +39,8 @@ import javax.inject.Inject
 class BrowseModel @Inject constructor(
     private val getFiles: GetFiles,
     private val getBookFromFile: GetBookFromFile,
-    private val insertBook: InsertBook
+    private val insertBook: InsertBook,
+    private val getAllSettings: GetAllSettings
 ) : ViewModel() {
 
     private val mutex = Mutex()
@@ -334,8 +336,21 @@ class BrowseModel @Inject constructor(
                         return@mapNotNull null
                     }.ifEmpty { return@launch }
 
+                    val settings = getAllSettings.execute()
                     for (book in booksToInsert) {
-                        insertBook.execute(book.bookWithCover!!)
+                        val bookWithCover = book.bookWithCover!!
+                        val resolvedBookWithCover = if (
+                            bookWithCover.book.filePath.endsWith(".pdf", ignoreCase = true)
+                        ) {
+                            bookWithCover.copy(
+                                book = bookWithCover.book.copy(
+                                    pdfReadingMode = settings.pdfDefaultReadingMode
+                                )
+                            )
+                        } else {
+                            bookWithCover
+                        }
+                        insertBook.execute(resolvedBookWithCover)
                     }
 
                     LibraryScreen.refreshListChannel.trySend(0)

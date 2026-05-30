@@ -1,0 +1,91 @@
+name: Bug report
+description: Report a reproducible problem in the app.
+title: "[Bug]: "
+labels:
+  - "bug"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please keep one problem per issue.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the app is affected?
+      options:
+        - Reader
+        - Library
+        - Browse / import
+        - Parser
+        - Settings
+        - Themes / UI
+        - Updates / releases
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem clearly.
+      placeholder: The app crashes when...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the exact steps needed to trigger the problem.
+      placeholder: |
+        1. Open...
+        2. Tap...
+        3. See...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened instead?
+    validations:
+      required: true
+  - type: input
+    id: app-version
+    attributes:
+      label: App version
+      placeholder: v1.1.0
+    validations:
+      required: true
+  - type: input
+    id: android-version
+    attributes:
+      label: Android version
+      placeholder: Android 14
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      placeholder: Pixel 8
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Add crash logs, screenshots, or screen recordings if available.
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing open and closed issues.
+          required: true
+        - label: I am reporting only one bug in this issue.
+          required: true
+        - label: I used a clear title and did not add placeholder tags like [Bug].
+          required: true

@@ -12,8 +12,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.presentation.about.AboutContent
@@ -21,6 +19,7 @@ import com.byteflipper.everbook.presentation.core.components.top_bar.collapsible
 import com.byteflipper.everbook.presentation.navigator.LocalNavigator
 import com.byteflipper.everbook.ui.credits.CreditsScreen
 import com.byteflipper.everbook.ui.licenses.LicensesScreen
+import com.byteflipper.everbook.ui.changelog.ChangelogScreen
 
 @Parcelize
 object AboutScreen : Screen, Parcelable {
@@ -41,6 +40,9 @@ object AboutScreen : Screen, Parcelable {
             },
             navigateToCredits = {
                 navigator.push(CreditsScreen)
+            },
+            navigateToChangelog = {
+                navigator.push(ChangelogScreen())
             },
             navigateBack = {
                 navigator.pop()

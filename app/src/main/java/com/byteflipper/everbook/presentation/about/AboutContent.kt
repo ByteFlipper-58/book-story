@@ -21,6 +21,7 @@ fun AboutContent(
     navigateToBrowserPage: (AboutEvent.OnNavigateToBrowserPage) -> Unit,
     navigateToLicenses: () -> Unit,
     navigateToCredits: () -> Unit,
+    navigateToChangelog: () -> Unit,
     navigateBack: () -> Unit
 ) {
 
@@ -30,6 +31,7 @@ fun AboutContent(
         navigateToBrowserPage = navigateToBrowserPage,
         navigateToLicenses = navigateToLicenses,
         navigateToCredits = navigateToCredits,
+        navigateToChangelog = navigateToChangelog,
         navigateBack = navigateBack
     )
 }

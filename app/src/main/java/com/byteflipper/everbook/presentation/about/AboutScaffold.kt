@@ -29,6 +29,7 @@ fun AboutScaffold(
     navigateToBrowserPage: (AboutEvent.OnNavigateToBrowserPage) -> Unit,
     navigateToLicenses: () -> Unit,
     navigateToCredits: () -> Unit,
+    navigateToChangelog: () -> Unit,
     navigateBack: () -> Unit
 ) {
     Scaffold(
@@ -49,7 +50,8 @@ fun AboutScaffold(
             listState = listState,
             navigateToBrowserPage = navigateToBrowserPage,
             navigateToLicenses = navigateToLicenses,
-            navigateToCredits = navigateToCredits
+            navigateToCredits = navigateToCredits,
+            navigateToChangelog = navigateToChangelog
         )
     }
 }

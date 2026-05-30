@@ -23,12 +23,13 @@ interface BookRepository {
     ): List<Book>
 
     suspend fun getBookText(
-        bookId: Int
+        bookId: Int,
+        onChunk: (suspend (List<ReaderText>) -> Unit)? = null
     ): List<ReaderText>
 
     suspend fun insertBook(
         bookWithCover: BookWithCover
-    )
+    ): Int
 
     suspend fun updateBook(
         book: Book
@@ -42,6 +43,8 @@ interface BookRepository {
     suspend fun deleteBooks(
         books: List<Book>
     )
+
+    fun cancelReaderCacheWarmUps()
 
     suspend fun canResetCover(
         bookId: Int

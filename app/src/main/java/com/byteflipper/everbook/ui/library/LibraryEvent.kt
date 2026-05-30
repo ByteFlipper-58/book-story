@@ -62,4 +62,8 @@ sealed class LibraryEvent {
     data class OnActionSetCategoriesDialog(
         val categoryIds: List<Int>
     ) : LibraryEvent()
+
+    data object OnShowFilterBottomSheet : LibraryEvent()
+
+    data object OnDismissBottomSheet : LibraryEvent()
 }

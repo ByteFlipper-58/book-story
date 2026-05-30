@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Subject
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.Menu
@@ -52,6 +53,7 @@ fun ReaderTopBar(
     leave: (ReaderEvent.OnLeave) -> Unit,
     selectPreviousPreset: (SettingsEvent.OnSelectPreviousPreset) -> Unit,
     selectNextPreset: (SettingsEvent.OnSelectNextPreset) -> Unit,
+    showPdfReadingModeBottomSheet: (ReaderEvent.OnShowPdfReadingModeBottomSheet) -> Unit,
     showSettingsBottomSheet: (ReaderEvent.OnShowSettingsBottomSheet) -> Unit,
     showChaptersDrawer: (ReaderEvent.OnShowChaptersDrawer) -> Unit,
     navigateToBookInfo: (changePath: Boolean) -> Unit,
@@ -136,6 +138,19 @@ fun ReaderTopBar(
                         enabled = !lockMenu
                     ) {
                         showChaptersDrawer(ReaderEvent.OnShowChaptersDrawer)
+                    }
+                }
+
+                if (book.filePath.endsWith(".pdf", ignoreCase = true)) {
+                    IconButton(
+                        icon = Icons.AutoMirrored.Filled.Subject,
+                        contentDescription = R.string.pdf_reading_mode_option,
+                        disableOnClick = false,
+                        enabled = !lockMenu
+                    ) {
+                        showPdfReadingModeBottomSheet(
+                            ReaderEvent.OnShowPdfReadingModeBottomSheet
+                        )
                     }
                 }
 

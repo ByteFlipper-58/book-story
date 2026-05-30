@@ -337,11 +337,13 @@ class SettingsModel @Inject constructor(
                                 green = Random.nextFloat(),
                                 blue = Random.nextFloat()
                             ),
-                            fontColor = colorPreset.fontColor.copy(
-                                red = Random.nextFloat(),
-                                green = Random.nextFloat(),
-                                blue = Random.nextFloat()
-                            )
+                            fontColor = if (event.includeFontColor) {
+                                colorPreset.fontColor.copy(
+                                    red = Random.nextFloat(),
+                                    green = Random.nextFloat(),
+                                    blue = Random.nextFloat()
+                                )
+                            } else colorPreset.fontColor
                         )
 
                         yield()

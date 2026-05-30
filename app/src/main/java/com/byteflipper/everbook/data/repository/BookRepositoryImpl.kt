@@ -16,16 +16,21 @@ import android.util.Log
 import androidx.core.net.toUri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import com.byteflipper.everbook.data.cache.ReaderTextCache
+import com.byteflipper.everbook.data.di.ApplicationScope
 import com.byteflipper.everbook.data.local.room.BookDao
 import com.byteflipper.everbook.data.local.room.BookCategoryDao
 import com.byteflipper.everbook.data.mapper.book.BookMapper
 import com.byteflipper.everbook.data.parser.FileParser
 import com.byteflipper.everbook.data.parser.TextParser
+import com.byteflipper.everbook.domain.file.CachedFile
 import com.byteflipper.everbook.domain.file.CachedFileCompat
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.library.book.BookWithCover
 import com.byteflipper.everbook.domain.reader.ReaderText
+import com.byteflipper.everbook.domain.reader.hasReadableReaderText
 import com.byteflipper.everbook.domain.repository.BookRepository
+import com.byteflipper.everbook.domain.repository.DataStoreRepository
 import com.byteflipper.everbook.domain.util.CoverImage
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
@@ -34,6 +39,8 @@ import java.io.FileOutputStream
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 private const val GET_TEXT = "GET TEXT, REPO"
 private const val GET_BOOKS = "GET BOOKS, REPO"
@@ -54,7 +61,11 @@ class BookRepositoryImpl @Inject constructor(
     private val bookMapper: BookMapper,
 
     private val fileParser: FileParser,
-    private val textParser: TextParser
+    private val textParser: TextParser,
+    private val readerTextCache: ReaderTextCache,
+    private val dataStoreRepository: DataStoreRepository,
+    @ApplicationScope
+    private val applicationScope: CoroutineScope
 ) : BookRepository {
 
     /**
@@ -105,33 +116,42 @@ class BookRepositoryImpl @Inject constructor(
     /**
      * Loads text from the book. Already formatted.
      */
-    override suspend fun getBookText(bookId: Int): List<ReaderText> {
+    override suspend fun getBookText(
+        bookId: Int,
+        onChunk: (suspend (List<ReaderText>) -> Unit)?
+    ): List<ReaderText> {
         if (bookId == -1) return emptyList()
 
         val book = database.findBookById(bookId)
-        val cachedFile = CachedFileCompat.fromFullPath(
-            context = application,
-            path = book.filePath,
-            builder = CachedFileCompat.build(
-                name = book.filePath.substringAfterLast(File.separator),
-                path = book.filePath,
-                isDirectory = false
-            )
-        )
+        val cachedFile = getCachedFile(book.filePath)
 
         if (cachedFile == null || !cachedFile.canAccess()) {
             Log.e(GET_TEXT, "File [$bookId] does not exist")
             return emptyList()
         }
 
-        val readerText = textParser.parse(cachedFile)
+        readerTextCache.cancelWarmUp(bookId)
 
-        if (
-            readerText.filterIsInstance<ReaderText.Text>().isEmpty() ||
-            readerText.filterIsInstance<ReaderText.Chapter>().isEmpty()
-        ) {
+        readerTextCache.read(bookId, cachedFile, onChunk)
+            ?.takeIf { it.hasReadableReaderText() }
+            ?.let { readerText ->
+                Log.i(GET_TEXT, "Successfully loaded cached text of [$bookId].")
+                return readerText
+            }
+
+        val readerText = textParser.parse(cachedFile) { chunk ->
+            if (chunk.isNotEmpty()) {
+                onChunk?.invoke(chunk)
+            }
+        }
+
+        if (!readerText.hasReadableReaderText()) {
             Log.e(GET_TEXT, "Could not load text from [$bookId].")
             return emptyList()
+        }
+
+        applicationScope.launch {
+            readerTextCache.write(bookId, cachedFile, readerText)
         }
 
         Log.i(GET_TEXT, "Successfully loaded text of [$bookId] with markdown.")
@@ -144,7 +164,7 @@ class BookRepositoryImpl @Inject constructor(
      */
     override suspend fun insertBook(
         bookWithCover: BookWithCover
-    ) {
+    ): Int {
         Log.i(INSERT_BOOK, "Inserting ${bookWithCover.book.title}.")
 
         val filesDir = application.filesDir
@@ -196,6 +216,16 @@ class BookRepositoryImpl @Inject constructor(
         }
         bookCategoryDao.insertAll(refs)
         Log.i(INSERT_BOOK, "Successfully inserted book.")
+
+        applicationScope.launch {
+            if (!dataStoreRepository.getAllSettings().readerCacheWarmUp) return@launch
+            val cachedFile = getCachedFile(updatedBook.filePath) ?: return@launch
+            readerTextCache.warmUp(generatedId, cachedFile) {
+                textParser.parse(cachedFile)
+            }
+        }
+
+        return generatedId
     }
 
     /**
@@ -317,6 +347,7 @@ class BookRepositoryImpl @Inject constructor(
 
         for (b in books) {
             bookCategoryDao.deleteByBook(b.id)
+            readerTextCache.delete(b.id)
 
             if (b.coverImage != null) {
                 try {
@@ -344,21 +375,17 @@ class BookRepositoryImpl @Inject constructor(
         Log.i(DELETE_BOOKS, "Successfully deleted books.")
     }
 
+    override fun cancelReaderCacheWarmUps() {
+        readerTextCache.cancelWarmUps()
+    }
+
     /**
      * @return Whether can reset cover image (restore default).
      */
     override suspend fun canResetCover(bookId: Int): Boolean {
         val book = database.findBookById(bookId)
 
-        val cachedFile = CachedFileCompat.fromFullPath(
-            application,
-            book.filePath,
-            builder = CachedFileCompat.build(
-                name = book.filePath.substringAfterLast(File.separator),
-                path = book.filePath,
-                isDirectory = false
-            )
-        )
+        val cachedFile = getCachedFile(book.filePath)
 
         if (cachedFile == null || !cachedFile.canAccess()) {
             return false
@@ -406,15 +433,7 @@ class BookRepositoryImpl @Inject constructor(
         }
 
         val book = database.findBookById(bookId)
-        val cachedFile = CachedFileCompat.fromFullPath(
-            application,
-            book.filePath,
-            builder = CachedFileCompat.build(
-                name = book.filePath.substringAfterLast(File.separator),
-                path = book.filePath,
-                isDirectory = false
-            )
-        )
+        val cachedFile = getCachedFile(book.filePath)
 
         if (cachedFile == null || !cachedFile.canAccess()) {
             return false
@@ -464,4 +483,30 @@ class BookRepositoryImpl @Inject constructor(
             database.updateBooks(listOf(entity.copy(categoryId = 0)))
         }
     }
+
+    private fun getCachedFile(path: String): CachedFile? {
+        val localFile = File(path)
+        val builder = if (localFile.exists() && localFile.canRead()) {
+            CachedFileCompat.build(
+                name = localFile.name,
+                path = localFile.absolutePath,
+                size = localFile.length(),
+                lastModified = localFile.lastModified(),
+                isDirectory = localFile.isDirectory
+            )
+        } else {
+            CachedFileCompat.build(
+                name = path.substringAfterLast(File.separator),
+                path = path,
+                isDirectory = false
+            )
+        }
+
+        return CachedFileCompat.fromFullPath(
+            context = application,
+            path = path,
+            builder = builder
+        )
+    }
+
 }

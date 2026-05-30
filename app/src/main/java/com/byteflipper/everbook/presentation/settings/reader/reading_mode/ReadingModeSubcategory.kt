@@ -21,11 +21,14 @@ import com.byteflipper.everbook.presentation.settings.reader.reading_mode.compon
 import com.byteflipper.everbook.presentation.settings.reader.reading_mode.components.HorizontalGesturePullAnimOption
 import com.byteflipper.everbook.presentation.settings.reader.reading_mode.components.HorizontalGestureScrollOption
 import com.byteflipper.everbook.presentation.settings.reader.reading_mode.components.HorizontalGestureSensitivityOption
+import com.byteflipper.everbook.presentation.settings.reader.reading_mode.components.PdfReadingModeOption
 
 fun LazyListScope.ReadingModeSubcategory(
     titleColor: @Composable () -> Color = { MaterialTheme.colorScheme.primary },
     title: @Composable () -> String = { stringResource(id = R.string.reading_mode_reader_settings) },
     showTitle: Boolean = true,
+    showPdfReadingMode: Boolean = true,
+    showHorizontalGesture: Boolean = false,
     showDivider: Boolean = true
 ) {
     SettingsSubcategory(
@@ -34,24 +37,32 @@ fun LazyListScope.ReadingModeSubcategory(
         showTitle = showTitle,
         showDivider = showDivider
     ) {
-        item {
-            HorizontalGestureOption()
+        if (showPdfReadingMode) {
+            item {
+                PdfReadingModeOption()
+            }
         }
 
-        item {
-            HorizontalGestureScrollOption()
-        }
+        if (showHorizontalGesture) {
+            item {
+                HorizontalGestureOption()
+            }
 
-        item {
-            HorizontalGestureSensitivityOption()
-        }
+            item {
+                HorizontalGestureScrollOption()
+            }
 
-        item {
-            HorizontalGesturePullAnimOption()
-        }
+            item {
+                HorizontalGestureSensitivityOption()
+            }
 
-        item {
-            HorizontalGestureAlphaAnimOption()
+            item {
+                HorizontalGesturePullAnimOption()
+            }
+
+            item {
+                HorizontalGestureAlphaAnimOption()
+            }
         }
     }
 }

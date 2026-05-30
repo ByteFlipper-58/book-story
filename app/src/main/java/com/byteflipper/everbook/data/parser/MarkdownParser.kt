@@ -37,6 +37,12 @@ class MarkdownParser @Inject constructor(
      */
     fun parse(markdown: String): AnnotatedString {
         return try {
+            if (!markdown.mayContainMarkdown()) {
+                return buildAnnotatedString {
+                    append(markdown.trim())
+                }
+            }
+
             val annotatedString = buildAnnotatedString {
                 parseNode(commonmarkParser.parse(markdown))
             }.ifBlank { buildAnnotatedString { append(markdown) } }
@@ -96,5 +102,17 @@ class MarkdownParser @Inject constructor(
             parseNode(child)
             child = child.next
         }
+    }
+
+    private fun String.mayContainMarkdown(): Boolean {
+        forEach { char ->
+            when (char) {
+                '*', '_', '[', ']', '#', '>', '`' -> {
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 }

@@ -7,26 +7,33 @@
 
 package com.byteflipper.everbook.presentation.library
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.byteflipper.everbook.presentation.core.components.common.LazyVerticalGridWithScrollbar
-import com.byteflipper.everbook.presentation.core.constants.providePrimaryScrollbar
+import com.byteflipper.everbook.domain.library.book.SelectableBook
+import com.byteflipper.everbook.domain.library.display.LibraryLayout as LibraryLayoutEnum
 
 @Composable
 fun LibraryLayout(
-    items: LazyGridScope.() -> Unit
+    books: List<SelectableBook>,
+    layout: LibraryLayoutEnum,
+    gridSize: Int,
+    autoGridSize: Boolean,
+    itemContent: @Composable (book: SelectableBook) -> Unit
 ) {
-    LazyVerticalGridWithScrollbar(
-        columns = GridCells.Adaptive(120.dp),
-        modifier = Modifier.fillMaxSize(),
-        scrollbarSettings = providePrimaryScrollbar(false),
-        contentPadding = PaddingValues(8.dp)
-    ) {
-        items()
+    when (layout) {
+        LibraryLayoutEnum.LIST -> {
+            LibraryListLayout(
+                books = books,
+                itemContent = itemContent
+            )
+        }
+
+        LibraryLayoutEnum.GRID -> {
+            LibraryGridLayout(
+                books = books,
+                gridSize = gridSize,
+                autoGridSize = autoGridSize,
+                itemContent = itemContent
+            )
+        }
     }
 }

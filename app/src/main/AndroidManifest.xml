@@ -47,15 +47,34 @@
         tools:ignore="DataExtractionRules"
         tools:targetApi="tiramisu">
 
+        <!-- Release lint does not resolve the Hilt/AppCompat superclass chain here. -->
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|locale|density|uiMode"
             android:exported="true"
             android:theme="@style/Theme.Start.Splash"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/epub+zip" />
+                <data android:mimeType="application/pdf" />
+                <data android:mimeType="application/x-fictionbook+xml" />
+                <data android:mimeType="application/fb2+xml" />
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="text/html" />
+                <data android:mimeType="text/markdown" />
+                <data android:mimeType="text/x-markdown" />
             </intent-filter>
         </activity>
 

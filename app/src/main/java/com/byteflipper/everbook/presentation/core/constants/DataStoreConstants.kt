@@ -23,6 +23,7 @@ object DataStoreConstants {
     val THEME_CONTRAST = stringPreferencesKey("theme_contrast")
     val SHOW_START_SCREEN = booleanPreferencesKey("guide")
     val DOUBLE_PRESS_EXIT = booleanPreferencesKey("double_press_exit")
+    val CHANGELOG_LAST_SEEN_VERSION_CODE = intPreferencesKey("changelog_last_seen_version_code")
 
     // Reader settings
     val DOUBLE_CLICK_TRANSLATION = booleanPreferencesKey("double_click_translation")
@@ -67,9 +68,31 @@ object DataStoreConstants {
     val PROGRESS_BAR_ALIGNMENT = stringPreferencesKey("progress_bar_alignment")
     val PROGRESS_BAR_FONT_SIZE = intPreferencesKey("progress_bar_font_size")
     val PROGRESS_COUNT = stringPreferencesKey("progress_count")
+    val PDF_DEFAULT_READING_MODE = stringPreferencesKey("pdf_default_reading_mode")
+    val PDF_PAGE_DISPLAY_MODE = stringPreferencesKey("pdf_page_display_mode")
+    val PDF_SHOW_ZOOM_CONTROLS = booleanPreferencesKey("pdf_show_zoom_controls")
+    val PDF_PINCH_ZOOM = booleanPreferencesKey("pdf_pinch_zoom")
 
     // Math renderer
     val RENDER_MATH = booleanPreferencesKey("render_math")
+
+    // Reader experiments
+    val READER_CACHE_WARM_UP = booleanPreferencesKey("reader_cache_warm_up")
+
+    // Library settings
+    val LIBRARY_LAYOUT = stringPreferencesKey("library_layout")
+    val LIBRARY_AUTO_GRID_SIZE = booleanPreferencesKey("library_auto_grid_size")
+    val LIBRARY_GRID_SIZE = intPreferencesKey("library_grid_size")
+    val LIBRARY_TITLE_POSITION = stringPreferencesKey("library_title_position")
+    val LIBRARY_SHOW_READ_BUTTON = booleanPreferencesKey("library_show_read_button")
+    val LIBRARY_SHOW_PROGRESS = booleanPreferencesKey("library_show_progress")
+    val LIBRARY_SHOW_BOOK_COUNT = booleanPreferencesKey("library_show_book_count")
+    val LIBRARY_SHOW_CATEGORY_TABS = booleanPreferencesKey("library_show_category_tabs")
+    val LIBRARY_SHOW_DEFAULT_TAB = booleanPreferencesKey("library_show_default_tab")
+    val LIBRARY_SORT_ORDER = stringPreferencesKey("library_sort_order")
+    val LIBRARY_SORT_ORDER_DESCENDING = booleanPreferencesKey("library_sort_order_descending")
+    val LIBRARY_PER_CATEGORY_SORT = booleanPreferencesKey("library_per_category_sort")
+    val LIBRARY_LAST_TAB_ID = intPreferencesKey("library_last_tab_id")
 
     // Browse settings
     val BROWSE_LAYOUT = stringPreferencesKey("browse_layout")

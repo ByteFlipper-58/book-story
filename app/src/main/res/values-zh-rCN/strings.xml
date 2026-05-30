@@ -597,7 +597,7 @@
     <!-- PDF reader additions -->
     <string name="error_could_not_open_pdf">PDF 文件缺失、无法访问、已加密或不受支持。</string>
     <string name="experiments_reader_settings">实验</string>
-    <string name="reader_cache_warm_up_option">在后台预热阅读器缓存</string>
+    <string name="reader_cache_warm_up_option">在后台缓存新书</string>
     <string name="reader_cache_warm_up_option_desc">实验性功能。导入后解析新添加的书籍，以便之后更快打开。</string>
     <string name="pdf_reading_mode_option">PDF 查看模式</string>
     <string name="pdf_reading_mode_option_desc">选择 PDF 查看模式</string>

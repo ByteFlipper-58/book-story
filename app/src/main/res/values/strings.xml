@@ -192,7 +192,7 @@
     <string name="fullscreen_option_desc">Hide system bars and margins</string>
     <string name="keep_screen_on_option">Keep screen on</string>
     <string name="hide_bars_on_fast_scroll_option">Hide bars on fast scroll</string>
-    <string name="reader_cache_warm_up_option">Warm up reader cache in background</string>
+    <string name="reader_cache_warm_up_option">Cache new books in background</string>
     <string name="reader_cache_warm_up_option_desc">Experimental. Parses newly added books after import so they can open faster later.</string>
     <string name="perception_expander_option">Perception expander</string>
     <string name="perception_expander_option_desc">Increase your reading speed by focusing on center</string>

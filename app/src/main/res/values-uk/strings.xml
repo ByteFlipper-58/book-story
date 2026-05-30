@@ -601,7 +601,7 @@
     <!-- PDF reader additions -->
     <string name="error_could_not_open_pdf">PDF-файл відсутній, недоступний, зашифрований або не підтримується.</string>
     <string name="experiments_reader_settings">Експерименти</string>
-    <string name="reader_cache_warm_up_option">Прогрівати кеш читача у фоні</string>
+    <string name="reader_cache_warm_up_option">Кешувати нові книги у фоні</string>
     <string name="reader_cache_warm_up_option_desc">Експериментально. Обробляє нові книги після імпорту, щоб пізніше вони відкривалися швидше.</string>
     <string name="pdf_reading_mode_option">Режим перегляду PDF</string>
     <string name="pdf_reading_mode_option_desc">Виберіть режим перегляду PDF</string>

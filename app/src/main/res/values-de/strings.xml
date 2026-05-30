@@ -595,7 +595,7 @@
     <!-- PDF reader additions -->
     <string name="error_could_not_open_pdf">PDF-Datei fehlt, ist nicht zugänglich, verschlüsselt oder wird nicht unterstützt.</string>
     <string name="experiments_reader_settings">Experimente</string>
-    <string name="reader_cache_warm_up_option">Reader-Cache im Hintergrund vorbereiten</string>
+    <string name="reader_cache_warm_up_option">Neue Bücher im Hintergrund zwischenspeichern</string>
     <string name="reader_cache_warm_up_option_desc">Experimentell. Analysiert neu hinzugefügte Bücher nach dem Import, damit sie später schneller geöffnet werden.</string>
     <string name="pdf_reading_mode_option">PDF-Ansichtsmodus</string>
     <string name="pdf_reading_mode_option_desc">Wähle den PDF-Ansichtsmodus</string>

@@ -30,10 +30,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -50,12 +46,13 @@ import com.byteflipper.everbook.presentation.settings.components.SettingsSubcate
 @Composable
 fun PdfReadingModeBottomSheet(
     book: Book,
+    pdfDefaultReadingMode: PdfReadingMode,
     pdfTextModeUnavailable: Boolean,
     changePdfReadingMode: (PdfReadingMode) -> Unit,
     changePdfDefaultReadingMode: (PdfReadingMode) -> Unit,
     dismissBottomSheet: () -> Unit
 ) {
-    var rememberForFuturePdfs by rememberSaveable(book.id) { mutableStateOf(false) }
+    val showRememberForFuturePdfs = book.pdfReadingMode != pdfDefaultReadingMode
 
     ModalBottomSheet(
         modifier = Modifier.fillMaxWidth(),
@@ -84,9 +81,6 @@ fun PdfReadingModeBottomSheet(
                     selected = book.pdfReadingMode == PdfReadingMode.PARSED_TEXT,
                     enabled = !pdfTextModeUnavailable,
                     onClick = {
-                        if (rememberForFuturePdfs) {
-                            changePdfDefaultReadingMode(PdfReadingMode.PARSED_TEXT)
-                        }
                         changePdfReadingMode(PdfReadingMode.PARSED_TEXT)
                         dismissBottomSheet()
                     }
@@ -101,27 +95,23 @@ fun PdfReadingModeBottomSheet(
                     selected = book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF,
                     enabled = true,
                     onClick = {
-                        if (rememberForFuturePdfs) {
-                            changePdfDefaultReadingMode(PdfReadingMode.ORIGINAL_PDF)
-                        }
                         changePdfReadingMode(PdfReadingMode.ORIGINAL_PDF)
                         dismissBottomSheet()
                     }
                 )
             }
 
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
+            if (showRememberForFuturePdfs) {
+                item {
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                PdfReadingModeRememberOption(
-                    selected = rememberForFuturePdfs,
-                    onClick = {
-                        rememberForFuturePdfs = !rememberForFuturePdfs
-                        if (rememberForFuturePdfs) {
+                    PdfReadingModeRememberOption(
+                        selected = false,
+                        onClick = {
                             changePdfDefaultReadingMode(book.pdfReadingMode)
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     }

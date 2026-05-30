@@ -598,7 +598,7 @@
     <!-- PDF reader additions -->
     <string name="error_could_not_open_pdf">O arquivo PDF está ausente, inacessível, criptografado ou não é compatível.</string>
     <string name="experiments_reader_settings">Experimentos</string>
-    <string name="reader_cache_warm_up_option">Preparar cache do leitor em segundo plano</string>
+    <string name="reader_cache_warm_up_option">Armazenar novos livros em cache em segundo plano</string>
     <string name="reader_cache_warm_up_option_desc">Experimental. Analisa os livros recém-adicionados após a importação para que abram mais rápido depois.</string>
     <string name="pdf_reading_mode_option">Modo de visualização do PDF</string>
     <string name="pdf_reading_mode_option_desc">Escolha o modo de visualização do PDF</string>

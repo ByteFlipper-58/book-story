@@ -598,7 +598,7 @@
     <!-- PDF reader additions -->
     <string name="error_could_not_open_pdf">Il file PDF è mancante, inaccessibile, crittografato o non supportato.</string>
     <string name="experiments_reader_settings">Esperimenti</string>
-    <string name="reader_cache_warm_up_option">Prepara la cache del lettore in background</string>
+    <string name="reader_cache_warm_up_option">Memorizza i nuovi libri nella cache in background</string>
     <string name="reader_cache_warm_up_option_desc">Sperimentale. Analizza i libri appena aggiunti dopo l’importazione, così potranno aprirsi più velocemente in seguito.</string>
     <string name="pdf_reading_mode_option">Modalità di visualizzazione PDF</string>
     <string name="pdf_reading_mode_option_desc">Scegli la modalità di visualizzazione PDF</string>

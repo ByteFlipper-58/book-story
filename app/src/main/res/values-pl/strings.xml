@@ -599,7 +599,7 @@
     <!-- PDF reader additions -->
     <string name="error_could_not_open_pdf">Brak pliku PDF, jest niedostępny, zaszyfrowany albo nieobsługiwany.</string>
     <string name="experiments_reader_settings">Eksperymenty</string>
-    <string name="reader_cache_warm_up_option">Przygotuj pamięć podręczną czytnika w tle</string>
+    <string name="reader_cache_warm_up_option">Zapisuj nowe książki w pamięci podręcznej w tle</string>
     <string name="reader_cache_warm_up_option_desc">Eksperymentalne. Przetwarza nowo dodane książki po imporcie, aby później otwierały się szybciej.</string>
     <string name="pdf_reading_mode_option">Tryb wyświetlania PDF</string>
     <string name="pdf_reading_mode_option_desc">Wybierz tryb wyświetlania PDF</string>

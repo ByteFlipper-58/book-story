@@ -597,7 +597,7 @@
     <!-- PDF reader additions -->
     <string name="error_could_not_open_pdf">Le fichier PDF est manquant, inaccessible, chiffré ou non pris en charge.</string>
     <string name="experiments_reader_settings">Expériences</string>
-    <string name="reader_cache_warm_up_option">Précharger le cache du lecteur en arrière-plan</string>
+    <string name="reader_cache_warm_up_option">Mettre les nouveaux livres en cache en arrière-plan</string>
     <string name="reader_cache_warm_up_option_desc">Expérimental. Analyse les livres nouvellement ajoutés après l’importation afin qu’ils s’ouvrent plus vite ensuite.</string>
     <string name="pdf_reading_mode_option">Mode d’affichage PDF</string>
     <string name="pdf_reading_mode_option_desc">Choisissez le mode d’affichage PDF</string>

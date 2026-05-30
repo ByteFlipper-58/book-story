@@ -178,7 +178,7 @@
     <string name="fullscreen_option_desc">Скрыть системные панели и отступы</string>
     <string name="keep_screen_on_option">Не выключать экран</string>
     <string name="hide_bars_on_fast_scroll_option">Скрывать панели при быстрой прокрутке</string>
-    <string name="reader_cache_warm_up_option">Прогревать кэш читалки в фоне</string>
+    <string name="reader_cache_warm_up_option">Кэшировать новые книги в фоне</string>
     <string name="reader_cache_warm_up_option_desc">Экспериментально. Обрабатывает новые книги после добавления, чтобы потом они открывались быстрее.</string>
     <string name="perception_expander_option">Расширитель восприятия</string>
     <string name="perception_expander_option_desc">Увеличьте скорость чтения, сосредоточившись на центре</string>

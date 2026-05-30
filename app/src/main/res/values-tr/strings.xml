@@ -597,7 +597,7 @@
     <!-- PDF reader additions -->
     <string name="error_could_not_open_pdf">PDF dosyası eksik, erişilemiyor, şifreli veya desteklenmiyor.</string>
     <string name="experiments_reader_settings">Deneyler</string>
-    <string name="reader_cache_warm_up_option">Okuyucu önbelleğini arka planda hazırla</string>
+    <string name="reader_cache_warm_up_option">Yeni kitapları arka planda önbelleğe al</string>
     <string name="reader_cache_warm_up_option_desc">Deneyseldir. İçe aktarmadan sonra yeni eklenen kitapları işler, böylece daha sonra daha hızlı açılırlar.</string>
     <string name="pdf_reading_mode_option">PDF görünüm modu</string>
     <string name="pdf_reading_mode_option_desc">PDF görünüm modunu seçin</string>

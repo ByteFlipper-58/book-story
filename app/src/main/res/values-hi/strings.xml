@@ -596,7 +596,7 @@
     <!-- PDF reader additions -->
     <string name="error_could_not_open_pdf">PDF फ़ाइल मौजूद नहीं है, पहुँच योग्य नहीं है, एन्क्रिप्टेड है या समर्थित नहीं है।</string>
     <string name="experiments_reader_settings">प्रयोग</string>
-    <string name="reader_cache_warm_up_option">रीडर कैश को पृष्ठभूमि में तैयार करें</string>
+    <string name="reader_cache_warm_up_option">नई पुस्तकों को पृष्ठभूमि में कैश करें</string>
     <string name="reader_cache_warm_up_option_desc">प्रायोगिक। नई जोड़ी गई पुस्तकों को आयात के बाद पार्स करता है ताकि वे बाद में तेज़ी से खुल सकें।</string>
     <string name="pdf_reading_mode_option">PDF दृश्य मोड</string>
     <string name="pdf_reading_mode_option_desc">PDF दृश्य मोड चुनें</string>

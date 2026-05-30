@@ -20,6 +20,7 @@ fun ReaderBottomSheet(
     book: Book,
     bottomSheet: BottomSheet?,
     fullscreenMode: Boolean,
+    pdfDefaultReadingMode: PdfReadingMode,
     pdfTextModeUnavailable: Boolean,
     changePdfReadingMode: (ReaderEvent.OnChangePdfReadingMode) -> Unit,
     changePdfDefaultReadingMode: (PdfReadingMode) -> Unit,
@@ -51,6 +52,7 @@ fun ReaderBottomSheet(
         ReaderScreen.PDF_READING_MODE_BOTTOM_SHEET -> {
             PdfReadingModeBottomSheet(
                 book = book,
+                pdfDefaultReadingMode = pdfDefaultReadingMode,
                 pdfTextModeUnavailable = pdfTextModeUnavailable,
                 changePdfReadingMode = {
                     changePdfReadingMode(ReaderEvent.OnChangePdfReadingMode(it))

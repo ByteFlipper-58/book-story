@@ -594,7 +594,7 @@
     <!-- PDF reader additions -->
     <string name="error_could_not_open_pdf">ملف PDF مفقود أو غير قابل للوصول أو مشفّر أو غير مدعوم.</string>
     <string name="experiments_reader_settings">تجارب</string>
-    <string name="reader_cache_warm_up_option">تهيئة ذاكرة القارئ المؤقتة في الخلفية</string>
+    <string name="reader_cache_warm_up_option">تخزين الكتب الجديدة مؤقتًا في الخلفية</string>
     <string name="reader_cache_warm_up_option_desc">تجريبي. يعالج الكتب المضافة حديثًا بعد الاستيراد حتى تُفتح أسرع لاحقًا.</string>
     <string name="pdf_reading_mode_option">وضع عرض PDF</string>
     <string name="pdf_reading_mode_option_desc">اختر وضع عرض PDF</string>

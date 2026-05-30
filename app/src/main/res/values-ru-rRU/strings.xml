@@ -636,4 +636,12 @@
     <string name="changelog_release_version">Версия %1$s</string>
     <string name="changelog_empty">Заметок к релизам пока нет.</string>
     <string name="changelog_language_title">Язык заметок</string>
+    <!-- PDF reader additions -->
+    <string name="error_could_not_open_pdf">PDF-файл отсутствует, недоступен, зашифрован или не поддерживается.</string>
+    <string name="open_original_pdf">Открыть оригинальный PDF</string>
+    <string name="open_parsed_text">Открыть текстовую версию</string>
+    <string name="pdf_original_mode_content_desc">Режим оригинального PDF</string>
+    <string name="pdf_page_content_desc">Страница PDF %1$d</string>
+    <string name="zoom_in_content_desc">Приблизить</string>
+    <string name="zoom_out_content_desc">Отдалить</string>
 </resources>

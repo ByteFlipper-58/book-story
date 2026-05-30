@@ -394,12 +394,18 @@
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">Click to check for updates</string>
     <string name="report_bug_option">Report a bug</string>
-    <string name="whats_new_option">What\'s new</string>
+    <string name="changelog_option">What\'s new</string>
     <string name="licenses_option">Open source licenses</string>
     <string name="credits_option">Credits</string>
     <string name="help_translate_option">Help translate</string>
     <string name="support_development_option">Support development</string>
     <string name="contributors_option">Contributors</string>
+    <string name="report_bug_option_desc">Open GitHub to report a problem or suggest an improvement</string>
+    <string name="contributors_option_desc">See the people who help build and improve EverBook</string>
+    <string name="licenses_option_desc">View licenses for the open source libraries used in the app</string>
+    <string name="credits_option_desc">See acknowledgements and project credits</string>
+    <string name="help_translate_option_desc">Help make EverBook available in more languages</string>
+    <string name="support_development_option_desc">Support the project and future EverBook updates</string>
     <string name="slava_ukraini">Slava Ukraini!</string>
 
     <!-- Badges -->
@@ -633,4 +639,10 @@
     <string name="sort_order_last_read">Last read</string>
     <string name="sort_order_progress">Progress</string>
     <string name="sort_order_author">Author</string>
+
+    <!-- Changelog -->
+    <string name="changelog_option_desc">Read release notes as short chapters</string>
+    <string name="changelog_release_version">Version %1$s</string>
+    <string name="changelog_empty">No release notes are available yet.</string>
+    <string name="changelog_language_title">Changelog language</string>
 </resources>

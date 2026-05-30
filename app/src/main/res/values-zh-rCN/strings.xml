@@ -313,11 +313,21 @@
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">点击检查更新</string>
     <string name="report_bug_option">报告错误</string>
-    <string name="whats_new_option">新功能</string>
+    <string name="changelog_option">新功能</string>
     <string name="licenses_option">开源许可证</string>
     <string name="credits_option">鸣谢</string>
     <string name="help_translate_option">帮助翻译</string>
     <string name="contributors_option">贡献者</string>
+    <string name="changelog_option_desc">像短章节一样阅读版本说明</string>
+    <string name="changelog_release_version">版本 %1$s</string>
+    <string name="changelog_empty">暂时没有可用的版本说明。</string>
+    <string name="changelog_language_title">版本说明语言</string>
+    <string name="report_bug_option_desc">打开 GitHub 报告问题或提出改进建议</string>
+    <string name="contributors_option_desc">查看帮助构建和改进 EverBook 的人员</string>
+    <string name="licenses_option_desc">查看应用所用开源库的许可证</string>
+    <string name="credits_option_desc">查看项目致谢和鸣谢</string>
+    <string name="help_translate_option_desc">帮助 EverBook 支持更多语言</string>
+    <string name="support_development_option_desc">支持项目和未来的 EverBook 更新</string>
     <string name="slava_ukraini">光荣属于乌克兰！</string>
 
     <!-- Credits -->

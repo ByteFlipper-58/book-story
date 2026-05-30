@@ -48,7 +48,8 @@ fun AboutLayout(
     listState: LazyListState,
     navigateToBrowserPage: (AboutEvent.OnNavigateToBrowserPage) -> Unit,
     navigateToLicenses: () -> Unit,
-    navigateToCredits: () -> Unit
+    navigateToCredits: () -> Unit,
+    navigateToChangelog: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -108,8 +109,15 @@ fun AboutLayout(
                     }
 
                     AboutItem(
+                        title = stringResource(id = R.string.changelog_option),
+                        description = stringResource(id = R.string.changelog_option_desc)
+                    ) {
+                        navigateToChangelog()
+                    }
+
+                    AboutItem(
                         title = stringResource(id = R.string.report_bug_option),
-                        description = null
+                        description = stringResource(id = R.string.report_bug_option_desc)
                     ) {
                         navigateToBrowserPage(
                             AboutEvent.OnNavigateToBrowserPage(
@@ -121,7 +129,7 @@ fun AboutLayout(
 
                     AboutItem(
                         title = stringResource(id = R.string.contributors_option),
-                        description = null
+                        description = stringResource(id = R.string.contributors_option_desc)
                     ) {
                         navigateToBrowserPage(
                             AboutEvent.OnNavigateToBrowserPage(
@@ -133,21 +141,21 @@ fun AboutLayout(
 
                     AboutItem(
                         title = stringResource(id = R.string.licenses_option),
-                        description = null
+                        description = stringResource(id = R.string.licenses_option_desc)
                     ) {
                         navigateToLicenses()
                     }
 
                     AboutItem(
                         title = stringResource(id = R.string.credits_option),
-                        description = null
+                        description = stringResource(id = R.string.credits_option_desc)
                     ) {
                         navigateToCredits()
                     }
 
                     AboutItem(
                         title = stringResource(id = R.string.help_translate_option),
-                        description = null
+                        description = stringResource(id = R.string.help_translate_option_desc)
                     ) {
                         navigateToBrowserPage(
                             AboutEvent.OnNavigateToBrowserPage(
@@ -159,7 +167,7 @@ fun AboutLayout(
 
                     AboutItem(
                         title = stringResource(id = R.string.support_development_option),
-                        description = null
+                        description = stringResource(id = R.string.support_development_option_desc)
                     ) {
                         navigateToBrowserPage(
                             AboutEvent.OnNavigateToBrowserPage(

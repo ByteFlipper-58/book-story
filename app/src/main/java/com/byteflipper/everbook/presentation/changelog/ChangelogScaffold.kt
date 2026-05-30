@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.byteflipper.everbook.presentation.about
+package com.byteflipper.everbook.presentation.changelog
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,17 +19,17 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import com.byteflipper.everbook.ui.about.AboutEvent
+import com.byteflipper.everbook.ui.changelog.ChangelogEvent
+import com.byteflipper.everbook.ui.changelog.ChangelogState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScaffold(
-    scrollBehavior: TopAppBarScrollBehavior,
+fun ChangelogScaffold(
+    state: ChangelogState,
+    versionName: String?,
     listState: LazyListState,
-    navigateToBrowserPage: (AboutEvent.OnNavigateToBrowserPage) -> Unit,
-    navigateToLicenses: () -> Unit,
-    navigateToCredits: () -> Unit,
-    navigateToChangelog: () -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior,
+    onEvent: (ChangelogEvent) -> Unit,
     navigateBack: () -> Unit
 ) {
     Scaffold(
@@ -39,19 +39,19 @@ fun AboutScaffold(
             .windowInsetsPadding(WindowInsets.navigationBars),
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
-            AboutTopBar(
+            ChangelogTopBar(
+                versionName = versionName,
                 scrollBehavior = scrollBehavior,
                 navigateBack = navigateBack
             )
         }
     ) { paddingValues ->
-        AboutLayout(
+        ChangelogLayout(
+            state = state,
             paddingValues = paddingValues,
             listState = listState,
-            navigateToBrowserPage = navigateToBrowserPage,
-            navigateToLicenses = navigateToLicenses,
-            navigateToCredits = navigateToCredits,
-            navigateToChangelog = navigateToChangelog
+            onEvent = onEvent,
+            navigateBack = navigateBack
         )
     }
 }

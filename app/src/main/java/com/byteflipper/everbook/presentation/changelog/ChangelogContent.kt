@@ -5,33 +5,30 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.byteflipper.everbook.presentation.about
+package com.byteflipper.everbook.presentation.changelog
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import com.byteflipper.everbook.ui.about.AboutEvent
+import com.byteflipper.everbook.ui.changelog.ChangelogEvent
+import com.byteflipper.everbook.ui.changelog.ChangelogState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutContent(
-    scrollBehavior: TopAppBarScrollBehavior,
+fun ChangelogContent(
+    state: ChangelogState,
     listState: LazyListState,
-    navigateToBrowserPage: (AboutEvent.OnNavigateToBrowserPage) -> Unit,
-    navigateToLicenses: () -> Unit,
-    navigateToCredits: () -> Unit,
-    navigateToChangelog: () -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior,
+    onEvent: (ChangelogEvent) -> Unit,
     navigateBack: () -> Unit
 ) {
-
-    AboutScaffold(
-        scrollBehavior = scrollBehavior,
+    ChangelogScaffold(
+        state = state,
+        versionName = state.selectedRelease?.versionName,
         listState = listState,
-        navigateToBrowserPage = navigateToBrowserPage,
-        navigateToLicenses = navigateToLicenses,
-        navigateToCredits = navigateToCredits,
-        navigateToChangelog = navigateToChangelog,
+        scrollBehavior = scrollBehavior,
+        onEvent = onEvent,
         navigateBack = navigateBack
     )
 }

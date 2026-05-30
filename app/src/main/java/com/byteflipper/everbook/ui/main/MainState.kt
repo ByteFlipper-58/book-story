@@ -79,6 +79,7 @@ data class MainState(
     val themeContrast: ThemeContrast = provideDefaultValue { ThemeContrast.STANDARD },
     val showStartScreen: Boolean = provideDefaultValue { true },
     val doublePressExit: Boolean = provideDefaultValue { false },
+    val changelogLastSeenVersionCode: Int = provideDefaultValue { 0 },
 
     // Reader Settings
     val fontFamily: String = provideDefaultValue { provideFonts()[0].id },
@@ -208,6 +209,10 @@ data class MainState(
                     showStartScreen = provideValue(
                         SHOW_START_SCREEN
                     ) { showStartScreen },
+
+                    changelogLastSeenVersionCode = provideValue(
+                        CHANGELOG_LAST_SEEN_VERSION_CODE
+                    ) { changelogLastSeenVersionCode },
 
                     fontFamily = provideValue(
                         FONT

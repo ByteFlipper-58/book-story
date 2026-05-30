@@ -314,11 +314,21 @@
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">Clicca per cercare aggiornamenti</string>
     <string name="report_bug_option">Segnala un bug</string>
-    <string name="whats_new_option">Novità</string>
+    <string name="changelog_option">Novità</string>
     <string name="licenses_option">Licenze open source</string>
     <string name="credits_option">Riconoscimenti</string>
     <string name="help_translate_option">Aiuta a tradurre</string>
     <string name="contributors_option">Collaboratori</string>
+    <string name="changelog_option_desc">Leggi le note di rilascio come brevi capitoli</string>
+    <string name="changelog_release_version">Versione %1$s</string>
+    <string name="changelog_empty">Non sono ancora disponibili note di rilascio.</string>
+    <string name="changelog_language_title">Lingua delle note</string>
+    <string name="report_bug_option_desc">Apri GitHub per segnalare un problema o proporre un miglioramento</string>
+    <string name="contributors_option_desc">Vedi le persone che aiutano a creare e migliorare EverBook</string>
+    <string name="licenses_option_desc">Vedi le licenze delle librerie open source usate nell\'app</string>
+    <string name="credits_option_desc">Vedi ringraziamenti e crediti del progetto</string>
+    <string name="help_translate_option_desc">Aiuta a rendere EverBook disponibile in più lingue</string>
+    <string name="support_development_option_desc">Supporta il progetto e i futuri aggiornamenti di EverBook</string>
     <string name="slava_ukraini">Slava Ukraini!</string>
 
     <!-- Credits -->

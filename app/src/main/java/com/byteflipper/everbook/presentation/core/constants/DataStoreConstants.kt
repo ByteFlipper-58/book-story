@@ -23,6 +23,7 @@ object DataStoreConstants {
     val THEME_CONTRAST = stringPreferencesKey("theme_contrast")
     val SHOW_START_SCREEN = booleanPreferencesKey("guide")
     val DOUBLE_PRESS_EXIT = booleanPreferencesKey("double_press_exit")
+    val CHANGELOG_LAST_SEEN_VERSION_CODE = intPreferencesKey("changelog_last_seen_version_code")
 
     // Reader settings
     val DOUBLE_CLICK_TRANSLATION = booleanPreferencesKey("double_click_translation")

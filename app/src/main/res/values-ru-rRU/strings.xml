@@ -316,11 +316,17 @@
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">Нажмите, чтобы проверить обновления</string>
     <string name="report_bug_option">Сообщить об ошибке</string>
-    <string name="whats_new_option">Что нового</string>
+    <string name="changelog_option">Что нового</string>
     <string name="licenses_option">Лицензии открытого исходного кода</string>
     <string name="credits_option">Благодарности</string>
     <string name="help_translate_option">Помочь с переводом</string>
     <string name="contributors_option">Участники</string>
+    <string name="report_bug_option_desc">Откройте GitHub, чтобы сообщить о проблеме или предложить улучшение</string>
+    <string name="contributors_option_desc">Посмотрите людей, которые помогают развивать EverBook</string>
+    <string name="licenses_option_desc">Посмотрите лицензии открытых библиотек, используемых в приложении</string>
+    <string name="credits_option_desc">Посмотрите благодарности и упоминания проекта</string>
+    <string name="help_translate_option_desc">Помогите сделать EverBook доступным на других языках</string>
+    <string name="support_development_option_desc">Поддержите проект и будущие обновления EverBook</string>
     <string name="slava_ukraini">Слава Украине!</string>
 
     <!-- Credits -->
@@ -624,4 +630,10 @@
     <string name="sort_order_last_read">Последнее чтение</string>
     <string name="sort_order_progress">Прогресс</string>
     <string name="sort_order_author">Автор</string>
+
+    <!-- Changelog -->
+    <string name="changelog_option_desc">Читайте заметки к релизам как короткие главы</string>
+    <string name="changelog_release_version">Версия %1$s</string>
+    <string name="changelog_empty">Заметок к релизам пока нет.</string>
+    <string name="changelog_language_title">Язык заметок</string>
 </resources>

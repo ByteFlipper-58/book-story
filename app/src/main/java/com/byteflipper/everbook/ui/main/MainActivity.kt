@@ -55,6 +55,7 @@ import com.byteflipper.everbook.ui.settings.SettingsModel
 import com.byteflipper.everbook.ui.start.StartScreen
 import com.byteflipper.everbook.ui.theme.BookStoryTheme
 import com.byteflipper.everbook.ui.theme.Transitions
+import com.byteflipper.everbook.ui.changelog.ChangelogScreen
 import com.byteflipper.everbook.domain.ui.isDark
 import com.byteflipper.everbook.domain.ui.isPureDark
 import java.lang.reflect.Field
@@ -104,6 +105,8 @@ class MainActivity : AppCompatActivity() {
 
             val state = mainModel.state.collectAsStateWithLifecycle()
             val isLoaded = mainModel.isReady.collectAsStateWithLifecycle()
+            val pendingChangelogRelease by mainModel.pendingChangelogRelease
+                .collectAsStateWithLifecycle()
             val categoriesReady = categoriesModel.isReady.collectAsStateWithLifecycle()
 
             val tabs = immutableListOf(
@@ -171,6 +174,18 @@ class MainActivity : AppCompatActivity() {
                             externalImportModel.openBookChannel.receiveAsFlow().collectLatest { bookId ->
                                 libraryModel.refresh()
                                 navigator.push(ReaderScreen(bookId))
+                            }
+                        }
+
+                        LaunchedEffect(navigator, pendingChangelogRelease) {
+                            pendingChangelogRelease?.let { release ->
+                                mainModel.onEvent(
+                                    MainEvent.OnChangeChangelogLastSeenVersionCode(
+                                        release.versionCode
+                                    )
+                                )
+                                mainModel.consumePendingChangelogRelease()
+                                navigator.push(ChangelogScreen(release.versionCode))
                             }
                         }
 

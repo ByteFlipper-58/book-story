@@ -358,11 +358,21 @@
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">انقر للتحقق من وجود تحديثات</string>
     <string name="report_bug_option">الإبلاغ عن خطأ</string>
-    <string name="whats_new_option">ما الجديد</string>
+    <string name="changelog_option">ما الجديد</string>
     <string name="licenses_option">تراخيص المصادر المفتوحة</string>
     <string name="credits_option">الشكر والتقدير</string>
     <string name="help_translate_option">المساعدة في الترجمة</string>
     <string name="contributors_option">المساهمون</string>
+    <string name="changelog_option_desc">اقرأ ملاحظات الإصدارات كفصول قصيرة</string>
+    <string name="changelog_release_version">الإصدار %1$s</string>
+    <string name="changelog_empty">لا توجد ملاحظات إصدار متاحة بعد.</string>
+    <string name="changelog_language_title">لغة ملاحظات الإصدار</string>
+    <string name="report_bug_option_desc">افتح GitHub للإبلاغ عن مشكلة أو اقتراح تحسين</string>
+    <string name="contributors_option_desc">اعرض الأشخاص الذين يساعدون في تطوير EverBook</string>
+    <string name="licenses_option_desc">اعرض تراخيص مكتبات المصدر المفتوح المستخدمة في التطبيق</string>
+    <string name="credits_option_desc">اعرض الشكر والتقدير الخاص بالمشروع</string>
+    <string name="help_translate_option_desc">ساعد في إتاحة EverBook بمزيد من اللغات</string>
+    <string name="support_development_option_desc">ادعم المشروع وتحديثات EverBook القادمة</string>
     <string name="slava_ukraini">المجد لأوكرانيا!</string>
 
     <!-- Credits -->

@@ -313,11 +313,21 @@
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">Güncellemeleri kontrol etmek için tıklayın</string>
     <string name="report_bug_option">Hata bildir</string>
-    <string name="whats_new_option">Yenilikler</string>
+    <string name="changelog_option">Yenilikler</string>
     <string name="licenses_option">Açık kaynak lisansları</string>
     <string name="credits_option">Katkıda bulunanlar</string>
     <string name="help_translate_option">Çeviriye yardımcı ol</string>
     <string name="contributors_option">Katkıda bulunanlar</string>
+    <string name="changelog_option_desc">Sürüm notlarını kısa bölümler gibi oku</string>
+    <string name="changelog_release_version">Sürüm %1$s</string>
+    <string name="changelog_empty">Henüz sürüm notu yok.</string>
+    <string name="changelog_language_title">Notların dili</string>
+    <string name="report_bug_option_desc">Bir sorunu bildirmek veya iyileştirme önermek için GitHub’ı aç</string>
+    <string name="contributors_option_desc">EverBook’u geliştirmeye yardımcı olan kişileri gör</string>
+    <string name="licenses_option_desc">Uygulamada kullanılan açık kaynak kütüphanelerin lisanslarını gör</string>
+    <string name="credits_option_desc">Proje teşekkürlerini ve katkı notlarını gör</string>
+    <string name="help_translate_option_desc">EverBook’un daha fazla dilde kullanılmasına yardım et</string>
+    <string name="support_development_option_desc">Projeyi ve gelecekteki EverBook güncellemelerini destekle</string>
     <string name="slava_ukraini">Slava Ukraini!</string>
 
     <!-- Credits -->

@@ -40,6 +40,8 @@ import com.byteflipper.everbook.domain.use_case.book.CancelReaderCacheWarmUps
 import com.byteflipper.everbook.domain.use_case.data_store.ChangeLanguage
 import com.byteflipper.everbook.domain.use_case.data_store.GetAllSettings
 import com.byteflipper.everbook.domain.use_case.data_store.SetDatastore
+import com.byteflipper.everbook.domain.use_case.changelog.GetLatestChangelogRelease
+import com.byteflipper.everbook.domain.changelog.ChangelogRelease
 import com.byteflipper.everbook.domain.util.toHorizontalAlignment
 import com.byteflipper.everbook.presentation.core.constants.DataStoreConstants
 import com.byteflipper.everbook.presentation.core.constants.provideFonts
@@ -58,7 +60,8 @@ class MainModel @Inject constructor(
     private val setDatastore: SetDatastore,
     private val changeLanguage: ChangeLanguage,
     private val getAllSettings: GetAllSettings,
-    private val cancelReaderCacheWarmUps: CancelReaderCacheWarmUps
+    private val cancelReaderCacheWarmUps: CancelReaderCacheWarmUps,
+    private val getLatestChangelogRelease: GetLatestChangelogRelease
 ) : ViewModel() {
 
     private val initialState: MainState = stateHandle[provideMainState()] ?: MainState()
@@ -76,6 +79,8 @@ class MainModel @Inject constructor(
     val isReady = _isReady.asStateFlow()
 
     private val mainModelReady = MutableStateFlow(false)
+    private val _pendingChangelogRelease = MutableStateFlow<ChangelogRelease?>(null)
+    val pendingChangelogRelease = _pendingChangelogRelease.asStateFlow()
 
     fun onEvent(event: MainEvent) {
         when (event) {
@@ -172,6 +177,14 @@ class MainModel @Inject constructor(
                 value = event.value,
                 updateState = {
                     it.copy(showStartScreen = this)
+                }
+            )
+
+            is MainEvent.OnChangeChangelogLastSeenVersionCode -> handleDatastoreUpdate(
+                key = DataStoreConstants.CHANGELOG_LAST_SEEN_VERSION_CODE,
+                value = event.value,
+                updateState = {
+                    it.copy(changelogLastSeenVersionCode = this)
                 }
             )
 
@@ -684,6 +697,7 @@ class MainModel @Inject constructor(
             changeLanguage.execute(settings.language)
 
             updateStateWithSavedHandle { settings }
+            loadPendingChangelogRelease(settings)
             mainModelReady.update { true }
         }
 
@@ -713,6 +727,36 @@ class MainModel @Inject constructor(
                 it.copy(language = event.value)
             }
         }
+    }
+
+    private suspend fun loadPendingChangelogRelease(settings: MainState) {
+        val release = getLatestChangelogRelease.execute(settings.language)
+        if (
+            settings.showStartScreen &&
+            settings.changelogLastSeenVersionCode == 0 &&
+            release != null
+        ) {
+            setDatastore.execute(
+                key = DataStoreConstants.CHANGELOG_LAST_SEEN_VERSION_CODE,
+                value = release.versionCode
+            )
+            updateStateWithSavedHandle {
+                it.copy(changelogLastSeenVersionCode = release.versionCode)
+            }
+            _pendingChangelogRelease.value = null
+            return
+        }
+
+        _pendingChangelogRelease.update {
+            release?.takeIf {
+                !settings.showStartScreen &&
+                    it.versionCode > settings.changelogLastSeenVersionCode
+            }
+        }
+    }
+
+    fun consumePendingChangelogRelease() {
+        _pendingChangelogRelease.value = null
     }
 
     private fun handleReaderCacheWarmUpUpdate(event: MainEvent.OnChangeReaderCacheWarmUp) {

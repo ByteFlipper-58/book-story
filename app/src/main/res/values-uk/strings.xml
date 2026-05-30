@@ -315,11 +315,17 @@
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">Натисніть, щоб перевірити оновлення</string>
     <string name="report_bug_option">Повідомити про помилку</string>
-    <string name="whats_new_option">Що нового</string>
+    <string name="changelog_option">Що нового</string>
     <string name="licenses_option">Ліцензії відкритого коду</string>
     <string name="credits_option">Автори</string>
     <string name="help_translate_option">Допомогти з перекладом</string>
     <string name="contributors_option">Учасники</string>
+    <string name="report_bug_option_desc">Відкрийте GitHub, щоб повідомити про проблему або запропонувати покращення</string>
+    <string name="contributors_option_desc">Перегляньте людей, які допомагають розвивати EverBook</string>
+    <string name="licenses_option_desc">Перегляньте ліцензії відкритих бібліотек, використаних у застосунку</string>
+    <string name="credits_option_desc">Перегляньте подяки та згадки проєкту</string>
+    <string name="help_translate_option_desc">Допоможіть зробити EverBook доступним іншими мовами</string>
+    <string name="support_development_option_desc">Підтримайте проєкт і майбутні оновлення EverBook</string>
     <string name="slava_ukraini">Слава Україні!</string>
 
     <!-- Credits -->
@@ -586,4 +592,10 @@
     <string name="sort_order_last_read">Останнє читання</string>
     <string name="sort_order_progress">Прогрес</string>
     <string name="sort_order_author">Автор</string>
+
+    <!-- Changelog -->
+    <string name="changelog_option_desc">Читайте нотатки до релізів як короткі глави</string>
+    <string name="changelog_release_version">Версія %1$s</string>
+    <string name="changelog_empty">Нотаток до релізів поки немає.</string>
+    <string name="changelog_language_title">Мова нотаток</string>
 </resources>

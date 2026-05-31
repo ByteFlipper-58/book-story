@@ -8,6 +8,7 @@
 package com.byteflipper.everbook.presentation.pdf_reader
 
 import android.graphics.Bitmap
+import android.view.View
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,6 +22,7 @@ import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -57,7 +59,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.domain.distribution.ReaderInlineContentMode
+import com.byteflipper.everbook.domain.distribution.ReaderInlineContentPlacement
 import com.byteflipper.everbook.domain.reader.PdfPageDisplayMode
+import com.byteflipper.everbook.presentation.core.components.common.ReaderInlineContent
 import com.byteflipper.everbook.presentation.core.components.progress_indicator.CircularProgressIndicator
 import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.ui.pdf_reader.PdfReaderEvent
@@ -77,6 +82,8 @@ fun PdfReaderLayout(
     pageDisplayMode: PdfPageDisplayMode,
     pinchZoom: Boolean,
     fullscreenMode: Boolean,
+    inlineContentPlacements: List<ReaderInlineContentPlacement>,
+    createInlineContentView: (Long) -> View?,
     renderPage: suspend (pageIndex: Int, targetWidth: Int) -> Bitmap?,
     changeZoom: (PdfReaderEvent.OnChangeZoom) -> Unit,
     menuVisibility: (PdfReaderEvent.OnMenuVisibility) -> Unit
@@ -103,6 +110,11 @@ fun PdfReaderLayout(
     val flingBehavior = when (pageDisplayMode) {
         PdfPageDisplayMode.CONTINUOUS -> defaultFlingBehavior
         PdfPageDisplayMode.PAGED -> snapFlingBehavior
+    }
+    val inlineContentByPageIndex = remember(inlineContentPlacements) {
+        inlineContentPlacements
+            .filter { it.mode == ReaderInlineContentMode.PDF }
+            .groupBy { it.progressUnit }
     }
 
     LaunchedEffect(activePageIndex, pageCount, zoomSessionId) {
@@ -147,36 +159,47 @@ fun PdfReaderLayout(
             count = pageCount,
             key = { it }
         ) { pageIndex ->
-            PdfReaderPage(
-                modifier = when (pageDisplayMode) {
-                    PdfPageDisplayMode.CONTINUOUS -> Modifier
-                    PdfPageDisplayMode.PAGED -> Modifier
-                        .fillParentMaxHeight()
-                        .fillMaxWidth()
-                },
-                pageIndex = pageIndex,
-                renderWidthPx = renderWidthPx,
-                pageDisplayMode = pageDisplayMode,
-                zoom = if (
-                    pageIndex == activePageIndex &&
-                    pageIndex == zoomPageIndex
-                ) {
-                    zoom
-                } else PdfReaderModel.MIN_ZOOM,
-                zoomSessionId = zoomSessionId,
-                pinchZoom = pinchZoom,
-                renderPage = renderPage,
-                changeZoom = {
-                    if (pageIndex == activePageIndex) {
-                        changeZoom(
-                            PdfReaderEvent.OnChangeZoom(
-                                pageIndex = pageIndex,
-                                zoom = it
+            Column {
+                PdfReaderPage(
+                    modifier = when (pageDisplayMode) {
+                        PdfPageDisplayMode.CONTINUOUS -> Modifier
+                        PdfPageDisplayMode.PAGED -> Modifier
+                            .fillParentMaxHeight()
+                            .fillMaxWidth()
+                    },
+                    pageIndex = pageIndex,
+                    renderWidthPx = renderWidthPx,
+                    pageDisplayMode = pageDisplayMode,
+                    zoom = if (
+                        pageIndex == activePageIndex &&
+                        pageIndex == zoomPageIndex
+                    ) {
+                        zoom
+                    } else PdfReaderModel.MIN_ZOOM,
+                    zoomSessionId = zoomSessionId,
+                    pinchZoom = pinchZoom,
+                    renderPage = renderPage,
+                    changeZoom = {
+                        if (pageIndex == activePageIndex) {
+                            changeZoom(
+                                PdfReaderEvent.OnChangeZoom(
+                                    pageIndex = pageIndex,
+                                    zoom = it
+                                )
                             )
-                        )
+                        }
                     }
+                )
+                inlineContentByPageIndex[pageIndex].orEmpty().forEach { placement ->
+                    ReaderInlineContent(
+                        modifier = Modifier.padding(
+                            horizontal = 16.dp,
+                            vertical = 12.dp
+                        ),
+                        createView = { createInlineContentView(placement.id) }
+                    )
                 }
-            )
+            }
         }
     }
 }

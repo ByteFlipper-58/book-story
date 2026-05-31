@@ -9,8 +9,20 @@ plugins {
     id("kotlin-parcelize")
     id("com.mikepenz.aboutlibraries.plugin")
     id("androidx.room")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+}
+
+val requestedTaskNames = gradle.startParameter.taskNames.map { it.lowercase() }
+val appliesPlayStoreServices = requestedTaskNames.isEmpty() || requestedTaskNames.any { taskName ->
+    taskName.contains("playstore") ||
+        taskName.endsWith(":assemble") ||
+        taskName == "assemble" ||
+        taskName.endsWith(":build") ||
+        taskName == "build"
+}
+
+if (appliesPlayStoreServices) {
+    apply(plugin = "com.google.gms.google-services")
+    apply(plugin = "com.google.firebase.crashlytics")
 }
 
 android {
@@ -30,6 +42,18 @@ android {
         }
     }
 
+    flavorDimensions += "distribution"
+    productFlavors {
+        create("everbook") {
+            dimension = "distribution"
+            applicationIdSuffix = ".standalone"
+        }
+
+        create("playStore") {
+            dimension = "distribution"
+        }
+    }
+
     room {
         schemaDirectory("$projectDir/schemas")
     }
@@ -38,11 +62,13 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             versionNameSuffix = " Debug"
+            manifestPlaceholders["adMobAppId"] = "ca-app-pub-3940256099942544~3347511713"
         }
 
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = false
+            manifestPlaceholders["adMobAppId"] = "ca-app-pub-4346225518624754~1470713545"
 
             proguardFiles("proguard-rules.pro")
 
@@ -55,6 +81,7 @@ android {
             initWith(getByName("release"))
             applicationIdSuffix = ".release.debug"
             signingConfig = signingConfigs.getByName("debug")
+            manifestPlaceholders["adMobAppId"] = "ca-app-pub-3940256099942544~3347511713"
         }
     }
     compileOptions {
@@ -85,8 +112,25 @@ aboutLibraries {
     prettyPrint = true
     gitHubApiToken = gradleLocalProperties(rootDir, providers)["github-key"] as? String
 
-    filterVariants = arrayOf("debug", "release", "release-debug")
+    filterVariants = arrayOf(
+        "everbookDebug",
+        "everbookRelease",
+        "everbookRelease-debug",
+        "playStoreDebug",
+        "playStoreRelease",
+        "playStoreRelease-debug"
+    )
     excludeFields = arrayOf("generated", "funding", "description")
+}
+
+tasks.configureEach {
+    val isEverbookVariantTask = name.contains("Everbook", ignoreCase = true)
+    val isGoogleServicesTask = name.contains("GoogleServices", ignoreCase = true)
+    val isCrashlyticsTask = name.contains("Crashlytics", ignoreCase = true)
+
+    if (isEverbookVariantTask && (isGoogleServicesTask || isCrashlyticsTask)) {
+        enabled = false
+    }
 }
 
 dependencies {
@@ -128,13 +172,16 @@ dependencies {
     ksp("androidx.hilt:hilt-compiler:1.2.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-    implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-crashlytics")
-    implementation("com.google.firebase:firebase-messaging")
-    implementation("com.google.firebase:firebase-inappmessaging-display")
+    add("playStoreImplementation", platform("com.google.firebase:firebase-bom:33.16.0"))
+    add("playStoreImplementation", "com.google.firebase:firebase-analytics")
+    add("playStoreImplementation", "com.google.firebase:firebase-crashlytics")
+    add("playStoreImplementation", "com.google.firebase:firebase-messaging")
+    add("playStoreImplementation", "com.google.firebase:firebase-inappmessaging-display")
+    add("playStoreImplementation", "com.google.firebase:firebase-config")
 
-    implementation("com.android.billingclient:billing:8.0.0")
+    add("playStoreImplementation", "com.android.billingclient:billing:8.0.0")
+    add("playStoreImplementation", "com.google.android.ump:user-messaging-platform:3.1.0")
+    add("playStoreImplementation", "com.google.android.gms:play-services-ads:24.9.0")
 
     // Room
     implementation("androidx.room:room-runtime:2.6.1")

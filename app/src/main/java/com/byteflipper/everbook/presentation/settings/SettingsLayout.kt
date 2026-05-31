@@ -23,6 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
+import com.byteflipper.everbook.ui.settings.DistributionDebugSettingsEntry
+import com.byteflipper.everbook.ui.settings.PrivacySettingsEntry
 
 @Composable
 fun SettingsLayout(
@@ -32,7 +34,9 @@ fun SettingsLayout(
     navigateToAppearanceSettings: () -> Unit,
     navigateToReaderSettings: () -> Unit,
     navigateToBrowseSettings: () -> Unit,
-    navigateToLibrarySettings: () -> Unit
+    navigateToLibrarySettings: () -> Unit,
+    navigateToPrivacySettings: () -> Unit,
+    navigateToDistributionDebugSettings: () -> Unit
 ) {
     LazyColumnWithScrollbar(
         Modifier
@@ -94,6 +98,20 @@ fun SettingsLayout(
             ) {
                 navigateToBrowseSettings()
             }
+        }
+
+        item {
+            PrivacySettingsEntry(
+                index = 5,
+                navigateToPrivacySettings = navigateToPrivacySettings
+            )
+        }
+
+        item {
+            DistributionDebugSettingsEntry(
+                index = 6,
+                navigateToDistributionDebugSettings = navigateToDistributionDebugSettings
+            )
         }
     }
 }

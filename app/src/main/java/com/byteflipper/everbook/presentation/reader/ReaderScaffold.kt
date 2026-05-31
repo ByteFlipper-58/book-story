@@ -8,6 +8,7 @@
 package com.byteflipper.everbook.presentation.reader
 
 import android.annotation.SuppressLint
+import android.view.View
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import com.byteflipper.everbook.domain.distribution.ReaderInlineContentPlacement
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.FontWithName
@@ -94,6 +96,8 @@ fun ReaderScaffold(
     paragraphIndentation: TextUnit,
     doubleClickTranslation: Boolean,
     fullscreenMode: Boolean,
+    inlineContentPlacements: List<ReaderInlineContentPlacement>,
+    createInlineContentView: (Long) -> View?,
     selectPreviousPreset: (SettingsEvent.OnSelectPreviousPreset) -> Unit,
     selectNextPreset: (SettingsEvent.OnSelectNextPreset) -> Unit,
     menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit,
@@ -204,6 +208,8 @@ fun ReaderScaffold(
             fullscreenMode = fullscreenMode,
             isLoading = isLoading,
             showMenu = showMenu,
+            inlineContentPlacements = inlineContentPlacements,
+            createInlineContentView = createInlineContentView,
             menuVisibility = menuVisibility,
             openShareApp = openShareApp,
             openWebBrowser = openWebBrowser,

@@ -1,0 +1,17 @@
+<resources>
+    <string name="refresh">Обновить</string>
+    <string name="privacy_settings">Конфиденциальность</string>
+    <string name="privacy_settings_desc">Согласие на рекламу, параметры приватности</string>
+    <string name="privacy_ads_subcategory">Конфиденциальность рекламы</string>
+    <string name="privacy_ads_consent_title">Согласие на рекламу</string>
+    <string name="privacy_ads_consent_desc_ready">Рекламу можно запрашивать с текущим состоянием согласия.</string>
+    <string name="privacy_ads_consent_desc_limited">Реклама ограничена, пока согласие недоступно или не обновлено.</string>
+    <string name="privacy_options_manage">Параметры приватности</string>
+    <string name="privacy_options_updated">Параметры приватности обновлены.</string>
+    <string name="privacy_options_required_note">Google требует параметры приватности для этого региона. Используйте эту кнопку, чтобы изменить или отозвать согласие на рекламу.</string>
+    <string name="privacy_options_not_required_note">Google не требует форму параметров приватности для текущего региона или состояния согласия.</string>
+    <string name="ad_debug_settings">Отладка рекламы</string>
+    <string name="ad_debug_settings_desc">Remote значения, лимиты рекламы</string>
+    <string name="ad_debug_remote_config">Remote Config</string>
+    <string name="native_ad_label">Реклама</string>
+</resources>

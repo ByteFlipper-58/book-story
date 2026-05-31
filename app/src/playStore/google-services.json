@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "508388389910",
+    "project_id": "everbook-f152c",
+    "storage_bucket": "everbook-f152c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508388389910:android:20963899c9a0cc10e03137",
+        "android_client_info": {
+          "package_name": "com.byteflipper.everbook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWThNQPOh7qu9qlnwu1jvtU2SwmIb4Ev4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508388389910:android:0ff8113516816e24e03137",
+        "android_client_info": {
+          "package_name": "com.byteflipper.everbook.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWThNQPOh7qu9qlnwu1jvtU2SwmIb4Ev4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

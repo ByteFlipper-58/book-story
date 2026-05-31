@@ -8,11 +8,13 @@
 package com.byteflipper.everbook.presentation.pdf_reader
 
 import android.graphics.Bitmap
+import android.view.View
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import com.byteflipper.everbook.domain.distribution.ReaderInlineContentPlacement
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.reader.PdfPageDisplayMode
 import com.byteflipper.everbook.domain.reader.PdfReadingMode
@@ -40,6 +42,8 @@ fun PdfReaderContent(
     showZoomControls: Boolean,
     pinchZoom: Boolean,
     fullscreenMode: Boolean,
+    inlineContentPlacements: List<ReaderInlineContentPlacement>,
+    createInlineContentView: (Long) -> View?,
     renderPage: suspend (pageIndex: Int, targetWidth: Int) -> Bitmap?,
     menuVisibility: (PdfReaderEvent.OnMenuVisibility) -> Unit,
     scrollToPage: (PdfReaderEvent.OnScrollToPage) -> Unit,
@@ -81,6 +85,8 @@ fun PdfReaderContent(
             showZoomControls = showZoomControls,
             pinchZoom = pinchZoom,
             fullscreenMode = fullscreenMode,
+            inlineContentPlacements = inlineContentPlacements,
+            createInlineContentView = createInlineContentView,
             renderPage = renderPage,
             menuVisibility = menuVisibility,
             scrollToPage = scrollToPage,

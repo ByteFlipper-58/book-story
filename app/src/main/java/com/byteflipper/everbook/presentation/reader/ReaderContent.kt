@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.presentation.reader
 
+import android.view.View
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import com.byteflipper.everbook.domain.distribution.ReaderInlineContentPlacement
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.FontWithName
@@ -92,6 +94,8 @@ fun ReaderContent(
     paragraphIndentation: TextUnit,
     doubleClickTranslation: Boolean,
     fullscreenMode: Boolean,
+    inlineContentPlacements: List<ReaderInlineContentPlacement>,
+    createInlineContentView: (Long) -> View?,
     selectPreviousPreset: (SettingsEvent.OnSelectPreviousPreset) -> Unit,
     selectNextPreset: (SettingsEvent.OnSelectNextPreset) -> Unit,
     menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit,
@@ -178,6 +182,8 @@ fun ReaderContent(
             paragraphIndentation = paragraphIndentation,
             doubleClickTranslation = doubleClickTranslation,
             fullscreenMode = fullscreenMode,
+            inlineContentPlacements = inlineContentPlacements,
+            createInlineContentView = createInlineContentView,
             selectPreviousPreset = selectPreviousPreset,
             selectNextPreset = selectNextPreset,
             menuVisibility = menuVisibility,

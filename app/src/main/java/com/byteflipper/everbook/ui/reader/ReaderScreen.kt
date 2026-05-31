@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
@@ -45,6 +46,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.parcelize.Parcelize
+import com.byteflipper.everbook.domain.distribution.ReaderInlineContentMode
 import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.domain.reader.PdfPageDisplayMode
 import com.byteflipper.everbook.domain.reader.PdfReadingMode
@@ -81,11 +83,13 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         val navigator = LocalNavigator.current
         val screenModel = hiltViewModel<ReaderModel>()
         val pdfScreenModel = hiltViewModel<PdfReaderModel>()
+        val readerInlineContentModel = hiltViewModel<ReaderInlineContentModel>()
         val mainModel = hiltViewModel<MainModel>()
         val settingsModel = hiltViewModel<SettingsModel>()
 
         val state = screenModel.state.collectAsStateWithLifecycle()
         val pdfState = pdfScreenModel.state.collectAsStateWithLifecycle()
+        val inlineContentState = readerInlineContentModel.state.collectAsStateWithLifecycle()
         val mainState = mainModel.state.collectAsStateWithLifecycle()
         val settingsState = settingsModel.state.collectAsStateWithLifecycle()
 
@@ -118,6 +122,31 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                     state.value.book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF
 
                 else -> false
+            }
+        }
+        val readerAvailableForInlineContent = remember(
+            activePdfMode,
+            state.value.showMenu,
+            state.value.bottomSheet,
+            state.value.drawer,
+            state.value.isLoading,
+            state.value.isParsing,
+            pdfState.value.showMenu,
+            pdfState.value.bottomSheet,
+            pdfState.value.isLoading,
+            pdfState.value.errorMessage
+        ) {
+            if (activePdfMode) {
+                !pdfState.value.showMenu &&
+                        pdfState.value.bottomSheet == null &&
+                        !pdfState.value.isLoading &&
+                        pdfState.value.errorMessage == null
+            } else {
+                !state.value.showMenu &&
+                        state.value.bottomSheet == null &&
+                        state.value.drawer == null &&
+                        !state.value.isLoading &&
+                        !state.value.isParsing
             }
         }
         val nestedScrollConnection = remember {
@@ -446,6 +475,59 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         LaunchedEffect(pdfListState) {
             pdfScreenModel.updateProgress(pdfListState)
         }
+        LaunchedEffect(activity) {
+            readerInlineContentModel.configure(activity)
+        }
+        LaunchedEffect(listState, activePdfMode, state.value.text.size, readerAvailableForInlineContent) {
+            snapshotFlow {
+                val firstVisibleIndex = listState.firstVisibleItemIndex
+                val visibleEndIndex = listState.layoutInfo.visibleItemsInfo
+                    .maxOfOrNull { it.index } ?: firstVisibleIndex
+
+                Triple(
+                    firstVisibleIndex,
+                    visibleEndIndex,
+                    state.value.text.lastIndex
+                )
+            }
+                .collect { (index, visibleEndIndex, lastIndex) ->
+                    if (!activePdfMode && lastIndex >= 0) {
+                        readerInlineContentModel.onReaderProgress(
+                            activity = activity,
+                            mode = ReaderInlineContentMode.TEXT,
+                            progressUnit = index,
+                            visibleEndProgressUnit = visibleEndIndex,
+                            lastProgressUnit = lastIndex,
+                            readerAvailableForInlineContent = readerAvailableForInlineContent
+                        )
+                    }
+                }
+        }
+        LaunchedEffect(pdfListState, activePdfMode, pdfState.value.pageCount, readerAvailableForInlineContent) {
+            snapshotFlow {
+                val firstVisibleIndex = pdfListState.firstVisibleItemIndex
+                val visibleEndIndex = pdfListState.layoutInfo.visibleItemsInfo
+                    .maxOfOrNull { it.index } ?: firstVisibleIndex
+
+                Triple(
+                    firstVisibleIndex,
+                    visibleEndIndex,
+                    pdfState.value.pageCount - 1
+                )
+            }
+                .collect { (index, visibleEndIndex, lastIndex) ->
+                    if (activePdfMode && lastIndex >= 0) {
+                        readerInlineContentModel.onReaderProgress(
+                            activity = activity,
+                            mode = ReaderInlineContentMode.PDF,
+                            progressUnit = index,
+                            visibleEndProgressUnit = visibleEndIndex,
+                            lastProgressUnit = lastIndex,
+                            readerAvailableForInlineContent = readerAvailableForInlineContent
+                        )
+                    }
+                }
+        }
         LaunchedEffect(
             pdfState.value.pageCount,
             activePdfMode,
@@ -493,6 +575,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
 
         DisposableEffect(Unit) {
             onDispose {
+                readerInlineContentModel.resetSession()
                 screenModel.resetScreen()
                 pdfScreenModel.resetScreen()
                 WindowCompat.getInsetsController(
@@ -523,6 +606,10 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 showZoomControls = mainState.value.pdfShowZoomControls,
                 pinchZoom = mainState.value.pdfPinchZoom,
                 fullscreenMode = mainState.value.fullscreen,
+                inlineContentPlacements = inlineContentState.value.placements,
+                createInlineContentView = { placementId ->
+                    readerInlineContentModel.createView(activity, placementId)
+                },
                 renderPage = pdfScreenModel::renderPage,
                 menuVisibility = pdfScreenModel::onEvent,
                 scrollToPage = pdfScreenModel::onEvent,
@@ -607,6 +694,10 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 paragraphIndentation = paragraphIndentation,
                 doubleClickTranslation = mainState.value.doubleClickTranslation,
                 fullscreenMode = mainState.value.fullscreen,
+                inlineContentPlacements = inlineContentState.value.placements,
+                createInlineContentView = { placementId ->
+                    readerInlineContentModel.createView(activity, placementId)
+                },
                 selectPreviousPreset = settingsModel::onEvent,
                 selectNextPreset = settingsModel::onEvent,
                 leave = screenModel::onEvent,

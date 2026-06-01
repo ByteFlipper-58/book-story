@@ -48,9 +48,6 @@ object SettingsScreen : Screen, Parcelable {
             navigateToPrivacySettings = {
                 navigator.push(PrivacySettingsScreen)
             },
-            navigateToDistributionDebugSettings = {
-                navigator.push(DistributionDebugSettingsScreen)
-            },
             navigateBack = {
                 navigator.pop()
             }

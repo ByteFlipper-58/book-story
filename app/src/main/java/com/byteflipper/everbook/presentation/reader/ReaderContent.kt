@@ -19,7 +19,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
-import com.byteflipper.everbook.domain.distribution.ReaderInlineContentPlacement
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.FontWithName
@@ -40,6 +39,7 @@ import com.byteflipper.everbook.ui.settings.SettingsEvent
 fun ReaderContent(
     book: Book,
     text: List<ReaderText>,
+    displayContent: ReaderDisplayContent,
     chapters: List<Chapter>,
     bottomSheet: BottomSheet?,
     drawer: Drawer?,
@@ -94,7 +94,6 @@ fun ReaderContent(
     paragraphIndentation: TextUnit,
     doubleClickTranslation: Boolean,
     fullscreenMode: Boolean,
-    inlineContentPlacements: List<ReaderInlineContentPlacement>,
     createInlineContentView: (Long) -> View?,
     selectPreviousPreset: (SettingsEvent.OnSelectPreviousPreset) -> Unit,
     selectNextPreset: (SettingsEvent.OnSelectNextPreset) -> Unit,
@@ -133,6 +132,7 @@ fun ReaderContent(
         ReaderScaffold(
             book = book,
             text = text,
+            displayContent = displayContent,
             listState = listState,
             currentChapter = currentChapter,
             nestedScrollConnection = nestedScrollConnection,
@@ -182,7 +182,6 @@ fun ReaderContent(
             paragraphIndentation = paragraphIndentation,
             doubleClickTranslation = doubleClickTranslation,
             fullscreenMode = fullscreenMode,
-            inlineContentPlacements = inlineContentPlacements,
             createInlineContentView = createInlineContentView,
             selectPreviousPreset = selectPreviousPreset,
             selectNextPreset = selectNextPreset,

@@ -10,8 +10,8 @@
     <string name="privacy_options_updated">Privacy options updated.</string>
     <string name="privacy_options_required_note">Google requires privacy options for this region. Use this button to change or withdraw consent for ads.</string>
     <string name="privacy_options_not_required_note">Google does not require a privacy options form for the current region or consent state.</string>
-    <string name="ad_debug_settings">Ad debug</string>
-    <string name="ad_debug_settings_desc">Remote values, ad limits</string>
-    <string name="ad_debug_remote_config">Remote Config</string>
+    <string name="privacy_policy_subcategory">Privacy policy</string>
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_desc">Review how EverBook handles local data, advertising, analytics and consent.</string>
     <string name="native_ad_label">Ad</string>
 </resources>

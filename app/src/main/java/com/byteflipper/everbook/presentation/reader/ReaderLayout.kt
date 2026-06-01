@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,8 +35,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
-import com.byteflipper.everbook.domain.distribution.ReaderInlineContentMode
-import com.byteflipper.everbook.domain.distribution.ReaderInlineContentPlacement
 import com.byteflipper.everbook.domain.reader.FontWithName
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
@@ -56,7 +53,7 @@ import com.byteflipper.everbook.ui.reader.ReaderEvent
 
 @Composable
 fun ReaderLayout(
-    text: List<ReaderText>,
+    displayContent: ReaderDisplayContent,
     listState: LazyListState,
     contentPadding: PaddingValues,
     verticalPadding: Dp,
@@ -95,7 +92,6 @@ fun ReaderLayout(
     fullscreenMode: Boolean,
     isLoading: Boolean,
     showMenu: Boolean,
-    inlineContentPlacements: List<ReaderInlineContentPlacement>,
     createInlineContentView: (Long) -> View?,
     menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit,
     openShareApp: (ReaderEvent.OnOpenShareApp) -> Unit,
@@ -104,11 +100,6 @@ fun ReaderLayout(
     openDictionary: (ReaderEvent.OnOpenDictionary) -> Unit
 ) {
     val activity = LocalActivity.current
-    val inlineContentByTextIndex = remember(inlineContentPlacements) {
-        inlineContentPlacements
-            .filter { it.mode == ReaderInlineContentMode.TEXT }
-            .groupBy { it.progressUnit }
-    }
 
     SelectionContainer(
         onCopyRequested = {
@@ -198,31 +189,33 @@ fun ReaderLayout(
                 )
             ) {
                 itemsIndexed(
-                    text,
-                    key = { index, _ -> index }
-                ) { index, entry ->
-                    val entryInlineContent = inlineContentByTextIndex[index].orEmpty()
-                    when {
-                        !images && entry is ReaderText.Image -> {
-                            if (entryInlineContent.isEmpty()) return@itemsIndexed
-
+                    displayContent.rows,
+                    key = { index, row ->
+                        when (row) {
+                            is ReaderDisplayRow.Text -> "text_${row.readerIndex}"
+                            is ReaderDisplayRow.InlineContent -> "inline_${row.placement.id}"
+                        }
+                    }
+                ) { index, row ->
+                    when (row) {
+                        is ReaderDisplayRow.InlineContent -> {
                             SpacedItem(
                                 index = index,
                                 spacing = paragraphHeight
                             ) {
-                                entryInlineContent.forEach { placement ->
-                                    ReaderInlineContent(
-                                        modifier = Modifier.padding(
-                                            start = sidePadding,
-                                            end = sidePadding
-                                        ),
-                                        createView = { createInlineContentView(placement.id) }
-                                    )
-                                }
+                                ReaderInlineContent(
+                                    modifier = Modifier.padding(
+                                        start = sidePadding,
+                                        end = sidePadding
+                                    ),
+                                    createView = { createInlineContentView(row.placement.id) }
+                                )
                             }
                         }
 
-                        else -> {
+                        is ReaderDisplayRow.Text -> {
+                            if (!images && row.entry is ReaderText.Image) return@itemsIndexed
+
                             SpacedItem(
                                 index = index,
                                 spacing = paragraphHeight
@@ -230,7 +223,7 @@ fun ReaderLayout(
                                 ReaderLayoutText(
                                     activity = activity,
                                     showMenu = showMenu,
-                                    entry = entry,
+                                    entry = row.entry,
                                     imagesCornersRoundness = imagesCornersRoundness,
                                     imagesAlignment = imagesAlignment,
                                     imagesWidth = imagesWidth,
@@ -255,16 +248,6 @@ fun ReaderLayout(
                                     openTranslator = openTranslator,
                                     menuVisibility = menuVisibility
                                 )
-                                entryInlineContent.forEach { placement ->
-                                    ReaderInlineContent(
-                                        modifier = Modifier.padding(
-                                            top = paragraphHeight,
-                                            start = sidePadding,
-                                            end = sidePadding
-                                        ),
-                                        createView = { createInlineContentView(placement.id) }
-                                    )
-                                }
                             }
                         }
                     }

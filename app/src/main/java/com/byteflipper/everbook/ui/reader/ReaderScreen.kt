@@ -59,6 +59,7 @@ import com.byteflipper.everbook.presentation.core.util.calculateProgress
 import com.byteflipper.everbook.presentation.core.util.setBrightness
 import com.byteflipper.everbook.presentation.navigator.LocalNavigator
 import com.byteflipper.everbook.presentation.pdf_reader.PdfReaderContent
+import com.byteflipper.everbook.presentation.reader.buildReaderDisplayContent
 import com.byteflipper.everbook.presentation.reader.ReaderContent
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.book_info.BookInfoScreen
@@ -302,6 +303,15 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         val progressBarFontSize = remember(mainState.value.progressBarFontSize) {
             (mainState.value.progressBarFontSize * 2).sp
         }
+        val readerDisplayContent = remember(
+            state.value.text,
+            inlineContentState.value.placements
+        ) {
+            buildReaderDisplayContent(
+                text = state.value.text,
+                inlineContentPlacements = inlineContentState.value.placements
+            )
+        }
 
         val layoutDirection = LocalLayoutDirection.current
         val cutoutInsets = WindowInsets.displayCutout
@@ -469,8 +479,12 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 )
             }
         }
-        LaunchedEffect(listState) {
-            screenModel.updateProgress(listState)
+        LaunchedEffect(listState, readerDisplayContent) {
+            screenModel.updateProgress(
+                listState = listState,
+                displayIndexToTextIndex = readerDisplayContent::displayIndexToTextIndex,
+                textIndexToDisplayIndex = readerDisplayContent::textIndexToDisplayIndex
+            )
         }
         LaunchedEffect(pdfListState) {
             pdfScreenModel.updateProgress(pdfListState)
@@ -478,15 +492,21 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         LaunchedEffect(activity) {
             readerInlineContentModel.configure(activity)
         }
-        LaunchedEffect(listState, activePdfMode, state.value.text.size, readerAvailableForInlineContent) {
+        LaunchedEffect(
+            listState,
+            activePdfMode,
+            state.value.text.size,
+            readerDisplayContent,
+            readerAvailableForInlineContent
+        ) {
             snapshotFlow {
-                val firstVisibleIndex = listState.firstVisibleItemIndex
-                val visibleEndIndex = listState.layoutInfo.visibleItemsInfo
-                    .maxOfOrNull { it.index } ?: firstVisibleIndex
+                val firstVisibleDisplayIndex = listState.firstVisibleItemIndex
+                val visibleEndDisplayIndex = listState.layoutInfo.visibleItemsInfo
+                    .maxOfOrNull { it.index } ?: firstVisibleDisplayIndex
 
                 Triple(
-                    firstVisibleIndex,
-                    visibleEndIndex,
+                    readerDisplayContent.displayIndexToTextIndex(firstVisibleDisplayIndex),
+                    readerDisplayContent.displayIndexToTextIndex(visibleEndDisplayIndex),
                     state.value.text.lastIndex
                 )
             }
@@ -639,6 +659,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
             ReaderContent(
                 book = state.value.book,
                 text = state.value.text,
+                displayContent = readerDisplayContent,
                 chapters = state.value.chapters,
                 bottomSheet = state.value.bottomSheet,
                 drawer = state.value.drawer,
@@ -694,7 +715,6 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 paragraphIndentation = paragraphIndentation,
                 doubleClickTranslation = mainState.value.doubleClickTranslation,
                 fullscreenMode = mainState.value.fullscreen,
-                inlineContentPlacements = inlineContentState.value.placements,
                 createInlineContentView = { placementId ->
                     readerInlineContentModel.createView(activity, placementId)
                 },

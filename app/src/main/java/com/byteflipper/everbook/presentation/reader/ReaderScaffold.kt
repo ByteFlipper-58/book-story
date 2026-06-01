@@ -28,7 +28,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
-import com.byteflipper.everbook.domain.distribution.ReaderInlineContentPlacement
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.FontWithName
@@ -47,6 +46,7 @@ import com.byteflipper.everbook.ui.settings.SettingsEvent
 fun ReaderScaffold(
     book: Book,
     text: List<ReaderText>,
+    displayContent: ReaderDisplayContent,
     listState: LazyListState,
     currentChapter: Chapter?,
     nestedScrollConnection: NestedScrollConnection,
@@ -96,7 +96,6 @@ fun ReaderScaffold(
     paragraphIndentation: TextUnit,
     doubleClickTranslation: Boolean,
     fullscreenMode: Boolean,
-    inlineContentPlacements: List<ReaderInlineContentPlacement>,
     createInlineContentView: (Long) -> View?,
     selectPreviousPreset: (SettingsEvent.OnSelectPreviousPreset) -> Unit,
     selectNextPreset: (SettingsEvent.OnSelectNextPreset) -> Unit,
@@ -157,6 +156,7 @@ fun ReaderScaffold(
                     progress = progress,
                     text = text,
                     listState = listState,
+                    displayContent = displayContent,
                     lockMenu = lockMenu,
                     isParsing = isParsing,
                     checkpoint = checkpoint,
@@ -169,7 +169,7 @@ fun ReaderScaffold(
         }
     ) {
         ReaderLayout(
-            text = text,
+            displayContent = displayContent,
             listState = listState,
             contentPadding = contentPadding,
             verticalPadding = verticalPadding,
@@ -208,7 +208,6 @@ fun ReaderScaffold(
             fullscreenMode = fullscreenMode,
             isLoading = isLoading,
             showMenu = showMenu,
-            inlineContentPlacements = inlineContentPlacements,
             createInlineContentView = createInlineContentView,
             menuVisibility = menuVisibility,
             openShareApp = openShareApp,

@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -192,10 +193,17 @@ fun PdfReaderLayout(
                 )
                 inlineContentByPageIndex[pageIndex].orEmpty().forEach { placement ->
                     ReaderInlineContent(
-                        modifier = Modifier.padding(
-                            horizontal = 16.dp,
-                            vertical = 12.dp
-                        ),
+                        modifier = when (pageDisplayMode) {
+                            PdfPageDisplayMode.CONTINUOUS -> Modifier
+                                .fillMaxWidth()
+                                .widthIn(max = 760.dp)
+                                .align(Alignment.CenterHorizontally)
+                                .padding(vertical = 12.dp)
+
+                            PdfPageDisplayMode.PAGED -> Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 12.dp)
+                        },
                         createView = { createInlineContentView(placement.id) }
                     )
                 }

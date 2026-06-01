@@ -23,7 +23,6 @@ fun SettingsContent(
     navigateToBrowseSettings: () -> Unit,
     navigateToLibrarySettings: () -> Unit,
     navigateToPrivacySettings: () -> Unit,
-    navigateToDistributionDebugSettings: () -> Unit,
     navigateBack: () -> Unit
 ) {
     SettingsScaffold(
@@ -35,7 +34,6 @@ fun SettingsContent(
         navigateToBrowseSettings = navigateToBrowseSettings,
         navigateToLibrarySettings = navigateToLibrarySettings,
         navigateToPrivacySettings = navigateToPrivacySettings,
-        navigateToDistributionDebugSettings = navigateToDistributionDebugSettings,
         navigateBack = navigateBack
     )
 }

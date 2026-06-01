@@ -8,18 +8,21 @@
 package com.byteflipper.everbook.ui.settings
 
 import android.os.Parcelable
+import android.webkit.WebSettings
+import android.webkit.WebView
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
@@ -37,11 +40,15 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -50,6 +57,7 @@ import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.domain.privacy.PrivacyConsentManager
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
+import com.byteflipper.everbook.presentation.core.components.modal_bottom_sheet.ModalBottomSheet
 import com.byteflipper.everbook.presentation.core.components.top_bar.collapsibleTopAppBarScrollBehavior
 import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.presentation.core.util.showToast
@@ -167,6 +175,16 @@ private fun PrivacySettingsContent(
     showPrivacyOptions: () -> Unit,
     navigateBack: () -> Unit
 ) {
+    val showPrivacyPolicy = remember { mutableStateOf(false) }
+
+    if (showPrivacyPolicy.value) {
+        PrivacyPolicyBottomSheet(
+            dismissBottomSheet = {
+                showPrivacyPolicy.value = false
+            }
+        )
+    }
+
     Scaffold(
         Modifier
             .fillMaxSize()
@@ -193,14 +211,13 @@ private fun PrivacySettingsContent(
             Modifier
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding()),
-            state = listState,
-            contentPadding = PaddingValues(vertical = 16.dp)
+            state = listState
         ) {
             SettingsSubcategory(
-                titleColor = { MaterialTheme.colorScheme.onSurface },
+                titleColor = { MaterialTheme.colorScheme.primary },
                 title = { stringResource(id = R.string.privacy_ads_subcategory) },
                 showTitle = true,
-                showDivider = false
+                showDivider = true
             ) {
                 item {
                     PrivacyOptionsItem(
@@ -223,6 +240,20 @@ private fun PrivacySettingsContent(
                     )
                 }
             }
+            SettingsSubcategory(
+                titleColor = { MaterialTheme.colorScheme.primary },
+                title = { stringResource(id = R.string.privacy_policy_subcategory) },
+                showTitle = true,
+                showDivider = false
+            ) {
+                item {
+                    PrivacyPolicyItem(
+                        showPrivacyPolicy = {
+                            showPrivacyPolicy.value = true
+                        }
+                    )
+                }
+            }
         }
     }
 }
@@ -239,7 +270,7 @@ private fun PrivacyOptionsItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 18.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         StyledText(
             text = stringResource(id = R.string.privacy_ads_consent_title),
@@ -259,34 +290,126 @@ private fun PrivacyOptionsItem(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         )
-        Row(
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
-            verticalAlignment = Alignment.CenterVertically
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.End
         ) {
             OutlinedButton(
                 enabled = !isLoading,
-                onClick = refresh
+                onClick = refresh,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Refresh,
                     contentDescription = null
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.padding(horizontal = 4.dp))
                 Text(text = stringResource(id = R.string.refresh))
             }
-            Spacer(modifier = Modifier.width(8.dp))
             FilledTonalButton(
                 enabled = privacyOptionsRequired && !isLoading,
-                onClick = showPrivacyOptions
+                onClick = showPrivacyOptions,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Tune,
                     contentDescription = null
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.padding(horizontal = 4.dp))
                 Text(text = stringResource(id = R.string.privacy_options_manage))
             }
         }
     }
+}
+
+@Composable
+private fun PrivacyPolicyItem(
+    showPrivacyPolicy: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { showPrivacyPolicy() }
+            .padding(horizontal = 18.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.Center
+        ) {
+            StyledText(
+                text = stringResource(id = R.string.privacy_policy_title),
+                style = MaterialTheme.typography.titleMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            )
+            StyledText(
+                text = stringResource(id = R.string.privacy_policy_desc),
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            )
+        }
+    }
+}
+
+@Composable
+private fun PrivacyPolicyBottomSheet(
+    dismissBottomSheet: () -> Unit
+) {
+    ModalBottomSheet(
+        modifier = Modifier.fillMaxHeight(0.94f),
+        hasFixedHeight = true,
+        onDismissRequest = dismissBottomSheet,
+        sheetGesturesEnabled = false,
+        containerColor = MaterialTheme.colorScheme.surface
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 18.dp)
+                .padding(bottom = 18.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            StyledText(
+                text = stringResource(id = R.string.privacy_policy_title),
+                style = MaterialTheme.typography.titleLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                PrivacyPolicyWebView()
+            }
+        }
+    }
+}
+
+@Composable
+private fun PrivacyPolicyWebView() {
+    val backgroundColor = MaterialTheme.colorScheme.surface.toArgb()
+
+    AndroidView(
+        modifier = Modifier.fillMaxSize(),
+        factory = { context ->
+            WebView(context).apply {
+                settings.apply {
+                    javaScriptEnabled = false
+                    domStorageEnabled = false
+                    cacheMode = WebSettings.LOAD_NO_CACHE
+                    builtInZoomControls = false
+                    displayZoomControls = false
+                    textZoom = 100
+                }
+                isVerticalScrollBarEnabled = true
+                overScrollMode = WebView.OVER_SCROLL_IF_CONTENT_SCROLLS
+                setBackgroundColor(backgroundColor)
+                loadUrl("file:///android_asset/privacy_policy.html")
+            }
+        }
+    )
 }

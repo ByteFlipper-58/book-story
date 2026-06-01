@@ -21,6 +21,7 @@ fun ReaderBottomBarSlider(
     lockMenu: Boolean,
     isParsing: Boolean,
     listState: LazyListState,
+    displayContent: ReaderDisplayContent,
     scroll: (ReaderEvent.OnScroll) -> Unit,
     changeProgress: (ReaderEvent.OnChangeProgress) -> Unit
 ) {
@@ -33,7 +34,9 @@ fun ReaderBottomBarSlider(
                 changeProgress(
                     ReaderEvent.OnChangeProgress(
                         progress = it,
-                        firstVisibleItemIndex = listState.firstVisibleItemIndex,
+                        firstVisibleItemIndex = displayContent.displayIndexToTextIndex(
+                            listState.firstVisibleItemIndex
+                        ),
                         firstVisibleItemOffset = 0
                     )
                 )

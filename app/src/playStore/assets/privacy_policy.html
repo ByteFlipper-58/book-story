@@ -35,7 +35,7 @@
 <body>
     <h1>Privacy Policy</h1>
 
-    <p><em>Last updated: June&nbsp;2025</em></p>
+    <p><em>Last updated: May&nbsp;2026</em></p>
 
     <p>
         This Privacy Policy explains how <strong>EverBook</strong> (“the App”, “we”, “our”) handles your
@@ -56,39 +56,80 @@
 
     <h2>2. Information Collected Automatically</h2>
     <p>
-        The App includes <strong>Google Firebase Analytics</strong> and <strong>Firebase Crashlytics</strong>. These services
-        automatically collect limited, non-personally-identifying information, for example:
+        The Google Play version of the App includes <strong>Google Firebase Analytics</strong>,
+        <strong>Firebase Crashlytics</strong>, <strong>Firebase Cloud Messaging</strong>,
+        <strong>Firebase In-App Messaging</strong>, and <strong>Firebase Remote Config</strong>.
+        These services may automatically collect limited diagnostic, analytics, and app-instance information, for example:
     </p>
     <ul>
         <li>Crash stack traces and device model (Crashlytics)</li>
-        <li>Anonymous event counters such as screen views (Analytics)</li>
-        <li>Firebase-generated installation ID</li>
+        <li>App interactions, app launches, screen views, and other analytics events (Firebase Analytics)</li>
+        <li>Device information such as app version, operating system version, language, country/region, and device model</li>
+        <li>Firebase-generated installation identifiers and related app-instance identifiers</li>
+        <li>Push notification delivery tokens if you allow notifications (Firebase Cloud Messaging)</li>
     </ul>
     <p>
-        The analytics data helps us understand which parts of the App are used the most and spot
-        critical crashes. It does <strong>not</strong> include the content of your ebooks or any text you read.
+        Firebase Analytics helps us understand which parts of the App are used the most, measure app stability,
+        and improve the App. Crashlytics helps us detect and fix critical crashes. Firebase Remote Config lets
+        the App download configuration values, such as feature flags, without requiring an app update.
+        These services do <strong>not</strong> collect the content of your ebooks or any text you read.
         Google may aggregate this information in accordance with its
         <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a>.
     </p>
 
-    <h2>3. Optional Network Connections</h2>
+    <h2>3. Advertising</h2>
+    <p>
+        The Google Play version of the App may display advertising. Ads may be enabled, disabled, or adjusted
+        using Firebase Remote Config. When ads are shown, the App may use Google advertising services such as
+        Google AdMob.
+    </p>
+    <p>
+        Advertising services may collect and use information such as the Android Advertising ID, device information,
+        approximate location derived from network information, ad interactions, app interactions, and diagnostic data.
+        This information may be used to serve, limit, measure, and improve ads, prevent fraud and abuse, and comply
+        with legal requirements.
+    </p>
+    <p>
+        Depending on your region, device settings, and consent choices, ads may be personalized or non-personalized.
+        In regions where it is required, the App uses Google's User Messaging Platform to ask for consent before
+        personalized ads are shown or before ad-related data is used for personalization. Personalized ads may use
+        previously collected or historical data to make ads more relevant. You can manage ad personalization and
+        reset or delete your Android Advertising ID in your device's Google privacy or ads settings.
+        Google handles advertising data in accordance with Google's
+        <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and
+        <a href="https://policies.google.com/technologies/partner-sites" target="_blank">partner data policy</a>.
+    </p>
+    <p>
+        We do <strong>not</strong> share the content of your ebooks, notes, reading progress, or local library with
+        advertising partners.
+    </p>
+
+    <h2>4. Remote Configuration</h2>
+    <p>
+        Firebase Remote Config is used to fetch app configuration values from Firebase, for example whether a
+        feature such as advertising is currently enabled. Remote Config values are not secret and may be visible
+        to a user of the App. We do not store confidential personal information in Remote Config keys or values.
+    </p>
+
+    <h2>5. Optional Network Connections</h2>
     <p>The App can access the Internet only in the cases listed below:</p>
     <ul>
         <li>Checking for App updates on GitHub if you enable "Check for updates" in Settings</li>
         <li>Opening external links you tap (e.g. Help articles or project homepage)</li>
         <li>Downloading cover images through the built-in image loader (<code>coil-compose</code>)</li>
         <li>Receiving push notifications via Firebase Cloud Messaging (if you allow them)</li>
+        <li>Fetching Firebase Remote Config values</li>
+        <li>Loading and measuring ads when advertising is enabled</li>
     </ul>
-    <p>No other remote calls are performed.</p>
 
-    <h2>4. Permissions Explained</h2>
+    <h2>6. Permissions Explained</h2>
     <ul>
         <li><strong>Storage / File Access</strong> – to let you pick local ebook files and keep reading progress.</li>
         <li><strong>Post Notifications</strong> – optional; used for update reminders or FCM push messages.</li>
-        <li><strong>Internet</strong> – required by Firebase SDKs and to open external links you request.</li>
+        <li><strong>Internet</strong> – required by Firebase SDKs, ads, and to open external links you request.</li>
     </ul>
 
-    <h2>5. Third-Party Open-Source Libraries</h2>
+    <h2>7. Third-Party Open-Source Libraries</h2>
     <p>The App relies on the following open-source libraries, all of which run entirely on-device and never transmit your data to external servers:</p>
     <ul>
         <li><a href="https://developer.android.com/jetpack/compose" target="_blank">AndroidX Jetpack Compose &amp; Material&nbsp;3</a> — UI framework</li>
@@ -103,50 +144,54 @@
     </ul>
     <p>All of these libraries operate exclusively on local data.</p>
 
-    <h2>6. Data Retention &amp; Deletion</h2>
+    <h2>8. Data Retention &amp; Deletion</h2>
     <p>
         •  Locally stored data (books, settings, reading history) stays on your device until you delete
            it or uninstall the App.<br/>
-        •  Crash and analytics logs on Firebase are retained for up to 90 days and then deleted
-           automatically.
+        •  Crash and analytics logs on Firebase are retained according to Firebase and Google Analytics retention
+           settings and then deleted or aggregated.<br/>
+        •  Advertising data may be handled by Google and its advertising partners according to their own retention
+           policies and your device or consent settings.
     </p>
 
-    <h2>7. Legal Basis for Processing (GDPR)</h2>
+    <h2>9. Legal Basis for Processing (GDPR)</h2>
     <p>If you are located in the European Economic Area, our legal basis for collecting and using personal information described above depends on the specific context in which we collect it. We process your information on the basis of:</p>
     <ul>
         <li><strong>Legitimate interest</strong> — to keep the App secure and stable (crash reports).</li>
-        <li><strong>Consent</strong> — optional analytics and push notifications are processed only if you grant the corresponding permissions.</li>
+        <li><strong>Consent</strong> — optional analytics, push notifications, and personalized ads are processed only where required consent has been obtained.</li>
+        <li><strong>Legitimate interest or consent</strong> — non-personalized ads, fraud prevention, frequency capping, and ad measurement may be processed depending on local law and your consent choices.</li>
     </ul>
 
-    <h2>8. Your Rights</h2>
-    <p>The GDPR grants data-subjects extensive rights. However, <strong>we do not maintain any user-identifiable data on our servers</strong>. Most information (books, settings, reading history) is stored only on your device; limited diagnostic logs are held by Google Firebase in aggregate form.</p>
+    <h2>10. Your Rights</h2>
+    <p>The GDPR grants data-subjects extensive rights. However, <strong>we do not maintain our own user account database or user-identifiable app servers</strong>. Most information (books, settings, reading history) is stored only on your device; limited diagnostic, analytics, advertising, and messaging data may be held by Google/Firebase and may be associated with app installation, app instance, or advertising identifiers.</p>
     <p>Consequently, if you make a Data Subject Access Request we will normally answer that we have <em>no data relating to you</em>. If you would still like to exercise your rights you can:</p>
     <ul>
         <li><strong>Erase or rectify</strong> local data at any time by clearing the App's storage or uninstalling it.</li>
-        <li><strong>Withdraw consent</strong> by disabling analytics &amp; crash reporting in your device system-settings (Google Play Services – Ads).</li>
-        <li>Contact Google LLC directly regarding Firebase Analytics / Crashlytics identifiers.</li>
+        <li><strong>Withdraw or change consent</strong> by using the App's consent controls where available, disabling analytics or notifications in system settings, or changing Google privacy and ads settings on your device.</li>
+        <li>Reset or delete your Android Advertising ID in your device's Google privacy or ads settings.</li>
+        <li>Contact Google LLC directly regarding Firebase, Google Analytics, or advertising identifiers.</li>
     </ul>
-    <p>Should you send us a GDPR request, please note that without additional information we cannot link Firebase crash reports to a specific natural person.</p>
+    <p>Should you send us a GDPR request, please note that without additional information we may be unable to link Firebase, Google Analytics, or advertising records to a specific natural person.</p>
 
-    <h2>9. International Data Transfers</h2>
-    <p>Firebase services may store data on servers located in the United States or other countries. Google LLC participates in the EU–US Data Privacy Framework, and standard contractual clauses are in place to safeguard such transfers.</p>
+    <h2>11. International Data Transfers</h2>
+    <p>Firebase, Google Analytics, and advertising services may store data on servers located in the United States or other countries. Google LLC participates in the EU–US Data Privacy Framework, and standard contractual clauses are in place to safeguard such transfers.</p>
 
-    <h2>10. Children's Privacy</h2>
+    <h2>12. Children's Privacy</h2>
     <p>The App is not directed to children under 13. We do not knowingly collect personal data from children.</p>
 
-    <h2>11. Your Consent</h2>
+    <h2>13. Your Consent</h2>
     <p>
         By checking the "I accept the privacy policy" box in the App you acknowledge that you have
         read and understood this Privacy Policy.
     </p>
 
-    <h2>12. Changes to This Policy</h2>
+    <h2>14. Changes to This Policy</h2>
     <p>
         We may update this policy from time to time. New versions will be published within the App and
         on the project GitHub page. Continued use of the App constitutes acceptance of the revised policy.
     </p>
 
-    <h2>13. Contact</h2>
+    <h2>15. Contact</h2>
     <p>
         For questions or concerns, please open an issue on our
         <a href="https://github.com/byteflipper-58/book-story" target="_blank">GitHub repository</a>,

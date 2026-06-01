@@ -8,6 +8,7 @@
 package com.byteflipper.everbook.presentation.reader
 
 import android.os.Build
+import android.view.View
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
@@ -42,6 +43,7 @@ import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.presentation.core.components.common.AnimatedVisibility
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
+import com.byteflipper.everbook.presentation.core.components.common.ReaderInlineContent
 import com.byteflipper.everbook.presentation.core.components.common.SelectionContainer
 import com.byteflipper.everbook.presentation.core.components.common.SpacedItem
 import com.byteflipper.everbook.presentation.core.util.LocalActivity
@@ -51,7 +53,7 @@ import com.byteflipper.everbook.ui.reader.ReaderEvent
 
 @Composable
 fun ReaderLayout(
-    text: List<ReaderText>,
+    displayContent: ReaderDisplayContent,
     listState: LazyListState,
     contentPadding: PaddingValues,
     verticalPadding: Dp,
@@ -90,6 +92,7 @@ fun ReaderLayout(
     fullscreenMode: Boolean,
     isLoading: Boolean,
     showMenu: Boolean,
+    createInlineContentView: (Long) -> View?,
     menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit,
     openShareApp: (ReaderEvent.OnOpenShareApp) -> Unit,
     openWebBrowser: (ReaderEvent.OnOpenWebBrowser) -> Unit,
@@ -97,6 +100,7 @@ fun ReaderLayout(
     openDictionary: (ReaderEvent.OnOpenDictionary) -> Unit
 ) {
     val activity = LocalActivity.current
+
     SelectionContainer(
         onCopyRequested = {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
@@ -185,12 +189,33 @@ fun ReaderLayout(
                 )
             ) {
                 itemsIndexed(
-                    text,
-                    key = { index, _ -> index }
-                ) { index, entry ->
-                    when {
-                        !images && entry is ReaderText.Image -> return@itemsIndexed
-                        else -> {
+                    displayContent.rows,
+                    key = { index, row ->
+                        when (row) {
+                            is ReaderDisplayRow.Text -> "text_${row.readerIndex}"
+                            is ReaderDisplayRow.InlineContent -> "inline_${row.placement.id}"
+                        }
+                    }
+                ) { index, row ->
+                    when (row) {
+                        is ReaderDisplayRow.InlineContent -> {
+                            SpacedItem(
+                                index = index,
+                                spacing = paragraphHeight
+                            ) {
+                                ReaderInlineContent(
+                                    modifier = Modifier.padding(
+                                        start = sidePadding,
+                                        end = sidePadding
+                                    ),
+                                    createView = { createInlineContentView(row.placement.id) }
+                                )
+                            }
+                        }
+
+                        is ReaderDisplayRow.Text -> {
+                            if (!images && row.entry is ReaderText.Image) return@itemsIndexed
+
                             SpacedItem(
                                 index = index,
                                 spacing = paragraphHeight
@@ -198,7 +223,7 @@ fun ReaderLayout(
                                 ReaderLayoutText(
                                     activity = activity,
                                     showMenu = showMenu,
-                                    entry = entry,
+                                    entry = row.entry,
                                     imagesCornersRoundness = imagesCornersRoundness,
                                     imagesAlignment = imagesAlignment,
                                     imagesWidth = imagesWidth,

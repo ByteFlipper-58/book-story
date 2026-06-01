@@ -1,0 +1,5 @@
+<resources>
+    <string name="privacy_policy_subcategory">Política de privacidad</string>
+    <string name="privacy_policy_title">Política de privacidad</string>
+    <string name="privacy_policy_desc">Consulta cómo EverBook gestiona los datos locales, la publicidad, las analíticas y el consentimiento.</string>
+</resources>

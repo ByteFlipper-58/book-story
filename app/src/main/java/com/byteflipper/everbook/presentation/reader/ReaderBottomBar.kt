@@ -48,6 +48,7 @@ fun ReaderBottomBar(
     progress: String,
     text: List<ReaderText>,
     listState: LazyListState,
+    displayContent: ReaderDisplayContent,
     lockMenu: Boolean,
     isParsing: Boolean,
     checkpoint: Checkpoint,
@@ -56,12 +57,12 @@ fun ReaderBottomBar(
     scroll: (ReaderEvent.OnScroll) -> Unit,
     changeProgress: (ReaderEvent.OnChangeProgress) -> Unit
 ) {
-    val firstVisibleItemIndex = remember {
+    val firstVisibleItemIndex = remember(displayContent) {
         derivedStateOf {
-            listState.firstVisibleItemIndex
+            displayContent.displayIndexToTextIndex(listState.firstVisibleItemIndex)
         }
     }
-    val arrowDirection = remember(checkpoint.index, firstVisibleItemIndex) {
+    val arrowDirection = remember(checkpoint.index, firstVisibleItemIndex.value) {
         derivedStateOf {
             val checkpointIndex = checkpoint.index
             val index = firstVisibleItemIndex.value
@@ -126,6 +127,7 @@ fun ReaderBottomBar(
                     lockMenu = lockMenu,
                     isParsing = isParsing,
                     listState = listState,
+                    displayContent = displayContent,
                     scroll = scroll,
                     changeProgress = changeProgress
                 )

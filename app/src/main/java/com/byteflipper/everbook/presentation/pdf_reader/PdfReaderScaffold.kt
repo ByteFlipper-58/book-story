@@ -9,6 +9,7 @@ package com.byteflipper.everbook.presentation.pdf_reader
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.view.View
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import com.byteflipper.everbook.domain.distribution.ReaderInlineContentPlacement
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.reader.PdfPageDisplayMode
 import com.byteflipper.everbook.presentation.core.components.common.AnimatedVisibility
@@ -45,6 +47,8 @@ fun PdfReaderScaffold(
     showZoomControls: Boolean,
     pinchZoom: Boolean,
     fullscreenMode: Boolean,
+    inlineContentPlacements: List<ReaderInlineContentPlacement>,
+    createInlineContentView: (Long) -> View?,
     renderPage: suspend (pageIndex: Int, targetWidth: Int) -> Bitmap?,
     menuVisibility: (PdfReaderEvent.OnMenuVisibility) -> Unit,
     scrollToPage: (PdfReaderEvent.OnScrollToPage) -> Unit,
@@ -110,6 +114,8 @@ fun PdfReaderScaffold(
                 pageDisplayMode = pageDisplayMode,
                 pinchZoom = pinchZoom,
                 fullscreenMode = fullscreenMode,
+                inlineContentPlacements = inlineContentPlacements,
+                createInlineContentView = createInlineContentView,
                 renderPage = renderPage,
                 changeZoom = changeZoom,
                 menuVisibility = menuVisibility

@@ -82,6 +82,36 @@ Don't see your favorite app store? Create an [Issue](https://github.com/ByteFlip
 - Tablet UI support
 - More..
 
+<!------------ Build variants ------------>
+
+## 🧩 Build variants
+- `everbook` — standalone/open-source build without Google service SDKs, Firebase, AdMob, UMP, or Play Billing.
+- `playStore` — Google Play build with Google services kept in `app/src/playStore`.
+- Shared application code lives in `app/src/main`; flavor-specific code and assets live in `app/src/everbook` and `app/src/playStore`.
+- `app/src/playStoreDebug` is only a debug overlay for Play Store test resources.
+
+Debug builds:
+
+```bash
+./gradlew assembleEverbookDebug
+./gradlew assemblePlayStoreDebug
+```
+
+Play Store debug APK:
+
+```text
+app/build/outputs/apk/playStore/debug/app-playStore-debug.apk
+```
+
+<!------------ Privacy ------------>
+
+## 🔐 Privacy
+- The standalone `everbook` flavor does not include Google service SDKs.
+- The `playStore` flavor includes Firebase, AdMob, Remote Config, and UMP consent handling.
+- Privacy policies are flavor-specific:
+  - `app/src/everbook/assets/privacy_policy.html`
+  - `app/src/playStore/assets/privacy_policy.html`
+
 <!------------ Contribution ------------>
 
 ## 🤝 How to contribute

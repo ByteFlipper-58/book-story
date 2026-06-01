@@ -45,6 +45,9 @@ object SettingsScreen : Screen, Parcelable {
             navigateToLibrarySettings = {
                 navigator.push(LibrarySettingsScreen)
             },
+            navigateToPrivacySettings = {
+                navigator.push(PrivacySettingsScreen)
+            },
             navigateBack = {
                 navigator.pop()
             }

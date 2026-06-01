@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import okhttp3.internal.immutableListOf
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.domain.distribution.ReaderEntryActionController
 import com.byteflipper.everbook.domain.navigator.NavigatorItem
 import com.byteflipper.everbook.domain.navigator.StackEvent
 import com.byteflipper.everbook.presentation.browse.BrowseAddDialog
@@ -59,11 +60,15 @@ import com.byteflipper.everbook.ui.changelog.ChangelogScreen
 import com.byteflipper.everbook.domain.ui.isDark
 import com.byteflipper.everbook.domain.ui.isPureDark
 import java.lang.reflect.Field
+import javax.inject.Inject
 
 
 @SuppressLint("DiscouragedPrivateApi")
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    @Inject
+    lateinit var readerEntryActionController: ReaderEntryActionController
+
     // Creating an instance of Models
     private val mainModel: MainModel by viewModels()
     private val settingsModel: SettingsModel by viewModels()
@@ -80,6 +85,8 @@ class MainActivity : AppCompatActivity() {
 
         // Default super
         super.onCreate(savedInstanceState)
+
+        readerEntryActionController.configure(this)
 
         // Bigger Cursor size for Room
         try {
@@ -213,6 +220,12 @@ class MainActivity : AppCompatActivity() {
                             externalImportModel.importFailedChannel.receiveAsFlow().collectLatest {
                                 getString(R.string.error_something_went_wrong)
                                     .showToast(this@MainActivity)
+                            }
+                        }
+
+                        LaunchedEffect(screen) {
+                            if (screen is ReaderScreen) {
+                                readerEntryActionController.onReaderEntered(this@MainActivity)
                             }
                         }
 

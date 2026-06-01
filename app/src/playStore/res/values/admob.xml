@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="admob_interstitial_unit_id">ca-app-pub-4346225518624754/4473492856</string>
+    <string name="admob_native_reader_text_unit_id">ca-app-pub-4346225518624754/1966901941</string>
+    <string name="admob_native_reader_pdf_unit_id">ca-app-pub-4346225518624754/8445818452</string>
+</resources>

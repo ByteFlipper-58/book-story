@@ -1,0 +1,5 @@
+<resources>
+    <string name="privacy_policy_subcategory">隐私政策</string>
+    <string name="privacy_policy_title">隐私政策</string>
+    <string name="privacy_policy_desc">查看 EverBook 如何处理本地数据、广告、分析和同意状态。</string>
+</resources>

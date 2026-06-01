@@ -80,6 +80,8 @@ class ReaderModel @Inject constructor(
     private var scrollJob: Job? = null
     private var progressJob: Job? = null
     private var loadJob: Job? = null
+    private var displayIndexToTextIndex: (Int) -> Int = { it }
+    private var textIndexToDisplayIndex: (Int) -> Int = { it }
 
     fun onEvent(event: ReaderEvent) {
         viewModelScope.launch(eventJob + Dispatchers.Main) {
@@ -307,7 +309,10 @@ class ReaderModel @Inject constructor(
                                 checkpoint = _state.value.listState.run {
                                     if (!event.show || !event.saveCheckpoint) return@run it.checkpoint
 
-                                    Checkpoint(firstVisibleItemIndex, firstVisibleItemScrollOffset)
+                                    Checkpoint(
+                                        displayIndexToTextIndex(firstVisibleItemIndex),
+                                        firstVisibleItemScrollOffset
+                                    )
                                 }
                             )
                         }
@@ -378,7 +383,7 @@ class ReaderModel @Inject constructor(
                                 return@launch
                             }
 
-                            listState.requestScrollToItem(chapterIndex)
+                            listState.requestScrollToItem(textIndexToDisplayIndex(chapterIndex))
                             updateChapter(index = chapterIndex)
                             onEvent(
                                 ReaderEvent.OnChangeProgress(
@@ -398,7 +403,7 @@ class ReaderModel @Inject constructor(
                         yield()
 
                         val scrollTo = (_state.value.text.lastIndex * event.progress).roundToInt()
-                        _state.value.listState.requestScrollToItem(scrollTo)
+                        _state.value.listState.requestScrollToItem(textIndexToDisplayIndex(scrollTo))
                         updateChapter(scrollTo)
                     }
                 }
@@ -407,7 +412,7 @@ class ReaderModel @Inject constructor(
                     launch {
                         _state.value.apply {
                             listState.requestScrollToItem(
-                                checkpoint.index,
+                                textIndexToDisplayIndex(checkpoint.index),
                                 checkpoint.offset
                             )
 
@@ -441,11 +446,12 @@ class ReaderModel @Inject constructor(
                                 _state.value.errorMessage != null
                             ) return@apply
 
+                            val textIndex = displayIndexToTextIndex(firstVisibleItemIndex)
                             _state.update {
                                 it.copy(
                                     book = it.book.copy(
-                                        progress = calculateProgress(),
-                                        scrollIndex = firstVisibleItemIndex,
+                                        progress = calculateProgress(textIndex),
+                                        scrollIndex = textIndex,
                                         scrollOffset = firstVisibleItemScrollOffset
                                     )
                                 )
@@ -696,12 +702,19 @@ class ReaderModel @Inject constructor(
     }
 
     @OptIn(FlowPreview::class)
-    fun updateProgress(listState: LazyListState) {
+    fun updateProgress(
+        listState: LazyListState,
+        displayIndexToTextIndex: (Int) -> Int = { it },
+        textIndexToDisplayIndex: (Int) -> Int = { it }
+    ) {
+        this.displayIndexToTextIndex = displayIndexToTextIndex
+        this.textIndexToDisplayIndex = textIndexToDisplayIndex
         progressJob?.cancel()
         progressJob = viewModelScope.launch(Dispatchers.Main) {
             snapshotFlow {
                 listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset
-            }.distinctUntilChanged().debounce(300).collectLatest { (index, offset) ->
+            }.distinctUntilChanged().debounce(300).collectLatest { (displayIndex, offset) ->
+                val index = displayIndexToTextIndex(displayIndex)
                 val progress = calculateProgress(index)
                 if (progress == _state.value.book.progress) return@collectLatest
                 val (currentChapter, currentChapterProgress) = calculateCurrentChapter(index)
@@ -794,17 +807,20 @@ class ReaderModel @Inject constructor(
                 return book.progress
             }
 
-            if ((firstVisibleItemIndex ?: listState.firstVisibleItemIndex) == 0) {
+            val index = firstVisibleItemIndex
+                ?: displayIndexToTextIndex(listState.firstVisibleItemIndex)
+
+            if (index == 0) {
                 return 0f
             }
 
             val lastVisibleItemIndex = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
                 ?: return book.progress
-            if (lastVisibleItemIndex >= text.lastIndex) {
+            if (displayIndexToTextIndex(lastVisibleItemIndex) >= text.lastIndex) {
                 return 1f
             }
 
-            return@run (firstVisibleItemIndex ?: listState.firstVisibleItemIndex)
+            return@run index
                 .div(text.lastIndex.toFloat())
                 .coerceAndPreventNaN()
         }

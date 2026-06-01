@@ -8,6 +8,7 @@
 package com.byteflipper.everbook.presentation.reader
 
 import android.annotation.SuppressLint
+import android.view.View
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.PaddingValues
@@ -45,6 +46,7 @@ import com.byteflipper.everbook.ui.settings.SettingsEvent
 fun ReaderScaffold(
     book: Book,
     text: List<ReaderText>,
+    displayContent: ReaderDisplayContent,
     listState: LazyListState,
     currentChapter: Chapter?,
     nestedScrollConnection: NestedScrollConnection,
@@ -94,6 +96,7 @@ fun ReaderScaffold(
     paragraphIndentation: TextUnit,
     doubleClickTranslation: Boolean,
     fullscreenMode: Boolean,
+    createInlineContentView: (Long) -> View?,
     selectPreviousPreset: (SettingsEvent.OnSelectPreviousPreset) -> Unit,
     selectNextPreset: (SettingsEvent.OnSelectNextPreset) -> Unit,
     menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit,
@@ -153,6 +156,7 @@ fun ReaderScaffold(
                     progress = progress,
                     text = text,
                     listState = listState,
+                    displayContent = displayContent,
                     lockMenu = lockMenu,
                     isParsing = isParsing,
                     checkpoint = checkpoint,
@@ -165,7 +169,7 @@ fun ReaderScaffold(
         }
     ) {
         ReaderLayout(
-            text = text,
+            displayContent = displayContent,
             listState = listState,
             contentPadding = contentPadding,
             verticalPadding = verticalPadding,
@@ -204,6 +208,7 @@ fun ReaderScaffold(
             fullscreenMode = fullscreenMode,
             isLoading = isLoading,
             showMenu = showMenu,
+            createInlineContentView = createInlineContentView,
             menuVisibility = menuVisibility,
             openShareApp = openShareApp,
             openWebBrowser = openWebBrowser,

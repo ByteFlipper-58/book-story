@@ -43,11 +43,20 @@ import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
+import com.byteflipper.everbook.domain.translation.AUTO_TRANSLATION_LANGUAGE
+import com.byteflipper.everbook.domain.translation.DEFAULT_TRANSLATION_TARGET_LANGUAGE
+import com.byteflipper.everbook.domain.translation.TranslationProviderMode
+import com.byteflipper.everbook.domain.translation.TranslationRequest
+import com.byteflipper.everbook.domain.translation.TranslationResult
+import com.byteflipper.everbook.domain.translation.normalizeTranslationLanguageCode
+import com.byteflipper.everbook.domain.translation.toTranslationProviderMode
 import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.domain.use_case.book.GetBookById
 import com.byteflipper.everbook.domain.use_case.book.GetText
 import com.byteflipper.everbook.domain.use_case.book.UpdateBook
 import com.byteflipper.everbook.domain.use_case.history.GetLatestHistory
+import com.byteflipper.everbook.domain.use_case.translation.GetTranslationCapability
+import com.byteflipper.everbook.domain.use_case.translation.TranslateText
 import com.byteflipper.everbook.presentation.core.util.coerceAndPreventNaN
 import com.byteflipper.everbook.presentation.core.util.launchActivity
 import com.byteflipper.everbook.presentation.core.util.setBrightness
@@ -66,7 +75,9 @@ class ReaderModel @Inject constructor(
     private val getBookById: GetBookById,
     private val updateBook: UpdateBook,
     private val getText: GetText,
-    private val getLatestHistory: GetLatestHistory
+    private val getLatestHistory: GetLatestHistory,
+    private val getTranslationCapability: GetTranslationCapability,
+    private val translateText: TranslateText
 ) : ViewModel() {
 
     private val mutex = Mutex()
@@ -82,6 +93,7 @@ class ReaderModel @Inject constructor(
     private var loadJob: Job? = null
     private var displayIndexToTextIndex: (Int) -> Int = { it }
     private var textIndexToDisplayIndex: (Int) -> Int = { it }
+    private val translationCache = mutableMapOf<String, TranslationResult>()
 
     fun onEvent(event: ReaderEvent) {
         viewModelScope.launch(eventJob + Dispatchers.Main) {
@@ -473,45 +485,55 @@ class ReaderModel @Inject constructor(
                     }
                 }
 
-                is ReaderEvent.OnOpenTranslator -> {
-                    launch {
-                        val translatorIntent = Intent()
-                        val browserIntent = Intent()
+                is ReaderEvent.OnOpenTranslator -> openExternalTranslator(
+                    textToTranslate = event.textToTranslate,
+                    translateWholeParagraph = event.translateWholeParagraph,
+                    activity = event.activity
+                )
 
-                        translatorIntent.type = "text/plain"
-                        translatorIntent.action = Intent.ACTION_PROCESS_TEXT
-                        browserIntent.action = Intent.ACTION_WEB_SEARCH
+                is ReaderEvent.OnOpenExternalTranslator -> openExternalTranslator(
+                    textToTranslate = event.textToTranslate,
+                    translateWholeParagraph = event.translateWholeParagraph,
+                    activity = event.activity
+                )
 
-                        translatorIntent.putExtra(
-                            Intent.EXTRA_PROCESS_TEXT,
-                            event.textToTranslate
+                is ReaderEvent.OnTranslateText -> {
+                    val providerMode = event.providerMode.toTranslationProviderMode()
+                    if (providerMode == TranslationProviderMode.EXTERNAL) {
+                        openExternalTranslator(
+                            textToTranslate = event.textToTranslate,
+                            translateWholeParagraph = event.translateWholeParagraph,
+                            activity = event.activity
                         )
-                        translatorIntent.putExtra(Intent.EXTRA_PROCESS_TEXT_READONLY, true)
-                        browserIntent.putExtra(
-                            SearchManager.QUERY,
-                            "translate: ${event.textToTranslate.trim()}"
-                        )
+                        return@launch
+                    }
 
-                        yield()
+                    launchTranslationRequest(
+                        text = event.textToTranslate,
+                        readerTextIndex = event.readerTextIndex,
+                        sourceLanguageCode = event.sourceLanguageCode,
+                        targetLanguageCode = event.targetLanguageCode,
+                        providerMode = providerMode,
+                        requireWifi = event.requireWifi
+                    )
+                }
 
-                        translatorIntent.launchActivity(
-                            activity = event.activity,
-                            createChooser = !event.translateWholeParagraph,
-                            success = {
-                                return@launch
-                            }
+                ReaderEvent.OnDismissTranslation -> {
+                    _state.update {
+                        it.copy(
+                            bottomSheet = null,
+                            translation = ReaderTranslationState()
                         )
-                        browserIntent.launchActivity(
-                            activity = event.activity,
-                            success = {
-                                return@launch
-                            }
-                        )
+                    }
+                }
 
-                        withContext(Dispatchers.Main) {
-                            event.activity.getString(R.string.error_no_translator)
-                                .showToast(context = event.activity, longToast = false)
-                        }
+                ReaderEvent.OnToggleTranslationOriginal -> {
+                    _state.update {
+                        it.copy(
+                            translation = it.translation.copy(
+                                showOriginal = !it.translation.showOriginal
+                            )
+                        )
                     }
                 }
 
@@ -848,6 +870,7 @@ class ReaderModel @Inject constructor(
             eventJob.cancel()
             progressJob?.cancel()
             loadJob?.cancel()
+            translationCache.clear()
             eventJob = SupervisorJob()
 
             yield()
@@ -860,5 +883,157 @@ class ReaderModel @Inject constructor(
             yield()
             this.value = function(this.value)
         }
+    }
+
+    private fun openExternalTranslator(
+        textToTranslate: String,
+        translateWholeParagraph: Boolean,
+        activity: ComponentActivity
+    ) {
+        viewModelScope.launch(eventJob + Dispatchers.Main) {
+            val translatorIntent = Intent()
+            val browserIntent = Intent()
+
+            translatorIntent.type = "text/plain"
+            translatorIntent.action = Intent.ACTION_PROCESS_TEXT
+            browserIntent.action = Intent.ACTION_WEB_SEARCH
+
+            translatorIntent.putExtra(
+                Intent.EXTRA_PROCESS_TEXT,
+                textToTranslate
+            )
+            translatorIntent.putExtra(Intent.EXTRA_PROCESS_TEXT_READONLY, true)
+            browserIntent.putExtra(
+                SearchManager.QUERY,
+                "translate: ${textToTranslate.trim()}"
+            )
+
+            yield()
+
+            translatorIntent.launchActivity(
+                activity = activity,
+                createChooser = !translateWholeParagraph,
+                success = {
+                    return@launch
+                }
+            )
+            browserIntent.launchActivity(
+                activity = activity,
+                success = {
+                    return@launch
+                }
+            )
+
+            withContext(Dispatchers.Main) {
+                activity.getString(R.string.error_no_translator)
+                    .showToast(context = activity, longToast = false)
+            }
+        }
+    }
+
+    private fun launchTranslationRequest(
+        text: String,
+        readerTextIndex: Int?,
+        sourceLanguageCode: String,
+        targetLanguageCode: String,
+        providerMode: TranslationProviderMode,
+        requireWifi: Boolean
+    ) {
+        viewModelScope.launch(eventJob + Dispatchers.IO) {
+            val normalizedText = text.trim()
+            if (normalizedText.isBlank()) return@launch
+
+            val capability = getTranslationCapability.execute()
+            val source = sourceLanguageCode
+                .takeIf { it == AUTO_TRANSLATION_LANGUAGE }
+                ?: normalizeTranslationLanguageCode(sourceLanguageCode)
+                ?: AUTO_TRANSLATION_LANGUAGE
+            val target = normalizeTranslationLanguageCode(targetLanguageCode)
+                ?: DEFAULT_TRANSLATION_TARGET_LANGUAGE
+
+            _state.update {
+                it.copy(
+                    drawer = null,
+                    translation = it.translation.copy(
+                        text = normalizedText,
+                        readerTextIndex = readerTextIndex,
+                        showOriginal = false,
+                        sourceLanguageCode = source,
+                        detectedSourceLanguageCode = null,
+                        targetLanguageCode = target,
+                        providerMode = providerMode,
+                        requireWifi = requireWifi,
+                        capability = capability,
+                        translatedText = null,
+                        isTranslating = capability.inAppAvailable &&
+                                providerMode == TranslationProviderMode.IN_APP,
+                        errorMessage = if (!capability.inAppAvailable) {
+                            "In-app translation is unavailable in this build."
+                        } else null
+                    )
+                )
+            }
+
+            if (!capability.inAppAvailable || providerMode != TranslationProviderMode.IN_APP) {
+                return@launch
+            }
+
+            val cacheKey = buildTranslationCacheKey(
+                text = normalizedText,
+                sourceLanguageCode = source,
+                targetLanguageCode = target
+            )
+            val cachedResult = translationCache[cacheKey]
+            if (cachedResult != null) {
+                applyTranslationResult(cachedResult)
+                return@launch
+            }
+
+            runCatching {
+                translateText.execute(
+                    TranslationRequest(
+                        text = normalizedText,
+                        sourceLanguageCode = source.takeIf { it != AUTO_TRANSLATION_LANGUAGE },
+                        targetLanguageCode = target,
+                        requireWifi = requireWifi
+                    )
+                )
+            }.onSuccess { result ->
+                translationCache[cacheKey] = result
+                applyTranslationResult(result)
+            }.onFailure { throwable ->
+                _state.update {
+                    it.copy(
+                        translation = it.translation.copy(
+                            isTranslating = false,
+                            errorMessage = throwable.message ?: "Could not translate text."
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun applyTranslationResult(result: TranslationResult) {
+        _state.update {
+            it.copy(
+                translation = it.translation.copy(
+                    detectedSourceLanguageCode = result.sourceLanguageCode,
+                    targetLanguageCode = result.targetLanguageCode,
+                    translatedText = result.translatedText,
+                    isTranslating = false,
+                    errorMessage = null
+                )
+            )
+        }
+    }
+
+    private fun buildTranslationCacheKey(
+        text: String,
+        sourceLanguageCode: String,
+        targetLanguageCode: String
+    ): String {
+        val normalizedText = text.replace(Regex("\\s+"), " ").trim()
+        return "$sourceLanguageCode|$targetLanguageCode|$normalizedText"
     }
 }

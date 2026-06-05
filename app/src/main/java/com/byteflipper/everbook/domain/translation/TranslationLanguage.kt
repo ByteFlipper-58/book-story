@@ -5,6 +5,12 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.byteflipper.everbook.presentation.core.constants
+package com.byteflipper.everbook.domain.translation
 
-fun provideLanguages() = com.byteflipper.everbook.domain.translation.provideLanguages()
+import androidx.compose.runtime.Immutable
+
+@Immutable
+data class TranslationLanguage(
+    val code: String,
+    val name: String
+)

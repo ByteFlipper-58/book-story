@@ -117,10 +117,18 @@
         <li>Checking for App updates on GitHub if you enable "Check for updates" in Settings</li>
         <li>Opening external links you tap (e.g. Help articles or project homepage)</li>
         <li>Downloading cover images through the built-in image loader (<code>coil-compose</code>)</li>
+        <li>Downloading on-device translation language models through Google ML Kit if you use in-app offline translation</li>
         <li>Receiving push notifications via Firebase Cloud Messaging (if you allow them)</li>
         <li>Fetching Firebase Remote Config values</li>
         <li>Loading and measuring ads when advertising is enabled</li>
     </ul>
+    <p>
+        In-app translation in the Google Play version uses Google ML Kit on-device translation.
+        Book text selected for translation is processed on your device and is not sent to our servers.
+        The App may download language models from Google before local translation can run. You can choose
+        whether these model downloads require Wi-Fi in Reader translation settings, and you can use an
+        external translator app instead.
+    </p>
 
     <h2>6. Permissions Explained</h2>
     <ul>
@@ -135,6 +143,7 @@
         <li><a href="https://developer.android.com/jetpack/compose" target="_blank">AndroidX Jetpack Compose &amp; Material&nbsp;3</a> — UI framework</li>
         <li><a href="https://developer.android.com/topic/libraries/architecture/room" target="_blank">Room</a> &amp; <a href="https://developer.android.com/topic/libraries/architecture/datastore" target="_blank">DataStore</a> — local storage</li>
         <li><a href="https://github.com/Kotlin/kotlinx.coroutines" target="_blank">kotlinx.coroutines</a> &amp; <a href="https://github.com/Kotlin/kotlinx.serialization" target="_blank">kotlinx.serialization</a></li>
+        <li><a href="https://developers.google.com/ml-kit/language/translation" target="_blank">Google ML Kit on-device translation</a> — local translation and language identification in the Google Play version</li>
         <li><a href="https://github.com/TomRoush/PdfBox-Android" target="_blank">PDFBox-Android</a> &amp; <a href="https://jsoup.org/" target="_blank">jsoup</a> — file parsers</li>
         <li><a href="https://github.com/coil-kt/coil" target="_blank">Coil</a> — image loading</li>
         <li><a href="https://github.com/calvinshmh/compose-reorderable" target="_blank">compose-reorderable</a> — drag-and-drop</li>

@@ -23,11 +23,13 @@ import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.ui.reader.ReaderEvent
+import com.byteflipper.everbook.ui.reader.ReaderTranslationState
 
 @Composable
 fun LazyItemScope.ReaderLayoutText(
     activity: ComponentActivity,
     showMenu: Boolean,
+    readerIndex: Int,
     entry: ReaderText,
     imagesCornersRoundness: Dp,
     imagesAlignment: HorizontalAlignment,
@@ -47,10 +49,20 @@ fun LazyItemScope.ReaderLayoutText(
     paragraphIndentation: TextUnit,
     fullscreenMode: Boolean,
     doubleClickTranslation: Boolean,
+    translationProviderMode: String,
+    translationSourceLanguage: String,
+    translationTargetLanguage: String,
+    translationWifiOnly: Boolean,
+    translation: ReaderTranslationState,
+    closingTranslation: Boolean,
     highlightedReading: Boolean,
     highlightedReadingThickness: FontWeight,
     toolbarHidden: Boolean,
     openTranslator: (ReaderEvent.OnOpenTranslator) -> Unit,
+    translateText: (ReaderEvent.OnTranslateText) -> Unit,
+    openExternalTranslator: (ReaderEvent.OnOpenExternalTranslator) -> Unit,
+    closeTranslation: () -> Unit,
+    toggleTranslationOriginal: (ReaderEvent.OnToggleTranslationOriginal) -> Unit,
     menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit
 ) {
     when (entry) {
@@ -88,6 +100,7 @@ fun LazyItemScope.ReaderLayoutText(
                 paragraph = entry,
                 activity = activity,
                 showMenu = showMenu,
+                readerIndex = readerIndex,
                 fontFamily = fontFamily,
                 fontColor = fontColor,
                 lineHeight = lineHeight,
@@ -101,10 +114,20 @@ fun LazyItemScope.ReaderLayoutText(
                 paragraphIndentation = paragraphIndentation,
                 fullscreenMode = fullscreenMode,
                 doubleClickTranslation = doubleClickTranslation,
+                translationProviderMode = translationProviderMode,
+                translationSourceLanguage = translationSourceLanguage,
+                translationTargetLanguage = translationTargetLanguage,
+                translationWifiOnly = translationWifiOnly,
+                translation = translation,
+                closingTranslation = closingTranslation,
                 highlightedReading = highlightedReading,
                 highlightedReadingThickness = highlightedReadingThickness,
                 toolbarHidden = toolbarHidden,
                 openTranslator = openTranslator,
+                translateText = translateText,
+                openExternalTranslator = openExternalTranslator,
+                closeTranslation = closeTranslation,
+                toggleTranslationOriginal = toggleTranslationOriginal,
                 menuVisibility = menuVisibility
             )
         }

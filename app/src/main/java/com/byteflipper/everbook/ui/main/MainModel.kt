@@ -36,6 +36,7 @@ import com.byteflipper.everbook.domain.reader.toPdfReadingMode
 import com.byteflipper.everbook.domain.reader.toProgressCount
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
+import com.byteflipper.everbook.domain.translation.toTranslationProviderMode
 import com.byteflipper.everbook.domain.use_case.book.CancelReaderCacheWarmUps
 import com.byteflipper.everbook.domain.use_case.data_store.ChangeLanguage
 import com.byteflipper.everbook.domain.use_case.data_store.GetAllSettings
@@ -201,6 +202,38 @@ class MainModel @Inject constructor(
                 value = event.value,
                 updateState = {
                     it.copy(doubleClickTranslation = this)
+                }
+            )
+
+            is MainEvent.OnChangeTranslationProviderMode -> handleDatastoreUpdate(
+                key = DataStoreConstants.TRANSLATION_PROVIDER_MODE,
+                value = event.value,
+                updateState = {
+                    it.copy(translationProviderMode = toTranslationProviderMode())
+                }
+            )
+
+            is MainEvent.OnChangeTranslationSourceLanguage -> handleDatastoreUpdate(
+                key = DataStoreConstants.TRANSLATION_SOURCE_LANGUAGE,
+                value = event.value,
+                updateState = {
+                    it.copy(translationSourceLanguage = this)
+                }
+            )
+
+            is MainEvent.OnChangeTranslationTargetLanguage -> handleDatastoreUpdate(
+                key = DataStoreConstants.TRANSLATION_TARGET_LANGUAGE,
+                value = event.value,
+                updateState = {
+                    it.copy(translationTargetLanguage = this)
+                }
+            )
+
+            is MainEvent.OnChangeTranslationWifiOnly -> handleDatastoreUpdate(
+                key = DataStoreConstants.TRANSLATION_WIFI_ONLY,
+                value = event.value,
+                updateState = {
+                    it.copy(translationWifiOnly = this)
                 }
             )
 

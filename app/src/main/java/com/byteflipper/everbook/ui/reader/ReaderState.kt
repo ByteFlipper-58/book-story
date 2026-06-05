@@ -39,5 +39,7 @@ data class ReaderState(
     val lockMenu: Boolean = false,
 
     val bottomSheet: BottomSheet? = null,
-    val drawer: Drawer? = null
+    val drawer: Drawer? = null,
+
+    val translation: ReaderTranslationState = ReaderTranslationState()
 )

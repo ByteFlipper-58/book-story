@@ -60,6 +60,27 @@ sealed class ReaderEvent {
         val activity: ComponentActivity
     ) : ReaderEvent()
 
+    data class OnOpenExternalTranslator(
+        val textToTranslate: String,
+        val translateWholeParagraph: Boolean,
+        val activity: ComponentActivity
+    ) : ReaderEvent()
+
+    data class OnTranslateText(
+        val textToTranslate: String,
+        val readerTextIndex: Int? = null,
+        val sourceLanguageCode: String,
+        val targetLanguageCode: String,
+        val providerMode: String,
+        val requireWifi: Boolean,
+        val activity: ComponentActivity,
+        val translateWholeParagraph: Boolean
+    ) : ReaderEvent()
+
+    data object OnDismissTranslation : ReaderEvent()
+
+    data object OnToggleTranslationOriginal : ReaderEvent()
+
     data class OnOpenShareApp(
         val textToShare: String,
         val activity: ComponentActivity

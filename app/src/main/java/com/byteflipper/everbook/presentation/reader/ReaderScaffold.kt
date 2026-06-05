@@ -39,6 +39,7 @@ import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.presentation.core.components.common.AnimatedVisibility
 import com.byteflipper.everbook.ui.reader.ReaderEvent
+import com.byteflipper.everbook.ui.reader.ReaderTranslationState
 import com.byteflipper.everbook.ui.settings.SettingsEvent
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -49,6 +50,7 @@ fun ReaderScaffold(
     displayContent: ReaderDisplayContent,
     listState: LazyListState,
     currentChapter: Chapter?,
+    translation: ReaderTranslationState,
     nestedScrollConnection: NestedScrollConnection,
     fastColorPresetChange: Boolean,
     perceptionExpander: Boolean,
@@ -95,6 +97,10 @@ fun ReaderScaffold(
     letterSpacing: TextUnit,
     paragraphIndentation: TextUnit,
     doubleClickTranslation: Boolean,
+    translationProviderMode: String,
+    translationSourceLanguage: String,
+    translationTargetLanguage: String,
+    translationWifiOnly: Boolean,
     fullscreenMode: Boolean,
     createInlineContentView: (Long) -> View?,
     selectPreviousPreset: (SettingsEvent.OnSelectPreviousPreset) -> Unit,
@@ -107,6 +113,10 @@ fun ReaderScaffold(
     openShareApp: (ReaderEvent.OnOpenShareApp) -> Unit,
     openWebBrowser: (ReaderEvent.OnOpenWebBrowser) -> Unit,
     openTranslator: (ReaderEvent.OnOpenTranslator) -> Unit,
+    translateText: (ReaderEvent.OnTranslateText) -> Unit,
+    openExternalTranslator: (ReaderEvent.OnOpenExternalTranslator) -> Unit,
+    dismissTranslation: (ReaderEvent.OnDismissTranslation) -> Unit,
+    toggleTranslationOriginal: (ReaderEvent.OnToggleTranslationOriginal) -> Unit,
     openDictionary: (ReaderEvent.OnOpenDictionary) -> Unit,
     showPdfReadingModeBottomSheet: (ReaderEvent.OnShowPdfReadingModeBottomSheet) -> Unit,
     showSettingsBottomSheet: (ReaderEvent.OnShowSettingsBottomSheet) -> Unit,
@@ -185,6 +195,7 @@ fun ReaderScaffold(
             progressBarPadding = progressBarPadding,
             progressBarAlignment = progressBarAlignment,
             progressBarFontSize = progressBarFontSize,
+            translation = translation,
             paragraphHeight = paragraphHeight,
             sidePadding = sidePadding,
             backgroundColor = backgroundColor,
@@ -205,6 +216,10 @@ fun ReaderScaffold(
             letterSpacing = letterSpacing,
             paragraphIndentation = paragraphIndentation,
             doubleClickTranslation = doubleClickTranslation,
+            translationProviderMode = translationProviderMode,
+            translationSourceLanguage = translationSourceLanguage,
+            translationTargetLanguage = translationTargetLanguage,
+            translationWifiOnly = translationWifiOnly,
             fullscreenMode = fullscreenMode,
             isLoading = isLoading,
             showMenu = showMenu,
@@ -213,6 +228,10 @@ fun ReaderScaffold(
             openShareApp = openShareApp,
             openWebBrowser = openWebBrowser,
             openTranslator = openTranslator,
+            translateText = translateText,
+            openExternalTranslator = openExternalTranslator,
+            dismissTranslation = dismissTranslation,
+            toggleTranslationOriginal = toggleTranslationOriginal,
             openDictionary = openDictionary
         )
 

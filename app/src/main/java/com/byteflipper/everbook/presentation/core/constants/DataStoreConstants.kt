@@ -27,6 +27,10 @@ object DataStoreConstants {
 
     // Reader settings
     val DOUBLE_CLICK_TRANSLATION = booleanPreferencesKey("double_click_translation")
+    val TRANSLATION_PROVIDER_MODE = stringPreferencesKey("translation_provider_mode")
+    val TRANSLATION_SOURCE_LANGUAGE = stringPreferencesKey("translation_source_language")
+    val TRANSLATION_TARGET_LANGUAGE = stringPreferencesKey("translation_target_language")
+    val TRANSLATION_WIFI_ONLY = booleanPreferencesKey("translation_wifi_only")
     val FAST_COLOR_PRESET_CHANGE = booleanPreferencesKey("fast_color_preset_change")
     val SIDE_PADDING = intPreferencesKey("side_padding")
     val VERTICAL_PADDING = intPreferencesKey("vertical_padding")

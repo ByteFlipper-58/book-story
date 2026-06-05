@@ -24,6 +24,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,6 +55,10 @@ import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.presentation.core.util.noRippleClickable
 import com.byteflipper.everbook.presentation.core.util.showToast
 import com.byteflipper.everbook.ui.reader.ReaderEvent
+import com.byteflipper.everbook.ui.reader.ReaderTranslationState
+import kotlinx.coroutines.delay
+
+private const val TRANSLATION_DISMISS_ANIMATION_MS = 260
 
 @Composable
 fun ReaderLayout(
@@ -69,6 +78,7 @@ fun ReaderLayout(
     progressBarPadding: Dp,
     progressBarAlignment: HorizontalAlignment,
     progressBarFontSize: TextUnit,
+    translation: ReaderTranslationState,
     paragraphHeight: Dp,
     sidePadding: Dp,
     backgroundColor: Color,
@@ -89,6 +99,10 @@ fun ReaderLayout(
     letterSpacing: TextUnit,
     paragraphIndentation: TextUnit,
     doubleClickTranslation: Boolean,
+    translationProviderMode: String,
+    translationSourceLanguage: String,
+    translationTargetLanguage: String,
+    translationWifiOnly: Boolean,
     fullscreenMode: Boolean,
     isLoading: Boolean,
     showMenu: Boolean,
@@ -97,9 +111,36 @@ fun ReaderLayout(
     openShareApp: (ReaderEvent.OnOpenShareApp) -> Unit,
     openWebBrowser: (ReaderEvent.OnOpenWebBrowser) -> Unit,
     openTranslator: (ReaderEvent.OnOpenTranslator) -> Unit,
+    translateText: (ReaderEvent.OnTranslateText) -> Unit,
+    openExternalTranslator: (ReaderEvent.OnOpenExternalTranslator) -> Unit,
+    dismissTranslation: (ReaderEvent.OnDismissTranslation) -> Unit,
+    toggleTranslationOriginal: (ReaderEvent.OnToggleTranslationOriginal) -> Unit,
     openDictionary: (ReaderEvent.OnOpenDictionary) -> Unit
 ) {
     val activity = LocalActivity.current
+    var closingTranslationReaderIndex by remember {
+        mutableStateOf<Int?>(null)
+    }
+
+    LaunchedEffect(translation.readerTextIndex, translation.text) {
+        closingTranslationReaderIndex = null
+    }
+
+    LaunchedEffect(closingTranslationReaderIndex) {
+        if (closingTranslationReaderIndex != null) {
+            delay(TRANSLATION_DISMISS_ANIMATION_MS.toLong())
+            dismissTranslation(ReaderEvent.OnDismissTranslation)
+        }
+    }
+
+    val closeInlineTranslation = {
+        if (
+            translation.readerTextIndex != null &&
+            closingTranslationReaderIndex != translation.readerTextIndex
+        ) {
+            closingTranslationReaderIndex = translation.readerTextIndex
+        }
+    }
 
     SelectionContainer(
         onCopyRequested = {
@@ -223,6 +264,7 @@ fun ReaderLayout(
                                 ReaderLayoutText(
                                     activity = activity,
                                     showMenu = showMenu,
+                                    readerIndex = row.readerIndex,
                                     entry = row.entry,
                                     imagesCornersRoundness = imagesCornersRoundness,
                                     imagesAlignment = imagesAlignment,
@@ -242,10 +284,20 @@ fun ReaderLayout(
                                     paragraphIndentation = paragraphIndentation,
                                     fullscreenMode = fullscreenMode,
                                     doubleClickTranslation = doubleClickTranslation,
+                                    translationProviderMode = translationProviderMode,
+                                    translationSourceLanguage = translationSourceLanguage,
+                                    translationTargetLanguage = translationTargetLanguage,
+                                    translationWifiOnly = translationWifiOnly,
+                                    translation = translation,
+                                    closingTranslation = closingTranslationReaderIndex == row.readerIndex,
                                     highlightedReading = highlightedReading,
                                     highlightedReadingThickness = highlightedReadingThickness,
                                     toolbarHidden = toolbarHidden,
                                     openTranslator = openTranslator,
+                                    translateText = translateText,
+                                    openExternalTranslator = openExternalTranslator,
+                                    closeTranslation = closeInlineTranslation,
+                                    toggleTranslationOriginal = toggleTranslationOriginal,
                                     menuVisibility = menuVisibility
                                 )
                             }

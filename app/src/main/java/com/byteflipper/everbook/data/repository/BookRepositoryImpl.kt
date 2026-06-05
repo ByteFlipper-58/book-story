@@ -72,12 +72,12 @@ class BookRepositoryImpl @Inject constructor(
      * Get all books matching [query] from database.
      * Empty [query] equals to all books.
      */
-    override suspend fun getBooks(query: String): List<Book> {
+    override suspend fun getBooks(query: String): List<Book> = withContext(Dispatchers.IO) {
         Log.i(GET_BOOKS, "Searching for books with query: \"$query\".")
         val entities = database.searchBooks(query)
 
         Log.i(GET_BOOKS, "Found ${entities.size} books.")
-        return entities.map { entity ->
+        entities.map { entity ->
             val book = bookMapper.toBook(entity)
 
             // Получаем принадлежность книги к категориям many-to-many
@@ -95,11 +95,11 @@ class BookRepositoryImpl @Inject constructor(
     /**
      * Get all books that match given [ids].
      */
-    override suspend fun getBooksById(ids: List<Int>): List<Book> {
+    override suspend fun getBooksById(ids: List<Int>): List<Book> = withContext(Dispatchers.IO) {
         Log.i(GET_BOOKS_BY_ID, "Getting books with ids: $ids.")
         val entities = database.findBooksById(ids)
 
-        return entities.map { entity ->
+        entities.map { entity ->
             val book = bookMapper.toBook(entity)
 
             val categories = bookCategoryDao.getCategoriesForBook(book.id)

@@ -40,6 +40,10 @@ import com.byteflipper.everbook.domain.reader.toPdfReadingMode
 import com.byteflipper.everbook.domain.reader.toProgressCount
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
+import com.byteflipper.everbook.domain.translation.AUTO_TRANSLATION_LANGUAGE
+import com.byteflipper.everbook.domain.translation.DEFAULT_TRANSLATION_TARGET_LANGUAGE
+import com.byteflipper.everbook.domain.translation.TranslationProviderMode
+import com.byteflipper.everbook.domain.translation.toTranslationProviderMode
 import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.domain.util.toHorizontalAlignment
 import com.byteflipper.everbook.presentation.core.constants.DataStoreConstants
@@ -92,6 +96,14 @@ data class MainState(
     val sidePadding: Int = provideDefaultValue { 6 },
     val verticalPadding: Int = provideDefaultValue { 0 },
     val doubleClickTranslation: Boolean = provideDefaultValue { false },
+    val translationProviderMode: TranslationProviderMode = provideDefaultValue {
+        TranslationProviderMode.IN_APP
+    },
+    val translationSourceLanguage: String = provideDefaultValue { AUTO_TRANSLATION_LANGUAGE },
+    val translationTargetLanguage: String = provideDefaultValue {
+        DEFAULT_TRANSLATION_TARGET_LANGUAGE
+    },
+    val translationWifiOnly: Boolean = provideDefaultValue { true },
     val fastColorPresetChange: Boolean = provideDefaultValue { true },
     val textAlignment: ReaderTextAlignment = provideDefaultValue { ReaderTextAlignment.JUSTIFY },
     val letterSpacing: Int = provideDefaultValue { 0 },
@@ -245,6 +257,22 @@ data class MainState(
                     doubleClickTranslation = provideValue(
                         DOUBLE_CLICK_TRANSLATION
                     ) { doubleClickTranslation },
+
+                    translationProviderMode = provideValue(
+                        TRANSLATION_PROVIDER_MODE, convert = { toTranslationProviderMode() }
+                    ) { translationProviderMode },
+
+                    translationSourceLanguage = provideValue(
+                        TRANSLATION_SOURCE_LANGUAGE
+                    ) { translationSourceLanguage },
+
+                    translationTargetLanguage = provideValue(
+                        TRANSLATION_TARGET_LANGUAGE
+                    ) { translationTargetLanguage },
+
+                    translationWifiOnly = provideValue(
+                        TRANSLATION_WIFI_ONLY
+                    ) { translationWifiOnly },
 
                     fastColorPresetChange = provideValue(
                         FAST_COLOR_PRESET_CHANGE

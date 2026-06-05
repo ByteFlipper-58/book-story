@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.outlined.DisplaySettings
 import androidx.compose.material.icons.outlined.Explore
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.LocalLibrary
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.domain.translation.TranslationFeature
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.ui.settings.PrivacySettingsEntry
 
@@ -33,6 +35,7 @@ fun SettingsLayout(
     navigateToAppearanceSettings: () -> Unit,
     navigateToReaderSettings: () -> Unit,
     navigateToBrowseSettings: () -> Unit,
+    navigateToTranslatorSettings: () -> Unit,
     navigateToLibrarySettings: () -> Unit,
     navigateToPrivacySettings: () -> Unit
 ) {
@@ -98,9 +101,22 @@ fun SettingsLayout(
             }
         }
 
+        if (TranslationFeature.IN_APP_TRANSLATION_ENABLED) {
+            item {
+                SettingsLayoutItem(
+                    index = 5,
+                    icon = Icons.Outlined.Language,
+                    title = stringResource(id = R.string.translator_settings),
+                    description = stringResource(id = R.string.translator_settings_desc)
+                ) {
+                    navigateToTranslatorSettings()
+                }
+            }
+        }
+
         item {
             PrivacySettingsEntry(
-                index = 5,
+                index = if (TranslationFeature.IN_APP_TRANSLATION_ENABLED) 6 else 5,
                 navigateToPrivacySettings = navigateToPrivacySettings
             )
         }

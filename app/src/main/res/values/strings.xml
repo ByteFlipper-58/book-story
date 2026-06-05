@@ -80,6 +80,20 @@
     <string name="undo">Undo</string>
     <string name="copy">Copy</string>
     <string name="translate">Translate</string>
+    <string name="close">Close</string>
+    <string name="translation_translating">Translating…</string>
+    <string name="translation_open_external">External</string>
+    <string name="translation_show_original">Show original</string>
+    <string name="translation_show_translation">Show translation</string>
+    <string name="translation_source_language_option">Translate from</string>
+    <string name="translation_target_language_option">Translate to</string>
+    <string name="translation_provider_option">Translation provider</string>
+    <string name="translation_provider_in_app">In-app offline</string>
+    <string name="translation_provider_external">External app</string>
+    <string name="translation_powered_by_google" translatable="false">Powered by Google Translate</string>
+    <string name="translation_language_auto">Auto</string>
+    <string name="translation_wifi_only_option">Download models on Wi-Fi only</string>
+    <string name="translation_wifi_only_option_desc">Offline language models are downloaded before local translation</string>
     <string name="dictionary">Dictionary</string>
     <string name="next">Next</string>
     <string name="yes_go_to_help">Yes, go to Help</string>
@@ -132,6 +146,8 @@
     <string name="reader_settings_desc">Font, text, translator</string>
     <string name="browse_settings">Browse</string>
     <string name="browse_settings_desc">General, filter, sort</string>
+    <string name="translator_settings">Translator</string>
+    <string name="translator_settings_desc">Provider, languages, offline models</string>
 
     <!-- Settings subcategories -->
     <string name="font_reader_settings">Font</string>

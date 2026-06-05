@@ -46,7 +46,6 @@ android {
     productFlavors {
         create("everbook") {
             dimension = "distribution"
-            applicationIdSuffix = ".standalone"
         }
 
         create("playStore") {
@@ -182,6 +181,9 @@ dependencies {
     add("playStoreImplementation", "com.android.billingclient:billing:8.0.0")
     add("playStoreImplementation", "com.google.android.ump:user-messaging-platform:3.1.0")
     add("playStoreImplementation", "com.google.android.gms:play-services-ads:24.9.0")
+    add("playStoreImplementation", "com.google.mlkit:translate:17.0.3")
+    add("playStoreImplementation", "com.google.mlkit:language-id:17.0.6")
+    add("playStoreImplementation", "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.1")
 
     // Room
     implementation("androidx.room:room-runtime:2.6.1")

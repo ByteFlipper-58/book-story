@@ -944,15 +944,22 @@ class ReaderModel @Inject constructor(
             if (normalizedText.isBlank()) return@launch
 
             val capability = getTranslationCapability.execute()
-            val source = sourceLanguageCode
-                .takeIf { it == AUTO_TRANSLATION_LANGUAGE }
-                ?: normalizeTranslationLanguageCode(sourceLanguageCode)
-                ?: AUTO_TRANSLATION_LANGUAGE
+            val source = if (providerMode == TranslationProviderMode.GOOGLE_TRANSLATE) {
+                AUTO_TRANSLATION_LANGUAGE
+            } else {
+                sourceLanguageCode
+                    .takeIf { it == AUTO_TRANSLATION_LANGUAGE }
+                    ?: normalizeTranslationLanguageCode(sourceLanguageCode)
+                    ?: AUTO_TRANSLATION_LANGUAGE
+            }
             val target = normalizeTranslationLanguageCode(targetLanguageCode)
                 ?: DEFAULT_TRANSLATION_TARGET_LANGUAGE
 
             _state.update {
                 it.copy(
+                    bottomSheet = if (readerTextIndex == null) {
+                        ReaderScreen.TRANSLATION_BOTTOM_SHEET
+                    } else it.bottomSheet,
                     drawer = null,
                     translation = it.translation.copy(
                         text = normalizedText,
@@ -965,23 +972,23 @@ class ReaderModel @Inject constructor(
                         requireWifi = requireWifi,
                         capability = capability,
                         translatedText = null,
-                        isTranslating = capability.inAppAvailable &&
-                                providerMode == TranslationProviderMode.IN_APP,
-                        errorMessage = if (!capability.inAppAvailable) {
-                            "In-app translation is unavailable in this build."
+                        isTranslating = capability.isAvailable(providerMode),
+                        errorMessage = if (!capability.isAvailable(providerMode)) {
+                            translationUnavailableMessage(providerMode)
                         } else null
                     )
                 )
             }
 
-            if (!capability.inAppAvailable || providerMode != TranslationProviderMode.IN_APP) {
+            if (!capability.isAvailable(providerMode)) {
                 return@launch
             }
 
             val cacheKey = buildTranslationCacheKey(
                 text = normalizedText,
                 sourceLanguageCode = source,
-                targetLanguageCode = target
+                targetLanguageCode = target,
+                providerMode = providerMode
             )
             val cachedResult = translationCache[cacheKey]
             if (cachedResult != null) {
@@ -995,7 +1002,8 @@ class ReaderModel @Inject constructor(
                         text = normalizedText,
                         sourceLanguageCode = source.takeIf { it != AUTO_TRANSLATION_LANGUAGE },
                         targetLanguageCode = target,
-                        requireWifi = requireWifi
+                        requireWifi = requireWifi,
+                        providerMode = providerMode
                     )
                 )
             }.onSuccess { result ->
@@ -1031,9 +1039,22 @@ class ReaderModel @Inject constructor(
     private fun buildTranslationCacheKey(
         text: String,
         sourceLanguageCode: String,
-        targetLanguageCode: String
+        targetLanguageCode: String,
+        providerMode: TranslationProviderMode
     ): String {
         val normalizedText = text.replace(Regex("\\s+"), " ").trim()
-        return "$sourceLanguageCode|$targetLanguageCode|$normalizedText"
+        return "${providerMode.name}|$sourceLanguageCode|$targetLanguageCode|$normalizedText"
     }
+
+    private fun translationUnavailableMessage(providerMode: TranslationProviderMode): String =
+        when (providerMode) {
+            TranslationProviderMode.IN_APP ->
+                "In-app translation is unavailable in this build."
+
+            TranslationProviderMode.GOOGLE_TRANSLATE ->
+                "Google Translate is unavailable in this build."
+
+            TranslationProviderMode.EXTERNAL ->
+                "External translation uses installed apps."
+        }
 }

@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.domain.translation.TranslationFeature
 import com.byteflipper.everbook.domain.translation.TranslationProviderMode
 import com.byteflipper.everbook.domain.ui.ButtonItem
 import com.byteflipper.everbook.presentation.core.components.settings.SegmentedButtonWithTitle
@@ -26,12 +27,15 @@ fun TranslationProviderOption() {
 
     SegmentedButtonWithTitle(
         title = stringResource(id = R.string.translation_provider_option),
-        buttons = TranslationProviderMode.entries.map {
+        buttons = TranslationFeature.AVAILABLE_PROVIDER_MODES.map {
             ButtonItem(
                 id = it.name,
                 title = when (it) {
                     TranslationProviderMode.IN_APP ->
                         stringResource(id = R.string.translation_provider_in_app)
+
+                    TranslationProviderMode.GOOGLE_TRANSLATE ->
+                        stringResource(id = R.string.translation_provider_google_translate)
 
                     TranslationProviderMode.EXTERNAL ->
                         stringResource(id = R.string.translation_provider_external)

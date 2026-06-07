@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.byteflipper.everbook.presentation.settings.translator
+package com.byteflipper.everbook.presentation.settings.translator.models
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,10 +23,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TranslatorSettingsScaffold(
+fun TranslationModelsSettingsScaffold(
     listState: LazyListState,
     scrollBehavior: TopAppBarScrollBehavior,
-    navigateToOfflineModels: () -> Unit,
     navigateBack: () -> Unit
 ) {
     Scaffold(
@@ -37,16 +36,15 @@ fun TranslatorSettingsScaffold(
             .imePadding(),
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
-            TranslatorSettingsTopBar(
+            TranslationModelsSettingsTopBar(
                 scrollBehavior = scrollBehavior,
                 navigateBack = navigateBack
             )
         }
     ) { paddingValues ->
-        TranslatorSettingsLayout(
+        TranslationModelsSettingsLayout(
             listState = listState,
-            paddingValues = paddingValues,
-            navigateToOfflineModels = navigateToOfflineModels
+            paddingValues = paddingValues
         )
     }
 }

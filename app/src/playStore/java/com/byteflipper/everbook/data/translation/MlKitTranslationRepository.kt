@@ -16,6 +16,7 @@ import com.google.mlkit.nl.translate.TranslatorOptions
 import com.byteflipper.everbook.domain.repository.TranslationRepository
 import com.byteflipper.everbook.domain.translation.TranslationCapability
 import com.byteflipper.everbook.domain.translation.TranslationException
+import com.byteflipper.everbook.domain.translation.TranslationProviderMode
 import com.byteflipper.everbook.domain.translation.TranslationRequest
 import com.byteflipper.everbook.domain.translation.TranslationResult
 import com.byteflipper.everbook.domain.translation.normalizeTranslationLanguageCode
@@ -30,9 +31,12 @@ import javax.inject.Singleton
 private const val UNDETERMINED_LANGUAGE = "und"
 
 @Singleton
-class MlKitTranslationRepository @Inject constructor() : TranslationRepository {
+class MlKitTranslationRepository @Inject constructor(
+    private val googleTranslateWebClient: GoogleTranslateWebClient
+) : TranslationRepository {
     override val capability = TranslationCapability(
-        inAppAvailable = true
+        inAppAvailable = true,
+        googleTranslateAvailable = true
     )
 
     private val languageIdentifier = LanguageIdentification.getClient()
@@ -40,6 +44,14 @@ class MlKitTranslationRepository @Inject constructor() : TranslationRepository {
     private val translators = mutableMapOf<Pair<String, String>, Translator>()
 
     override suspend fun translate(request: TranslationRequest): TranslationResult =
+        when (request.providerMode) {
+            TranslationProviderMode.IN_APP -> translateWithMlKit(request)
+            TranslationProviderMode.GOOGLE_TRANSLATE -> googleTranslateWebClient.translate(request)
+            TranslationProviderMode.EXTERNAL ->
+                throw TranslationException("External translation uses installed apps.")
+        }
+
+    private suspend fun translateWithMlKit(request: TranslationRequest): TranslationResult =
         withContext(Dispatchers.IO) {
             val source = resolveSourceLanguage(request)
             val target = request.targetLanguageCode.toMlKitCode()

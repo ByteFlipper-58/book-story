@@ -42,6 +42,7 @@ import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
 import com.byteflipper.everbook.domain.translation.AUTO_TRANSLATION_LANGUAGE
 import com.byteflipper.everbook.domain.translation.DEFAULT_TRANSLATION_TARGET_LANGUAGE
+import com.byteflipper.everbook.domain.translation.TranslationFeature
 import com.byteflipper.everbook.domain.translation.TranslationProviderMode
 import com.byteflipper.everbook.domain.translation.toTranslationProviderMode
 import com.byteflipper.everbook.domain.util.HorizontalAlignment
@@ -97,7 +98,7 @@ data class MainState(
     val verticalPadding: Int = provideDefaultValue { 0 },
     val doubleClickTranslation: Boolean = provideDefaultValue { false },
     val translationProviderMode: TranslationProviderMode = provideDefaultValue {
-        TranslationProviderMode.IN_APP
+        TranslationFeature.DEFAULT_PROVIDER_MODE
     },
     val translationSourceLanguage: String = provideDefaultValue { AUTO_TRANSLATION_LANGUAGE },
     val translationTargetLanguage: String = provideDefaultValue {
@@ -259,7 +260,10 @@ data class MainState(
                     ) { doubleClickTranslation },
 
                     translationProviderMode = provideValue(
-                        TRANSLATION_PROVIDER_MODE, convert = { toTranslationProviderMode() }
+                        TRANSLATION_PROVIDER_MODE,
+                        convert = {
+                            TranslationFeature.coerceProviderMode(toTranslationProviderMode())
+                        }
                     ) { translationProviderMode },
 
                     translationSourceLanguage = provideValue(

@@ -13,25 +13,39 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.domain.translation.TranslationProviderMode
 import com.byteflipper.everbook.domain.translation.provideTranslationLanguages
 import com.byteflipper.everbook.domain.ui.ButtonItem
-import com.byteflipper.everbook.presentation.core.components.settings.ChipsWithTitle
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.main.MainModel
+import com.byteflipper.everbook.ui.settings.TranslatorSettingsModel
 
 @Composable
 fun TranslationTargetLanguageOption() {
     val mainModel = hiltViewModel<MainModel>()
-    val state = mainModel.state.collectAsStateWithLifecycle()
+    val mainState = mainModel.state.collectAsStateWithLifecycle()
+    val languages = if (
+        mainState.value.translationProviderMode == TranslationProviderMode.IN_APP
+    ) {
+        val model = hiltViewModel<TranslatorSettingsModel>()
+        val state = model.state.collectAsStateWithLifecycle()
+        state.value.models.nativeTranslationLanguages()
+    } else {
+        provideTranslationLanguages()
+    }
 
-    ChipsWithTitle(
+    CollapsibleTranslationChipsWithTitle(
+        stateKey = "translation_target_language",
         title = stringResource(id = R.string.translation_target_language_option),
-        chips = provideTranslationLanguages().map {
+        chips = languages
+            .distinctBy { it.code }
+            .sortedBySelected(mainState.value.translationTargetLanguage)
+            .map {
             ButtonItem(
                 id = it.code,
                 title = it.name,
                 textStyle = MaterialTheme.typography.labelLarge,
-                selected = it.code == state.value.translationTargetLanguage
+                selected = it.code == mainState.value.translationTargetLanguage
             )
         },
         onClick = {

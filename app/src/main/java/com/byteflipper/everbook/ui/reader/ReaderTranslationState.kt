@@ -34,7 +34,4 @@ data class ReaderTranslationState(
         get() = detectedSourceLanguageCode ?: sourceLanguageCode.takeIf {
             it != AUTO_TRANSLATION_LANGUAGE
         }
-
-    val inAppRequested: Boolean
-        get() = providerMode == TranslationProviderMode.IN_APP
 }

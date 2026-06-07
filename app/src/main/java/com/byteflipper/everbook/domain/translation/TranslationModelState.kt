@@ -10,10 +10,8 @@ package com.byteflipper.everbook.domain.translation
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class TranslationRequest(
-    val text: String,
-    val sourceLanguageCode: String?,
-    val targetLanguageCode: String,
-    val requireWifi: Boolean,
-    val providerMode: TranslationProviderMode = TranslationProviderMode.IN_APP
+data class TranslationModelState(
+    val language: TranslationLanguage,
+    val downloaded: Boolean,
+    val supported: Boolean
 )

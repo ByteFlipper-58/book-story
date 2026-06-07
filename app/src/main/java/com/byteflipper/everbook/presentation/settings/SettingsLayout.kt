@@ -101,7 +101,7 @@ fun SettingsLayout(
             }
         }
 
-        if (TranslationFeature.IN_APP_TRANSLATION_ENABLED) {
+        if (TranslationFeature.INLINE_TRANSLATION_ENABLED) {
             item {
                 SettingsLayoutItem(
                     index = 5,
@@ -116,7 +116,7 @@ fun SettingsLayout(
 
         item {
             PrivacySettingsEntry(
-                index = if (TranslationFeature.IN_APP_TRANSLATION_ENABLED) 6 else 5,
+                index = if (TranslationFeature.INLINE_TRANSLATION_ENABLED) 6 else 5,
                 navigateToPrivacySettings = navigateToPrivacySettings
             )
         }

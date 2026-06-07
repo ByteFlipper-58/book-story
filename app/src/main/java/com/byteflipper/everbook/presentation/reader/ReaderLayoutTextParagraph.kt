@@ -92,7 +92,7 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
         lineBreak = LineBreak.Paragraph
     )
 
-    if (TranslationFeature.IN_APP_TRANSLATION_ENABLED && translation.readerTextIndex == readerIndex) {
+    if (TranslationFeature.INLINE_TRANSLATION_ENABLED && translation.readerTextIndex == readerIndex) {
         ReaderInlineTranslatedParagraph(
             originalText = rawText,
             translation = translation,
@@ -145,7 +145,7 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
                     if (doubleClickTranslation && toolbarHidden) {
                         Modifier.noRippleClickable(
                             onDoubleClick = {
-                                if (TranslationFeature.IN_APP_TRANSLATION_ENABLED) {
+                                if (TranslationFeature.INLINE_TRANSLATION_ENABLED) {
                                     translateText(
                                         ReaderEvent.OnTranslateText(
                                             textToTranslate = paragraph.line.text,

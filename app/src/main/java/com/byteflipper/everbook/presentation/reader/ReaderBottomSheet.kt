@@ -19,11 +19,15 @@ import com.byteflipper.everbook.ui.reader.ReaderScreen
 fun ReaderBottomSheet(
     book: Book,
     bottomSheet: BottomSheet?,
+    translation: com.byteflipper.everbook.ui.reader.ReaderTranslationState,
     fullscreenMode: Boolean,
     pdfTextModeUnavailable: Boolean,
     changePdfReadingMode: (ReaderEvent.OnChangePdfReadingMode) -> Unit,
     changePdfDefaultReadingMode: (PdfReadingMode) -> Unit,
     menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit,
+    openExternalTranslator: (ReaderEvent.OnOpenExternalTranslator) -> Unit,
+    toggleTranslationOriginal: (ReaderEvent.OnToggleTranslationOriginal) -> Unit,
+    dismissTranslation: (ReaderEvent.OnDismissTranslation) -> Unit,
     dismissBottomSheet: (ReaderEvent.OnDismissBottomSheet) -> Unit
 ) {
     val activity = LocalActivity.current
@@ -58,6 +62,27 @@ fun ReaderBottomSheet(
                 changePdfDefaultReadingMode = changePdfDefaultReadingMode,
                 dismissBottomSheet = {
                     dismissBottomSheet(ReaderEvent.OnDismissBottomSheet)
+                }
+            )
+        }
+
+        ReaderScreen.TRANSLATION_BOTTOM_SHEET -> {
+            ReaderTranslationBottomSheet(
+                translation = translation,
+                openExternalTranslator = {
+                    openExternalTranslator(
+                        ReaderEvent.OnOpenExternalTranslator(
+                            textToTranslate = translation.text,
+                            translateWholeParagraph = false,
+                            activity = activity
+                        )
+                    )
+                },
+                toggleTranslationOriginal = {
+                    toggleTranslationOriginal(ReaderEvent.OnToggleTranslationOriginal)
+                },
+                dismissBottomSheet = {
+                    dismissTranslation(ReaderEvent.OnDismissTranslation)
                 }
             )
         }

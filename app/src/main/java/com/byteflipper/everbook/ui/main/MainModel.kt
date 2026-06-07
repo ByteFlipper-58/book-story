@@ -36,6 +36,7 @@ import com.byteflipper.everbook.domain.reader.toPdfReadingMode
 import com.byteflipper.everbook.domain.reader.toProgressCount
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
+import com.byteflipper.everbook.domain.translation.TranslationFeature
 import com.byteflipper.everbook.domain.translation.toTranslationProviderMode
 import com.byteflipper.everbook.domain.use_case.book.CancelReaderCacheWarmUps
 import com.byteflipper.everbook.domain.use_case.data_store.ChangeLanguage
@@ -209,7 +210,11 @@ class MainModel @Inject constructor(
                 key = DataStoreConstants.TRANSLATION_PROVIDER_MODE,
                 value = event.value,
                 updateState = {
-                    it.copy(translationProviderMode = toTranslationProviderMode())
+                    it.copy(
+                        translationProviderMode = TranslationFeature.coerceProviderMode(
+                            toTranslationProviderMode()
+                        )
+                    )
                 }
             )
 

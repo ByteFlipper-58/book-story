@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: GPL-3.0-only
  */
 
-package com.byteflipper.everbook.presentation.settings.translator
+package com.byteflipper.everbook.presentation.settings.translator.models
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,16 +14,14 @@ import androidx.compose.runtime.Composable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TranslatorSettingsContent(
+fun TranslationModelsSettingsContent(
     listState: LazyListState,
     scrollBehavior: TopAppBarScrollBehavior,
-    navigateToOfflineModels: () -> Unit,
     navigateBack: () -> Unit
 ) {
-    TranslatorSettingsScaffold(
+    TranslationModelsSettingsScaffold(
         listState = listState,
         scrollBehavior = scrollBehavior,
-        navigateToOfflineModels = navigateToOfflineModels,
         navigateBack = navigateBack
     )
 }

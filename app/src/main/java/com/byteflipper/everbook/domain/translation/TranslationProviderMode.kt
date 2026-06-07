@@ -9,6 +9,7 @@ package com.byteflipper.everbook.domain.translation
 
 enum class TranslationProviderMode {
     IN_APP,
+    GOOGLE_TRANSLATE,
     EXTERNAL
 }
 

@@ -76,6 +76,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         const val CHAPTERS_DRAWER = "chapters_drawer"
         const val SETTINGS_BOTTOM_SHEET = "settings_bottom_sheet"
         const val PDF_READING_MODE_BOTTOM_SHEET = "pdf_reading_mode_bottom_sheet"
+        const val TRANSLATION_BOTTOM_SHEET = "translation_bottom_sheet"
     }
 
     @OptIn(ExperimentalLayoutApi::class)

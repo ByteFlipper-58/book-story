@@ -11,5 +11,13 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class TranslationCapability(
-    val inAppAvailable: Boolean
-)
+    val inAppAvailable: Boolean,
+    val googleTranslateAvailable: Boolean = true
+) {
+    fun isAvailable(providerMode: TranslationProviderMode): Boolean =
+        when (providerMode) {
+            TranslationProviderMode.IN_APP -> inAppAvailable
+            TranslationProviderMode.GOOGLE_TRANSLATE -> googleTranslateAvailable
+            TranslationProviderMode.EXTERNAL -> true
+        }
+}

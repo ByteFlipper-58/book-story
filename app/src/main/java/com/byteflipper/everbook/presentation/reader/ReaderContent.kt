@@ -129,11 +129,15 @@ fun ReaderContent(
     ReaderBottomSheet(
         book = book,
         bottomSheet = bottomSheet,
+        translation = translation,
         fullscreenMode = fullscreenMode,
         pdfTextModeUnavailable = pdfTextModeUnavailable,
         changePdfReadingMode = changePdfReadingMode,
         changePdfDefaultReadingMode = changePdfDefaultReadingMode,
         menuVisibility = menuVisibility,
+        openExternalTranslator = openExternalTranslator,
+        toggleTranslationOriginal = toggleTranslationOriginal,
+        dismissTranslation = dismissTranslation,
         dismissBottomSheet = dismissBottomSheet
     )
 

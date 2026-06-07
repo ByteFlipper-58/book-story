@@ -87,13 +87,38 @@
     <string name="translation_show_translation">Show translation</string>
     <string name="translation_source_language_option">Translate from</string>
     <string name="translation_target_language_option">Translate to</string>
+    <string name="translation_provider_settings">Provider</string>
+    <string name="translation_language_settings">Languages</string>
+    <string name="translation_ml_kit_settings">ML Kit offline</string>
     <string name="translation_provider_option">Translation provider</string>
-    <string name="translation_provider_in_app">In-app offline</string>
+    <string name="translation_provider_in_app">ML Kit offline</string>
+    <string name="translation_provider_google_translate">Google Translate</string>
     <string name="translation_provider_external">External app</string>
+    <string name="translation_provider_ml_kit_desc">Uses Google ML Kit on-device translation. Language models are downloaded once, then translation works offline and keeps text on the device. Quality is good for common phrases, but less fluent than online translation for literary style and idioms.</string>
+    <string name="translation_provider_google_translate_desc">Uses Google Translate online from inside EverBook. It requires internet and sends selected text to Google. This is usually the most accurate and fluent option, especially for context, idioms, and longer passages.</string>
+    <string name="translation_provider_external_desc">Opens an installed translator app, or a web search if no translator app is available. Accuracy, privacy, and offline support depend on the external app you choose.</string>
     <string name="translation_powered_by_google" translatable="false">Powered by Google Translate</string>
     <string name="translation_language_auto">Auto</string>
+    <string name="translation_expand_languages_content_desc">Expand languages</string>
+    <string name="translation_collapse_languages_content_desc">Collapse languages</string>
     <string name="translation_wifi_only_option">Download models on Wi-Fi only</string>
     <string name="translation_wifi_only_option_desc">Offline language models are downloaded before local translation</string>
+    <string name="translation_offline_models_option">Offline models</string>
+    <string name="translation_offline_models_entry_desc">Manage downloaded languages for in-app offline translation</string>
+    <string name="translation_offline_models_unavailable">Offline model management is available only in the Play Store build, because ML Kit model downloads depend on Google services.</string>
+    <string name="translation_models_settings">Offline models</string>
+    <string name="translation_models_filter_all">All</string>
+    <string name="translation_models_filter_downloaded">Downloaded</string>
+    <string name="translation_models_filter_not_downloaded">Not downloaded</string>
+    <string name="translation_models_empty">No models match this search</string>
+    <string name="translation_model_downloaded">Downloaded</string>
+    <string name="translation_model_not_downloaded">Tap to download</string>
+    <string name="translation_model_not_downloaded_wifi">Tap to download on Wi-Fi</string>
+    <string name="translation_model_unsupported">Unsupported by ML Kit</string>
+    <string name="translation_model_busy">Working…</string>
+    <string name="translation_selection_title">Selected text translation</string>
+    <string name="translation_refresh_models_content_desc">Refresh offline models</string>
+    <string name="translation_delete_model_content_desc">Delete offline model</string>
     <string name="dictionary">Dictionary</string>
     <string name="next">Next</string>
     <string name="yes_go_to_help">Yes, go to Help</string>
@@ -147,7 +172,7 @@
     <string name="browse_settings">Browse</string>
     <string name="browse_settings_desc">General, filter, sort</string>
     <string name="translator_settings">Translator</string>
-    <string name="translator_settings_desc">Provider, languages, offline models</string>
+    <string name="translator_settings_desc">Provider, languages</string>
 
     <!-- Settings subcategories -->
     <string name="font_reader_settings">Font</string>

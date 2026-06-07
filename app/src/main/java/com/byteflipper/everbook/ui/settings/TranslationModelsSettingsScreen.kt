@@ -14,11 +14,11 @@ import androidx.compose.runtime.Composable
 import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.presentation.core.components.top_bar.collapsibleTopAppBarScrollBehavior
 import com.byteflipper.everbook.presentation.navigator.LocalNavigator
-import com.byteflipper.everbook.presentation.settings.translator.TranslatorSettingsContent
+import com.byteflipper.everbook.presentation.settings.translator.models.TranslationModelsSettingsContent
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-object TranslatorSettingsScreen : Screen, Parcelable {
+object TranslationModelsSettingsScreen : Screen, Parcelable {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -26,12 +26,9 @@ object TranslatorSettingsScreen : Screen, Parcelable {
         val navigator = LocalNavigator.current
         val (scrollBehavior, listState) = TopAppBarDefaults.collapsibleTopAppBarScrollBehavior()
 
-        TranslatorSettingsContent(
+        TranslationModelsSettingsContent(
             listState = listState,
             scrollBehavior = scrollBehavior,
-            navigateToOfflineModels = {
-                navigator.push(TranslationModelsSettingsScreen)
-            },
             navigateBack = {
                 navigator.pop()
             }

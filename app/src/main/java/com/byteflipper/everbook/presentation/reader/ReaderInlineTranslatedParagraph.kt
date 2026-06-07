@@ -76,6 +76,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.domain.translation.TranslationProviderMode
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.core.util.noRippleClickable
 import com.byteflipper.everbook.presentation.core.util.showToast
@@ -200,6 +201,8 @@ fun LazyItemScope.ReaderInlineTranslatedParagraph(
                         Spacer(modifier = Modifier.height(6.dp))
 
                         InlineTranslationActions(
+                            showGoogleAttribution = translation.providerMode ==
+                                    TranslationProviderMode.GOOGLE_TRANSLATE,
                             showOriginal = translation.showOriginal,
                             canToggleOriginal = canToggleOriginal,
                             translating = translation.isTranslating,
@@ -377,6 +380,7 @@ private fun InlineTranslationSkeletonLine(
 
 @Composable
 private fun InlineTranslationActions(
+    showGoogleAttribution: Boolean,
     showOriginal: Boolean,
     canToggleOriginal: Boolean,
     translating: Boolean,
@@ -394,20 +398,22 @@ private fun InlineTranslationActions(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            StyledText(
-                text = stringResource(id = R.string.translation_powered_by_google),
-                style = MaterialTheme.typography.labelSmall.copy(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Start
+            if (showGoogleAttribution) {
+                StyledText(
+                    text = stringResource(id = R.string.translation_powered_by_google),
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Start
+                    )
                 )
-            )
 
-            StyledText(
-                text = " • ",
-                style = MaterialTheme.typography.labelSmall.copy(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                StyledText(
+                    text = " • ",
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 )
-            )
+            }
 
             Row(
                 modifier = Modifier

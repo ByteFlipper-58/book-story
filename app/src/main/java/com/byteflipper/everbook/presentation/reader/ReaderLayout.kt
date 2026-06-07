@@ -166,11 +166,16 @@ fun ReaderLayout(
             )
         },
         onTranslateRequested = { textToTranslate ->
-            openTranslator(
-                ReaderEvent.OnOpenTranslator(
+            translateText(
+                ReaderEvent.OnTranslateText(
                     textToTranslate = textToTranslate,
+                    sourceLanguageCode = translationSourceLanguage,
+                    targetLanguageCode = translationTargetLanguage,
+                    providerMode = translationProviderMode,
+                    requireWifi = translationWifiOnly,
+                    activity = activity,
                     translateWholeParagraph = false,
-                    activity = activity
+                    readerTextIndex = null
                 )
             )
         },

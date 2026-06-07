@@ -8,6 +8,8 @@
 package com.byteflipper.everbook.data.di
 
 import com.byteflipper.everbook.data.translation.EverbookTranslationRepository
+import com.byteflipper.everbook.data.translation.EverbookTranslationModelRepository
+import com.byteflipper.everbook.domain.repository.TranslationModelRepository
 import com.byteflipper.everbook.domain.repository.TranslationRepository
 import dagger.Binds
 import dagger.Module
@@ -23,4 +25,10 @@ abstract class TranslationModule {
     abstract fun bindTranslationRepository(
         impl: EverbookTranslationRepository
     ): TranslationRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindTranslationModelRepository(
+        impl: EverbookTranslationModelRepository
+    ): TranslationModelRepository
 }

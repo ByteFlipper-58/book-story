@@ -162,13 +162,14 @@ dependencies {
     // All dependencies
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+    implementation("androidx.work:work-runtime-ktx:2.11.2")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
 
     // Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.55")
     ksp("com.google.dagger:hilt-android-compiler:2.55")
-    implementation("com.google.dagger:hilt-compiler:2.55")
     ksp("androidx.hilt:hilt-compiler:1.2.0")
+    implementation("androidx.hilt:hilt-work:1.2.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     add("playStoreImplementation", platform("com.google.firebase:firebase-bom:33.16.0"))

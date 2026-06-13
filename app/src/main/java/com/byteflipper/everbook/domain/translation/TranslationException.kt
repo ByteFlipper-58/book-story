@@ -7,4 +7,9 @@
 
 package com.byteflipper.everbook.domain.translation
 
-class TranslationException(message: String, cause: Throwable? = null) : Exception(message, cause)
+open class TranslationException(message: String, cause: Throwable? = null) : Exception(message, cause)
+
+class TranslationRateLimitedException(
+    message: String,
+    cause: Throwable? = null
+) : TranslationException(message, cause)

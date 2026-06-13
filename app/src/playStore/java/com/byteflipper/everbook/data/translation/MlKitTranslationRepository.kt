@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.data.translation
 
+import android.util.Log
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.languageid.LanguageIdentification
 import com.google.mlkit.nl.translate.TranslateLanguage
@@ -20,19 +21,26 @@ import com.byteflipper.everbook.domain.translation.TranslationProviderMode
 import com.byteflipper.everbook.domain.translation.TranslationRequest
 import com.byteflipper.everbook.domain.translation.TranslationResult
 import com.byteflipper.everbook.domain.translation.normalizeTranslationLanguageCode
+import com.byteflipper.everbook.domain.translation.resolveTranslationLanguageCode
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val UNDETERMINED_LANGUAGE = "und"
+private const val BOOK_TRANSLATION_LOG = "BookTranslation"
+private const val MODEL_DOWNLOAD_TIMEOUT_MS = 5 * 60 * 1000L
 
 @Singleton
 class MlKitTranslationRepository @Inject constructor(
-    private val googleTranslateWebClient: GoogleTranslateWebClient
+    private val googleTranslateWebClient: GoogleTranslateWebClient,
+    private val notificationController: TranslationModelNotificationController
 ) : TranslationRepository {
     override val capability = TranslationCapability(
         inAppAvailable = true,
@@ -42,6 +50,7 @@ class MlKitTranslationRepository @Inject constructor(
     private val languageIdentifier = LanguageIdentification.getClient()
     private val translatorMutex = Mutex()
     private val translators = mutableMapOf<Pair<String, String>, Translator>()
+    private val preparedTranslatorKeys = mutableSetOf<Pair<String, String>>()
 
     override suspend fun translate(request: TranslationRequest): TranslationResult =
         when (request.providerMode) {
@@ -54,10 +63,20 @@ class MlKitTranslationRepository @Inject constructor(
     private suspend fun translateWithMlKit(request: TranslationRequest): TranslationResult =
         withContext(Dispatchers.IO) {
             val source = resolveSourceLanguage(request)
-            val target = request.targetLanguageCode.toMlKitCode()
+            val target = resolveTranslationLanguageCode(request.targetLanguageCode).toMlKitCode()
                 ?: throw TranslationException("Unsupported target language.")
+            if (Log.isLoggable(BOOK_TRANSLATION_LOG, Log.VERBOSE)) {
+                Log.v(
+                    BOOK_TRANSLATION_LOG,
+                    "ML Kit translate requested: source=$source target=$target " +
+                            "wifiOnly=${request.requireWifi}"
+                )
+            }
 
             if (source == target) {
+                if (Log.isLoggable(BOOK_TRANSLATION_LOG, Log.VERBOSE)) {
+                    Log.v(BOOK_TRANSLATION_LOG, "ML Kit translate skipped: source equals target=$target")
+                }
                 return@withContext TranslationResult(
                     sourceLanguageCode = source,
                     targetLanguageCode = target,
@@ -66,13 +85,16 @@ class MlKitTranslationRepository @Inject constructor(
             }
 
             val translator = getTranslator(source, target)
-            val conditions = DownloadConditions.Builder().run {
-                if (request.requireWifi) requireWifi()
-                build()
-            }
-
-            translator.downloadModelIfNeeded(conditions).await()
+            prepareTranslator(
+                source = source,
+                target = target,
+                translator = translator,
+                requireWifi = request.requireWifi
+            )
             val translatedText = translator.translate(request.text).await()
+            if (Log.isLoggable(BOOK_TRANSLATION_LOG, Log.VERBOSE)) {
+                Log.v(BOOK_TRANSLATION_LOG, "ML Kit translate finished: source=$source target=$target")
+            }
 
             TranslationResult(
                 sourceLanguageCode = source,
@@ -80,6 +102,70 @@ class MlKitTranslationRepository @Inject constructor(
                 translatedText = translatedText
             )
         }
+
+    private suspend fun prepareTranslator(
+        source: String,
+        target: String,
+        translator: Translator,
+        requireWifi: Boolean
+    ) {
+        val key = source to target
+        val alreadyPrepared = translatorMutex.withLock {
+            key in preparedTranslatorKeys
+        }
+        if (alreadyPrepared) {
+            if (Log.isLoggable(BOOK_TRANSLATION_LOG, Log.VERBOSE)) {
+                Log.v(
+                    BOOK_TRANSLATION_LOG,
+                    "ML Kit downloadModelIfNeeded skipped: source=$source target=$target prepared=true"
+                )
+            }
+            return
+        }
+
+        Log.i(
+            BOOK_TRANSLATION_LOG,
+            "ML Kit downloadModelIfNeeded started: source=$source target=$target"
+        )
+        val downloadStartedAt = System.currentTimeMillis()
+        try {
+            val conditions = DownloadConditions.Builder().run {
+                if (requireWifi) requireWifi()
+                build()
+            }
+            notificationController.showDownload(target)
+            withTimeout(MODEL_DOWNLOAD_TIMEOUT_MS) {
+                translator.downloadModelIfNeeded(conditions).await()
+            }
+            translatorMutex.withLock {
+                preparedTranslatorKeys += key
+            }
+            Log.i(
+                BOOK_TRANSLATION_LOG,
+                "ML Kit downloadModelIfNeeded finished: source=$source target=$target " +
+                        "elapsedMs=${System.currentTimeMillis() - downloadStartedAt}"
+            )
+        } catch (exception: TimeoutCancellationException) {
+            Log.e(
+                BOOK_TRANSLATION_LOG,
+                "ML Kit downloadModelIfNeeded timed out: source=$source target=$target " +
+                        "timeoutMs=$MODEL_DOWNLOAD_TIMEOUT_MS",
+                exception
+            )
+            throw TranslationException(
+                "ML Kit model download is taking too long. Check Google Play services and your network, then try again.",
+                exception
+            )
+        } catch (exception: CancellationException) {
+            Log.i(
+                BOOK_TRANSLATION_LOG,
+                "ML Kit downloadModelIfNeeded cancelled: source=$source target=$target"
+            )
+            throw exception
+        } finally {
+            notificationController.clear(target)
+        }
+    }
 
     private suspend fun resolveSourceLanguage(request: TranslationRequest): String {
         val explicitSource = request.sourceLanguageCode.toMlKitCode()

@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Subject
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -54,6 +55,7 @@ fun ReaderTopBar(
     selectPreviousPreset: (SettingsEvent.OnSelectPreviousPreset) -> Unit,
     selectNextPreset: (SettingsEvent.OnSelectNextPreset) -> Unit,
     showPdfReadingModeBottomSheet: (ReaderEvent.OnShowPdfReadingModeBottomSheet) -> Unit,
+    showBookTranslationBottomSheet: (ReaderEvent.OnShowBookTranslationBottomSheet) -> Unit,
     showSettingsBottomSheet: (ReaderEvent.OnShowSettingsBottomSheet) -> Unit,
     showChaptersDrawer: (ReaderEvent.OnShowChaptersDrawer) -> Unit,
     navigateToBookInfo: (changePath: Boolean) -> Unit,
@@ -152,6 +154,17 @@ fun ReaderTopBar(
                             ReaderEvent.OnShowPdfReadingModeBottomSheet
                         )
                     }
+                }
+
+                IconButton(
+                    icon = Icons.Default.Translate,
+                    contentDescription = R.string.book_translation_content_desc,
+                    disableOnClick = false,
+                    enabled = !lockMenu
+                ) {
+                    showBookTranslationBottomSheet(
+                        ReaderEvent.OnShowBookTranslationBottomSheet
+                    )
                 }
 
                 IconButton(

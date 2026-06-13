@@ -33,6 +33,7 @@ import com.byteflipper.everbook.domain.util.BottomSheet
 import com.byteflipper.everbook.domain.util.Drawer
 import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.ui.reader.ReaderEvent
+import com.byteflipper.everbook.ui.reader.ReaderBookTranslationState
 import com.byteflipper.everbook.ui.settings.SettingsEvent
 
 @Composable
@@ -43,6 +44,7 @@ fun ReaderContent(
     chapters: List<Chapter>,
     bottomSheet: BottomSheet?,
     translation: com.byteflipper.everbook.ui.reader.ReaderTranslationState,
+    bookTranslation: ReaderBookTranslationState,
     drawer: Drawer?,
     listState: LazyListState,
     currentChapter: Chapter?,
@@ -117,8 +119,24 @@ fun ReaderContent(
     openDictionary: (ReaderEvent.OnOpenDictionary) -> Unit,
     scrollToChapter: (ReaderEvent.OnScrollToChapter) -> Unit,
     showPdfReadingModeBottomSheet: (ReaderEvent.OnShowPdfReadingModeBottomSheet) -> Unit,
+    showBookTranslationBottomSheet: (ReaderEvent.OnShowBookTranslationBottomSheet) -> Unit,
     showSettingsBottomSheet: (ReaderEvent.OnShowSettingsBottomSheet) -> Unit,
     dismissBottomSheet: (ReaderEvent.OnDismissBottomSheet) -> Unit,
+    startBookTranslation: (ReaderEvent.OnStartBookTranslation) -> Unit,
+    showTranslatedBook: (ReaderEvent.OnShowTranslatedBook) -> Unit,
+    showOriginalBook: (ReaderEvent.OnShowOriginalBook) -> Unit,
+    confirmBookTranslationGoogleWarning: (ReaderEvent.OnConfirmBookTranslationGoogleWarning) -> Unit,
+    dismissBookTranslationGoogleWarning: (ReaderEvent.OnDismissBookTranslationGoogleWarning) -> Unit,
+    cancelBookTranslation: (ReaderEvent.OnCancelBookTranslation) -> Unit,
+    pauseBookTranslation: (ReaderEvent.OnPauseBookTranslation) -> Unit,
+    resumeBookTranslation: (ReaderEvent.OnResumeBookTranslation) -> Unit,
+    retryBookTranslation: (ReaderEvent.OnRetryBookTranslation) -> Unit,
+    changeBookTranslationProviderMode: (ReaderEvent.OnChangeBookTranslationProviderMode) -> Unit,
+    changeBookTranslationSourceLanguage: (ReaderEvent.OnChangeBookTranslationSourceLanguage) -> Unit,
+    changeBookTranslationTargetLanguage: (ReaderEvent.OnChangeBookTranslationTargetLanguage) -> Unit,
+    swapBookTranslationLanguages: (ReaderEvent.OnSwapBookTranslationLanguages) -> Unit,
+    changeBookTranslationWifiOnly: (ReaderEvent.OnChangeBookTranslationWifiOnly) -> Unit,
+    dismissBookTranslationError: (ReaderEvent.OnDismissBookTranslationError) -> Unit,
     showChaptersDrawer: (ReaderEvent.OnShowChaptersDrawer) -> Unit,
     dismissDrawer: (ReaderEvent.OnDismissDrawer) -> Unit,
     changePdfReadingMode: (ReaderEvent.OnChangePdfReadingMode) -> Unit,
@@ -130,6 +148,7 @@ fun ReaderContent(
         book = book,
         bottomSheet = bottomSheet,
         translation = translation,
+        bookTranslation = bookTranslation,
         fullscreenMode = fullscreenMode,
         pdfTextModeUnavailable = pdfTextModeUnavailable,
         changePdfReadingMode = changePdfReadingMode,
@@ -138,6 +157,21 @@ fun ReaderContent(
         openExternalTranslator = openExternalTranslator,
         toggleTranslationOriginal = toggleTranslationOriginal,
         dismissTranslation = dismissTranslation,
+        startBookTranslation = startBookTranslation,
+        showTranslatedBook = showTranslatedBook,
+        showOriginalBook = showOriginalBook,
+        confirmBookTranslationGoogleWarning = confirmBookTranslationGoogleWarning,
+        dismissBookTranslationGoogleWarning = dismissBookTranslationGoogleWarning,
+        cancelBookTranslation = cancelBookTranslation,
+        pauseBookTranslation = pauseBookTranslation,
+        resumeBookTranslation = resumeBookTranslation,
+        retryBookTranslation = retryBookTranslation,
+        changeBookTranslationProviderMode = changeBookTranslationProviderMode,
+        changeBookTranslationSourceLanguage = changeBookTranslationSourceLanguage,
+        changeBookTranslationTargetLanguage = changeBookTranslationTargetLanguage,
+        swapBookTranslationLanguages = swapBookTranslationLanguages,
+        changeBookTranslationWifiOnly = changeBookTranslationWifiOnly,
+        dismissBookTranslationError = dismissBookTranslationError,
         dismissBottomSheet = dismissBottomSheet
     )
 
@@ -149,6 +183,7 @@ fun ReaderContent(
             listState = listState,
             currentChapter = currentChapter,
             translation = translation,
+            bookTranslation = bookTranslation,
             nestedScrollConnection = nestedScrollConnection,
             fastColorPresetChange = fastColorPresetChange,
             perceptionExpander = perceptionExpander,
@@ -217,8 +252,11 @@ fun ReaderContent(
             toggleTranslationOriginal = toggleTranslationOriginal,
             openDictionary = openDictionary,
             showPdfReadingModeBottomSheet = showPdfReadingModeBottomSheet,
+            showBookTranslationBottomSheet = showBookTranslationBottomSheet,
             showSettingsBottomSheet = showSettingsBottomSheet,
             showChaptersDrawer = showChaptersDrawer,
+            showTranslatedBook = showTranslatedBook,
+            showOriginalBook = showOriginalBook,
             changePdfReadingMode = changePdfReadingMode,
             navigateBack = navigateBack,
             navigateToBookInfo = navigateToBookInfo

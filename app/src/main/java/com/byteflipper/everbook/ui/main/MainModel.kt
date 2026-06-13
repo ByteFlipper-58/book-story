@@ -36,6 +36,7 @@ import com.byteflipper.everbook.domain.reader.toPdfReadingMode
 import com.byteflipper.everbook.domain.reader.toProgressCount
 import com.byteflipper.everbook.domain.reader.toReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.toTextAlignment
+import com.byteflipper.everbook.domain.translation.AUTO_TRANSLATION_LANGUAGE
 import com.byteflipper.everbook.domain.translation.TranslationFeature
 import com.byteflipper.everbook.domain.translation.toTranslationProviderMode
 import com.byteflipper.everbook.domain.use_case.book.CancelReaderCacheWarmUps
@@ -233,6 +234,8 @@ class MainModel @Inject constructor(
                     it.copy(translationTargetLanguage = this)
                 }
             )
+
+            MainEvent.OnSwapTranslationLanguages -> handleTranslationLanguageSwap()
 
             is MainEvent.OnChangeTranslationWifiOnly -> handleDatastoreUpdate(
                 key = DataStoreConstants.TRANSLATION_WIFI_ONLY,
@@ -841,6 +844,29 @@ class MainModel @Inject constructor(
                 it.copy(browsePinnedPaths = toList())
             }
         )
+    }
+
+    private fun handleTranslationLanguageSwap() {
+        val source = _state.value.translationSourceLanguage
+        val target = _state.value.translationTargetLanguage
+        if (source == AUTO_TRANSLATION_LANGUAGE) return
+
+        viewModelScope.launch(Dispatchers.Main.immediate) {
+            setDatastore.execute(
+                key = DataStoreConstants.TRANSLATION_SOURCE_LANGUAGE,
+                value = target
+            )
+            setDatastore.execute(
+                key = DataStoreConstants.TRANSLATION_TARGET_LANGUAGE,
+                value = source
+            )
+            updateStateWithSavedHandle {
+                it.copy(
+                    translationSourceLanguage = target,
+                    translationTargetLanguage = source
+                )
+            }
+        }
     }
 
     /**

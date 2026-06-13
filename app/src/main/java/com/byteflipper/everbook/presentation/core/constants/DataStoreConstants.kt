@@ -31,6 +31,12 @@ object DataStoreConstants {
     val TRANSLATION_SOURCE_LANGUAGE = stringPreferencesKey("translation_source_language")
     val TRANSLATION_TARGET_LANGUAGE = stringPreferencesKey("translation_target_language")
     val TRANSLATION_WIFI_ONLY = booleanPreferencesKey("translation_wifi_only")
+    val BOOK_TRANSLATION_GOOGLE_WARNING_ACCEPTED =
+        booleanPreferencesKey("book_translation_google_warning_accepted")
+    val BOOK_TRANSLATION_RECENT_SOURCE_LANGUAGES =
+        stringSetPreferencesKey("book_translation_recent_source_languages")
+    val BOOK_TRANSLATION_RECENT_TARGET_LANGUAGES =
+        stringSetPreferencesKey("book_translation_recent_target_languages")
     val FAST_COLOR_PRESET_CHANGE = booleanPreferencesKey("fast_color_preset_change")
     val SIDE_PADDING = intPreferencesKey("side_padding")
     val VERTICAL_PADDING = intPreferencesKey("vertical_padding")

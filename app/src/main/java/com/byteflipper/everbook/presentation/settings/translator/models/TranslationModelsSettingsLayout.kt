@@ -7,11 +7,16 @@
 
 @file:OptIn(
     androidx.compose.foundation.ExperimentalFoundationApi::class,
-    androidx.compose.foundation.layout.ExperimentalLayoutApi::class
+    androidx.compose.foundation.layout.ExperimentalLayoutApi::class,
+    com.google.accompanist.permissions.ExperimentalPermissionsApi::class
 )
 
 package com.byteflipper.everbook.presentation.settings.translator.models
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.os.Build
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +48,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -62,7 +71,13 @@ import com.byteflipper.everbook.ui.settings.TranslationModelFilter
 import com.byteflipper.everbook.ui.settings.TranslatorSettingsEvent
 import com.byteflipper.everbook.ui.settings.TranslatorSettingsModel
 import com.byteflipper.everbook.ui.settings.TranslatorSettingsState
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import java.util.Locale
 
+private const val TRANSLATION_MODELS_LOG = "TranslationModels"
+
+@SuppressLint("InlinedApi")
 @Composable
 fun TranslationModelsSettingsLayout(
     listState: LazyListState,
@@ -72,6 +87,40 @@ fun TranslationModelsSettingsLayout(
     val mainModel = hiltViewModel<MainModel>()
     val state = model.state.collectAsStateWithLifecycle()
     val mainState = mainModel.state.collectAsStateWithLifecycle()
+    var pendingNotificationPermissionDownload by remember {
+        mutableStateOf<PendingModelDownload?>(null)
+    }
+    val notificationsPermissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        rememberPermissionState(
+            permission = Manifest.permission.POST_NOTIFICATIONS,
+            onPermissionResult = { granted ->
+                val pendingDownload = pendingNotificationPermissionDownload
+                if (pendingDownload == null) {
+                    Log.i(
+                        TRANSLATION_MODELS_LOG,
+                        "Notification permission result without pending model download: granted=$granted"
+                    )
+                } else {
+                    Log.i(
+                        TRANSLATION_MODELS_LOG,
+                        "Notification permission result: granted=$granted " +
+                                "language=${pendingDownload.languageCode}"
+                    )
+                    pendingNotificationPermissionDownload = null
+                    model.onEvent(
+                        TranslatorSettingsEvent.OnDownloadModel(
+                            languageCode = pendingDownload.languageCode,
+                            requireWifi = pendingDownload.requireWifi
+                        )
+                    )
+                }
+            }
+        )
+    } else {
+        null
+    }
+    val notificationsGranted = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            notificationsPermissionState?.status?.isGranted == true
 
     LazyColumnWithScrollbar(
         Modifier
@@ -95,6 +144,34 @@ fun TranslationModelsSettingsLayout(
             }
         }
 
+        state.value.errorMessage?.let { error ->
+            item {
+                TranslationModelsError(
+                    error = error,
+                    onDismiss = {
+                        model.onEvent(TranslatorSettingsEvent.OnDismissModelError)
+                    }
+                )
+            }
+        }
+
+        if (state.value.modelManagerAvailable && !notificationsGranted) {
+            item {
+                SettingsSubcategoryNote(
+                    text = stringResource(id = R.string.translation_model_notifications_permission_note),
+                    verticalPadding = 12.dp
+                )
+            }
+        }
+
+        if (state.value.busyLanguageCodes.isNotEmpty()) {
+            item {
+                TranslationModelsBusy(
+                    languageNames = state.value.busyLanguageNames()
+                )
+            }
+        }
+
         if (state.value.modelManagerAvailable) {
             if (state.value.filteredModels.isEmpty() && !state.value.isLoadingModels) {
                 item {
@@ -111,12 +188,25 @@ fun TranslationModelsSettingsLayout(
                     busy = translationModel.language.code in state.value.busyLanguageCodes,
                     requireWifi = mainState.value.translationWifiOnly,
                     onDownload = {
-                        model.onEvent(
-                            TranslatorSettingsEvent.OnDownloadModel(
+                        if (!notificationsGranted) {
+                            pendingNotificationPermissionDownload = PendingModelDownload(
                                 languageCode = translationModel.language.code,
                                 requireWifi = mainState.value.translationWifiOnly
                             )
-                        )
+                            Log.w(
+                                TRANSLATION_MODELS_LOG,
+                                "Model download waiting for notification permission result: " +
+                                        "language=${translationModel.language.code}"
+                            )
+                            notificationsPermissionState?.launchPermissionRequest()
+                        } else {
+                            model.onEvent(
+                                TranslatorSettingsEvent.OnDownloadModel(
+                                    languageCode = translationModel.language.code,
+                                    requireWifi = mainState.value.translationWifiOnly
+                                )
+                            )
+                        }
                     },
                     onDelete = {
                         model.onEvent(
@@ -132,17 +222,6 @@ fun TranslationModelsSettingsLayout(
                 SettingsSubcategoryNote(
                     text = stringResource(id = R.string.translation_offline_models_unavailable),
                     verticalPadding = 12.dp
-                )
-            }
-        }
-
-        state.value.errorMessage?.let { error ->
-            item {
-                TranslationModelsError(
-                    error = error,
-                    onDismiss = {
-                        model.onEvent(TranslatorSettingsEvent.OnDismissModelError)
-                    }
                 )
             }
         }
@@ -259,7 +338,16 @@ private fun LazyItemScope.TranslationModelItem(
         modifier = Modifier
             .animateItem()
             .fillMaxWidth()
-            .clickable(enabled = enabled) { action() }
+            .clickable(enabled = enabled) {
+                Log.i(
+                    TRANSLATION_MODELS_LOG,
+                    "Model row clicked: language=${model.language.code} " +
+                            "downloaded=${model.downloaded} supported=${model.supported} " +
+                            "busy=$busy wifiOnly=$requireWifi " +
+                            "operation=${if (model.downloaded) "delete" else "download"}"
+                )
+                action()
+            }
             .padding(horizontal = 18.dp, vertical = 12.dp)
     ) {
         Row(
@@ -383,6 +471,39 @@ private fun TranslationModelIcon(
 }
 
 @Composable
+private fun TranslationModelsBusy(
+    languageNames: String
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 18.dp, vertical = 8.dp),
+        shape = MaterialTheme.shapes.large,
+        color = MaterialTheme.colorScheme.surfaceContainerHighest
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(20.dp),
+                strokeWidth = 2.dp
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            StyledText(
+                text = stringResource(
+                    id = R.string.translation_models_updating,
+                    languageNames
+                ),
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            )
+        }
+    }
+}
+
+@Composable
 private fun TranslationModelsEmpty() {
     Column(
         modifier = Modifier
@@ -423,3 +544,16 @@ private fun TranslationModelsError(
         }
     }
 }
+
+private fun TranslatorSettingsState.busyLanguageNames(): String =
+    busyLanguageCodes.sorted().joinToString(", ") { code ->
+        models.firstOrNull { it.language.code == code }
+            ?.language
+            ?.name
+            ?: code.uppercase(Locale.ROOT)
+    }
+
+private data class PendingModelDownload(
+    val languageCode: String,
+    val requireWifi: Boolean
+)

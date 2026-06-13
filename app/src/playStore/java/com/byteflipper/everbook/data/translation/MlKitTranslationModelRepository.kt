@@ -7,6 +7,12 @@
 
 package com.byteflipper.everbook.data.translation
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
+import android.util.Log
+import com.google.mlkit.common.MlKitException
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.common.model.RemoteModelManager
 import com.google.mlkit.nl.translate.TranslateLanguage
@@ -17,15 +23,28 @@ import com.byteflipper.everbook.domain.translation.TranslationLanguage
 import com.byteflipper.everbook.domain.translation.TranslationModelState
 import com.byteflipper.everbook.domain.translation.nativeTranslationLanguageName
 import com.byteflipper.everbook.domain.translation.normalizeTranslationLanguageCode
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
+import dagger.hilt.android.qualifiers.ApplicationContext
+
+private const val TRANSLATION_MODELS_LOG = "TranslationModels"
+private const val MODEL_DOWNLOAD_TIMEOUT_MS = 5 * 60 * 1000L
+private const val MODEL_DOWNLOAD_VERIFY_ATTEMPTS = 5
+private const val MODEL_DOWNLOAD_VERIFY_DELAY_MS = 500L
 
 @Singleton
-class MlKitTranslationModelRepository @Inject constructor() : TranslationModelRepository {
+class MlKitTranslationModelRepository @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val notificationController: TranslationModelNotificationController
+) : TranslationModelRepository {
     override val available = true
 
     private val modelManager = RemoteModelManager.getInstance()
@@ -47,41 +66,165 @@ class MlKitTranslationModelRepository @Inject constructor() : TranslationModelRe
 
     override suspend fun getModels(): List<TranslationModelState> =
         withContext(Dispatchers.IO) {
+            Log.i(TRANSLATION_MODELS_LOG, "ML Kit get downloaded models started")
             val downloadedLanguages = modelManager
                 .getDownloadedModels(TranslateRemoteModel::class.java)
                 .await()
                 .mapNotNull { normalizeTranslationLanguageCode(it.language) }
                 .toSet()
-            getAvailableModels().map {
+            val models = getAvailableModels().map {
                 it.copy(
                     downloaded = it.language.code in downloadedLanguages,
                 )
             }
+            Log.i(
+                TRANSLATION_MODELS_LOG,
+                "ML Kit get downloaded models finished: available=${models.size} " +
+                        "downloaded=${downloadedLanguages.size}"
+            )
+            models
         }
 
     override suspend fun downloadModel(languageCode: String, requireWifi: Boolean) {
         val model = languageCode.toTranslateRemoteModel()
+        ensureDownloadNetworkAvailable(languageCode, requireWifi)
         val conditions = DownloadConditions.Builder().run {
             if (requireWifi) requireWifi()
             build()
         }
 
-        withContext(Dispatchers.IO) {
-            modelManager.download(model, conditions).await()
+        try {
+            val startedAt = System.currentTimeMillis()
+            Log.i(
+                TRANSLATION_MODELS_LOG,
+                "ML Kit model download started: language=$languageCode wifiOnly=$requireWifi"
+            )
+            notificationController.showDownload(languageCode)
+            withContext(Dispatchers.IO) {
+                withTimeout(MODEL_DOWNLOAD_TIMEOUT_MS) {
+                    modelManager.download(model, conditions).await()
+                    verifyModelDownloaded(model, languageCode)
+                }
+            }
+            Log.i(
+                TRANSLATION_MODELS_LOG,
+                "ML Kit model download finished: language=$languageCode " +
+                        "elapsedMs=${System.currentTimeMillis() - startedAt}"
+            )
+        } catch (exception: TimeoutCancellationException) {
+            Log.e(
+                TRANSLATION_MODELS_LOG,
+                "ML Kit model download timed out: language=$languageCode " +
+                        "timeoutMs=$MODEL_DOWNLOAD_TIMEOUT_MS",
+                exception
+            )
+            throw TranslationException(
+                "ML Kit model download is taking too long. Check Wi-Fi, Google Play services and free storage, then try again.",
+                exception
+            )
+        } catch (exception: CancellationException) {
+            Log.i(TRANSLATION_MODELS_LOG, "ML Kit model download cancelled: language=$languageCode")
+            throw exception
+        } catch (exception: MlKitException) {
+            Log.e(
+                TRANSLATION_MODELS_LOG,
+                "ML Kit model download failed: language=$languageCode code=${exception.errorCode}",
+                exception
+            )
+            throw TranslationException(
+                "ML Kit model download failed (${exception.errorCode}): " +
+                        (exception.message ?: "Unknown ML Kit error."),
+                exception
+            )
+        } catch (throwable: Throwable) {
+            Log.e(TRANSLATION_MODELS_LOG, "ML Kit model download failed: language=$languageCode", throwable)
+            throw throwable
+        } finally {
+            notificationController.clear(languageCode)
         }
     }
 
     override suspend fun deleteModel(languageCode: String) {
         val model = languageCode.toTranslateRemoteModel()
 
-        withContext(Dispatchers.IO) {
-            modelManager.deleteDownloadedModel(model).await()
+        try {
+            Log.i(TRANSLATION_MODELS_LOG, "ML Kit model delete started: language=$languageCode")
+            notificationController.showDelete(languageCode)
+            withContext(Dispatchers.IO) {
+                modelManager.deleteDownloadedModel(model).await()
+            }
+            Log.i(TRANSLATION_MODELS_LOG, "ML Kit model delete finished: language=$languageCode")
+        } catch (throwable: Throwable) {
+            Log.e(TRANSLATION_MODELS_LOG, "ML Kit model delete failed: language=$languageCode", throwable)
+            throw throwable
+        } finally {
+            notificationController.clear(languageCode)
         }
     }
 
     private fun String.toTranslateRemoteModel(): TranslateRemoteModel =
         TranslateRemoteModel.Builder(toMlKitCode() ?: throw unsupportedLanguageException())
             .build()
+
+    private suspend fun verifyModelDownloaded(
+        model: TranslateRemoteModel,
+        languageCode: String
+    ) {
+        repeat(MODEL_DOWNLOAD_VERIFY_ATTEMPTS) { attempt ->
+            val downloaded = modelManager.isModelDownloaded(model).await()
+            Log.i(
+                TRANSLATION_MODELS_LOG,
+                "ML Kit model download verification: language=$languageCode " +
+                        "attempt=${attempt + 1} downloaded=$downloaded"
+            )
+            if (downloaded) return
+            delay(MODEL_DOWNLOAD_VERIFY_DELAY_MS)
+        }
+
+        val downloadedLanguages = modelManager
+            .getDownloadedModels(TranslateRemoteModel::class.java)
+            .await()
+            .mapNotNull { normalizeTranslationLanguageCode(it.language) }
+            .sorted()
+            .joinToString()
+        Log.e(
+            TRANSLATION_MODELS_LOG,
+            "ML Kit model download verification failed: language=$languageCode " +
+                    "downloadedLanguages=[$downloadedLanguages]"
+        )
+        throw TranslationException(
+            "ML Kit reported the download as finished, but the model is not available. " +
+                    "Check Google Play services and free storage, then try again."
+        )
+    }
+
+    private fun ensureDownloadNetworkAvailable(languageCode: String, requireWifi: Boolean) {
+        if (!requireWifi) return
+        if (context.isWifiConnected()) return
+
+        Log.w(
+            TRANSLATION_MODELS_LOG,
+            "ML Kit model download blocked: language=$languageCode wifiOnly=true wifiConnected=false"
+        )
+        throw TranslationException(
+            "Connect to Wi-Fi or turn off Wi-Fi only model downloads, then try again."
+        )
+    }
+
+    private fun Context.isWifiConnected(): Boolean {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager ?: return false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        }
+
+        @Suppress("DEPRECATION")
+        val networkInfo = connectivityManager.activeNetworkInfo ?: return false
+        @Suppress("DEPRECATION")
+        return networkInfo.isConnected && networkInfo.type == ConnectivityManager.TYPE_WIFI
+    }
 
     private fun String?.toMlKitCode(): String? =
         normalizeTranslationLanguageCode(this)

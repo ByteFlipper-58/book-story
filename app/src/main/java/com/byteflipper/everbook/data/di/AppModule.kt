@@ -28,6 +28,7 @@ import com.byteflipper.everbook.data.local.room.CategoryDao
 import com.byteflipper.everbook.data.local.room.BookDatabase
 import com.byteflipper.everbook.data.local.room.DatabaseHelper
 import com.byteflipper.everbook.data.local.room.BookCategoryDao
+import com.byteflipper.everbook.data.local.room.BookTranslationDao
 import javax.inject.Singleton
 
 @Module
@@ -77,6 +78,7 @@ object AppModule {
                 DatabaseHelper.MIGRATION_9_10,
                 DatabaseHelper.MIGRATION_10_11,
                 DatabaseHelper.MIGRATION_11_12,
+                DatabaseHelper.MIGRATION_12_13,
             )
             .addCallback(DatabaseHelper.PREPOPULATE_CATEGORIES)
             .build()
@@ -93,4 +95,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideBookCategoryDao(database: BookDatabase): BookCategoryDao = database.bookCategoryDao
+
+    @Provides
+    @Singleton
+    fun provideBookTranslationDao(database: BookDatabase): BookTranslationDao =
+        database.bookTranslationDao
 }

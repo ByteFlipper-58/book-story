@@ -7,11 +7,14 @@
 
 package com.byteflipper.everbook.data.translation
 
+import android.util.Log
 import com.byteflipper.everbook.domain.translation.AUTO_TRANSLATION_LANGUAGE
 import com.byteflipper.everbook.domain.translation.TranslationException
+import com.byteflipper.everbook.domain.translation.TranslationRateLimitedException
 import com.byteflipper.everbook.domain.translation.TranslationRequest
 import com.byteflipper.everbook.domain.translation.TranslationResult
 import com.byteflipper.everbook.domain.translation.normalizeTranslationLanguageCode
+import com.byteflipper.everbook.domain.translation.resolveTranslationLanguageCode
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +32,7 @@ import kotlin.random.Random
 private const val GOOGLE_TRANSLATE_ENDPOINT =
     "https://translate.googleapis.com/translate_a/single"
 private const val GOOGLE_TRANSLATE_TIMEOUT_MS = 15_000
+private const val BOOK_TRANSLATION_LOG = "BookTranslation"
 private val GOOGLE_TRANSLATE_USER_AGENTS = listOf(
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
             "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
@@ -47,20 +51,35 @@ class GoogleTranslateWebClient @Inject constructor() {
             val source = request.sourceLanguageCode
                 ?.let(::normalizeTranslationLanguageCode)
                 ?: AUTO_TRANSLATION_LANGUAGE
-            val target = normalizeTranslationLanguageCode(request.targetLanguageCode)
+            val target = resolveTranslationLanguageCode(request.targetLanguageCode)
                 ?: throw TranslationException("Unsupported target language.")
 
-            val connection = openConnection(
-                sourceLanguageCode = source,
-                targetLanguageCode = target,
-                text = request.text
-            )
+            if (Log.isLoggable(BOOK_TRANSLATION_LOG, Log.VERBOSE)) {
+                Log.v(
+                    BOOK_TRANSLATION_LOG,
+                    "Google Translate request started: source=$source target=$target " +
+                            "chars=${request.text.length}"
+                )
+            }
+            var connection: HttpURLConnection? = null
 
             try {
-                val responseCode = connection.responseCode
-                val responseBody = connection.readBody(responseCode)
+                val activeConnection = openConnection(
+                    sourceLanguageCode = source,
+                    targetLanguageCode = target,
+                    text = request.text
+                ).also { connection = it }
+                val responseCode = activeConnection.responseCode
+                val responseBody = activeConnection.readBody(responseCode)
+                if (Log.isLoggable(BOOK_TRANSLATION_LOG, Log.VERBOSE)) {
+                    Log.v(
+                        BOOK_TRANSLATION_LOG,
+                        "Google Translate response: source=$source target=$target " +
+                                "code=$responseCode bodyChars=${responseBody.length}"
+                    )
+                }
                 if (responseCode !in 200..299) {
-                    throw TranslationException("Google Translate request failed.")
+                    throw googleTranslateException(responseCode)
                 }
 
                 parseTranslationResponse(
@@ -69,11 +88,21 @@ class GoogleTranslateWebClient @Inject constructor() {
                     targetLanguageCode = target
                 )
             } catch (exception: TranslationException) {
+                Log.e(
+                    BOOK_TRANSLATION_LOG,
+                    "Google Translate request failed: source=$source target=$target",
+                    exception
+                )
                 throw exception
             } catch (exception: Exception) {
+                Log.e(
+                    BOOK_TRANSLATION_LOG,
+                    "Google Translate request crashed: source=$source target=$target",
+                    exception
+                )
                 throw TranslationException("Could not translate text.", exception)
             } finally {
-                connection.disconnect()
+                connection?.disconnect()
             }
         }
 
@@ -109,6 +138,20 @@ class GoogleTranslateWebClient @Inject constructor() {
             BufferedReader(InputStreamReader(input)).use { it.readText() }
         }.orEmpty()
     }
+
+    private fun googleTranslateException(responseCode: Int): TranslationException =
+        when (responseCode) {
+            HttpURLConnection.HTTP_UNAVAILABLE,
+            HTTP_TOO_MANY_REQUESTS -> TranslationRateLimitedException(
+                "Google Translate rate limit reached. Try again later, or switch to ML Kit offline translation."
+            )
+
+            HttpURLConnection.HTTP_FORBIDDEN -> TranslationRateLimitedException(
+                "Google Translate blocked this request. Try again later, or switch to ML Kit offline translation."
+            )
+
+            else -> TranslationException("Google Translate request failed with HTTP $responseCode.")
+        }
 
     private fun parseTranslationResponse(
         responseBody: String,
@@ -154,3 +197,5 @@ class GoogleTranslateWebClient @Inject constructor() {
     private fun List<String>.randomItem(): String =
         this[Random.nextInt(size)]
 }
+
+private const val HTTP_TOO_MANY_REQUESTS = 429

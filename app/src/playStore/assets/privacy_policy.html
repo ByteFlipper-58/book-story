@@ -35,7 +35,7 @@
 <body>
     <h1>Privacy Policy</h1>
 
-    <p><em>Last updated: May&nbsp;2026</em></p>
+    <p><em>Last updated: June&nbsp;2026</em></p>
 
     <p>
         This Privacy Policy explains how <strong>EverBook</strong> (“the App”, “we”, “our”) handles your
@@ -118,27 +118,33 @@
         <li>Opening external links you tap (e.g. Help articles or project homepage)</li>
         <li>Downloading cover images through the built-in image loader (<code>coil-compose</code>)</li>
         <li>Downloading on-device translation language models through Google ML Kit if you use in-app offline translation</li>
+        <li>Translating selected text or full books with Google Translate online if you choose that translation provider</li>
         <li>Receiving push notifications via Firebase Cloud Messaging (if you allow them)</li>
         <li>Fetching Firebase Remote Config values</li>
         <li>Loading and measuring ads when advertising is enabled</li>
     </ul>
     <p>
-        In-app translation in the Google Play version uses Google ML Kit on-device translation.
-        Book text selected for translation is processed on your device and is not sent to our servers.
-        The App may download language models from Google before local translation can run. You can choose
-        whether these model downloads require Wi-Fi in Reader translation settings, and you can use an
-        external translator app instead.
+        In-app offline translation in the Google Play version uses Google ML Kit on-device translation.
+        Selected text and full-book text translated with ML Kit are processed on your device and are not sent
+        to our servers. The App may download language models from Google before local translation can run.
+        You can choose whether these model downloads require Wi-Fi in Reader translation settings.
+    </p>
+    <p>
+        If you choose Google Translate as the translation provider, the selected text or full-book text you
+        translate is sent to Google for online translation. Google handles that text in accordance with
+        Google's <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a>.
+        You can use ML Kit offline translation or an external translator app instead where available.
     </p>
 
     <h2>6. Permissions Explained</h2>
     <ul>
         <li><strong>Storage / File Access</strong> – to let you pick local ebook files and keep reading progress.</li>
         <li><strong>Post Notifications</strong> – optional; used for update reminders or FCM push messages.</li>
-        <li><strong>Internet</strong> – required by Firebase SDKs, ads, and to open external links you request.</li>
+        <li><strong>Internet</strong> – required by Firebase SDKs, ads, Google Translate requests you choose, and to open external links you request.</li>
     </ul>
 
     <h2>7. Third-Party Open-Source Libraries</h2>
-    <p>The App relies on the following open-source libraries, all of which run entirely on-device and never transmit your data to external servers:</p>
+    <p>The App relies on the following open-source libraries. These libraries work with local App data unless you request network content such as external links, cover images, model downloads, online translation, Firebase services, or ads:</p>
     <ul>
         <li><a href="https://developer.android.com/jetpack/compose" target="_blank">AndroidX Jetpack Compose &amp; Material&nbsp;3</a> — UI framework</li>
         <li><a href="https://developer.android.com/topic/libraries/architecture/room" target="_blank">Room</a> &amp; <a href="https://developer.android.com/topic/libraries/architecture/datastore" target="_blank">DataStore</a> — local storage</li>
@@ -151,7 +157,7 @@
         <li><a href="https://github.com/mikepenz/AboutLibraries" target="_blank">AboutLibraries</a></li>
         <li><a href="https://github.com/commonmark/commonmark-java" target="_blank">commonmark-java</a></li>
     </ul>
-    <p>All of these libraries operate exclusively on local data.</p>
+    <p>Online services such as Firebase, Google advertising services, ML Kit model hosting, and Google Translate are handled according to their own privacy terms when the related feature is used.</p>
 
     <h2>8. Data Retention &amp; Deletion</h2>
     <p>

@@ -30,6 +30,8 @@ import com.byteflipper.everbook.domain.library.book.BookWithCover
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.hasReadableReaderText
 import com.byteflipper.everbook.domain.repository.BookRepository
+import com.byteflipper.everbook.domain.repository.BookTranslationRepository
+import com.byteflipper.everbook.domain.repository.BookTranslationWorkScheduler
 import com.byteflipper.everbook.domain.repository.DataStoreRepository
 import com.byteflipper.everbook.domain.util.CoverImage
 import java.io.BufferedOutputStream
@@ -63,6 +65,8 @@ class BookRepositoryImpl @Inject constructor(
     private val fileParser: FileParser,
     private val textParser: TextParser,
     private val readerTextCache: ReaderTextCache,
+    private val bookTranslationRepository: BookTranslationRepository,
+    private val bookTranslationWorkScheduler: BookTranslationWorkScheduler,
     private val dataStoreRepository: DataStoreRepository,
     @ApplicationScope
     private val applicationScope: CoroutineScope
@@ -348,6 +352,10 @@ class BookRepositoryImpl @Inject constructor(
         for (b in books) {
             bookCategoryDao.deleteByBook(b.id)
             readerTextCache.delete(b.id)
+            bookTranslationRepository.getTranslations(b.id).forEach { translation ->
+                bookTranslationWorkScheduler.cancel(translation.id)
+            }
+            bookTranslationRepository.deleteTranslationsForBook(b.id)
 
             if (b.coverImage != null) {
                 try {

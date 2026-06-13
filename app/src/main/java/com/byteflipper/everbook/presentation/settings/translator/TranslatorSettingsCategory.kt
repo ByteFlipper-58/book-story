@@ -21,8 +21,7 @@ import com.byteflipper.everbook.presentation.settings.components.SettingsSubcate
 import com.byteflipper.everbook.presentation.settings.translator.components.TranslationOfflineModelsOption
 import com.byteflipper.everbook.presentation.settings.translator.components.TranslationProviderDescription
 import com.byteflipper.everbook.presentation.settings.translator.components.TranslationProviderOption
-import com.byteflipper.everbook.presentation.settings.translator.components.TranslationSourceLanguageOption
-import com.byteflipper.everbook.presentation.settings.translator.components.TranslationTargetLanguageOption
+import com.byteflipper.everbook.presentation.settings.translator.components.TranslationLanguageSelectorOption
 import com.byteflipper.everbook.presentation.settings.translator.components.TranslationWifiOnlyOption
 
 fun LazyListScope.TranslatorSettingsCategory(
@@ -33,7 +32,6 @@ fun LazyListScope.TranslatorSettingsCategory(
     val mlKitSettingsVisible = providerMode == TranslationProviderMode.IN_APP &&
             TranslationFeature.IN_APP_TRANSLATION_ENABLED
     val languageSettingsVisible = providerMode != TranslationProviderMode.EXTERNAL
-    val sourceLanguageVisible = providerMode == TranslationProviderMode.IN_APP
 
     SettingsSubcategory(
         titleColor = titleColor,
@@ -56,13 +54,8 @@ fun LazyListScope.TranslatorSettingsCategory(
             showTitle = true,
             showDivider = mlKitSettingsVisible
         ) {
-            if (sourceLanguageVisible) {
-                item(key = "translation_source_language") {
-                    TranslationSourceLanguageOption()
-                }
-            }
-            item(key = "translation_target_language") {
-                TranslationTargetLanguageOption()
+            item(key = "translation_language_selector") {
+                TranslationLanguageSelectorOption()
             }
         }
     }

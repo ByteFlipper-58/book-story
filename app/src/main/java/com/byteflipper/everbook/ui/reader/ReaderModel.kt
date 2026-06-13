@@ -22,6 +22,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
@@ -44,19 +45,34 @@ import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
 import com.byteflipper.everbook.domain.translation.AUTO_TRANSLATION_LANGUAGE
-import com.byteflipper.everbook.domain.translation.DEFAULT_TRANSLATION_TARGET_LANGUAGE
+import com.byteflipper.everbook.domain.translation.BookTranslation
+import com.byteflipper.everbook.domain.translation.BookTranslationStatus
+import com.byteflipper.everbook.domain.translation.FALLBACK_TRANSLATION_TARGET_LANGUAGE
+import com.byteflipper.everbook.domain.translation.TranslationFeature
 import com.byteflipper.everbook.domain.translation.TranslationProviderMode
 import com.byteflipper.everbook.domain.translation.TranslationRequest
 import com.byteflipper.everbook.domain.translation.TranslationResult
 import com.byteflipper.everbook.domain.translation.normalizeTranslationLanguageCode
+import com.byteflipper.everbook.domain.translation.resolveTranslationLanguageCode
 import com.byteflipper.everbook.domain.translation.toTranslationProviderMode
 import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.domain.use_case.book.GetBookById
 import com.byteflipper.everbook.domain.use_case.book.GetText
 import com.byteflipper.everbook.domain.use_case.book.UpdateBook
+import com.byteflipper.everbook.domain.use_case.data_store.GetDatastore
+import com.byteflipper.everbook.domain.use_case.data_store.SetDatastore
 import com.byteflipper.everbook.domain.use_case.history.GetLatestHistory
+import com.byteflipper.everbook.domain.use_case.translation.CancelBookTranslation
+import com.byteflipper.everbook.domain.use_case.translation.EnqueueBookTranslation
+import com.byteflipper.everbook.domain.use_case.translation.GetBookTranslations
 import com.byteflipper.everbook.domain.use_case.translation.GetTranslationCapability
+import com.byteflipper.everbook.domain.use_case.translation.ObserveBookTranslations
+import com.byteflipper.everbook.domain.use_case.translation.ObserveTranslatedBookText
+import com.byteflipper.everbook.domain.use_case.translation.PauseBookTranslation
+import com.byteflipper.everbook.domain.use_case.translation.RetryBookTranslation
+import com.byteflipper.everbook.domain.use_case.translation.ResumeBookTranslation
 import com.byteflipper.everbook.domain.use_case.translation.TranslateText
+import com.byteflipper.everbook.presentation.core.constants.DataStoreConstants
 import com.byteflipper.everbook.presentation.core.util.coerceAndPreventNaN
 import com.byteflipper.everbook.presentation.core.util.launchActivity
 import com.byteflipper.everbook.presentation.core.util.setBrightness
@@ -67,8 +83,14 @@ import javax.inject.Inject
 import kotlin.math.roundToInt
 
 private const val READER = "READER, MODEL"
+private const val BOOK_TRANSLATION_LOG = "BookTranslation"
 private const val READER_UI_MIN_UPDATE_ITEMS = 640
 private const val READER_UI_MIN_UPDATE_MS = 300L
+
+private data class ReaderTextScrollAnchor(
+    val textIndex: Int,
+    val offset: Int
+)
 
 @HiltViewModel
 class ReaderModel @Inject constructor(
@@ -76,8 +98,18 @@ class ReaderModel @Inject constructor(
     private val updateBook: UpdateBook,
     private val getText: GetText,
     private val getLatestHistory: GetLatestHistory,
+    private val getDatastore: GetDatastore,
+    private val setDatastore: SetDatastore,
     private val getTranslationCapability: GetTranslationCapability,
-    private val translateText: TranslateText
+    private val translateText: TranslateText,
+    private val getBookTranslations: GetBookTranslations,
+    private val observeBookTranslations: ObserveBookTranslations,
+    private val observeTranslatedBookText: ObserveTranslatedBookText,
+    private val enqueueBookTranslationUseCase: EnqueueBookTranslation,
+    private val retryBookTranslation: RetryBookTranslation,
+    private val pauseBookTranslation: PauseBookTranslation,
+    private val resumeBookTranslation: ResumeBookTranslation,
+    private val cancelBookTranslation: CancelBookTranslation
 ) : ViewModel() {
 
     private val mutex = Mutex()
@@ -91,6 +123,8 @@ class ReaderModel @Inject constructor(
     private var scrollJob: Job? = null
     private var progressJob: Job? = null
     private var loadJob: Job? = null
+    private var bookTranslationsObserveJob: Job? = null
+    private var activeBookTranslationTextJob: Job? = null
     private var displayIndexToTextIndex: (Int) -> Int = { it }
     private var textIndexToDisplayIndex: (Int) -> Int = { it }
     private val translationCache = mutableMapOf<String, TranslationResult>()
@@ -100,6 +134,8 @@ class ReaderModel @Inject constructor(
             when (event) {
                 is ReaderEvent.OnLoadText -> {
                     loadJob?.cancel()
+                    bookTranslationsObserveJob?.cancel()
+                    activeBookTranslationTextJob?.cancel()
                     loadJob = launch(Dispatchers.IO) {
                         val accumulated = mutableListOf<ReaderText>()
                         val chapterIndexes = mutableListOf<Int>()
@@ -197,12 +233,16 @@ class ReaderModel @Inject constructor(
                                     book = it.book.copy(
                                         lastOpened = lastOpened
                                     ),
+                                    originalText = snapshot,
                                     text = snapshot,
                                     chapters = chapters,
                                     chapterIndexes = chapterIndexes.toList(),
                                     isLoading = false,
                                     isParsing = true,
-                                    errorMessage = null
+                                    errorMessage = null,
+                                    bookTranslation = it.bookTranslation.withBookTextReadiness(
+                                        isReady = false
+                                    )
                                 )
                             }
                         }
@@ -237,7 +277,10 @@ class ReaderModel @Inject constructor(
                                         isLoading = false,
                                         isParsing = false,
                                         errorMessage = null,
-                                        pdfTextModeUnavailable = true
+                                        pdfTextModeUnavailable = true,
+                                        bookTranslation = it.bookTranslation.withBookTextReadiness(
+                                            isReady = false
+                                        )
                                     )
                                 }
                                 updateBook.execute(_state.value.book)
@@ -253,7 +296,10 @@ class ReaderModel @Inject constructor(
                                         null
                                     } else {
                                         UIText.StringResource(R.string.error_could_not_get_text)
-                                    }
+                                    },
+                                    bookTranslation = it.bookTranslation.withBookTextReadiness(
+                                        isReady = false
+                                    )
                                 )
                             }
                             systemBarsVisibility(show = true, activity = event.activity)
@@ -281,6 +327,7 @@ class ReaderModel @Inject constructor(
 
                         _state.update {
                             it.copy(
+                                originalText = text,
                                 text = text,
                                 chapters = chapterIndexes.mapNotNull { index ->
                                     text.getOrNull(index) as? Chapter
@@ -292,12 +339,17 @@ class ReaderModel @Inject constructor(
                                 ),
                                 isLoading = false,
                                 isParsing = false,
-                                errorMessage = null
+                                errorMessage = null,
+                                bookTranslation = it.bookTranslation.withBookTextReadiness(
+                                    isReady = text.isNotEmpty()
+                                )
                             )
                         }
 
                         yield()
 
+                        refreshBookTranslations(_state.value.book.id)
+                        observeBookTranslations(_state.value.book.id)
                         updateBook.execute(_state.value.book)
 
                         LibraryScreen.refreshListChannel.trySend(0)
@@ -344,7 +396,10 @@ class ReaderModel @Inject constructor(
                             it.copy(
                                 book = it.book.copy(pdfReadingMode = event.mode),
                                 isLoading = event.mode == PdfReadingMode.PARSED_TEXT,
-                                errorMessage = null
+                                errorMessage = null,
+                                bookTranslation = it.bookTranslation.withBookTextReadiness(
+                                    isReady = false
+                                )
                             )
                         }
                         updateBook.execute(_state.value.book)
@@ -360,6 +415,22 @@ class ReaderModel @Inject constructor(
                             bottomSheet = ReaderScreen.PDF_READING_MODE_BOTTOM_SHEET,
                             drawer = null
                         )
+                    }
+                }
+
+                ReaderEvent.OnShowBookTranslationBottomSheet -> {
+                    launch(Dispatchers.IO) {
+                        Log.i(
+                            BOOK_TRANSLATION_LOG,
+                            "Opening book translation sheet: bookId=${_state.value.book.id}"
+                        )
+                        refreshBookTranslations(_state.value.book.id)
+                        _state.update {
+                            it.copy(
+                                bottomSheet = ReaderScreen.BOOK_TRANSLATION_BOTTOM_SHEET,
+                                drawer = null
+                            )
+                        }
                     }
                 }
 
@@ -537,6 +608,284 @@ class ReaderModel @Inject constructor(
                     }
                 }
 
+                is ReaderEvent.OnChangeBookTranslationProviderMode -> {
+                    activeBookTranslationTextJob?.cancel()
+                    val providerMode = TranslationFeature.coerceFullBookProviderMode(
+                        event.providerMode.toTranslationProviderMode()
+                    )
+                    Log.d(
+                        BOOK_TRANSLATION_LOG,
+                        "Provider changed: bookId=${_state.value.book.id} provider=$providerMode"
+                    )
+                    _state.update {
+                        it.copyWithOriginalBookTextIfNeeded(
+                            bookTranslation = it.bookTranslation.copy(
+                                providerMode = providerMode,
+                                currentTranslation = null,
+                                displayMode = ReaderBookTranslationDisplayMode.ORIGINAL,
+                                activeTranslationId = null,
+                                isApplyingTranslation = false,
+                                errorMessage = null
+                            )
+                        )
+                    }
+                    refreshBookTranslations(_state.value.book.id)
+                }
+
+                is ReaderEvent.OnChangeBookTranslationSourceLanguage -> {
+                    activeBookTranslationTextJob?.cancel()
+                    Log.d(
+                        BOOK_TRANSLATION_LOG,
+                        "Source language changed: bookId=${_state.value.book.id} " +
+                                "source=${event.languageCode}"
+                    )
+                    _state.update {
+                        it.copyWithOriginalBookTextIfNeeded(
+                            bookTranslation = it.bookTranslation.copy(
+                                sourceLanguageCode = event.languageCode,
+                                currentTranslation = null,
+                                displayMode = ReaderBookTranslationDisplayMode.ORIGINAL,
+                                activeTranslationId = null,
+                                isApplyingTranslation = false,
+                                errorMessage = null
+                            )
+                        )
+                    }
+                    refreshBookTranslations(_state.value.book.id)
+                }
+
+                is ReaderEvent.OnChangeBookTranslationTargetLanguage -> {
+                    activeBookTranslationTextJob?.cancel()
+                    Log.d(
+                        BOOK_TRANSLATION_LOG,
+                        "Target language changed: bookId=${_state.value.book.id} " +
+                                "target=${event.languageCode}"
+                    )
+                    _state.update {
+                        it.copyWithOriginalBookTextIfNeeded(
+                            bookTranslation = it.bookTranslation.copy(
+                                targetLanguageCode = event.languageCode,
+                                currentTranslation = null,
+                                displayMode = ReaderBookTranslationDisplayMode.ORIGINAL,
+                                activeTranslationId = null,
+                                isApplyingTranslation = false,
+                                errorMessage = null
+                            )
+                        )
+                    }
+                    refreshBookTranslations(_state.value.book.id)
+                }
+
+                ReaderEvent.OnSwapBookTranslationLanguages -> {
+                    activeBookTranslationTextJob?.cancel()
+                    val bookTranslation = _state.value.bookTranslation
+                    if (bookTranslation.sourceLanguageCode == AUTO_TRANSLATION_LANGUAGE) {
+                        return@launch
+                    }
+                    Log.d(
+                        BOOK_TRANSLATION_LOG,
+                        "Languages swapped: bookId=${_state.value.book.id} " +
+                                "source=${bookTranslation.targetLanguageCode} " +
+                                "target=${bookTranslation.sourceLanguageCode}"
+                    )
+                    _state.update {
+                        it.copyWithOriginalBookTextIfNeeded(
+                            bookTranslation = it.bookTranslation.copy(
+                                sourceLanguageCode = bookTranslation.targetLanguageCode,
+                                targetLanguageCode = bookTranslation.sourceLanguageCode,
+                                currentTranslation = null,
+                                displayMode = ReaderBookTranslationDisplayMode.ORIGINAL,
+                                activeTranslationId = null,
+                                isApplyingTranslation = false,
+                                errorMessage = null
+                            )
+                        )
+                    }
+                    refreshBookTranslations(_state.value.book.id)
+                }
+
+                is ReaderEvent.OnChangeBookTranslationWifiOnly -> {
+                    _state.update {
+                        it.copy(
+                            bookTranslation = it.bookTranslation.copy(
+                                requireWifi = event.requireWifi,
+                                errorMessage = null
+                            )
+                        )
+                    }
+                }
+
+                ReaderEvent.OnStartBookTranslation -> {
+                    Log.i(
+                        BOOK_TRANSLATION_LOG,
+                        "Start requested from reader: bookId=${_state.value.book.id}"
+                    )
+                    enqueueBookTranslation()
+                }
+
+                ReaderEvent.OnShowTranslatedBook -> {
+                    launch(Dispatchers.IO) {
+                        showTranslatedBook()
+                    }
+                }
+
+                ReaderEvent.OnShowOriginalBook -> {
+                    launch(Dispatchers.IO) {
+                        showOriginalBook()
+                    }
+                }
+
+                ReaderEvent.OnConfirmBookTranslationGoogleWarning -> {
+                    launch(Dispatchers.IO) {
+                        Log.i(
+                            BOOK_TRANSLATION_LOG,
+                            "Google warning accepted: bookId=${_state.value.book.id}"
+                        )
+                        setDatastore.execute(
+                            DataStoreConstants.BOOK_TRANSLATION_GOOGLE_WARNING_ACCEPTED,
+                            true
+                        )
+                        _state.update {
+                            it.copy(
+                                bookTranslation = it.bookTranslation.copy(
+                                    showGoogleWarning = false
+                                )
+                            )
+                        }
+                        enqueueBookTranslation(skipGoogleWarning = true)
+                    }
+                }
+
+                ReaderEvent.OnDismissBookTranslationGoogleWarning -> {
+                    Log.d(
+                        BOOK_TRANSLATION_LOG,
+                        "Google warning dismissed: bookId=${_state.value.book.id}"
+                    )
+                    _state.update {
+                        it.copy(
+                            bookTranslation = it.bookTranslation.copy(showGoogleWarning = false)
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnCancelBookTranslation -> {
+                    launch(Dispatchers.IO) {
+                        Log.i(
+                            BOOK_TRANSLATION_LOG,
+                            "Cancelling translation: translationId=${event.translationId}"
+                        )
+                        cancelBookTranslation.execute(event.translationId)
+                        refreshBookTranslations(_state.value.book.id)
+                    }
+                }
+
+                is ReaderEvent.OnPauseBookTranslation -> {
+                    launch(Dispatchers.IO) {
+                        Log.i(
+                            BOOK_TRANSLATION_LOG,
+                            "Pausing translation: translationId=${event.translationId}"
+                        )
+                        runCatching {
+                            pauseBookTranslation.execute(event.translationId)
+                        }.onFailure { throwable ->
+                            Log.e(
+                                BOOK_TRANSLATION_LOG,
+                                "Pause failed: translationId=${event.translationId}",
+                                throwable
+                            )
+                            _state.update {
+                                it.copy(
+                                    bookTranslation = it.bookTranslation.copy(
+                                        errorMessage = throwable.message
+                                            ?: "Could not pause book translation."
+                                    )
+                                )
+                            }
+                        }
+                        refreshBookTranslations(_state.value.book.id)
+                    }
+                }
+
+                is ReaderEvent.OnResumeBookTranslation -> {
+                    launch(Dispatchers.IO) {
+                        Log.i(
+                            BOOK_TRANSLATION_LOG,
+                            "Resuming translation: translationId=${event.translationId}"
+                        )
+                        runCatching {
+                            resumeBookTranslation.execute(event.translationId)
+                        }.onSuccess { translation ->
+                            refreshBookTranslations(_state.value.book.id)
+                            showTranslatedBook(
+                                translationOverride = translation,
+                                allowPartial = true
+                            )
+                        }.onFailure { throwable ->
+                            Log.e(
+                                BOOK_TRANSLATION_LOG,
+                                "Resume failed: translationId=${event.translationId}",
+                                throwable
+                            )
+                            _state.update {
+                                it.copy(
+                                    bookTranslation = it.bookTranslation.copy(
+                                        errorMessage = throwable.message
+                                            ?: "Could not resume book translation."
+                                    )
+                                )
+                            }
+                            refreshBookTranslations(_state.value.book.id)
+                        }
+                    }
+                }
+
+                is ReaderEvent.OnRetryBookTranslation -> {
+                    launch(Dispatchers.IO) {
+                        Log.i(
+                            BOOK_TRANSLATION_LOG,
+                            "Retry requested: translationId=${event.translationId}"
+                        )
+                        if (
+                            _state.value.bookTranslation.currentTranslation?.id == event.translationId &&
+                            _state.value.bookTranslation.currentTranslation?.status == BookTranslationStatus.STALE
+                        ) {
+                            Log.i(
+                                BOOK_TRANSLATION_LOG,
+                                "Retry starts fresh enqueue for stale translation: " +
+                                        "translationId=${event.translationId}"
+                            )
+                            enqueueBookTranslation(skipGoogleWarning = true)
+                            return@launch
+                        }
+                        runCatching {
+                            retryBookTranslation.execute(event.translationId)
+                        }.onFailure { throwable ->
+                            Log.e(
+                                BOOK_TRANSLATION_LOG,
+                                "Retry failed: translationId=${event.translationId}",
+                                throwable
+                            )
+                            _state.update {
+                                it.copy(
+                                    bookTranslation = it.bookTranslation.copy(
+                                        errorMessage = throwable.message
+                                            ?: "Could not restart book translation."
+                                    )
+                                )
+                            }
+                        }
+                        refreshBookTranslations(_state.value.book.id)
+                    }
+                }
+
+                ReaderEvent.OnDismissBookTranslationError -> {
+                    _state.update {
+                        it.copy(
+                            bookTranslation = it.bookTranslation.copy(errorMessage = null)
+                        )
+                    }
+                }
+
                 is ReaderEvent.OnOpenShareApp -> {
                     launch {
                         val shareIntent = Intent()
@@ -680,6 +1029,20 @@ class ReaderModel @Inject constructor(
         navigateBack: () -> Unit
     ) {
         viewModelScope.launch(Dispatchers.IO) {
+            val currentState = _state.value
+            if (
+                currentState.book.id == bookId &&
+                (
+                        currentState.isLoading ||
+                                currentState.isParsing ||
+                                currentState.originalText.isNotEmpty() ||
+                                currentState.text.isNotEmpty() ||
+                                currentState.book.filePath.endsWith(".pdf", ignoreCase = true)
+                        )
+            ) {
+                return@launch
+            }
+
             val book = getBookById.execute(bookId)
 
             if (book == null) {
@@ -694,7 +1057,12 @@ class ReaderModel @Inject constructor(
             eventJob = SupervisorJob()
 
             _state.update {
-                ReaderState(book = book)
+                ReaderState(
+                    book = book,
+                    bookTranslation = ReaderBookTranslationState(
+                        isBookTextReadyForTranslation = false
+                    )
+                )
             }
 
             if (
@@ -704,7 +1072,10 @@ class ReaderModel @Inject constructor(
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        showMenu = false
+                        showMenu = false,
+                        bookTranslation = it.bookTranslation.withBookTextReadiness(
+                            isReady = false
+                        )
                     )
                 }
                 systemBarsVisibility(
@@ -870,6 +1241,8 @@ class ReaderModel @Inject constructor(
             eventJob.cancel()
             progressJob?.cancel()
             loadJob?.cancel()
+            bookTranslationsObserveJob?.cancel()
+            activeBookTranslationTextJob?.cancel()
             translationCache.clear()
             eventJob = SupervisorJob()
 
@@ -882,6 +1255,494 @@ class ReaderModel @Inject constructor(
         mutex.withLock {
             yield()
             this.value = function(this.value)
+        }
+    }
+
+    private suspend fun showTranslatedBook(
+        translationOverride: BookTranslation? = null,
+        allowPartial: Boolean = false
+    ) {
+        val state = _state.value
+        val translation = translationOverride?.takeIf { allowPartial || it.canRead }
+            ?: state.bookTranslation.readableTranslation
+            ?: state.bookTranslation.runningTranslation?.takeIf {
+                allowPartial
+            }
+        if (translation == null) {
+            Log.w(
+                BOOK_TRANSLATION_LOG,
+                "Show translated book ignored: no readable translation bookId=${state.book.id}"
+            )
+            _state.update {
+                it.copy(
+                    bookTranslation = it.bookTranslation.copy(
+                        errorMessage = "No translated text is available yet."
+                    )
+                )
+            }
+            return
+        }
+
+        if (
+            state.bookTranslation.displayMode == ReaderBookTranslationDisplayMode.TRANSLATED &&
+            state.bookTranslation.activeTranslationId == translation.id
+        ) {
+            Log.i(
+                BOOK_TRANSLATION_LOG,
+                "Show translated book ignored: already visible translationId=${translation.id}"
+            )
+            return
+        }
+
+        val originalText = state.originalText.takeIf { it.isNotEmpty() } ?: state.text
+        if (originalText.isEmpty()) {
+            Log.w(
+                BOOK_TRANSLATION_LOG,
+                "Show translated book ignored: original text is empty bookId=${state.book.id}"
+            )
+            _state.update {
+                it.copy(
+                    bookTranslation = it.bookTranslation.copy(
+                        errorMessage = "This book has no parsed text to show."
+                    )
+                )
+            }
+            return
+        }
+
+        val anchor = currentVisibleReaderTextAnchor()
+        Log.i(
+            BOOK_TRANSLATION_LOG,
+            "Show translated book requested: translationId=${translation.id} " +
+                    "bookId=${translation.bookId} textItems=${originalText.size} " +
+                    "status=${translation.status} completed=${translation.completedUnits}/${translation.totalUnits}"
+        )
+        _state.update {
+            it.copy(
+                bookTranslation = it.bookTranslation.copy(
+                    displayMode = ReaderBookTranslationDisplayMode.TRANSLATED,
+                    activeTranslationId = translation.id,
+                    isApplyingTranslation = translation.canRead,
+                    errorMessage = null
+                )
+            )
+        }
+        observeActiveBookTranslationText(
+            translationId = translation.id,
+            originalText = originalText
+        )
+        restoreReaderTextAnchor(anchor, originalText.lastIndex)
+    }
+
+    @OptIn(FlowPreview::class)
+    private fun observeActiveBookTranslationText(
+        translationId: Long,
+        originalText: List<ReaderText>
+    ) {
+        activeBookTranslationTextJob?.cancel()
+        activeBookTranslationTextJob = viewModelScope.launch(eventJob + Dispatchers.IO) {
+            observeTranslatedBookText.execute(
+                translationId = translationId,
+                originalText = originalText
+            )
+                .debounce(150)
+                .collectLatest { snapshot ->
+                    val currentState = _state.value
+                    if (
+                        currentState.bookTranslation.displayMode !=
+                        ReaderBookTranslationDisplayMode.TRANSLATED ||
+                        currentState.bookTranslation.activeTranslationId != translationId
+                    ) {
+                        return@collectLatest
+                    }
+
+                    val anchor = currentVisibleReaderTextAnchor()
+                    val translatedText = snapshot.text
+                    val (chapters, chapterIndexes) = translatedText.chapterData()
+                    _state.update { state ->
+                        if (
+                            state.bookTranslation.displayMode !=
+                            ReaderBookTranslationDisplayMode.TRANSLATED ||
+                            state.bookTranslation.activeTranslationId != translationId
+                        ) {
+                            return@update state
+                        }
+
+                        state.copy(
+                            text = translatedText,
+                            chapters = chapters,
+                            chapterIndexes = chapterIndexes,
+                            bookTranslation = state.bookTranslation.copy(
+                                isApplyingTranslation = false,
+                                errorMessage = null
+                            )
+                        )
+                    }
+                    restoreReaderTextAnchor(anchor, translatedText.lastIndex)
+
+                    if (Log.isLoggable(BOOK_TRANSLATION_LOG, Log.VERBOSE)) {
+                        Log.v(
+                            BOOK_TRANSLATION_LOG,
+                            "Live translated text applied: translationId=$translationId " +
+                                    "entries=${snapshot.translatedEntries} items=${translatedText.size}"
+                        )
+                    }
+                }
+        }
+    }
+
+    private suspend fun showOriginalBook() {
+        val state = _state.value
+        val activeTranslationId = state.bookTranslation.activeTranslationId
+        val anchor = currentVisibleReaderTextAnchor()
+        activeBookTranslationTextJob?.cancel()
+        Log.i(
+            BOOK_TRANSLATION_LOG,
+            "Show original book requested: bookId=${state.book.id} " +
+                    "activeTranslationId=$activeTranslationId"
+        )
+        _state.update {
+            it.copyWithOriginalBookTextIfNeeded(
+                bookTranslation = it.bookTranslation.copy(
+                    displayMode = ReaderBookTranslationDisplayMode.ORIGINAL,
+                    activeTranslationId = null,
+                    isApplyingTranslation = false,
+                    errorMessage = null
+                ),
+                force = true
+            )
+        }
+        restoreReaderTextAnchor(anchor, _state.value.text.lastIndex)
+    }
+
+    private suspend fun currentVisibleReaderTextAnchor(): ReaderTextScrollAnchor =
+        withContext(Dispatchers.Main) {
+            val state = _state.value
+            ReaderTextScrollAnchor(
+                textIndex = displayIndexToTextIndex(state.listState.firstVisibleItemIndex)
+                    .coerceAtLeast(0),
+                offset = state.listState.firstVisibleItemScrollOffset
+            )
+        }
+
+    private suspend fun restoreReaderTextAnchor(
+        anchor: ReaderTextScrollAnchor,
+        textLastIndex: Int
+    ) {
+        if (textLastIndex < 0) return
+
+        val textIndex = anchor.textIndex.coerceIn(0, textLastIndex)
+        withContext(Dispatchers.Main) {
+            _state.value.listState.requestScrollToItem(
+                textIndexToDisplayIndex(textIndex),
+                anchor.offset
+            )
+        }
+        updateChapter(textIndex)
+    }
+
+    private fun ReaderState.copyWithOriginalBookTextIfNeeded(
+        bookTranslation: ReaderBookTranslationState,
+        force: Boolean = false
+    ): ReaderState {
+        if (!force && !this.bookTranslation.isTranslatedBookVisible) {
+            return copy(bookTranslation = bookTranslation)
+        }
+
+        val original = originalText.takeIf { it.isNotEmpty() } ?: text
+        val (chapters, chapterIndexes) = original.chapterData()
+        return copy(
+            text = original,
+            chapters = chapters,
+            chapterIndexes = chapterIndexes,
+            bookTranslation = bookTranslation
+        )
+    }
+
+    private fun List<ReaderText>.chapterData(): Pair<List<Chapter>, List<Int>> {
+        val chapterIndexes = mutableListOf<Int>()
+        val chapters = mutableListOf<Chapter>()
+        forEachIndexed { index, readerText ->
+            if (readerText is Chapter) {
+                chapterIndexes += index
+                chapters += readerText
+            }
+        }
+        return chapters to chapterIndexes
+    }
+
+    private suspend fun refreshBookTranslations(bookId: Int) {
+        if (bookId == -1) return
+
+        val state = _state.value
+        val originalText = state.stableOriginalTextOrEmpty()
+        if (Log.isLoggable(BOOK_TRANSLATION_LOG, Log.VERBOSE)) {
+            Log.v(
+                BOOK_TRANSLATION_LOG,
+                "Refreshing translations: bookId=$bookId textItems=${originalText.size} " +
+                        "loading=${state.isLoading} parsing=${state.isParsing}"
+            )
+        }
+        val translations = getBookTranslations.execute(
+            bookId = bookId,
+            originalText = originalText
+        )
+
+        applyCurrentBookTranslation(translations)
+    }
+
+    private fun observeBookTranslations(bookId: Int) {
+        if (bookId == -1) return
+
+        if (Log.isLoggable(BOOK_TRANSLATION_LOG, Log.VERBOSE)) {
+            Log.v(BOOK_TRANSLATION_LOG, "Observing translations: bookId=$bookId")
+        }
+        bookTranslationsObserveJob?.cancel()
+        bookTranslationsObserveJob = viewModelScope.launch(eventJob + Dispatchers.IO) {
+            val state = _state.value
+            val originalText = state.stableOriginalTextOrEmpty()
+            observeBookTranslations.execute(
+                bookId = bookId,
+                originalText = originalText
+            ).collectLatest { translations ->
+                if (Log.isLoggable(BOOK_TRANSLATION_LOG, Log.VERBOSE)) {
+                    Log.v(
+                        BOOK_TRANSLATION_LOG,
+                        "Translations updated: bookId=$bookId count=${translations.size} " +
+                                "statuses=${translations.joinToString { "${it.id}:${it.status}" }}"
+                    )
+                }
+                applyCurrentBookTranslation(translations)
+            }
+        }
+    }
+
+    private fun ReaderState.stableOriginalTextOrEmpty(): List<ReaderText> {
+        if (isLoading || isParsing) return emptyList()
+        return originalText.takeIf { it.isNotEmpty() } ?: text
+    }
+
+    private fun ReaderState.isBookTextReadyForTranslation(): Boolean =
+        book.id != -1 &&
+                !isLoading &&
+                !isParsing &&
+                (originalText.isNotEmpty() || text.isNotEmpty())
+
+    private fun ReaderBookTranslationState.withBookTextReadiness(
+        isReady: Boolean
+    ): ReaderBookTranslationState =
+        copy(
+            isBookTextReadyForTranslation = isReady,
+            errorMessage = if (isReady) errorMessage else null
+        )
+
+    private suspend fun applyCurrentBookTranslation(translations: List<BookTranslation>) {
+        _state.update { state ->
+            val providerMode = state.bookTranslation.providerMode
+            val sourceLanguageCode = normalizeTranslationLanguageCode(
+                state.bookTranslation.sourceLanguageCode
+            )?.takeIf { state.bookTranslation.sourceLanguageCode != AUTO_TRANSLATION_LANGUAGE }
+            val targetLanguageCode = resolveTranslationLanguageCode(
+                state.bookTranslation.targetLanguageCode
+            ) ?: FALLBACK_TRANSLATION_TARGET_LANGUAGE
+            val matchingTranslations = translations.filter { translation ->
+                translation.providerMode == providerMode &&
+                        translation.sourceLanguageCode == sourceLanguageCode &&
+                        translation.targetLanguageCode == targetLanguageCode
+            }
+            val currentTranslation = matchingTranslations.firstOrNull {
+                it.status != BookTranslationStatus.STALE
+            } ?: matchingTranslations.firstOrNull()
+            val activeTranslationId = state.bookTranslation.activeTranslationId
+            val activeTranslationStillMatches = activeTranslationId == null ||
+                    currentTranslation?.id == activeTranslationId
+            if (!activeTranslationStillMatches) {
+                activeBookTranslationTextJob?.cancel()
+                return@update state.copyWithOriginalBookTextIfNeeded(
+                    bookTranslation = state.bookTranslation.copy(
+                        currentTranslation = currentTranslation,
+                        displayMode = ReaderBookTranslationDisplayMode.ORIGINAL,
+                        activeTranslationId = null,
+                        isApplyingTranslation = false,
+                        errorMessage = state.bookTranslation.errorMessage
+                    ),
+                    force = true
+                )
+            }
+            state.copy(
+                bookTranslation = state.bookTranslation.copy(
+                    currentTranslation = currentTranslation,
+                    errorMessage = state.bookTranslation.errorMessage
+                )
+            )
+        }
+    }
+
+    private suspend fun rememberBookTranslationLanguages(
+        sourceLanguageCode: String,
+        targetLanguageCode: String
+    ) {
+        val sourceLanguages = (
+                listOf(sourceLanguageCode) +
+                        (
+                                getDatastore.execute(
+                                    DataStoreConstants.BOOK_TRANSLATION_RECENT_SOURCE_LANGUAGES
+                                ) ?: emptySet()
+                                )
+                )
+            .distinct()
+            .take(5)
+            .toSet()
+        val targetLanguages = (
+                listOf(targetLanguageCode) +
+                        (
+                                getDatastore.execute(
+                                    DataStoreConstants.BOOK_TRANSLATION_RECENT_TARGET_LANGUAGES
+                                ) ?: emptySet()
+                                )
+                )
+            .distinct()
+            .take(5)
+            .toSet()
+
+        setDatastore.execute(
+            DataStoreConstants.BOOK_TRANSLATION_RECENT_SOURCE_LANGUAGES,
+            sourceLanguages
+        )
+        setDatastore.execute(
+            DataStoreConstants.BOOK_TRANSLATION_RECENT_TARGET_LANGUAGES,
+            targetLanguages
+        )
+        _state.update {
+            it.copy(
+                bookTranslation = it.bookTranslation.copy(
+                    recentSourceLanguageCodes = sourceLanguages.toList(),
+                    recentTargetLanguageCodes = targetLanguages.toList()
+                )
+            )
+        }
+    }
+
+    private fun enqueueBookTranslation(skipGoogleWarning: Boolean = false) {
+        viewModelScope.launch(eventJob + Dispatchers.IO) {
+            val pendingState = _state.value
+            if (!pendingState.isBookTextReadyForTranslation()) {
+                Log.i(
+                    BOOK_TRANSLATION_LOG,
+                    "Enqueue ignored: book text is not ready " +
+                            "bookId=${pendingState.book.id} " +
+                            "textItems=${pendingState.originalText.size} " +
+                            "loading=${pendingState.isLoading} parsing=${pendingState.isParsing}"
+                )
+                _state.update {
+                    it.copy(
+                        bookTranslation = it.bookTranslation.withBookTextReadiness(
+                            isReady = false
+                        ).copy(
+                            isStarting = false,
+                            showGoogleWarning = false,
+                            errorMessage = null
+                        )
+                    )
+                }
+                return@launch
+            }
+
+            _state.update {
+                it.copy(
+                    bookTranslation = it.bookTranslation.copy(
+                        isStarting = true,
+                        showGoogleWarning = false,
+                        errorMessage = null
+                    )
+                )
+            }
+
+            val state = _state.value
+
+            val originalText = state.originalText.takeIf { it.isNotEmpty() } ?: state.text
+            Log.i(
+                BOOK_TRANSLATION_LOG,
+                "Preparing enqueue: bookId=${state.book.id} textItems=${originalText.size} " +
+                        "provider=${state.bookTranslation.providerMode} " +
+                        "source=${state.bookTranslation.sourceLanguageCode} " +
+                        "target=${state.bookTranslation.targetLanguageCode} " +
+                        "wifiOnly=${state.bookTranslation.requireWifi} " +
+                        "skipGoogleWarning=$skipGoogleWarning"
+            )
+
+            if (
+                state.bookTranslation.providerMode == TranslationProviderMode.GOOGLE_TRANSLATE &&
+                !skipGoogleWarning &&
+                getDatastore.execute(
+                    DataStoreConstants.BOOK_TRANSLATION_GOOGLE_WARNING_ACCEPTED
+                ) != true
+            ) {
+                Log.i(
+                    BOOK_TRANSLATION_LOG,
+                    "Google warning required before enqueue: bookId=${state.book.id}"
+                )
+                _state.update {
+                    it.copy(
+                        bookTranslation = it.bookTranslation.copy(
+                            isStarting = false,
+                            showGoogleWarning = true,
+                            errorMessage = null
+                        )
+                    )
+                }
+                return@launch
+            }
+
+            try {
+                val translation = enqueueBookTranslationUseCase.execute(
+                    bookId = state.book.id,
+                    text = originalText,
+                    sourceLanguageCode = state.bookTranslation.sourceLanguageCode,
+                    targetLanguageCode = state.bookTranslation.targetLanguageCode,
+                    providerMode = state.bookTranslation.providerMode,
+                    requireWifi = state.bookTranslation.requireWifi
+                )
+                Log.i(
+                    BOOK_TRANSLATION_LOG,
+                    "Enqueue returned: translationId=${translation.id} " +
+                            "status=${translation.status} busy=${translation.isBusy} " +
+                            "canRead=${translation.canRead}"
+                )
+                rememberBookTranslationLanguages(
+                    sourceLanguageCode = state.bookTranslation.sourceLanguageCode,
+                    targetLanguageCode = state.bookTranslation.targetLanguageCode
+                )
+                refreshBookTranslations(state.book.id)
+                if (translation.isBusy || translation.canRead) {
+                    showTranslatedBook(
+                        translationOverride = translation,
+                        allowPartial = true
+                    )
+                }
+                _state.update {
+                    it.copy(
+                        bookTranslation = it.bookTranslation.copy(isStarting = false)
+                    )
+                }
+            } catch (exception: CancellationException) {
+                throw exception
+            } catch (throwable: Throwable) {
+                Log.e(
+                    BOOK_TRANSLATION_LOG,
+                    "Enqueue failed: bookId=${state.book.id}",
+                    throwable
+                )
+                _state.update {
+                    it.copy(
+                        bookTranslation = it.bookTranslation.copy(
+                            isStarting = false,
+                            errorMessage = throwable.message ?: "Could not translate the book."
+                        )
+                    )
+                }
+                refreshBookTranslations(state.book.id)
+            }
         }
     }
 
@@ -944,16 +1805,12 @@ class ReaderModel @Inject constructor(
             if (normalizedText.isBlank()) return@launch
 
             val capability = getTranslationCapability.execute()
-            val source = if (providerMode == TranslationProviderMode.GOOGLE_TRANSLATE) {
-                AUTO_TRANSLATION_LANGUAGE
-            } else {
-                sourceLanguageCode
-                    .takeIf { it == AUTO_TRANSLATION_LANGUAGE }
-                    ?: normalizeTranslationLanguageCode(sourceLanguageCode)
-                    ?: AUTO_TRANSLATION_LANGUAGE
-            }
-            val target = normalizeTranslationLanguageCode(targetLanguageCode)
-                ?: DEFAULT_TRANSLATION_TARGET_LANGUAGE
+            val source = sourceLanguageCode
+                .takeIf { it == AUTO_TRANSLATION_LANGUAGE }
+                ?: normalizeTranslationLanguageCode(sourceLanguageCode)
+                ?: AUTO_TRANSLATION_LANGUAGE
+            val target = resolveTranslationLanguageCode(targetLanguageCode)
+                ?: FALLBACK_TRANSLATION_TARGET_LANGUAGE
 
             _state.update {
                 it.copy(

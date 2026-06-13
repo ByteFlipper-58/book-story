@@ -77,6 +77,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         const val SETTINGS_BOTTOM_SHEET = "settings_bottom_sheet"
         const val PDF_READING_MODE_BOTTOM_SHEET = "pdf_reading_mode_bottom_sheet"
         const val TRANSLATION_BOTTOM_SHEET = "translation_bottom_sheet"
+        const val BOOK_TRANSLATION_BOTTOM_SHEET = "book_translation_bottom_sheet"
     }
 
     @OptIn(ExperimentalLayoutApi::class)
@@ -595,14 +596,17 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         }
 
         DisposableEffect(Unit) {
+            val screen = this@ReaderScreen
             onDispose {
-                readerInlineContentModel.resetSession()
-                screenModel.resetScreen()
-                pdfScreenModel.resetScreen()
-                WindowCompat.getInsetsController(
-                    activity.window,
-                    activity.window.decorView
-                ).show(WindowInsetsCompat.Type.systemBars())
+                if (screen !in navigator.items.value) {
+                    readerInlineContentModel.resetSession()
+                    screenModel.resetScreen()
+                    pdfScreenModel.resetScreen()
+                    WindowCompat.getInsetsController(
+                        activity.window,
+                        activity.window.decorView
+                    ).show(WindowInsetsCompat.Type.systemBars())
+                }
             }
         }
 
@@ -664,6 +668,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 chapters = state.value.chapters,
                 bottomSheet = state.value.bottomSheet,
                 translation = state.value.translation,
+                bookTranslation = state.value.bookTranslation,
                 drawer = state.value.drawer,
                 listState = listState,
                 currentChapter = state.value.currentChapter,
@@ -741,8 +746,24 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 openDictionary = screenModel::onEvent,
                 scrollToChapter = screenModel::onEvent,
                 showPdfReadingModeBottomSheet = screenModel::onEvent,
+                showBookTranslationBottomSheet = screenModel::onEvent,
                 showSettingsBottomSheet = screenModel::onEvent,
                 dismissBottomSheet = screenModel::onEvent,
+                startBookTranslation = screenModel::onEvent,
+                showTranslatedBook = screenModel::onEvent,
+                showOriginalBook = screenModel::onEvent,
+                confirmBookTranslationGoogleWarning = screenModel::onEvent,
+                dismissBookTranslationGoogleWarning = screenModel::onEvent,
+                cancelBookTranslation = screenModel::onEvent,
+                pauseBookTranslation = screenModel::onEvent,
+                resumeBookTranslation = screenModel::onEvent,
+                retryBookTranslation = screenModel::onEvent,
+                changeBookTranslationProviderMode = screenModel::onEvent,
+                changeBookTranslationSourceLanguage = screenModel::onEvent,
+                changeBookTranslationTargetLanguage = screenModel::onEvent,
+                swapBookTranslationLanguages = screenModel::onEvent,
+                changeBookTranslationWifiOnly = screenModel::onEvent,
+                dismissBookTranslationError = screenModel::onEvent,
                 showChaptersDrawer = screenModel::onEvent,
                 dismissDrawer = screenModel::onEvent,
                 changePdfReadingMode = screenModel::onEvent,

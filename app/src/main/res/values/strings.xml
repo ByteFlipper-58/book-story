@@ -45,6 +45,7 @@
     <string name="error_no_translator">No translator app found.</string>
     <string name="error_no_dictionary">No dictionary app found.</string>
     <string name="error_no_browser">No browser app found.</string>
+    <string name="error_no_file_manager">No file manager app found.</string>
     <string name="error_no_share_app">No app to share found.</string>
     <string name="error_could_not_get_text">File is empty, missing, or inaccessible.\nVerify the file, scan settings or change the path, then try again.</string>
     <string name="error_could_not_open_pdf">PDF file is missing, inaccessible, encrypted, or unsupported.</string>

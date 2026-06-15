@@ -25,6 +25,9 @@ class PdfFileParser @Inject constructor(
 
     override suspend fun parse(cachedFile: CachedFile): BookWithCover? {
         return try {
+            val fileSize = cachedFile.size
+            if (fileSize > 100 * 1024 * 1024) return null
+
             PDFBoxResourceLoader.init(application)
             val document = PDDocument.load(cachedFile.openInputStream())
 
@@ -54,6 +57,9 @@ class PdfFileParser @Inject constructor(
                 coverImage = null
             )
         } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        } catch (e: OutOfMemoryError) {
             e.printStackTrace()
             null
         }

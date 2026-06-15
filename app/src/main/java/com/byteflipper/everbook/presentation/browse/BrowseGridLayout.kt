@@ -50,7 +50,7 @@ fun BrowseGridLayout(
 
             items(
                 group.files,
-                key = { it.data.path }
+                key = { "${group.header}:${it.data.path}" }
             ) { selectableFile ->
                 Box(Modifier.animateItem()) {
                     itemContent(selectableFile, group.files)

@@ -140,7 +140,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.10.1")
 
     // Compose BOM — alpha
-    val composeBom = platform("androidx.compose:compose-bom-alpha:2025.06.00")
+    val composeBom = platform("androidx.compose:compose-bom-alpha:2025.12.01")
     implementation(composeBom)
     androidTestImplementation(composeBom)
     testImplementation(composeBom)

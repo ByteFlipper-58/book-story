@@ -13,6 +13,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.byteflipper.everbook.domain.repository.BookTranslationRepository
+import com.byteflipper.everbook.domain.translation.BookTranslationRescheduleException
 import com.byteflipper.everbook.domain.translation.BookTranslationStatus
 import com.byteflipper.everbook.domain.use_case.translation.BookTranslationExecutor
 import dagger.assisted.Assisted
@@ -106,7 +107,32 @@ class BookTranslationWorker @AssistedInject constructor(
                     }
                     notificationController.refreshGroupSummary()
                 }
-                if (isStopped) Result.failure() else Result.retry()
+                // Cap retries: an error that escapes the executor (e.g. the book text can't be
+                // loaded, or a persistent DB error) is effectively permanent. Without a cap,
+                // Result.retry() would loop forever with exponential backoff across reboots.
+                when {
+                    throwable is BookTranslationRescheduleException -> {
+                        // Not a failure: the provider is rate-limiting. Reschedule (uncapped) so the
+                        // run resumes later via WorkManager backoff.
+                        Log.i(
+                            BOOK_TRANSLATION_LOG,
+                            "Worker rescheduling after rate limit: translationId=$translationId " +
+                                    "runAttemptCount=$runAttemptCount"
+                        )
+                        Result.retry()
+                    }
+
+                    isStopped || runAttemptCount >= MAX_RUN_ATTEMPTS -> {
+                        Log.w(
+                            BOOK_TRANSLATION_LOG,
+                            "Worker giving up: translationId=$translationId " +
+                                    "stopped=$isStopped runAttemptCount=$runAttemptCount"
+                        )
+                        Result.failure()
+                    }
+
+                    else -> Result.retry()
+                }
             }
         )
     }
@@ -146,6 +172,9 @@ class BookTranslationWorker @AssistedInject constructor(
 
     companion object {
         const val INPUT_TRANSLATION_ID = "translation_id"
+
+        /** Maximum WorkManager run attempts before a failing job gives up instead of retrying. */
+        private const val MAX_RUN_ATTEMPTS = 5
 
         fun tagFor(translationId: Long): String = "book_translation_$translationId"
     }

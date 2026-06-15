@@ -98,6 +98,7 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
             translation = translation,
             closing = closingTranslation,
             paragraphTextStyle = paragraphTextStyle,
+            fontColor = fontColor,
             sidePadding = sidePadding,
             horizontalAlignment = horizontalAlignment,
             openExternalTranslator = {

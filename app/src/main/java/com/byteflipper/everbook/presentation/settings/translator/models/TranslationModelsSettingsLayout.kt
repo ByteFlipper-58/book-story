@@ -7,15 +7,11 @@
 
 @file:OptIn(
     androidx.compose.foundation.ExperimentalFoundationApi::class,
-    androidx.compose.foundation.layout.ExperimentalLayoutApi::class,
-    com.google.accompanist.permissions.ExperimentalPermissionsApi::class
+    androidx.compose.foundation.layout.ExperimentalLayoutApi::class
 )
 
 package com.byteflipper.everbook.presentation.settings.translator.models
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.os.Build
 import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.clickable
@@ -48,10 +44,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -71,13 +63,10 @@ import com.byteflipper.everbook.ui.settings.TranslationModelFilter
 import com.byteflipper.everbook.ui.settings.TranslatorSettingsEvent
 import com.byteflipper.everbook.ui.settings.TranslatorSettingsModel
 import com.byteflipper.everbook.ui.settings.TranslatorSettingsState
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import java.util.Locale
 
 private const val TRANSLATION_MODELS_LOG = "TranslationModels"
 
-@SuppressLint("InlinedApi")
 @Composable
 fun TranslationModelsSettingsLayout(
     listState: LazyListState,
@@ -87,40 +76,6 @@ fun TranslationModelsSettingsLayout(
     val mainModel = hiltViewModel<MainModel>()
     val state = model.state.collectAsStateWithLifecycle()
     val mainState = mainModel.state.collectAsStateWithLifecycle()
-    var pendingNotificationPermissionDownload by remember {
-        mutableStateOf<PendingModelDownload?>(null)
-    }
-    val notificationsPermissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        rememberPermissionState(
-            permission = Manifest.permission.POST_NOTIFICATIONS,
-            onPermissionResult = { granted ->
-                val pendingDownload = pendingNotificationPermissionDownload
-                if (pendingDownload == null) {
-                    Log.i(
-                        TRANSLATION_MODELS_LOG,
-                        "Notification permission result without pending model download: granted=$granted"
-                    )
-                } else {
-                    Log.i(
-                        TRANSLATION_MODELS_LOG,
-                        "Notification permission result: granted=$granted " +
-                                "language=${pendingDownload.languageCode}"
-                    )
-                    pendingNotificationPermissionDownload = null
-                    model.onEvent(
-                        TranslatorSettingsEvent.OnDownloadModel(
-                            languageCode = pendingDownload.languageCode,
-                            requireWifi = pendingDownload.requireWifi
-                        )
-                    )
-                }
-            }
-        )
-    } else {
-        null
-    }
-    val notificationsGranted = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-            notificationsPermissionState?.status?.isGranted == true
 
     LazyColumnWithScrollbar(
         Modifier
@@ -148,18 +103,12 @@ fun TranslationModelsSettingsLayout(
             item {
                 TranslationModelsError(
                     error = error,
+                    onRetry = {
+                        model.onEvent(TranslatorSettingsEvent.OnRefreshModels)
+                    },
                     onDismiss = {
                         model.onEvent(TranslatorSettingsEvent.OnDismissModelError)
                     }
-                )
-            }
-        }
-
-        if (state.value.modelManagerAvailable && !notificationsGranted) {
-            item {
-                SettingsSubcategoryNote(
-                    text = stringResource(id = R.string.translation_model_notifications_permission_note),
-                    verticalPadding = 12.dp
                 )
             }
         }
@@ -188,25 +137,12 @@ fun TranslationModelsSettingsLayout(
                     busy = translationModel.language.code in state.value.busyLanguageCodes,
                     requireWifi = mainState.value.translationWifiOnly,
                     onDownload = {
-                        if (!notificationsGranted) {
-                            pendingNotificationPermissionDownload = PendingModelDownload(
+                        model.onEvent(
+                            TranslatorSettingsEvent.OnDownloadModel(
                                 languageCode = translationModel.language.code,
                                 requireWifi = mainState.value.translationWifiOnly
                             )
-                            Log.w(
-                                TRANSLATION_MODELS_LOG,
-                                "Model download waiting for notification permission result: " +
-                                        "language=${translationModel.language.code}"
-                            )
-                            notificationsPermissionState?.launchPermissionRequest()
-                        } else {
-                            model.onEvent(
-                                TranslatorSettingsEvent.OnDownloadModel(
-                                    languageCode = translationModel.language.code,
-                                    requireWifi = mainState.value.translationWifiOnly
-                                )
-                            )
-                        }
+                        )
                     },
                     onDelete = {
                         model.onEvent(
@@ -524,6 +460,7 @@ private fun TranslationModelsEmpty() {
 @Composable
 private fun TranslationModelsError(
     error: String,
+    onRetry: () -> Unit,
     onDismiss: () -> Unit
 ) {
     Row(
@@ -539,6 +476,9 @@ private fun TranslationModelsError(
                 color = MaterialTheme.colorScheme.error
             )
         )
+        TextButton(onClick = onRetry) {
+            StyledText(text = stringResource(id = R.string.retry))
+        }
         TextButton(onClick = onDismiss) {
             StyledText(text = stringResource(id = R.string.close))
         }
@@ -553,7 +493,3 @@ private fun TranslatorSettingsState.busyLanguageNames(): String =
             ?: code.uppercase(Locale.ROOT)
     }
 
-private data class PendingModelDownload(
-    val languageCode: String,
-    val requireWifi: Boolean
-)

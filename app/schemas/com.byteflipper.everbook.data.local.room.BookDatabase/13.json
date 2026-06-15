@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 13,
-    "identityHash": "a543902ff2ee513244c96e5d94af6682",
+    "identityHash": "c316ca74bcf4067eee3aa9d392561b61",
     "entities": [
       {
         "tableName": "BookEntity",
@@ -277,7 +277,7 @@
       },
       {
         "tableName": "BookTranslationEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `bookId` INTEGER NOT NULL, `providerMode` TEXT NOT NULL, `sourceLanguageCode` TEXT, `detectedSourceLanguageCode` TEXT, `targetLanguageCode` TEXT NOT NULL, `requireWifi` INTEGER NOT NULL, `status` TEXT NOT NULL, `sourceFingerprint` TEXT NOT NULL, `totalUnits` INTEGER NOT NULL, `completedUnits` INTEGER NOT NULL, `failedUnits` INTEGER NOT NULL, `errorMessage` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `queuedAt` INTEGER, `startedAt` INTEGER, `lastAttemptAt` INTEGER, `retryCount` INTEGER NOT NULL, `completedAt` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `bookId` INTEGER NOT NULL, `providerMode` TEXT NOT NULL, `sourceLanguageCode` TEXT, `detectedSourceLanguageCode` TEXT, `targetLanguageCode` TEXT NOT NULL, `requireWifi` INTEGER NOT NULL, `status` TEXT NOT NULL, `sourceFingerprint` TEXT NOT NULL, `totalUnits` INTEGER NOT NULL, `completedUnits` INTEGER NOT NULL, `failedUnits` INTEGER NOT NULL, `errorMessage` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `queuedAt` INTEGER, `startedAt` INTEGER, `lastAttemptAt` INTEGER, `retryCount` INTEGER NOT NULL, `completedAt` INTEGER, FOREIGN KEY(`bookId`) REFERENCES `BookEntity`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -442,11 +442,23 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_BookTranslationEntity_bookId_providerMode_sourceLanguageCode_targetLanguageCode_sourceFingerprint` ON `${TABLE_NAME}` (`bookId`, `providerMode`, `sourceLanguageCode`, `targetLanguageCode`, `sourceFingerprint`)"
           }
         ],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "BookEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "bookId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "BookTranslationEntryEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`translationId` INTEGER NOT NULL, `readerTextIndex` INTEGER NOT NULL, `type` TEXT NOT NULL, `originalText` TEXT NOT NULL, `translatedText` TEXT NOT NULL, `sourceLanguageCode` TEXT, `targetLanguageCode` TEXT NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`translationId`, `readerTextIndex`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`translationId` INTEGER NOT NULL, `readerTextIndex` INTEGER NOT NULL, `type` TEXT NOT NULL, `originalText` TEXT NOT NULL, `translatedText` TEXT NOT NULL, `sourceLanguageCode` TEXT, `targetLanguageCode` TEXT NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`translationId`, `readerTextIndex`), FOREIGN KEY(`translationId`) REFERENCES `BookTranslationEntity`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "translationId",
@@ -525,13 +537,25 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_BookTranslationEntryEntity_translationId_readerTextIndex` ON `${TABLE_NAME}` (`translationId`, `readerTextIndex`)"
           }
         ],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "BookTranslationEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "translationId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a543902ff2ee513244c96e5d94af6682')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c316ca74bcf4067eee3aa9d392561b61')"
     ]
   }
 }

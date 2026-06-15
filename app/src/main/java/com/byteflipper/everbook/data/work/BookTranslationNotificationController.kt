@@ -26,11 +26,12 @@ import com.byteflipper.everbook.domain.translation.BookTranslation
 import com.byteflipper.everbook.domain.translation.BookTranslationStatus
 import com.byteflipper.everbook.domain.use_case.book.GetBookById
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val BOOK_TRANSLATION_NOTIFICATION_BASE_ID = 2094
-private const val BOOK_TRANSLATION_NOTIFICATION_ID_RANGE = 100_000
 private const val BOOK_TRANSLATION_NOTIFICATION_SUMMARY_ID = 12094
 private const val BOOK_TRANSLATION_NOTIFICATION_CHANNEL_ID = "book_translation"
 private const val BOOK_TRANSLATION_NOTIFICATION_GROUP = "book_translation_group"
@@ -252,8 +253,15 @@ class BookTranslationNotificationController @Inject constructor(
     }
 
     companion object {
+        // Allocate a unique, stable (per-process) notification id per translationId. The previous
+        // `base + (id % range)` scheme collided for ids differing by `range`, which on Android 12+
+        // could let one translation's cancel tear down another's foreground-service notification.
+        private val notificationIds = ConcurrentHashMap<Long, Int>()
+        private val notificationIdAllocator = AtomicInteger(0)
+
         fun notificationIdFor(translationId: Long): Int =
-            BOOK_TRANSLATION_NOTIFICATION_BASE_ID +
-                    (translationId % BOOK_TRANSLATION_NOTIFICATION_ID_RANGE).toInt()
+            notificationIds.computeIfAbsent(translationId) {
+                BOOK_TRANSLATION_NOTIFICATION_BASE_ID + notificationIdAllocator.getAndIncrement()
+            }
     }
 }

@@ -21,13 +21,17 @@ class ResumeBookTranslation @Inject constructor(
     private val repository: BookTranslationRepository,
     private val workScheduler: BookTranslationWorkScheduler
 ) {
-    suspend fun execute(translationId: Long): BookTranslation {
+    suspend fun execute(
+        translationId: Long,
+        requireWifi: Boolean? = null
+    ): BookTranslation {
         val translation = repository.getTranslation(translationId)
             ?: throw TranslationException("Book translation was not found.")
         if (!translation.canResume) return translation
 
         val queued = translation.copy(
             status = BookTranslationStatus.QUEUED,
+            requireWifi = requireWifi ?: translation.requireWifi,
             errorMessage = null,
             queuedAt = System.currentTimeMillis(),
             updatedAt = System.currentTimeMillis(),

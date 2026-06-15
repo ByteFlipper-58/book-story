@@ -18,6 +18,9 @@ import com.byteflipper.everbook.domain.translation.resolveTranslationLanguageCod
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.OutputStreamWriter
@@ -33,6 +36,16 @@ private const val GOOGLE_TRANSLATE_ENDPOINT =
     "https://translate.googleapis.com/translate_a/single"
 private const val GOOGLE_TRANSLATE_TIMEOUT_MS = 15_000
 private const val BOOK_TRANSLATION_LOG = "BookTranslation"
+
+// Adaptive pacing (AIMD): the unofficial endpoint rate-limits primarily by request rate, so a
+// single shared pacer keeps all Google requests spaced. On every success the spacing shrinks a
+// little (additive), on every 429/503 it doubles (multiplicative) — converging on a sustainable
+// rate without any masking.
+private const val PACER_INITIAL_DELAY_MS = 1_200L
+private const val PACER_MIN_DELAY_MS = 500L
+private const val PACER_MAX_DELAY_MS = 30_000L
+private const val PACER_SUCCESS_STEP_MS = 120L
+private const val PACER_MAX_RETRY_AFTER_MS = 120_000L
 private val GOOGLE_TRANSLATE_USER_AGENTS = listOf(
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
             "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
@@ -46,6 +59,35 @@ private val GOOGLE_TRANSLATE_USER_AGENTS = listOf(
 
 @Singleton
 class GoogleTranslateWebClient @Inject constructor() {
+    private val pacerMutex = Mutex()
+    private var nextAllowedAtMs = 0L
+    private var currentDelayMs = PACER_INITIAL_DELAY_MS
+
+    /** Reserve the next request slot and wait for it, so concurrent callers stay spaced apart. */
+    private suspend fun awaitPace() {
+        val waitMs = pacerMutex.withLock {
+            val now = System.currentTimeMillis()
+            val slot = maxOf(now, nextAllowedAtMs)
+            nextAllowedAtMs = slot + currentDelayMs
+            slot - now
+        }
+        if (waitMs > 0) delay(waitMs)
+    }
+
+    private suspend fun notifySuccess() {
+        pacerMutex.withLock {
+            currentDelayMs = (currentDelayMs - PACER_SUCCESS_STEP_MS).coerceAtLeast(PACER_MIN_DELAY_MS)
+        }
+    }
+
+    private suspend fun notifyRateLimited(retryAfterMs: Long?) {
+        pacerMutex.withLock {
+            currentDelayMs = (currentDelayMs * 2).coerceAtMost(PACER_MAX_DELAY_MS)
+            val penalty = retryAfterMs ?: currentDelayMs
+            nextAllowedAtMs = maxOf(nextAllowedAtMs, System.currentTimeMillis() + penalty)
+        }
+    }
+
     suspend fun translate(request: TranslationRequest): TranslationResult =
         withContext(Dispatchers.IO) {
             val source = request.sourceLanguageCode
@@ -64,6 +106,7 @@ class GoogleTranslateWebClient @Inject constructor() {
             var connection: HttpURLConnection? = null
 
             try {
+                awaitPace()
                 val activeConnection = openConnection(
                     sourceLanguageCode = source,
                     targetLanguageCode = target,
@@ -79,15 +122,20 @@ class GoogleTranslateWebClient @Inject constructor() {
                     )
                 }
                 if (responseCode !in 200..299) {
-                    throw googleTranslateException(responseCode)
+                    throw googleTranslateException(responseCode, activeConnection.retryAfterMs())
                 }
 
-                parseTranslationResponse(
+                val result = parseTranslationResponse(
                     responseBody = responseBody,
                     fallbackSourceLanguageCode = source,
                     targetLanguageCode = target
                 )
+                notifySuccess()
+                result
             } catch (exception: TranslationException) {
+                if (exception is TranslationRateLimitedException) {
+                    notifyRateLimited(exception.retryAfterMs)
+                }
                 Log.e(
                     BOOK_TRANSLATION_LOG,
                     "Google Translate request failed: source=$source target=$target",
@@ -135,19 +183,31 @@ class GoogleTranslateWebClient @Inject constructor() {
     private fun HttpURLConnection.readBody(responseCode: Int): String {
         val stream = if (responseCode in 200..299) inputStream else errorStream
         return stream?.use { input ->
-            BufferedReader(InputStreamReader(input)).use { it.readText() }
+            BufferedReader(InputStreamReader(input, Charsets.UTF_8)).use { it.readText() }
         }.orEmpty()
     }
 
-    private fun googleTranslateException(responseCode: Int): TranslationException =
+    private fun HttpURLConnection.retryAfterMs(): Long? {
+        val header = getHeaderField("Retry-After")?.trim()?.takeIf { it.isNotEmpty() } ?: return null
+        // The endpoint sends Retry-After as integer seconds; ignore the rarely-used HTTP-date form.
+        val seconds = header.toLongOrNull() ?: return null
+        return (seconds * 1_000L).coerceIn(0L, PACER_MAX_RETRY_AFTER_MS)
+    }
+
+    private fun googleTranslateException(
+        responseCode: Int,
+        retryAfterMs: Long?
+    ): TranslationException =
         when (responseCode) {
             HttpURLConnection.HTTP_UNAVAILABLE,
             HTTP_TOO_MANY_REQUESTS -> TranslationRateLimitedException(
-                "Google Translate rate limit reached. Try again later, or switch to ML Kit offline translation."
+                message = "Google Translate rate limit reached. Try again later, or switch to ML Kit offline translation.",
+                retryAfterMs = retryAfterMs
             )
 
             HttpURLConnection.HTTP_FORBIDDEN -> TranslationRateLimitedException(
-                "Google Translate blocked this request. Try again later, or switch to ML Kit offline translation."
+                message = "Google Translate blocked this request. Try again later, or switch to ML Kit offline translation.",
+                retryAfterMs = retryAfterMs
             )
 
             else -> TranslationException("Google Translate request failed with HTTP $responseCode.")
@@ -158,7 +218,15 @@ class GoogleTranslateWebClient @Inject constructor() {
         fallbackSourceLanguageCode: String,
         targetLanguageCode: String
     ): TranslationResult {
-        val root = JsonParser.parseString(responseBody).asJsonArray
+        // Google may answer HTTP 200 with an HTML captcha / "unusual traffic" page when it soft-blocks
+        // a client. That isn't valid JSON, so guard the cast and surface it as a rate-limit so the UI
+        // can suggest waiting or switching to ML Kit, instead of a generic "could not translate".
+        val root = runCatching { JsonParser.parseString(responseBody).asJsonArray }
+            .getOrElse {
+                throw TranslationRateLimitedException(
+                    "Google Translate blocked this request. Try again later, or switch to ML Kit offline translation."
+                )
+            }
         val translatedText = root.getOrNull(0)
             ?.asJsonArrayOrNull()
             ?.mapNotNull { segment ->

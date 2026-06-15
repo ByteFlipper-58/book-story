@@ -30,7 +30,9 @@ data class ReaderBookTranslationState(
     val recentSourceLanguageCodes: List<String> = emptyList(),
     val recentTargetLanguageCodes: List<String> = emptyList(),
     val isBookTextReadyForTranslation: Boolean = false,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    /** Every translation row for the current book, used by the "My translations" manager. */
+    val allTranslations: List<BookTranslation> = emptyList()
 ) {
     val runningTranslation: BookTranslation?
         get() = currentTranslation?.takeIf { it.isBusy }

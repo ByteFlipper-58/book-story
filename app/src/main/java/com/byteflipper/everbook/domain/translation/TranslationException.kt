@@ -11,5 +11,16 @@ open class TranslationException(message: String, cause: Throwable? = null) : Exc
 
 class TranslationRateLimitedException(
     message: String,
-    cause: Throwable? = null
+    cause: Throwable? = null,
+    /** Server-advised wait (from a `Retry-After` header), if any, in milliseconds. */
+    val retryAfterMs: Long? = null
 ) : TranslationException(message, cause)
+
+/**
+ * Signals that a full-book translation could not finish this run because the provider is
+ * persistently rate-limiting. It is not a failure: the worker should ask WorkManager to reschedule
+ * (with backoff) and the executor resumes from already-translated entries on the next run.
+ */
+class BookTranslationRescheduleException(
+    message: String
+) : TranslationException(message)

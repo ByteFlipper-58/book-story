@@ -286,7 +286,9 @@ object DatabaseHelper {
                         "`startedAt` INTEGER, " +
                         "`lastAttemptAt` INTEGER, " +
                         "`retryCount` INTEGER NOT NULL, " +
-                        "`completedAt` INTEGER" +
+                        "`completedAt` INTEGER, " +
+                        "FOREIGN KEY(`bookId`) REFERENCES `BookEntity`(`id`) " +
+                        "ON UPDATE NO ACTION ON DELETE CASCADE" +
                         ")"
             )
             db.execSQL(
@@ -315,7 +317,9 @@ object DatabaseHelper {
                         "`sourceLanguageCode` TEXT, " +
                         "`targetLanguageCode` TEXT NOT NULL, " +
                         "`updatedAt` INTEGER NOT NULL, " +
-                        "PRIMARY KEY(`translationId`, `readerTextIndex`)" +
+                        "PRIMARY KEY(`translationId`, `readerTextIndex`), " +
+                        "FOREIGN KEY(`translationId`) REFERENCES `BookTranslationEntity`(`id`) " +
+                        "ON UPDATE NO ACTION ON DELETE CASCADE" +
                         ")"
             )
             db.execSQL(

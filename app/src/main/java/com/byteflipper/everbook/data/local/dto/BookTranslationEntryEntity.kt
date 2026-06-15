@@ -8,10 +8,19 @@
 package com.byteflipper.everbook.data.local.dto
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.Index
 
 @Entity(
     primaryKeys = ["translationId", "readerTextIndex"],
+    foreignKeys = [
+        ForeignKey(
+            entity = BookTranslationEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["translationId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
     indices = [
         Index(value = ["translationId"]),
         Index(value = ["translationId", "readerTextIndex"])

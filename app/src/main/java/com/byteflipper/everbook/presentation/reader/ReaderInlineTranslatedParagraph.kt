@@ -51,6 +51,7 @@ import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -89,6 +90,7 @@ fun LazyItemScope.ReaderInlineTranslatedParagraph(
     translation: ReaderTranslationState,
     closing: Boolean,
     paragraphTextStyle: TextStyle,
+    fontColor: Color,
     sidePadding: Dp,
     horizontalAlignment: Alignment.Horizontal,
     openExternalTranslator: () -> Unit,
@@ -114,9 +116,14 @@ fun LazyItemScope.ReaderInlineTranslatedParagraph(
         selectionPulseActive = false
     }
 
-    val pulseBackground = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.42f)
-    val pulseRestBackground = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.34f)
-    val restingBackground = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.28f)
+    // Derive every colour from the reader's own font colour so the block and its text always
+    // contrast with whatever background the user configured. The block fill is a translucent tint
+    // of the font colour painted over the real reader background, so it stays visible on any preset.
+    val accentColor = fontColor
+    val secondaryColor = fontColor.copy(alpha = 0.68f)
+    val pulseBackground = fontColor.copy(alpha = 0.20f)
+    val pulseRestBackground = fontColor.copy(alpha = 0.15f)
+    val restingBackground = fontColor.copy(alpha = 0.11f)
     val targetBackground = when {
         closing -> Color.Transparent
         selectionPulseActive -> pulseBackground
@@ -164,7 +171,8 @@ fun LazyItemScope.ReaderInlineTranslatedParagraph(
         ) {
             InlineTranslationAccent(
                 translating = translation.isTranslating,
-                closing = closing
+                closing = closing,
+                accentColor = accentColor
             )
 
             Column(
@@ -183,8 +191,9 @@ fun LazyItemScope.ReaderInlineTranslatedParagraph(
                     translating = translation.isTranslating,
                     closing = closing,
                     originalText = originalText,
+                    skeletonColor = secondaryColor,
                     style = paragraphTextStyle.copy(
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = fontColor,
                         textIndent = TextIndent.None
                     )
                 )
@@ -207,6 +216,7 @@ fun LazyItemScope.ReaderInlineTranslatedParagraph(
                             canToggleOriginal = canToggleOriginal,
                             translating = translation.isTranslating,
                             canCopy = displayedText.isNotBlank() && !translation.isTranslating,
+                            contentColor = secondaryColor,
                             toggleTranslationOriginal = toggleTranslationOriginal,
                             copyTranslation = {
                                 copyInlineTranslationText(context = context, text = displayedText)
@@ -224,7 +234,8 @@ fun LazyItemScope.ReaderInlineTranslatedParagraph(
 @Composable
 private fun InlineTranslationAccent(
     translating: Boolean,
-    closing: Boolean
+    closing: Boolean,
+    accentColor: Color
 ) {
     val transition = rememberInfiniteTransition(label = "InlineTranslationAccent")
     val accentAlpha by transition.animateFloat(
@@ -247,7 +258,7 @@ private fun InlineTranslationAccent(
             .fillMaxHeight()
             .width(accentWidth)
             .alpha(if (translating) accentAlpha else 1f)
-            .background(MaterialTheme.colorScheme.primary)
+            .background(accentColor)
     )
 }
 
@@ -257,6 +268,7 @@ private fun InlineTranslationText(
     translating: Boolean,
     closing: Boolean,
     originalText: String,
+    skeletonColor: Color,
     style: TextStyle
 ) {
     val targetText = if (closing) originalText else text
@@ -277,7 +289,8 @@ private fun InlineTranslationText(
         if (isTranslating) {
             InlineTranslationSkeleton(
                 lineHeight = style.lineHeight,
-                fontSize = style.fontSize
+                fontSize = style.fontSize,
+                shimmerColor = skeletonColor
             )
         } else {
             AnimatedContent(
@@ -306,7 +319,8 @@ private fun InlineTranslationText(
 @Composable
 private fun InlineTranslationSkeleton(
     lineHeight: TextUnit,
-    fontSize: TextUnit
+    fontSize: TextUnit,
+    shimmerColor: Color
 ) {
     val transition = rememberInfiniteTransition(label = "InlineTranslationSkeleton")
     val shimmerOffset by transition.animateFloat(
@@ -318,8 +332,8 @@ private fun InlineTranslationSkeleton(
         ),
         label = "InlineTranslationSkeletonOffset"
     )
-    val baseColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.14f)
-    val highlightColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.30f)
+    val baseColor = shimmerColor.copy(alpha = 0.18f)
+    val highlightColor = shimmerColor.copy(alpha = 0.42f)
     val brush = Brush.linearGradient(
         colors = listOf(baseColor, highlightColor, baseColor),
         start = Offset(shimmerOffset - 900f, 0f),
@@ -385,6 +399,7 @@ private fun InlineTranslationActions(
     canToggleOriginal: Boolean,
     translating: Boolean,
     canCopy: Boolean,
+    contentColor: Color,
     toggleTranslationOriginal: () -> Unit,
     copyTranslation: () -> Unit,
     openExternalTranslator: () -> Unit,
@@ -402,7 +417,7 @@ private fun InlineTranslationActions(
                 StyledText(
                     text = stringResource(id = R.string.translation_powered_by_google),
                     style = MaterialTheme.typography.labelSmall.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = contentColor,
                         textAlign = TextAlign.Start
                     )
                 )
@@ -410,7 +425,7 @@ private fun InlineTranslationActions(
                 StyledText(
                     text = " • ",
                     style = MaterialTheme.typography.labelSmall.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = contentColor
                     )
                 )
             }
@@ -434,7 +449,7 @@ private fun InlineTranslationActions(
                         }
                     ),
                     modifier = Modifier.size(18.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = contentColor
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 StyledText(
@@ -448,7 +463,7 @@ private fun InlineTranslationActions(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.labelSmall.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = contentColor
                     )
                 )
             }
@@ -474,12 +489,14 @@ private fun InlineTranslationActions(
                     Icon(
                         imageVector = Icons.Default.ContentCopy,
                         contentDescription = stringResource(id = R.string.copy),
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(18.dp),
+                        tint = contentColor
                     )
                 }
 
                 InlineTranslationTextButton(
                     text = stringResource(id = R.string.translation_open_external),
+                    contentColor = contentColor,
                     icon = {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.OpenInNew,
@@ -495,6 +512,7 @@ private fun InlineTranslationActions(
 
                 InlineTranslationTextButton(
                     text = stringResource(id = R.string.close),
+                    contentColor = contentColor,
                     icon = {
                         Icon(
                             imageVector = Icons.Default.Close,
@@ -513,6 +531,7 @@ private fun InlineTranslationActions(
 @Composable
 private fun InlineTranslationTextButton(
     text: String,
+    contentColor: Color,
     icon: @Composable () -> Unit,
     enabled: Boolean,
     onClick: () -> Unit
@@ -520,7 +539,8 @@ private fun InlineTranslationTextButton(
     TextButton(
         enabled = enabled,
         onClick = onClick,
-        modifier = Modifier.height(32.dp)
+        modifier = Modifier.height(32.dp),
+        colors = ButtonDefaults.textButtonColors(contentColor = contentColor)
     ) {
         icon()
         Spacer(modifier = Modifier.width(4.dp))

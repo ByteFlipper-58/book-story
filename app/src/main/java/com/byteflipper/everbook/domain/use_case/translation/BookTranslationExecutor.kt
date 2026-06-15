@@ -14,6 +14,7 @@ import com.byteflipper.everbook.domain.translation.BookTranslation
 import com.byteflipper.everbook.domain.translation.BookTranslationEntry
 import com.byteflipper.everbook.domain.translation.BookTranslationStatus
 import com.byteflipper.everbook.domain.translation.BOOK_TRANSLATION_TEXT_CHANGED_MESSAGE
+import com.byteflipper.everbook.domain.translation.BookTranslationRescheduleException
 import com.byteflipper.everbook.domain.translation.TranslationException
 import com.byteflipper.everbook.domain.translation.TranslationProviderMode
 import com.byteflipper.everbook.domain.translation.TranslationRateLimitedException
@@ -31,10 +32,15 @@ import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 import kotlin.math.pow
 
-private const val GOOGLE_UNIT_DELAY_MS = 1_200L
 private const val GOOGLE_MAX_ATTEMPTS = 4
 private const val DEFAULT_MAX_ATTEMPTS = 2
 private const val MAX_UNIT_FAILURE_LOGS = 5
+// Rate-limit auto-recovery: when the provider keeps returning 429, the executor waits and retries
+// the same batch (escalating backoff). If the *consecutive* waiting exceeds the per-run budget, it
+// stops gracefully and asks the worker to reschedule via WorkManager instead of failing.
+private const val RATE_LIMIT_BASE_BACKOFF_MS = 4_000L
+private const val RATE_LIMIT_MAX_BACKOFF_MS = 60_000L
+private const val RATE_LIMIT_RUN_BUDGET_MS = 6 * 60 * 1_000L
 private const val ML_KIT_LIVE_BATCH_MAX_CHARS = 800
 private const val ML_KIT_LIVE_BATCH_MAX_PIECES = 3
 private const val ML_KIT_BACKGROUND_BATCH_MAX_CHARS = 4_500
@@ -156,6 +162,9 @@ class BookTranslationExecutor @Inject constructor(
         )
         val translatedPiecesByUnit = mutableMapOf<Int, MutableMap<Int, String>>()
         val failedUnitIndexes = mutableSetOf<Int>()
+        // Consecutive time spent waiting out rate limits; resets after any non-limited batch.
+        var consecutiveRateLimitWaitMs = 0L
+        var rateLimitAttempt = 0
         Log.i(
             BOOK_TRANSLATION_LOG,
             "Executor prepared units: translationId=$translationId totalUnits=${units.size} " +
@@ -208,10 +217,62 @@ class BookTranslationExecutor @Inject constructor(
                     .filterNot { it.unit.readerTextIndex in failedUnitIndexes }
                 if (activeBatch.isEmpty()) return@forEachIndexed
 
-                val result = translatePiecesWithFallback(
+                var result = translatePiecesWithFallback(
                     translation = current.forTranslationRequest(firstDetectedSource),
                     pieces = activeBatch
                 )
+                // Auto-recover from rate limits: wait (honoring Retry-After) and retry the SAME
+                // batch. Bail to a WorkManager reschedule only if the provider keeps limiting past
+                // this run's budget — the translation is never marked FAILED for a transient 429.
+                while (result.rateLimitException != null) {
+                    val duringWait = bookTranslationRepository.getTranslation(current.id)
+                    if (
+                        duringWait?.status == BookTranslationStatus.PAUSED ||
+                        duringWait?.status == BookTranslationStatus.CANCELLED
+                    ) {
+                        return@withContext duringWait
+                    }
+
+                    val waitMs = result.rateLimitException?.retryAfterMs
+                        ?: rateLimitBackoffMs(rateLimitAttempt)
+                    if (consecutiveRateLimitWaitMs + waitMs > RATE_LIMIT_RUN_BUDGET_MS) {
+                        current = current.copy(
+                            status = BookTranslationStatus.QUEUED,
+                            errorMessage = "Translation paused by the provider's rate limit. " +
+                                    "It will continue automatically.",
+                            completedUnits = completedUnits,
+                            failedUnits = failedUnits,
+                            queuedAt = System.currentTimeMillis(),
+                            updatedAt = System.currentTimeMillis()
+                        )
+                        bookTranslationRepository.updateTranslation(current)
+                        Log.w(
+                            BOOK_TRANSLATION_LOG,
+                            "Executor rescheduling after sustained rate limit: " +
+                                    "translationId=$translationId completed=$completedUnits/${units.size} " +
+                                    "waitedMs=$consecutiveRateLimitWaitMs"
+                        )
+                        throw BookTranslationRescheduleException(
+                            result.rateLimitException?.message ?: "Translation provider rate limit reached."
+                        )
+                    }
+
+                    Log.w(
+                        BOOK_TRANSLATION_LOG,
+                        "Executor waiting out rate limit: translationId=$translationId " +
+                                "batch=${batchIndex + 1}/${batches.size} waitMs=$waitMs " +
+                                "attempt=$rateLimitAttempt"
+                    )
+                    delay(waitMs)
+                    consecutiveRateLimitWaitMs += waitMs
+                    rateLimitAttempt++
+                    result = translatePiecesWithFallback(
+                        translation = current.forTranslationRequest(firstDetectedSource),
+                        pieces = activeBatch
+                    )
+                }
+                consecutiveRateLimitWaitMs = 0
+                rateLimitAttempt = 0
                 firstDetectedSource = firstDetectedSource ?: result.detectedSourceLanguageCode
 
                 result.translations.forEach { (piece, translatedText) ->
@@ -270,7 +331,14 @@ class BookTranslationExecutor @Inject constructor(
                     failedUnits = failedUnits,
                     updatedAt = System.currentTimeMillis()
                 )
-                bookTranslationRepository.updateTranslation(current)
+                // Progress-only write: never persist `status` here, otherwise a pause/cancel
+                // issued mid-batch (after the line-192 check) would be clobbered back to RUNNING.
+                bookTranslationRepository.updateProgress(
+                    translationId = current.id,
+                    completedUnits = completedUnits,
+                    failedUnits = failedUnits,
+                    detectedSourceLanguageCode = firstDetectedSource
+                )
 
                 val number = batchIndex + 1
                 if (
@@ -286,8 +354,25 @@ class BookTranslationExecutor @Inject constructor(
                                 "completed=$completedUnits/${units.size} failed=$failedUnits"
                     )
                 }
+            }
 
-                result.rateLimitException?.let { throw it }
+            // A pause/cancel may have landed during the final batch (after its line-192 check).
+            // Re-read before finalizing so we never overwrite PAUSED/CANCELLED with COMPLETED/FAILED.
+            val latestBeforeFinish = bookTranslationRepository.getTranslation(current.id)
+            if (
+                latestBeforeFinish != null &&
+                (
+                    latestBeforeFinish.status == BookTranslationStatus.PAUSED ||
+                    latestBeforeFinish.status == BookTranslationStatus.CANCELLED
+                )
+            ) {
+                Log.i(
+                    BOOK_TRANSLATION_LOG,
+                    "Executor honoring manual stop before finalize: translationId=$translationId " +
+                            "status=${latestBeforeFinish.status} " +
+                            "completed=$completedUnits failed=$failedUnits"
+                )
+                return@withContext latestBeforeFinish
             }
 
             val completedAt = System.currentTimeMillis()
@@ -337,6 +422,10 @@ class BookTranslationExecutor @Inject constructor(
             withContext(NonCancellable) {
                 bookTranslationRepository.updateTranslation(current)
             }
+            throw exception
+        } catch (exception: BookTranslationRescheduleException) {
+            // Not a failure — progress is already persisted and status set to QUEUED. Propagate so
+            // the worker reschedules the run via WorkManager.
             throw exception
         } catch (exception: TranslationRateLimitedException) {
             Log.w(
@@ -583,6 +672,30 @@ class BookTranslationExecutor @Inject constructor(
         val translations = linkedMapOf<BookTranslationPiece, String>()
         var cursor = 0
 
+        // Integrity check first: every start/end marker must appear exactly once, and start markers
+        // must be in ascending (piece) order. If the provider dropped, duplicated, or reordered a
+        // marker, the forward-cursor parse below could silently map text to the wrong piece — bail to
+        // the unambiguous single-piece fallback instead.
+        var previousStart = -1
+        pieces.forEachIndexed { index, _ ->
+            val markerId = markerId(index)
+            val startMarker = startMarker(nonce, markerId)
+            val endMarker = endMarker(nonce, markerId)
+
+            val firstStart = translatedText.indexOf(startMarker)
+            if (firstStart < 0 || translatedText.indexOf(startMarker, firstStart + 1) >= 0) {
+                throw BatchMarkerException("Translation batch start marker missing or duplicated.")
+            }
+            val firstEnd = translatedText.indexOf(endMarker)
+            if (firstEnd < 0 || translatedText.indexOf(endMarker, firstEnd + 1) >= 0) {
+                throw BatchMarkerException("Translation batch end marker missing or duplicated.")
+            }
+            if (firstStart <= previousStart) {
+                throw BatchMarkerException("Translation batch markers are out of order.")
+            }
+            previousStart = firstStart
+        }
+
         pieces.forEachIndexed { index, piece ->
             val markerId = markerId(index)
             val startMarker = startMarker(nonce, markerId)
@@ -653,12 +766,12 @@ class BookTranslationExecutor @Inject constructor(
                 providerMode = translation.providerMode
             )
         )
-            .also {
-                if (translation.providerMode == TranslationProviderMode.GOOGLE_TRANSLATE) {
-                    delay(GOOGLE_UNIT_DELAY_MS)
-                }
-            }
     }
+
+    /** Escalating backoff between same-batch retries while the provider is rate-limiting. */
+    private fun rateLimitBackoffMs(attempt: Int): Long =
+        (RATE_LIMIT_BASE_BACKOFF_MS shl attempt.coerceIn(0, 5))
+            .coerceAtMost(RATE_LIMIT_MAX_BACKOFF_MS)
 
     private fun markerId(index: Int): String =
         (index + 1).toString().padStart(4, '0')

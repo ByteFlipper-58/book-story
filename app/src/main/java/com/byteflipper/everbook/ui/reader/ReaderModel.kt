@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.ui.reader
 
+import android.app.Application
 import android.app.SearchManager
 import android.content.Intent
 import android.net.Uri
@@ -63,6 +64,7 @@ import com.byteflipper.everbook.domain.use_case.data_store.GetDatastore
 import com.byteflipper.everbook.domain.use_case.data_store.SetDatastore
 import com.byteflipper.everbook.domain.use_case.history.GetLatestHistory
 import com.byteflipper.everbook.domain.use_case.translation.CancelBookTranslation
+import com.byteflipper.everbook.domain.use_case.translation.DeleteBookTranslation
 import com.byteflipper.everbook.domain.use_case.translation.EnqueueBookTranslation
 import com.byteflipper.everbook.domain.use_case.translation.GetBookTranslations
 import com.byteflipper.everbook.domain.use_case.translation.GetTranslationCapability
@@ -94,6 +96,7 @@ private data class ReaderTextScrollAnchor(
 
 @HiltViewModel
 class ReaderModel @Inject constructor(
+    private val application: Application,
     private val getBookById: GetBookById,
     private val updateBook: UpdateBook,
     private val getText: GetText,
@@ -109,7 +112,8 @@ class ReaderModel @Inject constructor(
     private val retryBookTranslation: RetryBookTranslation,
     private val pauseBookTranslation: PauseBookTranslation,
     private val resumeBookTranslation: ResumeBookTranslation,
-    private val cancelBookTranslation: CancelBookTranslation
+    private val cancelBookTranslation: CancelBookTranslation,
+    private val deleteBookTranslation: DeleteBookTranslation
 ) : ViewModel() {
 
     private val mutex = Mutex()
@@ -797,7 +801,9 @@ class ReaderModel @Inject constructor(
                                 it.copy(
                                     bookTranslation = it.bookTranslation.copy(
                                         errorMessage = throwable.message
-                                            ?: "Could not pause book translation."
+                                            ?: application.getString(
+                                                R.string.book_translation_error_pause_failed
+                                            )
                                     )
                                 )
                             }
@@ -813,7 +819,10 @@ class ReaderModel @Inject constructor(
                             "Resuming translation: translationId=${event.translationId}"
                         )
                         runCatching {
-                            resumeBookTranslation.execute(event.translationId)
+                            resumeBookTranslation.execute(
+                                translationId = event.translationId,
+                                requireWifi = _state.value.bookTranslation.requireWifi
+                            )
                         }.onSuccess { translation ->
                             refreshBookTranslations(_state.value.book.id)
                             showTranslatedBook(
@@ -830,7 +839,9 @@ class ReaderModel @Inject constructor(
                                 it.copy(
                                     bookTranslation = it.bookTranslation.copy(
                                         errorMessage = throwable.message
-                                            ?: "Could not resume book translation."
+                                            ?: application.getString(
+                                                R.string.book_translation_error_resume_failed
+                                            )
                                     )
                                 )
                             }
@@ -858,7 +869,10 @@ class ReaderModel @Inject constructor(
                             return@launch
                         }
                         runCatching {
-                            retryBookTranslation.execute(event.translationId)
+                            retryBookTranslation.execute(
+                                translationId = event.translationId,
+                                requireWifi = _state.value.bookTranslation.requireWifi
+                            )
                         }.onFailure { throwable ->
                             Log.e(
                                 BOOK_TRANSLATION_LOG,
@@ -869,7 +883,9 @@ class ReaderModel @Inject constructor(
                                 it.copy(
                                     bookTranslation = it.bookTranslation.copy(
                                         errorMessage = throwable.message
-                                            ?: "Could not restart book translation."
+                                            ?: application.getString(
+                                                R.string.book_translation_error_retry_failed
+                                            )
                                     )
                                 )
                             }
@@ -884,6 +900,75 @@ class ReaderModel @Inject constructor(
                             bookTranslation = it.bookTranslation.copy(errorMessage = null)
                         )
                     }
+                }
+
+                is ReaderEvent.OnSelectBookTranslation -> {
+                    // Switching to an existing translation = pointing the bottom sheet at its
+                    // provider/source/target triple. applyCurrentBookTranslation then resolves the
+                    // matching row from the cached list and refreshBookTranslations syncs entries.
+                    val target = _state.value.bookTranslation.allTranslations
+                        .firstOrNull { it.id == event.translationId } ?: return@launch
+                    Log.i(
+                        BOOK_TRANSLATION_LOG,
+                        "Select translation: translationId=${target.id} " +
+                                "provider=${target.providerMode} " +
+                                "source=${target.sourceLanguageCode} target=${target.targetLanguageCode}"
+                    )
+                    activeBookTranslationTextJob?.cancel()
+                    _state.update {
+                        it.copyWithOriginalBookTextIfNeeded(
+                            bookTranslation = it.bookTranslation.copy(
+                                providerMode = target.providerMode,
+                                sourceLanguageCode = target.sourceLanguageCode
+                                    ?: AUTO_TRANSLATION_LANGUAGE,
+                                targetLanguageCode = target.targetLanguageCode,
+                                currentTranslation = target,
+                                displayMode = ReaderBookTranslationDisplayMode.ORIGINAL,
+                                activeTranslationId = null,
+                                isApplyingTranslation = false,
+                                errorMessage = null
+                            )
+                        )
+                    }
+                    refreshBookTranslations(_state.value.book.id)
+                }
+
+                is ReaderEvent.OnDeleteBookTranslation -> {
+                    val target = _state.value.bookTranslation.allTranslations
+                        .firstOrNull { it.id == event.translationId } ?: return@launch
+                    Log.i(
+                        BOOK_TRANSLATION_LOG,
+                        "Delete translation: translationId=${target.id}"
+                    )
+                    // If the deleted row was the active one, drop the translated overlay so the
+                    // reader returns to the original text without observing a now-missing row.
+                    val isActive = _state.value.bookTranslation.activeTranslationId == target.id ||
+                            _state.value.bookTranslation.currentTranslation?.id == target.id
+                    if (isActive) {
+                        activeBookTranslationTextJob?.cancel()
+                        _state.update {
+                            it.copyWithOriginalBookTextIfNeeded(
+                                bookTranslation = it.bookTranslation.copy(
+                                    currentTranslation = null,
+                                    displayMode = ReaderBookTranslationDisplayMode.ORIGINAL,
+                                    activeTranslationId = null,
+                                    isApplyingTranslation = false,
+                                    errorMessage = null
+                                ),
+                                force = true
+                            )
+                        }
+                    }
+                    runCatching {
+                        deleteBookTranslation.execute(target.id)
+                    }.onFailure { throwable ->
+                        Log.e(
+                            BOOK_TRANSLATION_LOG,
+                            "Delete translation failed: translationId=${target.id}",
+                            throwable
+                        )
+                    }
+                    refreshBookTranslations(_state.value.book.id)
                 }
 
                 is ReaderEvent.OnOpenShareApp -> {
@@ -1276,7 +1361,9 @@ class ReaderModel @Inject constructor(
             _state.update {
                 it.copy(
                     bookTranslation = it.bookTranslation.copy(
-                        errorMessage = "No translated text is available yet."
+                        errorMessage = application.getString(
+                            R.string.book_translation_error_no_text_available
+                        )
                     )
                 )
             }
@@ -1303,7 +1390,9 @@ class ReaderModel @Inject constructor(
             _state.update {
                 it.copy(
                     bookTranslation = it.bookTranslation.copy(
-                        errorMessage = "This book has no parsed text to show."
+                        errorMessage = application.getString(
+                            R.string.book_translation_error_no_parsed_text
+                        )
                     )
                 )
             }
@@ -1561,6 +1650,7 @@ class ReaderModel @Inject constructor(
                 return@update state.copyWithOriginalBookTextIfNeeded(
                     bookTranslation = state.bookTranslation.copy(
                         currentTranslation = currentTranslation,
+                        allTranslations = translations,
                         displayMode = ReaderBookTranslationDisplayMode.ORIGINAL,
                         activeTranslationId = null,
                         isApplyingTranslation = false,
@@ -1572,6 +1662,7 @@ class ReaderModel @Inject constructor(
             state.copy(
                 bookTranslation = state.bookTranslation.copy(
                     currentTranslation = currentTranslation,
+                    allTranslations = translations,
                     errorMessage = state.bookTranslation.errorMessage
                 )
             )

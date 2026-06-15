@@ -129,6 +129,18 @@ sealed class ReaderEvent {
 
     data object OnDismissBookTranslationError : ReaderEvent()
 
+    /**
+     * Switch the bottom sheet to a different already-existing book translation (provider/source/
+     * target). The reader picks up the matching row via [refreshBookTranslations].
+     */
+    data class OnSelectBookTranslation(
+        val translationId: Long
+    ) : ReaderEvent()
+
+    data class OnDeleteBookTranslation(
+        val translationId: Long
+    ) : ReaderEvent()
+
     data class OnOpenShareApp(
         val textToShare: String,
         val activity: ComponentActivity

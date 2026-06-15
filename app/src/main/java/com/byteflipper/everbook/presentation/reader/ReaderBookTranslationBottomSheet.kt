@@ -17,25 +17,32 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material.icons.filled.WarningAmber
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
@@ -48,6 +55,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -57,6 +65,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.translation.AUTO_TRANSLATION_LANGUAGE
 import com.byteflipper.everbook.domain.translation.BookTranslation
+import com.byteflipper.everbook.domain.translation.BookTranslationStatus
 import com.byteflipper.everbook.domain.translation.DEVICE_TRANSLATION_LANGUAGE
 import com.byteflipper.everbook.domain.translation.TranslationFeature
 import com.byteflipper.everbook.domain.translation.TranslationProviderMode
@@ -73,6 +82,8 @@ import com.byteflipper.everbook.presentation.translation.TranslationLanguageSele
 import com.byteflipper.everbook.presentation.translation.language_selection.TranslationLanguageSelectionRole
 import com.byteflipper.everbook.ui.reader.ReaderBookTranslationDisplayMode
 import com.byteflipper.everbook.ui.reader.ReaderBookTranslationState
+import com.byteflipper.everbook.ui.reader.ReaderEvent
+import com.byteflipper.everbook.ui.reader.ReaderModel
 import com.byteflipper.everbook.ui.settings.TranslatorSettingsModel
 import com.byteflipper.everbook.ui.theme.dynamicListItemColor
 import com.byteflipper.everbook.ui.translation.TranslationLanguageSelectionScreen
@@ -102,46 +113,56 @@ fun ReaderBookTranslationBottomSheet(
     dismissBottomSheet: () -> Unit
 ) {
     val retryTranslationState = state.retryTranslation
-    val runningTranslation = state.runningTranslation
-    val pausedTranslation = state.pausedTranslation
+    var showTranslationsSheet by remember { mutableStateOf(false) }
 
     if (state.showGoogleWarning) {
-        BasicAlertDialog(onDismissRequest = dismissGoogleWarning) {
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                shape = MaterialTheme.shapes.extraLarge,
-                color = MaterialTheme.colorScheme.surfaceContainerHigh
+        ModalBottomSheet(
+            onDismissRequest = dismissGoogleWarning,
+            sheetGesturesEnabled = true
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Column(
-                    modifier = Modifier.padding(24.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                Icon(
+                    imageVector = Icons.Filled.WarningAmber,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .align(Alignment.CenterHorizontally),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                StyledText(
+                    text = stringResource(id = R.string.book_translation_google_warning_title),
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        textAlign = TextAlign.Center
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                StyledText(
+                    text = stringResource(id = R.string.book_translation_google_warning_desc),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    StyledText(
-                        text = stringResource(id = R.string.book_translation_google_warning_title),
-                        style = MaterialTheme.typography.headlineSmall
-                    )
-                    StyledText(
-                        text = stringResource(id = R.string.book_translation_google_warning_desc),
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                    TextButton(onClick = dismissGoogleWarning) {
+                        StyledText(
+                            text = stringResource(id = R.string.cancel),
+                            style = MaterialTheme.typography.labelLarge
                         )
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        TextButton(onClick = dismissGoogleWarning) {
-                            StyledText(
-                                text = stringResource(id = R.string.cancel),
-                                style = MaterialTheme.typography.labelLarge
-                            )
-                        }
-                        TextButton(onClick = confirmGoogleWarning) {
-                            StyledText(
-                                text = stringResource(id = R.string.ok),
-                                style = MaterialTheme.typography.labelLarge
-                            )
-                        }
+                    }
+                    TextButton(onClick = confirmGoogleWarning) {
+                        StyledText(
+                            text = stringResource(id = R.string.ok),
+                            style = MaterialTheme.typography.labelLarge
+                        )
                     }
                 }
             }
@@ -219,8 +240,13 @@ fun ReaderBookTranslationBottomSheet(
                     state = state,
                     retryTranslation = retryTranslation,
                     cancelTranslation = cancelTranslation,
+                    pauseTranslation = pauseTranslation,
+                    resumeTranslation = resumeTranslation,
                     switchToInAppTranslation = {
                         changeProviderMode(TranslationProviderMode.IN_APP.name)
+                    },
+                    openTranslationsManager = {
+                        showTranslationsSheet = true
                     },
                     onClick = {
                         val currentTranslation = state.currentTranslation
@@ -282,19 +308,15 @@ fun ReaderBookTranslationBottomSheet(
                     }
                 )
             }
-
-            if (runningTranslation != null || pausedTranslation != null) {
-                item {
-                    BookTranslationInlineActions(
-                        runningTranslation = runningTranslation,
-                        pausedTranslation = pausedTranslation,
-                        pauseTranslation = pauseTranslation,
-                        resumeTranslation = resumeTranslation,
-                        cancelTranslation = cancelTranslation
-                    )
-                }
-            }
         }
+    }
+
+    if (showTranslationsSheet) {
+        BookTranslationsManagerBottomSheet(
+            translations = state.allTranslations,
+            activeTranslationId = state.currentTranslation?.id,
+            dismissBottomSheet = { showTranslationsSheet = false }
+        )
     }
 }
 
@@ -304,7 +326,10 @@ private fun BookTranslationActionButton(
     state: ReaderBookTranslationState,
     retryTranslation: (Long) -> Unit,
     cancelTranslation: (Long) -> Unit,
+    pauseTranslation: (Long) -> Unit,
+    resumeTranslation: (Long) -> Unit,
     switchToInAppTranslation: () -> Unit,
+    openTranslationsManager: () -> Unit,
     onClick: () -> Unit
 ) {
     val isStarting = state.isStarting
@@ -374,41 +399,80 @@ private fun BookTranslationActionButton(
     }
     val progressColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.18f)
 
-    Surface(
-        onClick = {
-            Log.i(
-                BOOK_TRANSLATION_LOG,
-                "Translate book action tapped: isStarting=$isStarting isApplying=$isApplying " +
-                        "translationId=${translation?.id} status=${translation?.status} " +
-                        "busy=${translation?.isBusy} canRead=${translation?.canRead} " +
-                        "textReady=${state.isBookTextReadyForTranslation} " +
-                        "displayMode=${state.displayMode} activeId=${state.activeTranslationId}"
-            )
-            if (!canClick) {
-                Log.i(BOOK_TRANSLATION_LOG, "Translate book action ignored: book text is not ready")
-            } else if (rateLimitedTranslation != null) {
-                showRateLimitActions = true
-            } else {
-                onClick()
-            }
-        },
+    // While a translation is running or paused, the main button becomes the control: tap the
+    // leading icon to pause/resume, the trailing icon to cancel. Progress sits in the middle with
+    // the fill behind. Replaces the separate pause/cancel button row.
+    if (!isStarting && !isApplying && (busyTranslation != null || pausedTranslation != null)) {
+        BookTranslationProgressControl(
+            control = busyTranslation ?: pausedTranslation!!,
+            isRunning = busyTranslation != null,
+            containerColor = containerColor,
+            contentColor = contentColor,
+            progressColor = progressColor,
+            pauseTranslation = pauseTranslation,
+            resumeTranslation = resumeTranslation,
+            cancelTranslation = cancelTranslation
+        )
+        return
+    }
+
+    // Split-button: show a narrow "tail" with the translations count + chevron when the book has
+    // any existing translations AND the main button is in a tap-to-act state (not while a worker
+    // is running/paused — that state already uses the in-place pause/cancel controls).
+    val showManagerTail = state.allTranslations.isNotEmpty() &&
+            !isStarting && !isApplying && busyTranslation == null && pausedTranslation == null
+    val mainShape = if (showManagerTail) {
+        RoundedCornerShape(topStart = 26.dp, bottomStart = 26.dp, topEnd = 8.dp, bottomEnd = 8.dp)
+    } else {
+        MaterialTheme.shapes.extraLarge
+    }
+    val tailShape = RoundedCornerShape(
+        topStart = 8.dp, bottomStart = 8.dp, topEnd = 26.dp, bottomEnd = 26.dp
+    )
+
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 18.dp, vertical = 12.dp)
             .height(52.dp),
-        shape = MaterialTheme.shapes.extraLarge,
-        color = containerColor,
-        contentColor = contentColor
+        horizontalArrangement = Arrangement.spacedBy(2.dp)
+    ) {
+        Surface(
+            onClick = {
+                Log.i(
+                    BOOK_TRANSLATION_LOG,
+                    "Translate book action tapped: isStarting=$isStarting isApplying=$isApplying " +
+                            "translationId=${translation?.id} status=${translation?.status} " +
+                            "busy=${translation?.isBusy} canRead=${translation?.canRead} " +
+                            "textReady=${state.isBookTextReadyForTranslation} " +
+                            "displayMode=${state.displayMode} activeId=${state.activeTranslationId}"
+                )
+                if (!canClick) {
+                    Log.i(BOOK_TRANSLATION_LOG, "Translate book action ignored: book text is not ready")
+                } else if (rateLimitedTranslation != null) {
+                    showRateLimitActions = true
+                } else {
+                    onClick()
+                }
+            },
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
+            shape = mainShape,
+            color = containerColor,
+            contentColor = contentColor
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
             contentAlignment = Alignment.Center
         ) {
             if (progressTranslation != null) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(progressTranslation.progress.coerceIn(0f, 1f))
-                        .height(52.dp)
+                        .fillMaxHeight()
                         .align(Alignment.CenterStart)
                         .background(progressColor)
                 )
@@ -417,9 +481,7 @@ private fun BookTranslationActionButton(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
-                        horizontal = 16.dp
-                    ),
+                    .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -476,6 +538,38 @@ private fun BookTranslationActionButton(
                 )
             }
         }
+        }
+
+        if (showManagerTail) {
+            Surface(
+                onClick = openTranslationsManager,
+                modifier = Modifier.fillMaxHeight(),
+                shape = tailShape,
+                color = containerColor,
+                contentColor = contentColor
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Translate,
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp),
+                        tint = contentColor
+                    )
+                    Icon(
+                        imageVector = Icons.Outlined.KeyboardArrowUp,
+                        contentDescription = stringResource(
+                            id = R.string.book_translation_manager_title
+                        ),
+                        modifier = Modifier.size(18.dp),
+                        tint = contentColor
+                    )
+                }
+            }
+        }
     }
 
     if (rateLimitedTranslation != null && showRateLimitActions) {
@@ -491,6 +585,194 @@ private fun BookTranslationActionButton(
             }
         )
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun BookTranslationsManagerBottomSheet(
+    translations: List<BookTranslation>,
+    activeTranslationId: Long?,
+    dismissBottomSheet: () -> Unit
+) {
+    // Reuse the reader's shared ReaderModel (same instance the bottom sheet is driven by) so the
+    // mini-sheet can switch/delete translations without threading callbacks through the chain.
+    val readerModel = hiltViewModel<ReaderModel>()
+    var pendingDelete by remember { mutableStateOf<BookTranslation?>(null) }
+
+    ModalBottomSheet(
+        modifier = Modifier.fillMaxWidth(),
+        onDismissRequest = dismissBottomSheet,
+        sheetGesturesEnabled = true
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 12.dp)
+        ) {
+            StyledText(
+                text = stringResource(id = R.string.book_translation_manager_title),
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                style = MaterialTheme.typography.titleLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                ),
+                maxLines = 1
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+            translations.forEach { translation ->
+                BookTranslationManagerRow(
+                    translation = translation,
+                    isActive = translation.id == activeTranslationId,
+                    onSelect = {
+                        readerModel.onEvent(
+                            ReaderEvent.OnSelectBookTranslation(translation.id)
+                        )
+                        dismissBottomSheet()
+                    },
+                    onDelete = { pendingDelete = translation }
+                )
+            }
+        }
+    }
+
+    pendingDelete?.let { target ->
+        BasicAlertDialog(onDismissRequest = { pendingDelete = null }) {
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = MaterialTheme.shapes.extraLarge,
+                color = MaterialTheme.colorScheme.surfaceContainerHigh
+            ) {
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    StyledText(
+                        text = stringResource(
+                            id = R.string.book_translation_manager_delete_confirm_title
+                        ),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                    StyledText(
+                        text = stringResource(
+                            id = R.string.book_translation_manager_delete_confirm_desc,
+                            target.sourceLanguageCode ?: AUTO_TRANSLATION_LANGUAGE,
+                            target.targetLanguageCode,
+                            providerTitle(target.providerMode)
+                        ),
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        TextButton(onClick = { pendingDelete = null }) {
+                            StyledText(text = stringResource(id = R.string.cancel))
+                        }
+                        TextButton(
+                            onClick = {
+                                readerModel.onEvent(
+                                    ReaderEvent.OnDeleteBookTranslation(target.id)
+                                )
+                                pendingDelete = null
+                            }
+                        ) {
+                            StyledText(
+                                text = stringResource(
+                                    id = R.string.book_translation_manager_delete
+                                ),
+                                style = MaterialTheme.typography.labelLarge.copy(
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun BookTranslationManagerRow(
+    translation: BookTranslation,
+    isActive: Boolean,
+    onSelect: () -> Unit,
+    onDelete: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 2.dp)
+            .clip(MaterialTheme.shapes.extraLarge)
+            .clickable(onClick = onSelect)
+            .padding(start = 16.dp, end = 4.dp, top = 10.dp, bottom = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                StyledText(
+                    text = "${(translation.sourceLanguageCode ?: AUTO_TRANSLATION_LANGUAGE)
+                        .uppercase()} → ${translation.targetLanguageCode.uppercase()}",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                )
+                if (isActive) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Icon(
+                        imageVector = Icons.Default.CheckCircle,
+                        contentDescription = stringResource(
+                            id = R.string.book_translation_manager_active
+                        ),
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(2.dp))
+            StyledText(
+                text = managerRowSubtitle(translation),
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            )
+        }
+        IconButton(onClick = onDelete) {
+            Icon(
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = stringResource(
+                    id = R.string.book_translation_manager_delete
+                ),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+@Composable
+private fun managerRowSubtitle(translation: BookTranslation): String {
+    val provider = providerTitle(translation.providerMode)
+    val status = stringResource(id = managerStatusRes(translation.status))
+    val progress = if (
+        translation.totalUnits > 0 &&
+        translation.status != BookTranslationStatus.COMPLETED
+    ) {
+        " · ${translation.completedUnits}/${translation.totalUnits}"
+    } else ""
+    return "$provider · $status$progress"
+}
+
+private fun managerStatusRes(status: BookTranslationStatus): Int = when (status) {
+    BookTranslationStatus.QUEUED, BookTranslationStatus.PENDING ->
+        R.string.book_translation_status_queued
+    BookTranslationStatus.RUNNING -> R.string.book_translation_status_running
+    BookTranslationStatus.PAUSED -> R.string.book_translation_status_paused
+    BookTranslationStatus.COMPLETED -> R.string.book_translation_status_completed
+    BookTranslationStatus.FAILED -> R.string.book_translation_status_failed
+    BookTranslationStatus.CANCELLED -> R.string.book_translation_status_cancelled
+    BookTranslationStatus.STALE -> R.string.book_translation_status_stale
 }
 
 @Composable
@@ -619,64 +901,92 @@ private fun BookTranslationRateLimitAction(
 }
 
 @Composable
-private fun BookTranslationInlineActions(
-    runningTranslation: BookTranslation?,
-    pausedTranslation: BookTranslation?,
+private fun BookTranslationProgressControl(
+    control: BookTranslation,
+    isRunning: Boolean,
+    containerColor: Color,
+    contentColor: Color,
+    progressColor: Color,
     pauseTranslation: (Long) -> Unit,
     resumeTranslation: (Long) -> Unit,
     cancelTranslation: (Long) -> Unit
 ) {
-    val translation = runningTranslation ?: pausedTranslation ?: return
-    Row(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 18.dp, vertical = 2.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+            .padding(horizontal = 18.dp, vertical = 12.dp)
+            .height(52.dp),
+        shape = MaterialTheme.shapes.extraLarge,
+        color = containerColor,
+        contentColor = contentColor
     ) {
-        TextButton(
-            modifier = Modifier.weight(1f),
-            onClick = {
-                if (runningTranslation != null) {
-                    pauseTranslation(translation.id)
-                } else {
-                    resumeTranslation(translation.id)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(control.progress.coerceIn(0f, 1f))
+                    .fillMaxHeight()
+                    .align(Alignment.CenterStart)
+                    .background(progressColor)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    onClick = {
+                        if (isRunning) {
+                            pauseTranslation(control.id)
+                        } else {
+                            resumeTranslation(control.id)
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = if (isRunning) {
+                            Icons.Default.Pause
+                        } else {
+                            Icons.Default.PlayArrow
+                        },
+                        contentDescription = stringResource(
+                            id = if (isRunning) {
+                                R.string.book_translation_pause
+                            } else {
+                                R.string.book_translation_resume
+                            }
+                        ),
+                        tint = contentColor,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+                StyledText(
+                    text = stringResource(
+                        id = R.string.book_translation_progress,
+                        control.completedUnits,
+                        control.totalUnits
+                    ),
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        color = contentColor,
+                        textAlign = TextAlign.Center
+                    ),
+                    maxLines = 1
+                )
+                IconButton(onClick = { cancelTranslation(control.id) }) {
+                    Icon(
+                        imageVector = Icons.Default.Cancel,
+                        contentDescription = stringResource(id = R.string.cancel),
+                        tint = contentColor,
+                        modifier = Modifier.size(20.dp)
+                    )
                 }
             }
-        ) {
-            Icon(
-                imageVector = if (runningTranslation != null) {
-                    Icons.Default.Pause
-                } else {
-                    Icons.Default.PlayArrow
-                },
-                contentDescription = null,
-                modifier = Modifier.size(18.dp)
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            StyledText(
-                text = if (runningTranslation != null) {
-                    stringResource(id = R.string.book_translation_pause)
-                } else {
-                    stringResource(id = R.string.book_translation_resume)
-                },
-                style = MaterialTheme.typography.labelLarge
-            )
-        }
-
-        TextButton(
-            modifier = Modifier.weight(1f),
-            onClick = { cancelTranslation(translation.id) }
-        ) {
-            Icon(
-                imageVector = Icons.Default.Cancel,
-                contentDescription = null,
-                modifier = Modifier.size(18.dp)
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            StyledText(
-                text = stringResource(id = R.string.cancel),
-                style = MaterialTheme.typography.labelLarge
-            )
         }
     }
 }

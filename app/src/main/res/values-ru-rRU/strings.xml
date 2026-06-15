@@ -79,6 +79,7 @@
     <string name="copy">Копировать</string>
     <string name="translate">Перевести</string>
     <string name="close">Закрыть</string>
+    <string name="retry">Повторить</string>
     <string name="translation_translating">Перевод…</string>
     <string name="translation_open_external">Внешний</string>
     <string name="translation_show_original">Показать оригинал</string>
@@ -128,6 +129,7 @@
     <string name="translation_model_notification_download_text">Скачивается %1$s для ML Kit перевода</string>
     <string name="translation_model_notification_delete_title">Обновление офлайн-моделей</string>
     <string name="translation_model_notification_delete_text">Удаляется модель ML Kit: %1$s</string>
+    <string name="translation_model_error_timeout">Загрузка модели прервана по тайм-ауту. Попробуйте очистить кэш Google Play Services (Настройки → Приложения → Google Play Services → Очистить кэш), затем повторите.</string>
     <string name="translation_selection_title">Перевод выделенного текста</string>
     <string name="book_translation_title">Перевод книги</string>
     <string name="book_translation_start">Перевести книгу</string>
@@ -149,6 +151,11 @@
     <string name="book_translation_retry">Повторить</string>
     <string name="book_translation_pause">Пауза</string>
     <string name="book_translation_resume">Продолжить</string>
+    <string name="book_translation_error_no_text_available">Переведённый текст пока недоступен.</string>
+    <string name="book_translation_error_no_parsed_text">У этой книги нет распознанного текста для показа.</string>
+    <string name="book_translation_error_pause_failed">Не удалось поставить перевод книги на паузу.</string>
+    <string name="book_translation_error_resume_failed">Не удалось продолжить перевод книги.</string>
+    <string name="book_translation_error_retry_failed">Не удалось перезапустить перевод книги.</string>
     <string name="book_translation_recent_languages">Недавние</string>
     <string name="book_translation_status_queued">В очереди</string>
     <string name="book_translation_status_running">Выполняется</string>
@@ -157,6 +164,12 @@
     <string name="book_translation_status_failed">Ошибка</string>
     <string name="book_translation_status_cancelled">Отменено</string>
     <string name="book_translation_status_stale">Устарело</string>
+    <string name="book_translation_manager_title">Мои переводы</string>
+    <string name="book_translation_manager_empty">Переводов пока нет. Запустите перевод книги, чтобы он появился здесь.</string>
+    <string name="book_translation_manager_active">Активен</string>
+    <string name="book_translation_manager_delete_confirm_title">Удалить перевод?</string>
+    <string name="book_translation_manager_delete_confirm_desc">Переведённый текст для %1$s → %2$s (%3$s) будет удалён без возможности восстановления.</string>
+    <string name="book_translation_manager_delete">Удалить</string>
     <string name="book_translation_google_warning_title">Перевести через Google?</string>
     <string name="book_translation_google_warning_desc">Google Переводчик работает онлайн и отправляет текст книги в Google. Продолжайте, только если это подходит для этой книги.</string>
     <string name="book_translation_google_notice">Google Переводчик отправляет текст книги в Google для онлайн-перевода. Если хотите оставить текст книги на устройстве, используйте офлайн-перевод ML Kit в Play Store-сборке.</string>

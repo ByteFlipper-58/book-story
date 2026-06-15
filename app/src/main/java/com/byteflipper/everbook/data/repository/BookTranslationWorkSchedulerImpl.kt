@@ -9,6 +9,7 @@ package com.byteflipper.everbook.data.repository
 
 import android.content.Context
 import android.util.Log
+import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
@@ -20,10 +21,12 @@ import com.byteflipper.everbook.domain.repository.BookTranslationWorkScheduler
 import com.byteflipper.everbook.domain.translation.BookTranslation
 import com.byteflipper.everbook.domain.translation.TranslationProviderMode
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val BOOK_TRANSLATION_LOG = "BookTranslation"
+private const val BACKOFF_DELAY_SECONDS = 30L
 
 @Singleton
 class BookTranslationWorkSchedulerImpl @Inject constructor(
@@ -40,7 +43,12 @@ class BookTranslationWorkSchedulerImpl @Inject constructor(
 
         val requiredNetworkType = when (translation.providerMode) {
             TranslationProviderMode.GOOGLE_TRANSLATE -> NetworkType.CONNECTED
-            TranslationProviderMode.IN_APP,
+            TranslationProviderMode.IN_APP -> if (translation.requireWifi) {
+                NetworkType.UNMETERED
+            } else {
+                NetworkType.NOT_REQUIRED
+            }
+
             TranslationProviderMode.EXTERNAL -> NetworkType.NOT_REQUIRED
         }
         val request = OneTimeWorkRequestBuilder<BookTranslationWorker>()
@@ -51,6 +59,13 @@ class BookTranslationWorkSchedulerImpl @Inject constructor(
                 Constraints.Builder()
                     .setRequiredNetworkType(requiredNetworkType)
                     .build()
+            )
+            // Exponential backoff so a rate-limit reschedule (Result.retry) spaces out instead of
+            // hammering the provider. WorkManager caps the interval at ~5h.
+            .setBackoffCriteria(
+                BackoffPolicy.EXPONENTIAL,
+                BACKOFF_DELAY_SECONDS,
+                TimeUnit.SECONDS
             )
             .addTag(BookTranslationWorker.tagFor(translation.id))
             .build()

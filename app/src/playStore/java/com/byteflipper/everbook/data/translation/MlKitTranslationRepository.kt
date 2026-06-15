@@ -49,8 +49,24 @@ class MlKitTranslationRepository @Inject constructor(
 
     private val languageIdentifier = LanguageIdentification.getClient()
     private val translatorMutex = Mutex()
-    private val translators = mutableMapOf<Pair<String, String>, Translator>()
     private val preparedTranslatorKeys = mutableSetOf<Pair<String, String>>()
+
+    // Bounded LRU cache: ML Kit Translator holds a native model handle and is Closeable. Caching
+    // unbounded (one per language pair, forever) leaks native memory over a long session, so the
+    // least-recently-used translator is closed once the cache exceeds MAX_CACHED_TRANSLATORS.
+    private val translators =
+        object : LinkedHashMap<Pair<String, String>, Translator>(8, 0.75f, true) {
+            override fun removeEldestEntry(
+                eldest: MutableMap.MutableEntry<Pair<String, String>, Translator>
+            ): Boolean {
+                if (size <= MAX_CACHED_TRANSLATORS) return false
+                eldest.value.close()
+                // Drop the prepared flag too so a future re-created instance re-verifies the model
+                // (a no-op when it's already on disk).
+                preparedTranslatorKeys -= eldest.key
+                return true
+            }
+        }
 
     override suspend fun translate(request: TranslationRequest): TranslationResult =
         when (request.providerMode) {
@@ -199,4 +215,8 @@ class MlKitTranslationRepository @Inject constructor(
     private fun String?.toMlKitCode(): String? =
         normalizeTranslationLanguageCode(this)
             ?.let { TranslateLanguage.fromLanguageTag(it) }
+
+    private companion object {
+        const val MAX_CACHED_TRANSLATORS = 6
+    }
 }

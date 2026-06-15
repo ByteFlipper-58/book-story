@@ -88,7 +88,12 @@ class EnqueueBookTranslation @Inject constructor(
                 existing.status == BookTranslationStatus.QUEUED ||
                         existing.status == BookTranslationStatus.PENDING ||
                         existing.canRetry ||
-                        existing.canResume -> queueExistingTranslation(existing, units.size)
+                        existing.canResume -> queueExistingTranslation(
+                            translation = existing,
+                            totalUnits = units.size,
+                            requireWifi = requireWifi
+                        )
+
                 existing.isBusy -> existing
                 else -> existing
             }
@@ -113,11 +118,13 @@ class EnqueueBookTranslation @Inject constructor(
 
     private suspend fun queueExistingTranslation(
         translation: BookTranslation,
-        totalUnits: Int
+        totalUnits: Int,
+        requireWifi: Boolean
     ): BookTranslation {
         val queued = translation.copy(
             status = BookTranslationStatus.QUEUED,
             totalUnits = totalUnits,
+            requireWifi = requireWifi,
             errorMessage = null,
             queuedAt = System.currentTimeMillis(),
             updatedAt = System.currentTimeMillis(),

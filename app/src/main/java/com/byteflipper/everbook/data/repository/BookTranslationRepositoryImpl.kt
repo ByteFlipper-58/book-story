@@ -21,6 +21,8 @@ import com.byteflipper.everbook.domain.translation.toTranslationProviderMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,6 +31,10 @@ import javax.inject.Singleton
 class BookTranslationRepositoryImpl @Inject constructor(
     private val dao: BookTranslationDao
 ) : BookTranslationRepository {
+    // Serializes find-or-create so a double-tap (two concurrent enqueues for the same
+    // book/provider/lang/fingerprint) can't both pass their use-case-level find() and insert
+    // two rows. Covers auto-detect (null source) too, which a SQLite unique index would not.
+    private val createMutex = Mutex()
     override suspend fun getTranslations(bookId: Int): List<BookTranslation> =
         withContext(Dispatchers.IO) {
             dao.getTranslations(bookId).map { it.toDomain() }
@@ -95,36 +101,65 @@ class BookTranslationRepositoryImpl @Inject constructor(
         sourceFingerprint: String,
         totalUnits: Int
     ): BookTranslation = withContext(Dispatchers.IO) {
-        val now = System.currentTimeMillis()
-        val entity = BookTranslationEntity(
-            bookId = bookId,
-            providerMode = providerMode.name,
-            sourceLanguageCode = sourceLanguageCode,
-            detectedSourceLanguageCode = null,
-            targetLanguageCode = targetLanguageCode,
-            requireWifi = requireWifi,
-            status = BookTranslationStatus.QUEUED.name,
-            sourceFingerprint = sourceFingerprint,
-            totalUnits = totalUnits,
-            completedUnits = 0,
-            failedUnits = 0,
-            errorMessage = null,
-            createdAt = now,
-            updatedAt = now,
-            queuedAt = now,
-            startedAt = null,
-            lastAttemptAt = null,
-            retryCount = 0,
-            completedAt = null
-        )
-        val id = dao.insertTranslation(entity)
-        dao.getTranslation(id)?.toDomain()
-            ?: entity.copy(id = id).toDomain()
+        createMutex.withLock {
+            // Re-check under the lock: another concurrent enqueue may have created the row
+            // after this caller's find() returned null.
+            dao.findTranslation(
+                bookId = bookId,
+                providerMode = providerMode.name,
+                sourceLanguageCode = sourceLanguageCode,
+                targetLanguageCode = targetLanguageCode,
+                sourceFingerprint = sourceFingerprint
+            )?.let { return@withLock it.toDomain() }
+
+            val now = System.currentTimeMillis()
+            val entity = BookTranslationEntity(
+                bookId = bookId,
+                providerMode = providerMode.name,
+                sourceLanguageCode = sourceLanguageCode,
+                detectedSourceLanguageCode = null,
+                targetLanguageCode = targetLanguageCode,
+                requireWifi = requireWifi,
+                status = BookTranslationStatus.QUEUED.name,
+                sourceFingerprint = sourceFingerprint,
+                totalUnits = totalUnits,
+                completedUnits = 0,
+                failedUnits = 0,
+                errorMessage = null,
+                createdAt = now,
+                updatedAt = now,
+                queuedAt = now,
+                startedAt = null,
+                lastAttemptAt = null,
+                retryCount = 0,
+                completedAt = null
+            )
+            val id = dao.insertTranslation(entity)
+            dao.getTranslation(id)?.toDomain()
+                ?: entity.copy(id = id).toDomain()
+        }
     }
 
     override suspend fun updateTranslation(translation: BookTranslation) {
         withContext(Dispatchers.IO) {
             dao.updateTranslation(translation.toEntity())
+        }
+    }
+
+    override suspend fun updateProgress(
+        translationId: Long,
+        completedUnits: Int,
+        failedUnits: Int,
+        detectedSourceLanguageCode: String?
+    ) {
+        withContext(Dispatchers.IO) {
+            dao.updateProgress(
+                id = translationId,
+                completedUnits = completedUnits,
+                failedUnits = failedUnits,
+                detectedSourceLanguageCode = detectedSourceLanguageCode,
+                updatedAt = System.currentTimeMillis()
+            )
         }
     }
 

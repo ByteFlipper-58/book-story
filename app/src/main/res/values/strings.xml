@@ -81,6 +81,7 @@
     <string name="copy">Copy</string>
     <string name="translate">Translate</string>
     <string name="close">Close</string>
+    <string name="retry">Retry</string>
     <string name="translation_translating">Translating…</string>
     <string name="translation_open_external">External</string>
     <string name="translation_show_original">Show original</string>
@@ -131,6 +132,7 @@
     <string name="translation_model_notification_download_text">Downloading %1$s for ML Kit translation</string>
     <string name="translation_model_notification_delete_title">Updating offline models</string>
     <string name="translation_model_notification_delete_text">Removing %1$s ML Kit model</string>
+    <string name="translation_model_error_timeout">Model download timed out. Try clearing Google Play Services cache (Settings → Apps → Google Play Services → Clear cache), then retry.</string>
     <string name="translation_selection_title">Selected text translation</string>
     <string name="book_translation_title">Book translation</string>
     <string name="book_translation_start">Translate book</string>
@@ -152,6 +154,11 @@
     <string name="book_translation_retry">Retry</string>
     <string name="book_translation_pause">Pause</string>
     <string name="book_translation_resume">Resume</string>
+    <string name="book_translation_error_no_text_available">No translated text is available yet.</string>
+    <string name="book_translation_error_no_parsed_text">This book has no parsed text to show.</string>
+    <string name="book_translation_error_pause_failed">Could not pause book translation.</string>
+    <string name="book_translation_error_resume_failed">Could not resume book translation.</string>
+    <string name="book_translation_error_retry_failed">Could not restart book translation.</string>
     <string name="book_translation_recent_languages">Recent</string>
     <string name="book_translation_status_queued">Queued</string>
     <string name="book_translation_status_running">Running</string>
@@ -160,6 +167,12 @@
     <string name="book_translation_status_failed">Failed</string>
     <string name="book_translation_status_cancelled">Cancelled</string>
     <string name="book_translation_status_stale">Outdated</string>
+    <string name="book_translation_manager_title">My translations</string>
+    <string name="book_translation_manager_empty">No translations yet. Translate the book to see entries here.</string>
+    <string name="book_translation_manager_active">Active</string>
+    <string name="book_translation_manager_delete_confirm_title">Delete translation?</string>
+    <string name="book_translation_manager_delete_confirm_desc">Translated text for %1$s → %2$s (%3$s) will be removed permanently.</string>
+    <string name="book_translation_manager_delete">Delete</string>
     <string name="book_translation_google_warning_title">Translate with Google?</string>
     <string name="book_translation_google_warning_desc">Google Translate works online and sends book text to Google. Continue only if that is okay for this book.</string>
     <string name="book_translation_google_notice">Google Translate sends book text to Google for online translation. Use ML Kit offline translation in the Play Store build if you want book text to stay on the device.</string>

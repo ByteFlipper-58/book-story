@@ -17,6 +17,7 @@ import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.common.model.RemoteModelManager
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.TranslateRemoteModel
+import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.repository.TranslationModelRepository
 import com.byteflipper.everbook.domain.translation.TranslationException
 import com.byteflipper.everbook.domain.translation.TranslationLanguage
@@ -37,8 +38,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 
 private const val TRANSLATION_MODELS_LOG = "TranslationModels"
 private const val MODEL_DOWNLOAD_TIMEOUT_MS = 5 * 60 * 1000L
-private const val MODEL_DOWNLOAD_VERIFY_ATTEMPTS = 5
-private const val MODEL_DOWNLOAD_VERIFY_DELAY_MS = 500L
+private const val MODEL_DOWNLOAD_VERIFY_ATTEMPTS = 15
+private const val MODEL_DOWNLOAD_VERIFY_DELAY_MS = 1_000L
 
 @Singleton
 class MlKitTranslationModelRepository @Inject constructor(
@@ -101,10 +102,23 @@ class MlKitTranslationModelRepository @Inject constructor(
             )
             notificationController.showDownload(languageCode)
             withContext(Dispatchers.IO) {
-                withTimeout(MODEL_DOWNLOAD_TIMEOUT_MS) {
-                    modelManager.download(model, conditions).await()
-                    verifyModelDownloaded(model, languageCode)
+                val downloadTask = modelManager.download(model, conditions)
+                try {
+                    withTimeout(MODEL_DOWNLOAD_TIMEOUT_MS) {
+                        downloadTask.await()
+                    }
+                } catch (timeout: TimeoutCancellationException) {
+                    Log.e(
+                        TRANSLATION_MODELS_LOG,
+                        "ML Kit model download timed out: language=$languageCode " +
+                                "timeoutMs=$MODEL_DOWNLOAD_TIMEOUT_MS " +
+                                "taskComplete=${downloadTask.isComplete} " +
+                                "taskCancelled=${downloadTask.isCanceled} " +
+                                "taskException=${downloadTask.exception?.message}"
+                    )
+                    throw timeout
                 }
+                verifyModelDownloaded(model, languageCode)
             }
             Log.i(
                 TRANSLATION_MODELS_LOG,
@@ -112,14 +126,8 @@ class MlKitTranslationModelRepository @Inject constructor(
                         "elapsedMs=${System.currentTimeMillis() - startedAt}"
             )
         } catch (exception: TimeoutCancellationException) {
-            Log.e(
-                TRANSLATION_MODELS_LOG,
-                "ML Kit model download timed out: language=$languageCode " +
-                        "timeoutMs=$MODEL_DOWNLOAD_TIMEOUT_MS",
-                exception
-            )
             throw TranslationException(
-                "ML Kit model download is taking too long. Check Wi-Fi, Google Play services and free storage, then try again.",
+                context.getString(R.string.translation_model_error_timeout),
                 exception
             )
         } catch (exception: CancellationException) {
@@ -171,13 +179,34 @@ class MlKitTranslationModelRepository @Inject constructor(
         languageCode: String
     ) {
         repeat(MODEL_DOWNLOAD_VERIFY_ATTEMPTS) { attempt ->
-            val downloaded = modelManager.isModelDownloaded(model).await()
+            if (modelManager.isModelDownloaded(model).await()) {
+                Log.i(
+                    TRANSLATION_MODELS_LOG,
+                    "ML Kit model download verification: language=$languageCode " +
+                            "attempt=${attempt + 1} downloaded=true"
+                )
+                return
+            }
+
+            val downloadedLanguages = modelManager
+                .getDownloadedModels(TranslateRemoteModel::class.java)
+                .await()
+                .mapNotNull { normalizeTranslationLanguageCode(it.language) }
+                .toSet()
+            if (languageCode in downloadedLanguages) {
+                Log.i(
+                    TRANSLATION_MODELS_LOG,
+                    "ML Kit model download verification: language=$languageCode " +
+                            "attempt=${attempt + 1} downloaded=true via model list"
+                )
+                return
+            }
+
             Log.i(
                 TRANSLATION_MODELS_LOG,
                 "ML Kit model download verification: language=$languageCode " +
-                        "attempt=${attempt + 1} downloaded=$downloaded"
+                        "attempt=${attempt + 1} downloaded=false"
             )
-            if (downloaded) return
             delay(MODEL_DOWNLOAD_VERIFY_DELAY_MS)
         }
 
@@ -215,15 +244,20 @@ class MlKitTranslationModelRepository @Inject constructor(
         val connectivityManager =
             getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager ?: return false
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val network = connectivityManager.activeNetwork ?: return false
-            val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
-            return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+            return connectivityManager.allNetworks.any { network ->
+                val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return@any false
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) &&
+                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            }
         }
 
         @Suppress("DEPRECATION")
-        val networkInfo = connectivityManager.activeNetworkInfo ?: return false
-        @Suppress("DEPRECATION")
-        return networkInfo.isConnected && networkInfo.type == ConnectivityManager.TYPE_WIFI
+        return connectivityManager.allNetworks.any { network ->
+            @Suppress("DEPRECATION")
+            val networkInfo = connectivityManager.getNetworkInfo(network) ?: return@any false
+            @Suppress("DEPRECATION")
+            networkInfo.isConnected && networkInfo.type == ConnectivityManager.TYPE_WIFI
+        }
     }
 
     private fun String?.toMlKitCode(): String? =

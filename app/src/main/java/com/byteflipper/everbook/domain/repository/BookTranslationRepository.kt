@@ -50,6 +50,17 @@ interface BookTranslationRepository {
 
     suspend fun updateTranslation(translation: BookTranslation)
 
+    /**
+     * Persists only progress counters, leaving [BookTranslation.status] untouched so a
+     * concurrent pause/cancel can never be overwritten by a stale write.
+     */
+    suspend fun updateProgress(
+        translationId: Long,
+        completedUnits: Int,
+        failedUnits: Int,
+        detectedSourceLanguageCode: String?
+    )
+
     suspend fun updateTranslationStatus(
         translationId: Long,
         status: BookTranslationStatus,

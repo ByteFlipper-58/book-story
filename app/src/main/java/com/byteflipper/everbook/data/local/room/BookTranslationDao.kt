@@ -49,11 +49,12 @@ interface BookTranslationDao {
             CASE status
                 WHEN 'COMPLETED' THEN 0
                 WHEN 'RUNNING' THEN 1
-                WHEN 'QUEUED' THEN 2
-                WHEN 'PENDING' THEN 3
-                WHEN 'FAILED' THEN 4
-                WHEN 'CANCELLED' THEN 5
-                ELSE 6
+                WHEN 'PAUSED' THEN 2
+                WHEN 'QUEUED' THEN 3
+                WHEN 'PENDING' THEN 4
+                WHEN 'FAILED' THEN 5
+                WHEN 'CANCELLED' THEN 6
+                ELSE 7
             END,
             updatedAt DESC
         LIMIT 1
@@ -93,6 +94,29 @@ interface BookTranslationDao {
 
     @Update
     suspend fun updateTranslation(entity: BookTranslationEntity)
+
+    /**
+     * Progress-only update that never touches [BookTranslationEntity.status]. Used by the
+     * executor between batches so a concurrent pause/cancel (written by the action receiver)
+     * is never resurrected back to RUNNING by a stale full-row write.
+     */
+    @Query(
+        """
+        UPDATE BookTranslationEntity
+        SET completedUnits = :completedUnits,
+            failedUnits = :failedUnits,
+            detectedSourceLanguageCode = :detectedSourceLanguageCode,
+            updatedAt = :updatedAt
+        WHERE id = :id
+        """
+    )
+    suspend fun updateProgress(
+        id: Long,
+        completedUnits: Int,
+        failedUnits: Int,
+        detectedSourceLanguageCode: String?,
+        updatedAt: Long
+    )
 
     @Upsert
     suspend fun upsertEntries(entries: List<BookTranslationEntryEntity>)

@@ -27,12 +27,12 @@ if (appliesPlayStoreServices) {
 
 android {
     namespace = "com.byteflipper.everbook"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.byteflipper.everbook"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 10
         versionName = "1.5.0"
 
@@ -135,9 +135,9 @@ tasks.configureEach {
 dependencies {
 
     // Core
-    implementation("androidx.core:core-ktx:1.15.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-    implementation("androidx.activity:activity-compose:1.10.1")
+    implementation("androidx.core:core-ktx:1.16.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
+    implementation("androidx.activity:activity-compose:1.13.0")
 
     // Compose BOM — alpha
     val composeBom = platform("androidx.compose:compose-bom-alpha:2025.12.01")
@@ -160,19 +160,19 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     // All dependencies
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
     implementation("androidx.work:work-runtime-ktx:2.11.2")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
 
     // Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:2.55")
-    ksp("com.google.dagger:hilt-android-compiler:2.55")
-    ksp("androidx.hilt:hilt-compiler:1.2.0")
-    implementation("androidx.hilt:hilt-work:1.2.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation("com.google.dagger:hilt-android:2.57.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.57.1")
+    ksp("androidx.hilt:hilt-compiler:1.3.0")
+    implementation("androidx.hilt:hilt-work:1.3.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
 
-    add("playStoreImplementation", platform("com.google.firebase:firebase-bom:33.16.0"))
+    add("playStoreImplementation", platform("com.google.firebase:firebase-bom:34.11.0"))
     add("playStoreImplementation", "com.google.firebase:firebase-analytics")
     add("playStoreImplementation", "com.google.firebase:firebase-crashlytics")
     add("playStoreImplementation", "com.google.firebase:firebase-messaging")
@@ -187,17 +187,17 @@ dependencies {
     add("playStoreImplementation", "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.1")
 
     // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-runtime:2.7.1")
+    ksp("androidx.room:room-compiler:2.7.1")
 
     // Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.room:room-ktx:2.7.1")
 
     // Datastore (Settings)
-    implementation("androidx.datastore:datastore-preferences:1.1.3")
+    implementation("androidx.datastore:datastore-preferences:1.2.1")
 
     // Splash Screen API
-    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.core:core-splashscreen:1.2.0")
 
     // SAF
     implementation("com.anggrayudi:storage:2.0.0")
@@ -207,14 +207,14 @@ dependencies {
     implementation("com.tom-roush:pdfbox-android:2.0.27.0")
 
     // EPUB parser
-    implementation("org.jsoup:jsoup:1.18.3")
+    implementation("org.jsoup:jsoup:1.22.2")
 
     // FB2 parser
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.8.0")
 
     // Language Switcher
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.appcompat:appcompat-resources:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("androidx.appcompat:appcompat-resources:1.7.1")
 
     // Coil for loading images
     implementation("io.coil-kt:coil-compose:2.7.0")

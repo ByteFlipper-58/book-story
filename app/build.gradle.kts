@@ -33,8 +33,8 @@ android {
         applicationId = "com.byteflipper.everbook"
         minSdk = 26
         targetSdk = 36
-        versionCode = 10
-        versionName = "1.5.0"
+        versionCode = 2008
+        versionName = "1.6.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -66,7 +66,7 @@ android {
 
         getByName("release") {
             isMinifyEnabled = true
-            isShrinkResources = false
+            isShrinkResources = true
             manifestPlaceholders["adMobAppId"] = "ca-app-pub-4346225518624754~1470713545"
 
             proguardFiles("proguard-rules.pro")

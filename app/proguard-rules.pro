@@ -1,5 +1,9 @@
 # Proguard-rules
 -dontwarn android.content.res.**
+-dontwarn androidx.window.extensions.area.ExtensionWindowAreaPresentation
+-dontwarn androidx.window.extensions.core.util.function.Consumer
+-dontwarn androidx.window.extensions.core.util.function.Function
+-dontwarn androidx.window.extensions.core.util.function.Predicate
 -dontwarn com.gemalto.jp2.JP2Decoder
 -dontwarn com.google.auto.service.AutoService
 -dontwarn javax.lang.model.SourceVersion

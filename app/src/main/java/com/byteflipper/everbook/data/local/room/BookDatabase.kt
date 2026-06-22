@@ -24,6 +24,7 @@ import com.byteflipper.everbook.data.local.dto.CategoryEntity
 import com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef
 import com.byteflipper.everbook.data.local.dto.BookTranslationEntity
 import com.byteflipper.everbook.data.local.dto.BookTranslationEntryEntity
+import com.byteflipper.everbook.data.local.dto.ReadingSessionEntity
 import java.io.File
 
 @Database(
@@ -35,8 +36,9 @@ import java.io.File
         BookCategoryCrossRef::class,
         BookTranslationEntity::class,
         BookTranslationEntryEntity::class,
+        ReadingSessionEntity::class,
     ],
-    version = 13,
+    version = 14,
     autoMigrations = [
         AutoMigration(1, 2),
         AutoMigration(2, 3),
@@ -335,6 +337,31 @@ object DatabaseHelper {
     }
 
     /**
+     * Migration from version 13 to 14.
+     *
+     * Adds reading sessions table — the data source for reading statistics.
+     */
+    val MIGRATION_13_14 = object : Migration(13, 14) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS `ReadingSessionEntity` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`bookId` INTEGER NOT NULL, " +
+                        "`startTime` INTEGER NOT NULL, " +
+                        "`endTime` INTEGER NOT NULL, " +
+                        "`progressStart` REAL NOT NULL, " +
+                        "`progressEnd` REAL NOT NULL, " +
+                        "`pagesRead` INTEGER NOT NULL DEFAULT 0" +
+                        ")"
+            )
+            db.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_ReadingSessionEntity_bookId` " +
+                        "ON `ReadingSessionEntity` (`bookId`)"
+            )
+        }
+    }
+
+    /**
      * Callback, который вызывается при создании базы данных (fresh install).
      * Заполняет таблицу `CategoryEntity` четырьмя стандартными категориями, если она пуста.
      */
@@ -377,6 +404,7 @@ object DatabaseHelper {
             .addMigrations(MIGRATION_10_11)
             .addMigrations(MIGRATION_11_12)
             .addMigrations(MIGRATION_12_13)
+            .addMigrations(MIGRATION_13_14)
             .build()
     }
 }

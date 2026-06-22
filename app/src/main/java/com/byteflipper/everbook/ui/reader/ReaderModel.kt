@@ -63,6 +63,8 @@ import com.byteflipper.everbook.domain.use_case.book.UpdateBook
 import com.byteflipper.everbook.domain.use_case.data_store.GetDatastore
 import com.byteflipper.everbook.domain.use_case.data_store.SetDatastore
 import com.byteflipper.everbook.domain.use_case.history.GetLatestHistory
+import com.byteflipper.everbook.domain.statistics.ReadingSession
+import com.byteflipper.everbook.domain.use_case.statistics.RecordReadingSession
 import com.byteflipper.everbook.domain.use_case.translation.CancelBookTranslation
 import com.byteflipper.everbook.domain.use_case.translation.DeleteBookTranslation
 import com.byteflipper.everbook.domain.use_case.translation.EnqueueBookTranslation
@@ -89,6 +91,10 @@ private const val BOOK_TRANSLATION_LOG = "BookTranslation"
 private const val READER_UI_MIN_UPDATE_ITEMS = 640
 private const val READER_UI_MIN_UPDATE_MS = 300L
 
+// ponytail: trailing-idle cap only — a mid-read pause still counts. Per-gap idle
+// splitting is the upgrade path if reading time starts looking inflated.
+private const val SESSION_IDLE_CAP_MS = 5 * 60 * 1000L
+
 private data class ReaderTextScrollAnchor(
     val textIndex: Int,
     val offset: Int
@@ -113,7 +119,8 @@ class ReaderModel @Inject constructor(
     private val pauseBookTranslation: PauseBookTranslation,
     private val resumeBookTranslation: ResumeBookTranslation,
     private val cancelBookTranslation: CancelBookTranslation,
-    private val deleteBookTranslation: DeleteBookTranslation
+    private val deleteBookTranslation: DeleteBookTranslation,
+    private val recordReadingSession: RecordReadingSession
 ) : ViewModel() {
 
     private val mutex = Mutex()
@@ -132,6 +139,12 @@ class ReaderModel @Inject constructor(
     private var displayIndexToTextIndex: (Int) -> Int = { it }
     private var textIndexToDisplayIndex: (Int) -> Int = { it }
     private val translationCache = mutableMapOf<String, TranslationResult>()
+
+    // Reading session tracking (statistics). Spans from first text load to OnLeave.
+    private var sessionStartTime: Long? = null
+    private var sessionProgressStart: Float = 0f
+    private var sessionTextIndexStart: Int = 0
+    private var sessionLastActiveTime: Long = 0L
 
     fun onEvent(event: ReaderEvent) {
         viewModelScope.launch(eventJob + Dispatchers.Main) {
@@ -152,6 +165,16 @@ class ReaderModel @Inject constructor(
                         val initialProgress = _state.value.book.progress
                             .coerceAndPreventNaN()
                             .coerceIn(0f, 1f)
+
+                        // Start a reading session on first load; reloads (e.g. translation
+                        // toggles) keep the same session until the reader is left.
+                        if (sessionStartTime == null) {
+                            val now = System.currentTimeMillis()
+                            sessionStartTime = now
+                            sessionLastActiveTime = now
+                            sessionProgressStart = initialProgress
+                            sessionTextIndexStart = initialScrollIndex
+                        }
 
                         fun resolveInitialTargetIndex(
                             textSize: Int,
@@ -545,6 +568,24 @@ class ReaderModel @Inject constructor(
                             }
 
                             updateBook.execute(_state.value.book)
+
+                            sessionStartTime?.let { start ->
+                                val endTime = System.currentTimeMillis()
+                                    .coerceAtMost(sessionLastActiveTime + SESSION_IDLE_CAP_MS)
+                                val pagesRead = (textIndex - sessionTextIndexStart)
+                                    .coerceAtLeast(0)
+                                recordReadingSession.execute(
+                                    ReadingSession(
+                                        bookId = _state.value.book.id,
+                                        startTime = start,
+                                        endTime = endTime,
+                                        progressStart = sessionProgressStart,
+                                        progressEnd = _state.value.book.progress,
+                                        pagesRead = pagesRead
+                                    )
+                                )
+                                sessionStartTime = null
+                            }
 
                             LibraryScreen.refreshListChannel.trySend(0)
                             HistoryScreen.refreshListChannel.trySend(0)
@@ -1192,6 +1233,7 @@ class ReaderModel @Inject constructor(
             snapshotFlow {
                 listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset
             }.distinctUntilChanged().debounce(300).collectLatest { (displayIndex, offset) ->
+                sessionLastActiveTime = System.currentTimeMillis()
                 val index = displayIndexToTextIndex(displayIndex)
                 val progress = calculateProgress(index)
                 if (progress == _state.value.book.progress) return@collectLatest

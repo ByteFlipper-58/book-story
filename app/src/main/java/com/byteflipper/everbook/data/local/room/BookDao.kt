@@ -17,6 +17,7 @@ import androidx.room.Upsert
 import com.byteflipper.everbook.data.local.dto.BookEntity
 import com.byteflipper.everbook.data.local.dto.ColorPresetEntity
 import com.byteflipper.everbook.data.local.dto.HistoryEntity
+import com.byteflipper.everbook.data.local.dto.ReadingSessionEntity
 
 /**
  * Class to manipulate Room database.
@@ -72,6 +73,21 @@ interface BookDao {
 
     @Delete
     suspend fun deleteHistory(history: List<HistoryEntity>)
+    /* - - - - - - - - - - - - - - - - - - - - - - */
+
+
+    /* ------ ReadingSessionEntity -------------- */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSession(session: ReadingSessionEntity)
+
+    @Query("SELECT * FROM readingsessionentity")
+    suspend fun getAllSessions(): List<ReadingSessionEntity>
+
+    @Query("DELETE FROM readingsessionentity WHERE bookId = :bookId")
+    suspend fun deleteBookSessions(bookId: Int)
+
+    @Query("DELETE FROM readingsessionentity")
+    suspend fun deleteAllSessions()
     /* - - - - - - - - - - - - - - - - - - - - - - */
 
 

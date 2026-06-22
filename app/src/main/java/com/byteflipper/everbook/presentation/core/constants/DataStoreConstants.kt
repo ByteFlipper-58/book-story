@@ -25,6 +25,13 @@ object DataStoreConstants {
     val DOUBLE_PRESS_EXIT = booleanPreferencesKey("double_press_exit")
     val CHANGELOG_LAST_SEEN_VERSION_CODE = intPreferencesKey("changelog_last_seen_version_code")
 
+    // Statistics
+    val READING_GOAL_MINUTES = intPreferencesKey("reading_goal_minutes")
+    val STATISTICS_SECTIONS = stringPreferencesKey("statistics_sections")
+    val STATISTICS_METRICS = stringPreferencesKey("statistics_metrics")
+    val STATISTICS_RANGE = stringPreferencesKey("statistics_range")
+    val STATISTICS_WEEK_START_MONDAY = booleanPreferencesKey("statistics_week_start_monday")
+
     // Reader settings
     val DOUBLE_CLICK_TRANSLATION = booleanPreferencesKey("double_click_translation")
     val TRANSLATION_PROVIDER_MODE = stringPreferencesKey("translation_provider_mode")

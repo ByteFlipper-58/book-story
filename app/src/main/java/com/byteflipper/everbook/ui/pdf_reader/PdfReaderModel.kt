@@ -24,8 +24,10 @@ import androidx.lifecycle.viewModelScope
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.file.CachedFileCompat
 import com.byteflipper.everbook.domain.reader.PdfReadingMode
+import com.byteflipper.everbook.domain.statistics.ReadingSession
 import com.byteflipper.everbook.domain.use_case.book.GetBookById
 import com.byteflipper.everbook.domain.use_case.book.UpdateBook
+import com.byteflipper.everbook.domain.use_case.statistics.RecordReadingSession
 import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.presentation.core.util.coerceAndPreventNaN
 import com.byteflipper.everbook.presentation.core.util.setBrightness
@@ -57,7 +59,8 @@ import kotlin.math.roundToInt
 class PdfReaderModel @Inject constructor(
     private val application: Application,
     private val getBookById: GetBookById,
-    private val updateBook: UpdateBook
+    private val updateBook: UpdateBook,
+    private val recordReadingSession: RecordReadingSession
 ) : ViewModel() {
 
     private val stateMutex = Mutex()
@@ -73,6 +76,9 @@ class PdfReaderModel @Inject constructor(
 
     private var renderer: PdfRenderer? = null
     private var fileDescriptor: ParcelFileDescriptor? = null
+    private var sessionStartTime: Long? = null
+    private var sessionProgressStart: Float = 0f
+    private var sessionPageIndexStart: Int = 0
     private val pageCache = object : LruCache<PdfPageCacheKey, Bitmap>(PAGE_CACHE_MAX_BYTES) {
         override fun sizeOf(key: PdfPageCacheKey, value: Bitmap): Int {
             return value.allocationByteCount
@@ -144,6 +150,11 @@ class PdfReaderModel @Inject constructor(
                 }
 
                 updateBook.execute(book)
+                if (sessionStartTime == null) {
+                    sessionStartTime = System.currentTimeMillis()
+                    sessionProgressStart = book.progress.coerceAndPreventNaN().coerceIn(0f, 1f)
+                    sessionPageIndexStart = book.pdfPageIndex.coerceAtLeast(0)
+                }
                 LibraryScreen.refreshListChannel.trySend(0)
                 HistoryScreen.refreshListChannel.trySend(0)
             }
@@ -224,6 +235,7 @@ class PdfReaderModel @Inject constructor(
                     }
 
                     if (event.mode == PdfReadingMode.PARSED_TEXT) {
+                        recordSessionIfNeeded()
                         saveCurrentPosition()
                         closeRenderer()
                     }
@@ -259,6 +271,7 @@ class PdfReaderModel @Inject constructor(
 
                 is PdfReaderEvent.OnLeave -> {
                     saveCurrentPosition()
+                    recordSessionIfNeeded()
                     WindowCompat.getInsetsController(
                         event.activity.window,
                         event.activity.window.decorView
@@ -362,6 +375,22 @@ class PdfReaderModel @Inject constructor(
             LibraryScreen.refreshListChannel.trySend(0)
             HistoryScreen.refreshListChannel.trySend(0)
         }
+    }
+
+    private suspend fun recordSessionIfNeeded() {
+        val start = sessionStartTime ?: return
+        val book = _state.value.book
+        recordReadingSession.execute(
+            ReadingSession(
+                bookId = book.id,
+                startTime = start,
+                endTime = System.currentTimeMillis(),
+                progressStart = sessionProgressStart,
+                progressEnd = book.progress.coerceAndPreventNaN().coerceIn(0f, 1f),
+                pagesRead = (book.pdfPageIndex - sessionPageIndexStart).coerceAtLeast(0)
+            )
+        )
+        sessionStartTime = null
     }
 
     private fun calculateProgress(pageIndex: Int): Float {

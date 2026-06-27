@@ -500,7 +500,16 @@
     <string name="app_version_option">App version</string>
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">Click to check for updates</string>
+    <string name="app_version_option_desc_checking">Checking for updates…</string>
+    <string name="app_up_to_date">You are using the latest version</string>
+    <string name="update_available_title">New version available</string>
+    <string name="update_available_desc">A newer version of EverBook is available.</string>
+    <string name="update_available_version">Version: %1$s</string>
+    <string name="update_action">Update</string>
+    <string name="later">Later</string>
     <string name="report_bug_option">Report a bug</string>
+    <string name="leave_review_option">Leave a review</string>
+    <string name="leave_review_option_desc">Rate the app and share your feedback in the store</string>
     <string name="changelog_option">What\'s new</string>
     <string name="licenses_option">Open source licenses</string>
     <string name="credits_option">Credits</string>

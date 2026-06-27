@@ -422,7 +422,16 @@
     <string name="app_version_option">Версия приложения</string>
     <string name="app_version_option_desc_1">EverBook v%1$s</string>
     <string name="app_version_option_desc_2">Нажмите, чтобы проверить обновления</string>
+    <string name="app_version_option_desc_checking">Проверка обновлений…</string>
+    <string name="app_up_to_date">У вас последняя версия</string>
+    <string name="update_available_title">Доступна новая версия</string>
+    <string name="update_available_desc">Доступна более новая версия EverBook.</string>
+    <string name="update_available_version">Версия: %1$s</string>
+    <string name="update_action">Обновить</string>
+    <string name="later">Позже</string>
     <string name="report_bug_option">Сообщить об ошибке</string>
+    <string name="leave_review_option">Оставить отзыв</string>
+    <string name="leave_review_option_desc">Оцените приложение и поделитесь мнением в магазине</string>
     <string name="changelog_option">Что нового</string>
     <string name="licenses_option">Лицензии открытого исходного кода</string>
     <string name="credits_option">Благодарности</string>

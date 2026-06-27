@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Privacy Policy</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            padding: 0 0px 0px;
+            background: transparent;
+            color: #2b2b2b;
+        }
+        h1, h2, h3 { color: #1a1a1a; }
+        ul { margin-left: 20px; }
+        code {
+            background: rgba(128,128,128,0.15);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        @media (prefers-color-scheme: dark) {
+            body { color: #e6e6e6; }
+            h1, h2, h3 { color: #ffffff; }
+            a { color: #8ab4f8; }
+            code {
+                background: rgba(255,255,255,0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Privacy Policy</h1>
+
+    <p><em>Last updated: June&nbsp;2026</em></p>
+
+    <p>
+        This Privacy Policy explains how <strong>EverBook</strong> ("the App", "we", "our") handles your
+        information when you use the standalone distribution of the App.
+        We respect your privacy and design the App to work <strong>entirely offline</strong> whenever possible.
+        The App is <a href="https://github.com/byteflipper-58/book-story" target="_blank">open-source software</a>
+        distributed under the GPL-3.0 license, so anyone can audit the source code.
+    </p>
+
+    <h2>1. Information We Do <em>Not</em> Collect</h2>
+    <p>
+        * We do <strong>not</strong> require you to create an account.<br/>
+        * We do <strong>not</strong> collect or upload personal identifiers such as name, email, address or
+           contact list.<br/>
+        * All books, reading progress and settings remain <strong>inside your device storage</strong> and are never
+           copied to our servers.
+    </p>
+
+    <h2>2. Information Collected Automatically</h2>
+    <p>
+        The standalone App does <strong>not</strong> include Google Firebase Analytics, Firebase Crashlytics,
+        Firebase Cloud Messaging, Google Play Billing, or other Google service SDKs.
+    </p>
+    <p>
+        We do not receive crash reports, analytics events, Firebase installation IDs, advertising identifiers,
+        or push-notification tokens from this distribution.
+    </p>
+
+    <h2>3. Optional Network Connections</h2>
+    <p>The App can access the Internet only in the cases listed below:</p>
+    <ul>
+        <li>Checking for App updates on GitHub if you enable "Check for updates" in Settings</li>
+        <li>Opening external links you tap (e.g. Help articles or project homepage)</li>
+        <li>Downloading cover images through the built-in image loader (<code>coil-compose</code>)</li>
+        <li>Translating selected text or full books with Google Translate online if you choose that translation provider</li>
+    </ul>
+    <p>
+        The standalone distribution does not include Google ML Kit offline translation. If you choose
+        Google Translate as the translation provider, the selected text or full-book text you translate is
+        sent to Google for online translation. Google handles that text in accordance with Google's
+        <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a>.
+    </p>
+
+    <h2>4. Permissions Explained</h2>
+    <ul>
+        <li><strong>Storage / File Access</strong> - to let you pick local ebook files and keep reading progress.</li>
+        <li><strong>Post Notifications</strong> - optional; used for local update reminders.</li>
+        <li><strong>Internet</strong> - used only for optional update checks, external links, image loading, and Google Translate requests you choose.</li>
+    </ul>
+
+    <h2>5. Third-Party Open-Source Libraries</h2>
+    <p>The App relies on the following open-source libraries, all of which work with local App data unless you request network content such as external links, images, or online translation:</p>
+    <ul>
+        <li><a href="https://developer.android.com/jetpack/compose" target="_blank">AndroidX Jetpack Compose &amp; Material&nbsp;3</a> - UI framework</li>
+        <li><a href="https://developer.android.com/topic/libraries/architecture/room" target="_blank">Room</a> &amp; <a href="https://developer.android.com/topic/libraries/architecture/datastore" target="_blank">DataStore</a> - local storage</li>
+        <li><a href="https://github.com/Kotlin/kotlinx.coroutines" target="_blank">kotlinx.coroutines</a> &amp; <a href="https://github.com/Kotlin/kotlinx.serialization" target="_blank">kotlinx.serialization</a></li>
+        <li><a href="https://github.com/TomRoush/PdfBox-Android" target="_blank">PDFBox-Android</a> &amp; <a href="https://jsoup.org/" target="_blank">jsoup</a> - file parsers</li>
+        <li><a href="https://github.com/coil-kt/coil" target="_blank">Coil</a> - image loading</li>
+        <li><a href="https://github.com/calvinshmh/compose-reorderable" target="_blank">compose-reorderable</a> - drag-and-drop</li>
+        <li><a href="https://github.com/nanihadesuka/LazyColumnScrollbar" target="_blank">LazyColumnScrollbar</a></li>
+        <li><a href="https://github.com/mikepenz/AboutLibraries" target="_blank">AboutLibraries</a></li>
+        <li><a href="https://github.com/commonmark/commonmark-java" target="_blank">commonmark-java</a></li>
+    </ul>
+
+    <h2>6. Data Retention &amp; Deletion</h2>
+    <p>
+        Locally stored data (books, settings, reading history) stays on your device until you delete
+        it or uninstall the App. Because this distribution does not send analytics or crash reports to us,
+        there is no server-side App data for us to retain or delete.
+    </p>
+
+    <h2>7. Legal Basis for Processing (GDPR)</h2>
+    <p>
+        If you are located in the European Economic Area, local App data is processed on your device only
+        as necessary to provide the reader features you request. We do not maintain user-identifiable App data
+        on our servers for this distribution.
+    </p>
+
+    <h2>8. Your Rights</h2>
+    <p>
+        You can erase or rectify local data at any time by deleting books inside the App, clearing the App's
+        storage, or uninstalling it. If you make a Data Subject Access Request, we will normally answer that
+        we have no data relating to you from the standalone distribution.
+    </p>
+
+    <h2>9. International Data Transfers</h2>
+    <p>
+        The standalone distribution does not transfer analytics, crash reports, or push-notification data to
+        Google Firebase or to our servers.
+    </p>
+
+    <h2>10. Children's Privacy</h2>
+    <p>The App is not directed to children under 13. We do not knowingly collect personal data from children.</p>
+
+    <h2>11. Your Consent</h2>
+    <p>
+        By checking the "I accept the privacy policy" box in the App you acknowledge that you have
+        read and understood this Privacy Policy.
+    </p>
+
+    <h2>12. Changes to This Policy</h2>
+    <p>
+        We may update this policy from time to time. New versions will be published within the App and
+        on the project GitHub page. Continued use of the App constitutes acceptance of the revised policy.
+    </p>
+
+    <h2>13. Contact</h2>
+    <p>
+        For questions or concerns, please open an issue on our
+        <a href="https://github.com/byteflipper-58/book-story" target="_blank">GitHub repository</a>,
+        visit our website at <a href="https://byteflipper.com" target="_blank">byteflipper.com</a>,
+        or email us at <a href="mailto:byteflipper.business@gmail.com">byteflipper.business@gmail.com</a>.
+    </p>
+</body>
+</html>

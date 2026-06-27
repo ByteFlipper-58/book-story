@@ -1,0 +1,12 @@
+<resources>
+    <string name="privacy_settings">Конфиденциальность</string>
+    <string name="privacy_settings_desc">Персонализация рекламы, политика конфиденциальности</string>
+    <string name="privacy_ads_subcategory">Конфиденциальность рекламы</string>
+    <string name="privacy_ads_personalization_title">Персонализированная реклама</string>
+    <string name="privacy_ads_personalization_desc">Разрешить Яндексу использовать ваши данные для показа более релевантной рекламы.</string>
+    <string name="privacy_ads_personalization_note">Если выключено, реклама всё равно показывается, но не персонализируется.</string>
+    <string name="privacy_policy_subcategory">Политика конфиденциальности</string>
+    <string name="privacy_policy_title">Политика конфиденциальности</string>
+    <string name="privacy_policy_desc">Посмотрите, как EverBook обрабатывает локальные данные, рекламу и согласие.</string>
+    <string name="native_ad_label">Реклама</string>
+</resources>

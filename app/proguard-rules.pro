@@ -61,6 +61,16 @@
 -keep class io.grpc.** { *; }
 -dontwarn io.grpc.**
 
+# Yandex Mobile Ads (ruStore flavor)
+-keep class com.yandex.mobile.ads.** { *; }
+-dontwarn com.yandex.mobile.ads.**
+-keep class com.yandex.android.** { *; }
+-dontwarn com.yandex.android.**
+
+# RuStore SDKs (In-App Update & Review)
+-keep class ru.rustore.sdk.** { *; }
+-dontwarn ru.rustore.sdk.**
+
 # RxJava
 #-dontwarn io.reactivex.**
 #-keepclassmembers class * {

@@ -8,8 +8,6 @@
 package com.byteflipper.everbook.ui.settings
 
 import android.os.Parcelable
-import android.webkit.WebSettings
-import android.webkit.WebView
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,11 +35,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -49,6 +45,7 @@ import com.byteflipper.everbook.R
 import com.byteflipper.everbook.data.privacy.RuStorePrivacyConsentManager
 import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
+import com.byteflipper.everbook.presentation.core.components.common.PrivacyPolicyWebView
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.core.components.modal_bottom_sheet.ModalBottomSheet
 import com.byteflipper.everbook.presentation.core.components.top_bar.collapsibleTopAppBarScrollBehavior
@@ -268,33 +265,8 @@ private fun PrivacyPolicyBottomSheet(
                     .fillMaxWidth()
                     .weight(1f)
             ) {
-                PrivacyPolicyWebView()
+                PrivacyPolicyWebView(modifier = Modifier.fillMaxSize())
             }
         }
     }
-}
-
-@Composable
-private fun PrivacyPolicyWebView() {
-    val backgroundColor = MaterialTheme.colorScheme.surface.toArgb()
-
-    AndroidView(
-        modifier = Modifier.fillMaxSize(),
-        factory = { context ->
-            WebView(context).apply {
-                settings.apply {
-                    javaScriptEnabled = false
-                    domStorageEnabled = false
-                    cacheMode = WebSettings.LOAD_NO_CACHE
-                    builtInZoomControls = false
-                    displayZoomControls = false
-                    textZoom = 100
-                }
-                isVerticalScrollBarEnabled = true
-                overScrollMode = WebView.OVER_SCROLL_IF_CONTENT_SCROLLS
-                setBackgroundColor(backgroundColor)
-                loadUrl("file:///android_asset/privacy_policy.html")
-            }
-        }
-    )
 }

@@ -28,9 +28,17 @@ interface BookCategoryDao {
     @Query("DELETE FROM BookCategoryCrossRef WHERE bookId = :bookId")
     suspend fun deleteByBook(bookId: Int)
 
+    /** Удалить все связи для набора книг */
+    @Query("DELETE FROM BookCategoryCrossRef WHERE bookId IN (:bookIds)")
+    suspend fun deleteByBooks(bookIds: List<Int>)
+
     /** Получить категории книги */
     @Query("SELECT categoryId FROM BookCategoryCrossRef WHERE bookId = :bookId")
     suspend fun getCategoriesForBook(bookId: Int): List<Int>
+
+    /** Все связи для набора книг — для батч-загрузки категорий без N+1. */
+    @Query("SELECT * FROM BookCategoryCrossRef WHERE bookId IN (:bookIds)")
+    suspend fun getRefsForBooks(bookIds: List<Int>): List<BookCategoryCrossRef>
 
     /** Получить Flow категорий книги */
     @Query("SELECT categoryId FROM BookCategoryCrossRef WHERE bookId = :bookId")
@@ -43,4 +51,4 @@ interface BookCategoryDao {
     /** Flow книг категории */
     @Query("SELECT bookId FROM BookCategoryCrossRef WHERE categoryId = :categoryId")
     fun observeBooksForCategory(categoryId: Int): Flow<List<Int>>
-} 
+}

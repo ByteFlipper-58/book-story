@@ -11,6 +11,10 @@ import android.app.Application
 import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import com.byteflipper.everbook.data.work.AutoCategoryWorker
 import com.byteflipper.everbook.domain.distribution.DistributionStartup
 import com.byteflipper.everbook.domain.use_case.translation.ReconcileBookTranslations
 import dagger.hilt.android.HiltAndroidApp
@@ -18,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -48,6 +53,13 @@ class Application : Application(), Configuration.Provider {
             runCatching { reconcileBookTranslations.execute() }
                 .onFailure { Log.e("BookTranslation", "Reconcile on startup failed", it) }
         }
+
+        // Daily maintenance: demote stale "Reading" books (untouched 7+ days) to "Dropped".
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            AutoCategoryWorker.UNIQUE_WORK_NAME,
+            ExistingPeriodicWorkPolicy.KEEP,
+            PeriodicWorkRequestBuilder<AutoCategoryWorker>(1, TimeUnit.DAYS).build()
+        )
     }
 }
 

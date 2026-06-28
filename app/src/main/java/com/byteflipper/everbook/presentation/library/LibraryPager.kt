@@ -40,7 +40,15 @@ fun LibraryPager(
     navigateToBookInfo: (id: Int) -> Unit,
     navigateToReader: (id: Int) -> Unit,
 ) {
-    HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { index ->
+    HorizontalPager(
+        state = pagerState,
+        modifier = Modifier.fillMaxSize(),
+        // Pre-compose the neighbouring tab while idle so the heavy first-frame work (≈12 grid
+        // items + cover image requests) doesn't land inside the swipe gesture. Without this the
+        // incoming page is built synchronously as it's dragged into view, which is the main cause
+        // of the janky tab swipe.
+        beyondViewportPageCount = 1
+    ) { index ->
         val category = remember(categories, index) {
             derivedStateOf {
                 categories[index]

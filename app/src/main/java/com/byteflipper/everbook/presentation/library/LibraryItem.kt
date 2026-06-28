@@ -29,7 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -99,12 +99,19 @@ private fun LibraryGridItem(
     val belowFontColor = if (book.selected) MaterialTheme.colorScheme.onSecondary
     else MaterialTheme.colorScheme.onSurface
 
-    val scrimColor = if (titlePosition == LibraryTitlePosition.INSIDE) {
+    val drawScrim = titlePosition == LibraryTitlePosition.INSIDE
+    val scrimColor = if (drawScrim) {
         MaterialTheme.colorScheme.scrim.copy(0.3f)
     } else Color.Transparent
     val insideFontColor = Color.White.copy(0.85f)
+    // Build the scrim gradient once per color instead of inside drawWithContent, which would
+    // allocate a fresh Brush + native Shader on every draw frame for every visible grid item.
+    // A stable Brush lets Compose's ShaderBrush cache the shader across frames.
+    val scrimBrush = remember(scrimColor) {
+        Brush.verticalGradient(0f to Color.Transparent, 1f to scrimColor)
+    }
 
-    val progress = rememberSaveable(book.data.progress) {
+    val progress = remember(book.data.progress) {
         "${book.data.progress.calculateProgress(1)}%"
     }
 
@@ -172,12 +179,7 @@ private fun LibraryGridItem(
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .drawWithContent {
-                        drawRect(
-                            brush = Brush.verticalGradient(
-                                0f to Color.Transparent,
-                                1f to scrimColor
-                            )
-                        )
+                        if (drawScrim) drawRect(brush = scrimBrush)
                         drawContent()
                     }
                     .padding(6.dp),
@@ -252,7 +254,7 @@ private fun LibraryListItem(
     val fontColor = if (book.selected) MaterialTheme.colorScheme.onSecondaryContainer
     else MaterialTheme.colorScheme.onSurface
 
-    val progress = rememberSaveable(book.data.progress) {
+    val progress = remember(book.data.progress) {
         "${book.data.progress.calculateProgress(1)}%"
     }
 

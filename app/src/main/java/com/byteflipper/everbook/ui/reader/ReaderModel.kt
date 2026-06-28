@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
@@ -59,6 +60,7 @@ import com.byteflipper.everbook.domain.translation.toTranslationProviderMode
 import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.domain.use_case.book.GetBookById
 import com.byteflipper.everbook.domain.use_case.book.GetText
+import com.byteflipper.everbook.domain.library.category.CategoryDefaults
 import com.byteflipper.everbook.domain.use_case.book.UpdateBook
 import com.byteflipper.everbook.domain.use_case.data_store.GetDatastore
 import com.byteflipper.everbook.domain.use_case.data_store.SetDatastore
@@ -85,6 +87,7 @@ import com.byteflipper.everbook.ui.history.HistoryScreen
 import com.byteflipper.everbook.ui.library.LibraryScreen
 import javax.inject.Inject
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
 
 private const val READER = "READER, MODEL"
 private const val BOOK_TRANSLATION_LOG = "BookTranslation"
@@ -128,7 +131,9 @@ class ReaderModel @Inject constructor(
     private val _state = MutableStateFlow(ReaderState())
     val state = _state.asStateFlow()
 
-    private var eventJob = SupervisorJob()
+    private fun newEventJob(): Job = SupervisorJob(viewModelScope.coroutineContext[Job])
+
+    private var eventJob = newEventJob()
     private var resetJob: Job? = null
 
     private var scrollJob: Job? = null
@@ -147,7 +152,7 @@ class ReaderModel @Inject constructor(
     private var sessionLastActiveTime: Long = 0L
 
     fun onEvent(event: ReaderEvent) {
-        viewModelScope.launch(eventJob + Dispatchers.Main) {
+        CoroutineScope(eventJob + Dispatchers.Main).launch {
             when (event) {
                 is ReaderEvent.OnLoadText -> {
                     loadJob?.cancel()
@@ -334,7 +339,7 @@ class ReaderModel @Inject constructor(
                             return@launch
                         }
 
-                        if (accumulated.size != text.size || accumulated.isEmpty()) {
+                        if (accumulated.size != text.size) {
                             accumulated.clear()
                             accumulated.addAll(text)
                             chapterIndexes.clear()
@@ -473,10 +478,12 @@ class ReaderModel @Inject constructor(
                             )
                         }
 
+                        // Persist progress so it survives process death, but DON'T notify the
+                        // library/history here: they aren't visible while reading, and OnLeave
+                        // already refreshes both on exit with the final progress. Pinging on every
+                        // scroll pause forced a background getBooksFromDatabase reload that competed
+                        // with the reader's own DB writes — pure churn.
                         updateBook.execute(_state.value.book)
-
-                        LibraryScreen.refreshListChannel.trySend(300)
-                        HistoryScreen.refreshListChannel.trySend(300)
                     }
                 }
 
@@ -509,7 +516,7 @@ class ReaderModel @Inject constructor(
                 is ReaderEvent.OnScroll -> {
                     scrollJob?.cancel()
                     scrollJob = launch {
-                        delay(300)
+                        delay(300.milliseconds)
                         yield()
 
                         val scrollTo = (_state.value.text.lastIndex * event.progress).roundToInt()
@@ -567,6 +574,7 @@ class ReaderModel @Inject constructor(
                                 )
                             }
 
+                            applyAutoStatusOnSave()
                             updateBook.execute(_state.value.book)
 
                             sessionStartTime?.let { start ->
@@ -1169,18 +1177,34 @@ class ReaderModel @Inject constructor(
                 return@launch
             }
 
-            val book = getBookById.execute(bookId)
+            val loadedBook = getBookById.execute(bookId)
 
-            if (book == null) {
+            if (loadedBook == null) {
                 navigateBack()
                 return@launch
+            }
+
+            // Auto-status: opening the reader moves the book into "Reading" (custom categories and
+            // already-finished books are left untouched — see CategoryDefaults.computeAutoStatus).
+            val openStatus = CategoryDefaults.computeAutoStatus(
+                current = loadedBook.categoryId,
+                progress = loadedBook.progress,
+                isOpening = true
+            )
+            val book = if (openStatus != loadedBook.categoryId) {
+                loadedBook.copy(categoryId = openStatus).also {
+                    updateBook.execute(it)
+                    LibraryScreen.refreshListChannel.trySend(0)
+                }
+            } else {
+                loadedBook
             }
 
             eventJob.cancel()
             resetJob?.cancel()
             eventJob.join()
             resetJob?.join()
-            eventJob = SupervisorJob()
+            eventJob = newEventJob()
 
             _state.update {
                 ReaderState(
@@ -1220,6 +1244,24 @@ class ReaderModel @Inject constructor(
         }
     }
 
+    /**
+     * Applies the reading-progress-driven auto status to the in-state book right before it is
+     * persisted (so the existing [updateBook] save carries it). At the moment, this promotes a book to
+     * "Already read" once it is finished. Must be the only place that mutates categoryId during
+     * reading — otherwise [updateBook] would rewrite the status back from stale state.
+     */
+    private suspend fun applyAutoStatusOnSave() {
+        val book = _state.value.book
+        val newStatus = CategoryDefaults.computeAutoStatus(
+            current = book.categoryId,
+            progress = book.progress,
+            isOpening = false
+        )
+        if (newStatus != book.categoryId) {
+            _state.update { it.copy(book = it.book.copy(categoryId = newStatus)) }
+        }
+    }
+
     @OptIn(FlowPreview::class)
     fun updateProgress(
         listState: LazyListState,
@@ -1232,7 +1274,7 @@ class ReaderModel @Inject constructor(
         progressJob = viewModelScope.launch(Dispatchers.Main) {
             snapshotFlow {
                 listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset
-            }.distinctUntilChanged().debounce(300).collectLatest { (displayIndex, offset) ->
+            }.distinctUntilChanged().debounce(300.milliseconds).collectLatest { (displayIndex, offset) ->
                 sessionLastActiveTime = System.currentTimeMillis()
                 val index = displayIndexToTextIndex(displayIndex)
                 val progress = calculateProgress(index)
@@ -1255,10 +1297,13 @@ class ReaderModel @Inject constructor(
                     )
                 }
 
+                applyAutoStatusOnSave()
                 updateBook.execute(_state.value.book)
 
-                LibraryScreen.refreshListChannel.trySend(0)
-                HistoryScreen.refreshListChannel.trySend(0)
+                // No library/history ping here. This runs on every debounced scroll settle while
+                // reading; pinging fired an immediate background getBooksFromDatabase reload each
+                // time, competing with this very save. Both screens are off-screen during reading
+                // and OnLeave refreshes them on exit with the final progress/auto-status.
             }
         }
     }
@@ -1371,7 +1416,7 @@ class ReaderModel @Inject constructor(
             bookTranslationsObserveJob?.cancel()
             activeBookTranslationTextJob?.cancel()
             translationCache.clear()
-            eventJob = SupervisorJob()
+            eventJob = newEventJob()
 
             yield()
             _state.update { ReaderState() }
@@ -1471,12 +1516,12 @@ class ReaderModel @Inject constructor(
         originalText: List<ReaderText>
     ) {
         activeBookTranslationTextJob?.cancel()
-        activeBookTranslationTextJob = viewModelScope.launch(eventJob + Dispatchers.IO) {
+        activeBookTranslationTextJob = CoroutineScope(eventJob + Dispatchers.IO).launch {
             observeTranslatedBookText.execute(
                 translationId = translationId,
                 originalText = originalText
             )
-                .debounce(150)
+                .debounce(150.milliseconds)
                 .collectLatest { snapshot ->
                     val currentState = _state.value
                     if (
@@ -1629,7 +1674,7 @@ class ReaderModel @Inject constructor(
             Log.v(BOOK_TRANSLATION_LOG, "Observing translations: bookId=$bookId")
         }
         bookTranslationsObserveJob?.cancel()
-        bookTranslationsObserveJob = viewModelScope.launch(eventJob + Dispatchers.IO) {
+        bookTranslationsObserveJob = CoroutineScope(eventJob + Dispatchers.IO).launch {
             val state = _state.value
             val originalText = state.stableOriginalTextOrEmpty()
             observeBookTranslations.execute(
@@ -1757,7 +1802,7 @@ class ReaderModel @Inject constructor(
     }
 
     private fun enqueueBookTranslation(skipGoogleWarning: Boolean = false) {
-        viewModelScope.launch(eventJob + Dispatchers.IO) {
+        CoroutineScope(eventJob + Dispatchers.IO).launch {
             val pendingState = _state.value
             if (!pendingState.isBookTextReadyForTranslation()) {
                 Log.i(
@@ -1884,7 +1929,7 @@ class ReaderModel @Inject constructor(
         translateWholeParagraph: Boolean,
         activity: ComponentActivity
     ) {
-        viewModelScope.launch(eventJob + Dispatchers.Main) {
+        CoroutineScope(eventJob + Dispatchers.Main).launch {
             val translatorIntent = Intent()
             val browserIntent = Intent()
 
@@ -1933,7 +1978,7 @@ class ReaderModel @Inject constructor(
         providerMode: TranslationProviderMode,
         requireWifi: Boolean
     ) {
-        viewModelScope.launch(eventJob + Dispatchers.IO) {
+        CoroutineScope(eventJob + Dispatchers.IO).launch {
             val normalizedText = text.trim()
             if (normalizedText.isBlank()) return@launch
 

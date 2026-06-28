@@ -37,7 +37,7 @@ import com.byteflipper.everbook.domain.reader.ReaderText.Text
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
 import com.byteflipper.everbook.domain.translation.TranslationFeature
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
-import com.byteflipper.everbook.presentation.core.util.noRippleClickable
+import com.byteflipper.everbook.presentation.core.util.doubleTapPriorityGestures
 import com.byteflipper.everbook.ui.reader.ReaderEvent
 import com.byteflipper.everbook.ui.reader.ReaderTranslationState
 
@@ -142,45 +142,42 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
         ) {
             StyledText(
                 text = paragraph.line,
-                modifier = Modifier.then(
-                    if (doubleClickTranslation && toolbarHidden) {
-                        Modifier.noRippleClickable(
-                            onDoubleClick = {
-                                if (TranslationFeature.INLINE_TRANSLATION_ENABLED) {
-                                    translateText(
-                                        ReaderEvent.OnTranslateText(
-                                            textToTranslate = paragraph.line.text,
-                                            sourceLanguageCode = translationSourceLanguage,
-                                            targetLanguageCode = translationTargetLanguage,
-                                            providerMode = translationProviderMode,
-                                            requireWifi = translationWifiOnly,
-                                            activity = activity,
-                                            translateWholeParagraph = true,
-                                            readerTextIndex = readerIndex
-                                        )
-                                    )
-                                } else {
-                                    openTranslator(
-                                        ReaderEvent.OnOpenTranslator(
-                                            textToTranslate = paragraph.line.text,
-                                            translateWholeParagraph = true,
-                                            activity = activity
-                                        )
-                                    )
-                                }
-                            },
-                            onClick = {
-                                menuVisibility(
-                                    ReaderEvent.OnMenuVisibility(
-                                        show = !showMenu,
-                                        fullscreenMode = fullscreenMode,
-                                        saveCheckpoint = true,
-                                        activity = activity
-                                    )
-                                )
-                            }
+                modifier = Modifier.doubleTapPriorityGestures(
+                    enabled = doubleClickTranslation && toolbarHidden,
+                    onTap = {
+                        menuVisibility(
+                            ReaderEvent.OnMenuVisibility(
+                                show = !showMenu,
+                                fullscreenMode = fullscreenMode,
+                                saveCheckpoint = true,
+                                activity = activity
+                            )
                         )
-                    } else Modifier
+                    },
+                    onDoubleTap = {
+                        if (TranslationFeature.INLINE_TRANSLATION_ENABLED) {
+                            translateText(
+                                ReaderEvent.OnTranslateText(
+                                    textToTranslate = paragraph.line.text,
+                                    sourceLanguageCode = translationSourceLanguage,
+                                    targetLanguageCode = translationTargetLanguage,
+                                    providerMode = translationProviderMode,
+                                    requireWifi = translationWifiOnly,
+                                    activity = activity,
+                                    translateWholeParagraph = true,
+                                    readerTextIndex = readerIndex
+                                )
+                            )
+                        } else {
+                            openTranslator(
+                                ReaderEvent.OnOpenTranslator(
+                                    textToTranslate = paragraph.line.text,
+                                    translateWholeParagraph = true,
+                                    activity = activity
+                                )
+                            )
+                        }
+                    }
                 ),
                 style = paragraphTextStyle,
                 highlightText = highlightedReading,

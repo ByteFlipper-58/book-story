@@ -33,7 +33,7 @@ android {
         applicationId = "com.byteflipper.everbook"
         minSdk = 26
         targetSdk = 36
-        versionCode = 2011
+        versionCode = 2012
         versionName = "1.5.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

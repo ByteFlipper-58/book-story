@@ -9,6 +9,7 @@ package com.byteflipper.everbook.presentation.core.components.common
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -28,11 +29,20 @@ fun AsyncCoverImage(
     modifier: Modifier,
     alpha: Float = 1f,
 ) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
+    val context = LocalContext.current
+    // Build the request once per uri. Otherwise every recomposition (e.g. the burst of grid items
+    // composed when a pager page scrolls into view) allocates a fresh builder. A stable memory-cache
+    // key also guarantees instant cache hits when the same cover is shown again.
+    val request = remember(uri) {
+        ImageRequest.Builder(context)
             .data(uri)
+            .memoryCacheKey(uri.toString())
             .crossfade(animationDurationMillis)
-            .build(),
+            .build()
+    }
+
+    AsyncImage(
+        model = request,
         contentDescription = contentDescription,
         modifier = modifier,
         alpha = alpha,

@@ -15,6 +15,7 @@ import androidx.room.Query
 import androidx.room.Update
 import androidx.room.Upsert
 import com.byteflipper.everbook.data.local.dto.BookEntity
+import com.byteflipper.everbook.data.local.dto.BookLastOpenedTime
 import com.byteflipper.everbook.data.local.dto.ColorPresetEntity
 import com.byteflipper.everbook.data.local.dto.HistoryEntity
 import com.byteflipper.everbook.data.local.dto.ReadingSessionEntity
@@ -45,6 +46,12 @@ interface BookDao {
     @Query("SELECT * FROM bookentity WHERE id IN (:ids)")
     suspend fun findBooksById(ids: List<Int>): List<BookEntity>
 
+    @Query("SELECT id FROM bookentity WHERE categoryId = :categoryId")
+    suspend fun getBookIdsByCategory(categoryId: Int): List<Int>
+
+    @Query("UPDATE bookentity SET categoryId = :categoryId WHERE id IN (:bookIds)")
+    suspend fun updateCategoryForBooks(bookIds: List<Int>, categoryId: Int)
+
     @Delete
     suspend fun deleteBooks(books: List<BookEntity>)
 
@@ -59,6 +66,20 @@ interface BookDao {
 
     @Query("SELECT * FROM historyentity WHERE bookId = :bookId ORDER BY time DESC LIMIT 1")
     fun getLatestHistoryForBook(bookId: Int): HistoryEntity?
+
+    /** Latest open timestamp per book, in one query (batches the per-book lookup above). */
+    @Query(
+        "SELECT bookId, MAX(time) AS time FROM historyentity " +
+                "WHERE bookId IN (:bookIds) GROUP BY bookId"
+    )
+    suspend fun getLatestHistoryTimes(bookIds: List<Int>): List<BookLastOpenedTime>
+
+    @Query(
+        "SELECT bookentity.id AS bookId, MAX(historyentity.time) AS time " +
+                "FROM bookentity INNER JOIN historyentity ON historyentity.bookId = bookentity.id " +
+                "WHERE bookentity.categoryId = :categoryId GROUP BY bookentity.id"
+    )
+    suspend fun getLatestHistoryTimesByCategory(categoryId: Int): List<BookLastOpenedTime>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHistory(

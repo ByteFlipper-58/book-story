@@ -93,10 +93,6 @@ object LibraryScreen : Screen, Parcelable {
         val visibleCategoryIds = remember(visibleNonDefaultCategories) {
             visibleNonDefaultCategories.map { it.id }.toSet()
         }
-        val hiddenNonDefaultCategories = remember(allCategories) {
-            allCategories
-                .filter { it.id != 0 && !it.isVisible }
-        }
         val fallbackAllCategory = remember {
             com.byteflipper.everbook.domain.library.custom_category.Category(
                 id = 0,
@@ -114,19 +110,20 @@ object LibraryScreen : Screen, Parcelable {
         val showDefaultCategory = remember(
             settings.libraryShowDefaultTab,
             visibleNonDefaultCategories,
-            hiddenNonDefaultCategories,
             allCategory,
             state.value.books,
             visibleCategoryIds
         ) {
             val allCategoryVisible = allCategory.isVisible || settings.libraryShowDefaultTab
+            // Keep the "All" tab only when hiding it would actually orphan books — i.e. there are no
+            // other tabs at all, or some book isn't in any visible category. Merely having a hidden
+            // category no longer forces "All" to stay (that made the hide setting feel broken).
             val hasBooksOutsideVisibleCategories = state.value.books.any { book ->
                 book.data.categoryIds.none { it in visibleCategoryIds }
             }
             allCategoryVisible && (
                 settings.libraryShowDefaultTab ||
                     visibleNonDefaultCategories.isEmpty() ||
-                    hiddenNonDefaultCategories.isNotEmpty() ||
                     hasBooksOutsideVisibleCategories
             )
         }
@@ -215,7 +212,12 @@ object LibraryScreen : Screen, Parcelable {
         )
 
         val pageCount = categories.size.coerceAtLeast(1)
-        val categoryIds = remember(categories) { categories.map { it.id } }
+        // Stabilize by *content*: a library refresh rebuilds `categories` with a fresh list instance
+        // even when the set of tabs is unchanged. Keying the tab-sync effects on a new instance every
+        // refresh made them re-run mid-interaction and fight the pager (tap → bounce back → tap again).
+        // `remember(rawCategoryIds)` keeps the same instance while the ids are structurally equal.
+        val rawCategoryIds = categories.map { it.id }
+        val categoryIds = remember(rawCategoryIds) { rawCategoryIds }
         val resolvedTabId = remember(categoryIds, settings.libraryLastTabId) {
             if (settings.libraryLastTabId in categoryIds) {
                 settings.libraryLastTabId
@@ -239,13 +241,16 @@ object LibraryScreen : Screen, Parcelable {
 
         LaunchedEffect(resolvedTabId, categoryIds, pageCount) {
             if (categoryIds.isEmpty()) return@LaunchedEffect
+            // Don't fight a user-driven tap/swipe — the pager animation will settle and the
+            // pager→setting effect will record the chosen tab. Programmatic sync is only for
+            // external changes (restored last tab, tab list changes).
+            if (pagerState.isScrollInProgress) return@LaunchedEffect
             val targetPage = categoryIds.indexOf(resolvedTabId)
                 .let { if (it >= 0) it else 0 }
                 .coerceIn(0, pageCount - 1)
+            if (pagerState.currentPage == targetPage) return@LaunchedEffect
             suppressTabSync = true
-            if (pagerState.currentPage != targetPage) {
-                pagerState.scrollToPage(targetPage)
-            }
+            pagerState.scrollToPage(targetPage)
             suppressTabSync = false
         }
 

@@ -65,7 +65,10 @@ class CategoryRepositoryImpl @Inject constructor(
 
     override suspend fun deleteCategory(id: Int, targetId: Int?) {
         val entity = categoryDao.findById(id) ?: return
-        if (entity.kind == "SYSTEM_MAIN") return
+        // Only user-created (CUSTOM) categories can be deleted. The "All" category (SYSTEM_MAIN)
+        // and the default system categories (SYSTEM: Reading / Already read / Planning / Dropped)
+        // are permanent — deleting them would orphan books and break the library tabs.
+        if (entity.kind != "CUSTOM") return
 
         categoryDao.delete(entity)
     }

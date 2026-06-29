@@ -850,4 +850,6 @@
     <string name="statistics_empty">Пока нет статистики чтения. Откройте книгу, чтобы начать отслеживать время.</string>
     <string name="time_hours_minutes">%1$dч %2$dм</string>
     <string name="time_minutes">%1$dм</string>
+    <!-- Missing translations added from base strings. -->
+    <string name="error_no_file_manager">Приложение файлового менеджера не найдено.</string>
 </resources>

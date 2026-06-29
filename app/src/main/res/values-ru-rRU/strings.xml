@@ -527,6 +527,7 @@
     <string name="pdf_reading_mode_bottom_sheet_title">Режим просмотра PDF</string>
     <string name="pdf_reading_mode_text_version_desc">Обычная читалка: текст, темы, шрифты, перевод и настройки чтения.</string>
     <string name="pdf_reading_mode_original_pdf_desc">Страницы как в файле: оригинальная верстка, постраничный режим и зум.</string>
+    <string name="pdf_too_large_native_only">PDF слишком большой для извлечения текста. Доступен только режим страниц.</string>
 
     <!-- Start -->
     <string name="start_welcome">Добро пожаловать в EverBook!</string>

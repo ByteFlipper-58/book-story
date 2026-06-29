@@ -229,6 +229,13 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
 
+                        LaunchedEffect(Unit) {
+                            externalImportModel.largePdfNoticeChannel.receiveAsFlow().collectLatest {
+                                getString(R.string.pdf_too_large_native_only)
+                                    .showToast(this@MainActivity)
+                            }
+                        }
+
                         LaunchedEffect(screen) {
                             if (screen is ReaderScreen) {
                                 readerEntryActionController.onReaderEntered(this@MainActivity)

@@ -337,11 +337,16 @@ class BrowseModel @Inject constructor(
                     }.ifEmpty { return@launch }
 
                     val settings = getAllSettings.execute()
+                    var importedLargePdf = false
                     for (book in booksToInsert) {
                         val bookWithCover = book.bookWithCover!!
+                        val isPdf = bookWithCover.book.filePath
+                            .endsWith(".pdf", ignoreCase = true)
                         val resolvedBookWithCover = if (
-                            bookWithCover.book.filePath.endsWith(".pdf", ignoreCase = true)
+                            isPdf && bookWithCover.book.pdfTextModeAvailable
                         ) {
+                            // Only text-capable PDFs follow the user's default mode. Native-only
+                            // PDFs (too large for text extraction) keep the parser's ORIGINAL_PDF.
                             bookWithCover.copy(
                                 book = bookWithCover.book.copy(
                                     pdfReadingMode = settings.pdfDefaultReadingMode
@@ -349,6 +354,9 @@ class BrowseModel @Inject constructor(
                             )
                         } else {
                             bookWithCover
+                        }
+                        if (isPdf && !bookWithCover.book.pdfTextModeAvailable) {
+                            importedLargePdf = true
                         }
                         insertBook.execute(resolvedBookWithCover)
                     }
@@ -361,6 +369,13 @@ class BrowseModel @Inject constructor(
                         event.context
                             .getString(R.string.books_added)
                             .showToast(context = event.context)
+
+                        // A large PDF was imported as native-only — explain why text view is off.
+                        if (importedLargePdf) {
+                            event.context
+                                .getString(R.string.pdf_too_large_native_only)
+                                .showToast(context = event.context)
+                        }
                     }
 
                     _state.update {

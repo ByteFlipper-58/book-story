@@ -438,6 +438,7 @@
     <string name="pdf_reading_mode_bottom_sheet_title">PDF view mode</string>
     <string name="pdf_reading_mode_text_version_desc">Reader view with text, themes, fonts, translation and reading settings.</string>
     <string name="pdf_reading_mode_original_pdf_desc">Original page layout with native rendering, page mode and zoom.</string>
+    <string name="pdf_too_large_native_only">PDF is too large for text extraction. Only page mode is available.</string>
 
     <!-- Themes -->
     <string name="dynamic_theme">Mercury</string>

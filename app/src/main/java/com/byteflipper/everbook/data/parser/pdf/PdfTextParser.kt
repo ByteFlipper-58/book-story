@@ -12,6 +12,7 @@ import android.util.Log
 import com.byteflipper.everbook.data.parser.ReaderTextChunkBuffer
 import com.byteflipper.everbook.data.parser.ReaderTextChunkSink
 import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
+import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import kotlinx.coroutines.yield
@@ -38,6 +39,13 @@ class PdfTextParser @Inject constructor(
     ): List<ReaderText> {
         Log.i(PDF_TAG, "Started PDF parsing: ${cachedFile.name}.")
 
+        // Mirror of the importer guard: never load an oversized PDF into PDFBox (OOM risk).
+        // Returning empty makes the reader fall back to native page rendering.
+        if (cachedFile.size > PDF_TEXT_PARSE_MAX_BYTES) {
+            Log.w(PDF_TAG, "PDF too large for text extraction; using native mode.")
+            return emptyList()
+        }
+
         return try {
             yield()
 
@@ -51,7 +59,10 @@ class PdfTextParser @Inject constructor(
             val chunkBuffer = ReaderTextChunkBuffer(onChunk = onChunk)
             var chapterAdded = false
 
-            PDDocument.load(cachedFile.openInputStream()).use {
+            PDDocument.load(
+                cachedFile.openInputStream(),
+                MemoryUsageSetting.setupTempFileOnly().setTempDir(application.cacheDir)
+            ).use {
                 for (pageIndex in 1..it.numberOfPages) {
                     yield()
                     pdfStripper.startPage = pageIndex

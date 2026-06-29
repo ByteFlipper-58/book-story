@@ -52,6 +52,9 @@ object StartScreen : Screen, Parcelable {
     const val PRIVACY_POLICY_SETTINGS = "privacy_policy_settings"
 
     @IgnoredOnParcel
+    const val NOTIFICATIONS_SETTINGS = "notifications_settings"
+
+    @IgnoredOnParcel
     const val DONE = "done"
 
     @SuppressLint("InlinedApi")
@@ -84,7 +87,7 @@ object StartScreen : Screen, Parcelable {
             languages = languages,
             changeLanguage = mainModel::onEvent,
             navigateForward = {
-                if (currentPage.intValue + 1 == 6) {
+                if (currentPage.intValue + 1 == 7) {
                     return@StartContent
                 }
 

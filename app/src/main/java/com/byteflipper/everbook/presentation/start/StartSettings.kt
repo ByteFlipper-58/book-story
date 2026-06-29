@@ -44,7 +44,8 @@ fun StartSettings(
                 1 -> StartScreen.APPEARANCE_SETTINGS
                 2 -> StartScreen.SCAN_SETTINGS
                 3 -> StartScreen.SOURCE_CODE_SETTINGS
-                else -> StartScreen.PRIVACY_POLICY_SETTINGS
+                4 -> StartScreen.PRIVACY_POLICY_SETTINGS
+                else -> StartScreen.NOTIFICATIONS_SETTINGS
             },
             stackEvent = stackEvent
         ) { page ->
@@ -74,6 +75,10 @@ fun StartSettings(
                             accepted = privacyAccepted.value,
                             onToggle = { privacyAccepted.value = it }
                         )
+                    }
+
+                    StartScreen.NOTIFICATIONS_SETTINGS -> {
+                        StartSettingsLayoutNotifications()
                     }
                 }
             }

@@ -111,7 +111,7 @@ fun CategoryItem(
     val scope = rememberCoroutineScope()
     val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = { value ->
-            if (value == SwipeToDismissBoxValue.EndToStart) {
+            if (value == SwipeToDismissBoxValue.EndToStart && !category.isDefault) {
                 showConfirmDelete = true
             }
             false

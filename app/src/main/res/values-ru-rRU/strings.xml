@@ -534,7 +534,12 @@
     <string name="start_language_preferences">Языковые настройки</string>
     <string name="start_theme_preferences">Настройки темы</string>
     <string name="start_permissions_notifications">Разрешение на уведомления</string>
-    <string name="start_permissions_notifications_desc">Требуется для проверки наличия новой версии приложения</string>
+    <string name="start_permissions_notifications_desc">Уведомления используются для:</string>
+    <string name="start_notifications_item_updates">Доступность обновлений приложения</string>
+    <string name="start_notifications_item_translation">Прогресс перевода книг</string>
+    <string name="start_notifications_item_models">Статус загрузки ML-моделей</string>
+    <string name="start_notifications_grant">Разрешить уведомления</string>
+    <string name="start_notifications_granted">Уведомления разрешены</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">Это приложение основано на форке проекта Acclorite/book-story. Оригинальный проект доступен по лицензии GPL-3.0.</string>
     <string name="start_source_code">Исходный код</string>

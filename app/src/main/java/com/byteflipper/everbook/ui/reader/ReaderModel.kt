@@ -416,7 +416,7 @@ class ReaderModel @Inject constructor(
                 }
 
                 is ReaderEvent.OnChangePdfReadingMode -> {
-                    launch {
+                    launch(Dispatchers.IO) {
                         if (
                             event.mode == PdfReadingMode.PARSED_TEXT &&
                             !_state.value.book.pdfTextModeAvailable
@@ -424,17 +424,26 @@ class ReaderModel @Inject constructor(
                             return@launch
                         }
 
+                        // ReaderModel is the single source of truth for pdfReadingMode. Refresh
+                        // from the DB before writing so the PDF page position saved live by
+                        // PdfReaderModel (pdfPageIndex/offset) is not clobbered by a stale copy.
+                        val latest = getBookById.execute(_state.value.book.id)
+                            ?: _state.value.book
+                        val updated = latest.copy(pdfReadingMode = event.mode)
                         _state.update {
                             it.copy(
-                                book = it.book.copy(pdfReadingMode = event.mode),
-                                isLoading = event.mode == PdfReadingMode.PARSED_TEXT,
+                                book = updated,
+                                // Show the loader only when switching to parsed text with nothing
+                                // in memory yet; init() refines/clears this (reuse vs. load).
+                                isLoading = event.mode == PdfReadingMode.PARSED_TEXT &&
+                                        it.originalText.isEmpty() && it.text.isEmpty(),
                                 errorMessage = null,
                                 bookTranslation = it.bookTranslation.withBookTextReadiness(
                                     isReady = false
                                 )
                             )
                         }
-                        updateBook.execute(_state.value.book)
+                        updateBook.execute(updated)
 
                         LibraryScreen.refreshListChannel.trySend(0)
                         HistoryScreen.refreshListChannel.trySend(0)
@@ -1164,16 +1173,44 @@ class ReaderModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             val currentState = _state.value
-            if (
-                currentState.book.id == bookId &&
-                (
-                        currentState.isLoading ||
-                                currentState.isParsing ||
-                                currentState.originalText.isNotEmpty() ||
-                                currentState.text.isNotEmpty() ||
-                                currentState.book.filePath.endsWith(".pdf", ignoreCase = true)
-                        )
-            ) {
+            if (currentState.book.id == bookId) {
+                val isPdf = currentState.book.filePath.endsWith(".pdf", ignoreCase = true)
+
+                if (isPdf && currentState.book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF) {
+                    // Native PDF — PdfReaderModel renders it, nothing to parse here.
+                    if (currentState.isLoading) {
+                        _state.update { it.copy(isLoading = false, showMenu = false) }
+                    }
+                    systemBarsVisibility(show = !fullscreenMode, activity = activity)
+                    return@launch
+                }
+
+                val hasContent = currentState.isParsing ||
+                        currentState.text.isNotEmpty() ||
+                        currentState.originalText.isNotEmpty()
+                if (hasContent) {
+                    // Parsed text already in memory (incl. mid-parse) — reuse it and clear any
+                    // loader left over from a mode switch.
+                    if (currentState.isLoading) {
+                        _state.update { it.copy(isLoading = false) }
+                    }
+                    systemBarsVisibility(show = !fullscreenMode, activity = activity)
+                    return@launch
+                }
+
+                if (loadJob?.isActive == true) {
+                    // A load is already running for this book.
+                    return@launch
+                }
+
+                // Parsed text wanted (PDF returning to PARSED_TEXT, or a non-PDF book) but none
+                // loaded yet — load it. getBookText is cache-backed, so a prior parse is reused.
+                onEvent(
+                    ReaderEvent.OnLoadText(
+                        activity = activity,
+                        fullscreenMode = fullscreenMode
+                    )
+                )
                 return@launch
             }
 

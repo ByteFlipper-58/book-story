@@ -118,11 +118,13 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
             pdfState.value.book.pdfReadingMode
         ) {
             when {
-                pdfState.value.book.id == bookId ->
-                    pdfState.value.book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF
-
+                // ReaderModel owns pdfReadingMode (single source of truth). pdfState is only a
+                // fallback for the brief window before ReaderModel.init() loads this book.
                 state.value.book.id == bookId ->
                     state.value.book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF
+
+                pdfState.value.book.id == bookId ->
+                    pdfState.value.book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF
 
                 else -> false
             }
@@ -433,7 +435,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 }
             )
         }
-        LaunchedEffect(activePdfMode, state.value.book.id, pdfState.value.book.pdfReadingMode) {
+        LaunchedEffect(activePdfMode, state.value.book.id, pdfState.value.book.id) {
             if (activePdfMode && state.value.book.id == bookId) {
                 pdfScreenModel.init(
                     bookId = bookId,
@@ -445,11 +447,10 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 )
             }
 
-            if (
-                !activePdfMode &&
-                pdfState.value.book.id == bookId &&
-                pdfState.value.book.pdfReadingMode == PdfReadingMode.PARSED_TEXT
-            ) {
+            // Switched to parsed text while the PDF model still holds this book: load/reuse the
+            // text in ReaderModel, then release the renderer. activePdfMode is driven by
+            // state.book.pdfReadingMode, so resetting pdfState (id = -1) can't flip it back.
+            if (!activePdfMode && pdfState.value.book.id == bookId) {
                 screenModel.init(
                     bookId = bookId,
                     fullscreenMode = mainState.value.fullscreen,
@@ -639,7 +640,14 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 menuVisibility = pdfScreenModel::onEvent,
                 scrollToPage = pdfScreenModel::onEvent,
                 changeZoom = pdfScreenModel::onEvent,
-                changePdfReadingMode = pdfScreenModel::onEvent,
+                changePdfReadingMode = { event ->
+                    // PdfReaderModel does native cleanup (session record + renderer release);
+                    // ReaderModel owns the mode flip + DB write (single source of truth).
+                    pdfScreenModel.onEvent(event)
+                    screenModel.onEvent(
+                        ReaderEvent.OnChangePdfReadingMode(event.mode)
+                    )
+                },
                 changePdfDefaultReadingMode = {
                     mainModel.onEvent(MainEvent.OnChangePdfDefaultReadingMode(it.name))
                 },

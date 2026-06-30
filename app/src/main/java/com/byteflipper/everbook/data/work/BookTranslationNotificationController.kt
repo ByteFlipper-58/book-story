@@ -7,20 +7,13 @@
 
 package com.byteflipper.everbook.data.work
 
-import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.Service
 import android.content.Context
-import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
 import android.os.Build
-import android.util.Log
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.work.ForegroundInfo
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.data.notification.AppNotificationManager
+import com.byteflipper.everbook.data.notification.NotificationChannelType
 import com.byteflipper.everbook.domain.repository.BookTranslationRepository
 import com.byteflipper.everbook.domain.translation.BookTranslation
 import com.byteflipper.everbook.domain.translation.BookTranslationStatus
@@ -33,13 +26,13 @@ import javax.inject.Singleton
 
 private const val BOOK_TRANSLATION_NOTIFICATION_BASE_ID = 2094
 private const val BOOK_TRANSLATION_NOTIFICATION_SUMMARY_ID = 12094
-private const val BOOK_TRANSLATION_NOTIFICATION_CHANNEL_ID = "book_translation"
 private const val BOOK_TRANSLATION_NOTIFICATION_GROUP = "book_translation_group"
 private const val BOOK_TRANSLATION_LOG = "BookTranslation"
 
 @Singleton
 class BookTranslationNotificationController @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val appNotifications: AppNotificationManager,
     private val repository: BookTranslationRepository,
     private val getBookById: GetBookById
 ) {
@@ -47,7 +40,7 @@ class BookTranslationNotificationController @Inject constructor(
         translationId: Long,
         translation: BookTranslation?
     ): ForegroundInfo {
-        createNotificationChannel()
+        appNotifications.ensureChannel(NotificationChannelType.BookTranslation)
         val notification = buildNotification(
             translationId = translationId,
             translation = translation,
@@ -68,7 +61,7 @@ class BookTranslationNotificationController @Inject constructor(
     suspend fun showPaused(translationId: Long) {
         val translation = repository.getTranslation(translationId)
         if (translation?.status != BookTranslationStatus.PAUSED) return
-        createNotificationChannel()
+        appNotifications.ensureChannel(NotificationChannelType.BookTranslation)
         notify(
             notificationId = notificationIdFor(translationId),
             notification = buildNotification(
@@ -80,25 +73,20 @@ class BookTranslationNotificationController @Inject constructor(
     }
 
     fun cancelTranslationNotification(translationId: Long) {
-        NotificationManagerCompat.from(context).cancel(notificationIdFor(translationId))
+        appNotifications.cancel(notificationIdFor(translationId))
     }
 
     suspend fun refreshGroupSummary() {
         val activeTranslations = repository.getAllTranslations()
             .filter { it.isBusy || it.canResume }
-        val notificationManager = NotificationManagerCompat.from(context)
         if (activeTranslations.size <= 1) {
-            notificationManager.cancel(BOOK_TRANSLATION_NOTIFICATION_SUMMARY_ID)
+            appNotifications.cancel(BOOK_TRANSLATION_NOTIFICATION_SUMMARY_ID)
             return
         }
 
         val totalUnits = activeTranslations.sumOf { it.totalUnits.coerceAtLeast(0) }
         val completedUnits = activeTranslations.sumOf { it.completedUnits.coerceAtLeast(0) }
-        val notification = NotificationCompat.Builder(
-            context,
-            BOOK_TRANSLATION_NOTIFICATION_CHANNEL_ID
-        )
-            .setSmallIcon(R.drawable.notification_icon)
+        val notification = appNotifications.builder(NotificationChannelType.BookTranslation)
             .setContentTitle(context.getString(R.string.book_translation_notification_channel))
             .setContentText(
                 context.getString(
@@ -149,11 +137,7 @@ class BookTranslationNotificationController @Inject constructor(
             else -> context.getString(R.string.book_translation_notification_text)
         }
 
-        val builder = NotificationCompat.Builder(
-            context,
-            BOOK_TRANSLATION_NOTIFICATION_CHANNEL_ID
-        )
-            .setSmallIcon(R.drawable.notification_icon)
+        val builder = appNotifications.builder(NotificationChannelType.BookTranslation)
             .setContentTitle(title)
             .setContentText(contentText)
             .setTicker(title)
@@ -218,38 +202,7 @@ class BookTranslationNotificationController @Inject constructor(
         notificationId: Int,
         notification: android.app.Notification
     ) {
-        if (!canPostNotifications()) return
-        runCatching {
-            NotificationManagerCompat.from(context).notify(notificationId, notification)
-        }.onFailure { throwable ->
-            Log.w(
-                BOOK_TRANSLATION_LOG,
-                "Book translation notification update failed: notificationId=$notificationId",
-                throwable
-            )
-        }
-    }
-
-    private fun canPostNotifications(): Boolean {
-        if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) return false
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-                ContextCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
-
-        val notificationManager = context.getSystemService(Service.NOTIFICATION_SERVICE)
-                as NotificationManager
-        val channel = NotificationChannel(
-            BOOK_TRANSLATION_NOTIFICATION_CHANNEL_ID,
-            context.getString(R.string.book_translation_notification_channel),
-            NotificationManager.IMPORTANCE_LOW
-        )
-        notificationManager.createNotificationChannel(channel)
+        appNotifications.notify(notificationId, notification, BOOK_TRANSLATION_LOG)
     }
 
     companion object {

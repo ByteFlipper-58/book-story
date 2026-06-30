@@ -9,6 +9,7 @@
     <string name="updates_notification_title">Нове оновлення EverBook!</string>
     <string name="updates_notification_desc">Оновлення %1$s щойно вийшло!\nНатисніть, щоб перейти на сторінку випуску.</string>
     <string name="updates_notification_action">Завантажити</string>
+    <string name="updates_notification_version_build">збірка %1$s</string>
 
     <!-- Screens -->
     <string name="library_screen">Бібліотека</string>

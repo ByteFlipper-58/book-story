@@ -9,6 +9,7 @@
     <string name="updates_notification_title">تحديث جديد لـ EverBook!</string>
     <string name="updates_notification_desc">تم إصدار التحديث %1$s للتو!\nانقر للانتقال إلى صفحة الإصدار.</string>
     <string name="updates_notification_action">تنزيل</string>
+    <string name="updates_notification_version_build">الإصدار %1$s</string>
 
     <!-- Screens -->
     <string name="library_screen">المكتبة</string>

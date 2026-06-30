@@ -9,6 +9,7 @@
     <string name="updates_notification_title">EverBook\'un yeni güncellemesi!</string>
     <string name="updates_notification_desc">%1$s güncellemesi yayınlandı!\nSürüm sayfasına gitmek için tıklayın.</string>
     <string name="updates_notification_action">İndir</string>
+    <string name="updates_notification_version_build">yapı %1$s</string>
 
     <!-- Screens -->
     <string name="library_screen">Kütüphane</string>

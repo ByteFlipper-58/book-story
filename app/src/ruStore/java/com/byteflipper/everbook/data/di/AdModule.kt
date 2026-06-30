@@ -13,12 +13,14 @@ import com.byteflipper.everbook.data.ads.RuStoreNativeReaderAdManager
 import com.byteflipper.everbook.data.distribution.RuStoreDistributionStartup
 import com.byteflipper.everbook.data.distribution.RuStoreManualUpdateChecker
 import com.byteflipper.everbook.data.distribution.RuStoreStoreUpdateController
+import com.byteflipper.everbook.data.distribution.RuStoreUpdateNotificationChecker
 import com.byteflipper.everbook.domain.ads.AdSessionController
 import com.byteflipper.everbook.domain.distribution.DistributionStartup
 import com.byteflipper.everbook.domain.distribution.ManualUpdateChecker
 import com.byteflipper.everbook.domain.distribution.ReaderEntryActionController
 import com.byteflipper.everbook.domain.distribution.ReaderInlineContentController
 import com.byteflipper.everbook.domain.distribution.StoreUpdateController
+import com.byteflipper.everbook.domain.distribution.UpdateNotificationChecker
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -63,4 +65,10 @@ abstract class AdModule {
     abstract fun bindManualUpdateChecker(
         impl: RuStoreManualUpdateChecker
     ): ManualUpdateChecker
+
+    @Binds
+    @Singleton
+    abstract fun bindUpdateNotificationChecker(
+        impl: RuStoreUpdateNotificationChecker
+    ): UpdateNotificationChecker
 }

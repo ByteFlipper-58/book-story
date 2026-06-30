@@ -11,10 +11,13 @@ import android.app.Application
 import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.byteflipper.everbook.data.work.AutoCategoryWorker
+import com.byteflipper.everbook.data.work.UpdateCheckWorker
 import com.byteflipper.everbook.domain.distribution.DistributionStartup
 import com.byteflipper.everbook.domain.use_case.translation.ReconcileBookTranslations
 import dagger.hilt.android.HiltAndroidApp
@@ -59,6 +62,19 @@ class Application : Application(), Configuration.Provider {
             AutoCategoryWorker.UNIQUE_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
             PeriodicWorkRequestBuilder<AutoCategoryWorker>(1, TimeUnit.DAYS).build()
+        )
+
+        // Daily background check for a new app version; posts a localized notification if found.
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            UpdateCheckWorker.UNIQUE_WORK_NAME,
+            ExistingPeriodicWorkPolicy.KEEP,
+            PeriodicWorkRequestBuilder<UpdateCheckWorker>(1, TimeUnit.DAYS)
+                .setConstraints(
+                    Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+                )
+                .build()
         )
     }
 }

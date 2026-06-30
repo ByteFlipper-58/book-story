@@ -9,6 +9,7 @@ package com.byteflipper.everbook.data.distribution
 
 import android.util.Log
 import androidx.activity.ComponentActivity
+import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.distribution.ManualUpdateChecker
 import com.byteflipper.everbook.domain.distribution.UpdateCheckResult
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -50,7 +51,10 @@ class PlayStoreManualUpdateChecker @Inject constructor() : ManualUpdateChecker {
             AppUpdateType.FLEXIBLE
         }
         return UpdateCheckResult.UpdateAvailable(
-            version = "build $versionCode",
+            version = activity.getString(
+                R.string.updates_notification_version_build,
+                versionCode.toString()
+            ),
             useStoreNativeFlow = true,
             onStartUpdate = { act ->
                 val options = AppUpdateOptions.newBuilder(type).build()

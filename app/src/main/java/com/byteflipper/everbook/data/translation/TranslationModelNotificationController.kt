@@ -7,29 +7,23 @@
 
 package com.byteflipper.everbook.data.translation
 
-import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
 import android.util.Log
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.data.notification.AppNotificationManager
+import com.byteflipper.everbook.data.notification.NotificationChannelType
 import com.byteflipper.everbook.domain.translation.nativeTranslationLanguageName
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val TRANSLATION_MODEL_NOTIFICATION_CHANNEL_ID = "translation_models"
 private const val TRANSLATION_MODEL_NOTIFICATION_ID_BASE = 2095
 private const val TRANSLATION_MODELS_LOG = "TranslationModels"
 
 @Singleton
 class TranslationModelNotificationController @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val appNotifications: AppNotificationManager
 ) {
     fun showDownload(languageCode: String) {
         show(
@@ -54,7 +48,7 @@ class TranslationModelNotificationController @Inject constructor(
     }
 
     fun clear(languageCode: String) {
-        NotificationManagerCompat.from(context).cancel(notificationIdFor(languageCode))
+        appNotifications.cancel(notificationIdFor(languageCode))
     }
 
     private fun show(
@@ -62,7 +56,7 @@ class TranslationModelNotificationController @Inject constructor(
         title: String,
         text: String
     ) {
-        if (!canPostNotifications()) {
+        if (!appNotifications.canPostNotifications()) {
             Log.w(
                 TRANSLATION_MODELS_LOG,
                 "Model notification skipped: notification permission missing language=$languageCode"
@@ -70,13 +64,9 @@ class TranslationModelNotificationController @Inject constructor(
             return
         }
 
-        createNotificationChannel()
+        appNotifications.ensureChannel(NotificationChannelType.TranslationModels)
 
-        val notification = NotificationCompat.Builder(
-            context,
-            TRANSLATION_MODEL_NOTIFICATION_CHANNEL_ID
-        )
-            .setSmallIcon(R.drawable.notification_icon)
+        val notification = appNotifications.builder(NotificationChannelType.TranslationModels)
             .setContentTitle(title)
             .setContentText(text)
             .setTicker(title)
@@ -85,51 +75,17 @@ class TranslationModelNotificationController @Inject constructor(
             .setProgress(0, 0, true)
             .build()
 
-        runCatching {
-            NotificationManagerCompat.from(context).notify(
-                notificationIdFor(languageCode),
-                notification
-            )
-        }.onFailure { throwable ->
-            Log.w(
-                TRANSLATION_MODELS_LOG,
-                "Model notification failed: language=$languageCode",
-                throwable
-            )
-        }.onSuccess {
+        val posted = appNotifications.notify(
+            notificationIdFor(languageCode),
+            notification,
+            TRANSLATION_MODELS_LOG
+        )
+        if (posted) {
             Log.i(
                 TRANSLATION_MODELS_LOG,
                 "Model notification shown: language=$languageCode"
             )
         }
-    }
-
-    private fun canPostNotifications(): Boolean {
-        if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) {
-            Log.w(
-                TRANSLATION_MODELS_LOG,
-                "Model notification skipped: app notifications are disabled"
-            )
-            return false
-        }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return true
-        return ContextCompat.checkSelfPermission(
-            context,
-            Manifest.permission.POST_NOTIFICATIONS
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
-
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
-                as NotificationManager
-        val channel = NotificationChannel(
-            TRANSLATION_MODEL_NOTIFICATION_CHANNEL_ID,
-            context.getString(R.string.translation_model_notification_channel),
-            NotificationManager.IMPORTANCE_LOW
-        )
-        notificationManager.createNotificationChannel(channel)
     }
 
     private fun notificationIdFor(languageCode: String): Int =

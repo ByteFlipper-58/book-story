@@ -33,8 +33,8 @@ android {
         applicationId = "com.byteflipper.everbook"
         minSdk = 26
         targetSdk = 36
-        versionCode = 2012
-        versionName = "1.5.2"
+        versionCode = 15
+        versionName = "1.6.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

@@ -32,6 +32,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import okhttp3.internal.immutableListOf
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.distribution.ReaderEntryActionController
+import com.byteflipper.everbook.domain.distribution.StoreUpdateController
 import com.byteflipper.everbook.domain.navigator.NavigatorItem
 import com.byteflipper.everbook.domain.navigator.StackEvent
 import com.byteflipper.everbook.presentation.browse.BrowseAddDialog
@@ -69,6 +70,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var readerEntryActionController: ReaderEntryActionController
 
+    @Inject
+    lateinit var storeUpdateController: StoreUpdateController
+
     // Creating an instance of Models
     private val mainModel: MainModel by viewModels()
     private val settingsModel: SettingsModel by viewModels()
@@ -87,6 +91,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         readerEntryActionController.configure(this)
+        // storeUpdateController.onActivityReady is triggered later, after onboarding (see below),
+        // so the update / consent dialogs don't interrupt the start screen.
 
         // Bigger Cursor size for Room
         try {
@@ -223,9 +229,25 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
 
+                        LaunchedEffect(Unit) {
+                            externalImportModel.largePdfNoticeChannel.receiveAsFlow().collectLatest {
+                                getString(R.string.pdf_too_large_native_only)
+                                    .showToast(this@MainActivity)
+                            }
+                        }
+
                         LaunchedEffect(screen) {
                             if (screen is ReaderScreen) {
                                 readerEntryActionController.onReaderEntered(this@MainActivity)
+                                storeUpdateController.onReaderOpened(this@MainActivity)
+                            }
+                        }
+
+                        // Check for app updates only after onboarding so the UMP / update
+                        // dialogs never appear on the start screen.
+                        LaunchedEffect(screen) {
+                            if (screen != StartScreen && !state.value.showStartScreen) {
+                                storeUpdateController.onActivityReady(this@MainActivity)
                             }
                         }
 

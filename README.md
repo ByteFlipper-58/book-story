@@ -14,11 +14,10 @@
 <div align="center">
 
 
-<a href="">[![Stars](https://img.shields.io/github/stars/ByteFlipper-58/book-story?style=flat&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIC05NjAgOTYwIDk2MCIgd2lkdGg9IjI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxwYXRoIGQ9Im0zNTQtMjQ3IDEyNi03NiAxMjYgNzctMzMtMTQ0IDExMS05Ni0xNDYtMTMtNTgtMTM2LTU4IDEzNS0xNDYgMTMgMTExIDk3LTMzIDE0M1pNMjMzLTgwbDY1LTI4MUw4MC01NTBsMjg4LTI1IDExMi0yNjUgMTEyIDI2NSAyODggMjUtMjE4IDE4OSA2NSAyODEtMjQ3LTE0OUwyMzMtODBabTI0Ny0zNTBaIiBzdHlsZT0iZmlsbDogcmdiKDI0NSwgMjI3LCA2Nik7Ii8%2BCjwvc3ZnPg%3D%3D&color=949b3f&labelColor=27303D&label=Stars)](https://github.com/Acclorite/book-story/stargazers)</a>
-<a href="">[![Development Stage](https://img.shields.io/badge/Active-9b3f90?label=Development%20stage&labelColor=27303D)](https://github.com/ByteFlipper-58/book-story/commits/)</a>
-<a href="">[![Last Commit](https://img.shields.io/github/last-commit/ByteFlipper-58/book-story?label=Last%20commit&labelColor=27303D&color=749b3f)](https://github.com/Acclorite/book-story/commits/)</a>
-<a href="">[![License: GPL-3.0](https://img.shields.io/github/license/ByteFlipper-58/book-story?label=License&labelColor=27303D&color=3f9b75)](/LICENSE)</a>
-<a href="">[![Repository Size](https://img.shields.io/github/repo-size/ByteFlipper-58/book-story?label=Repository%20size&labelColor=27303D&color=563f9b)]()</a>
+[![Stars](https://img.shields.io/github/stars/ByteFlipper-58/book-story?style=flat&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIC05NjAgOTYwIDk2MCIgd2lkdGg9IjI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxwYXRoIGQ9Im0zNTQtMjQ3IDEyNi03NiAxMjYgNzctMzMtMTQ0IDExMS05Ni0xNDYtMTMtNTgtMTM2LTU4IDEzNS0xNDYgMTMgMTExIDk3LTMzIDE0M1pNMjMzLTgwbDY1LTI4MUw4MC01NTBsMjg4LTI1IDExMi0yNjUgMTEyIDI2NSAyODggMjUtMjE4IDE4OSA2NSAyODEtMjQ3LTE0OUwyMzMtODBabTI0Ny0zNTBaIiBzdHlsZT0iZmlsbDogcmdiKDI0NSwgMjI3LCA2Nik7Ii8%2BCjwvc3ZnPg%3D%3D&color=949b3f&labelColor=27303D&label=Stars)](https://github.com/ByteFlipper-58/book-story/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/ByteFlipper-58/book-story?label=Last%20commit&labelColor=27303D&color=749b3f)](https://github.com/ByteFlipper-58/book-story/commits/)
+[![License: GPL-3.0](https://img.shields.io/github/license/ByteFlipper-58/book-story?label=License&labelColor=27303D&color=3f9b75)](/LICENSE)
+[![Repository Size](https://img.shields.io/github/repo-size/ByteFlipper-58/book-story?label=Repository%20size&labelColor=27303D&color=563f9b)](https://github.com/ByteFlipper-58/book-story)
 </div>
 
 <!------------ Overview ------------>
@@ -42,7 +41,7 @@ Built using Jetpack Compose and Kotlin.
   <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="45%" />
   <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="45%" />
 </div>
-</br>
+<br/>
 
 _You can find more screenshots in [assets](https://github.com/ByteFlipper-58/book-story/tree/master/assets) folder._
 
@@ -53,13 +52,17 @@ _You can find more screenshots in [assets](https://github.com/ByteFlipper-58/boo
 
 <div align="left">
 
-[<img src="https://raw.githubusercontent.com/ismartcoding/plain-app/main/assets/get-it-on-github.png" alt='Get it on GitHub' height="80">](https://github.com/ByteFlipper-58/book-story/releases/download/v1.0.0/app-release.apk)
+[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt='Get it on Google Play' height="80">](https://play.google.com/store/apps/details?id=com.byteflipper.everbook)
+[<img src="https://www.rustore.ru/help/icons/logo-color-dark.svg" alt='Get it on RuStore' height="80">](https://www.rustore.ru/catalog/app/com.byteflipper.everbook)
+[<img src="https://raw.githubusercontent.com/ismartcoding/plain-app/main/assets/get-it-on-github.png" alt='Get it on GitHub' height="80">](https://github.com/ByteFlipper-58/book-story/releases/latest)
 </div>
+
+- **Google Play** — `playStore` build. **RuStore** — `ruStore` build. **GitHub** — open-source `everbook` build (no ads / Google services).
 
 Don't see your favorite app store? Create an [Issue](https://github.com/ByteFlipper-58/book-story/issues)!
 
 ### 📲 How to download and install
-- _**Install from Github**_: Click on the "Get it on GitHub" badge above, scroll down and download **book-story.apk** or download the last apk from GitHub [here](https://github.com/ByteFlipper-58/book-story/releases/download/v1.0.0/app-release.apk). After that, find downloaded APK and install it.
+- _**Install from Github**_: Click on the "Get it on GitHub" badge above, then download the latest APK from the [Releases page](https://github.com/ByteFlipper-58/book-story/releases/latest). After that, find downloaded APK and install it.
 - If you don't know how to install APK file, follow [this guide](https://www.lifewire.com/install-apk-on-android-4177185).
 
 ### 🧭 Afterwards
@@ -70,52 +73,65 @@ Don't see your favorite app store? Create an [Issue](https://github.com/ByteFlip
 <!------------ Features ------------>
 
 ## ✨ Features
-- 7 supported file formats(.pdf, .txt, .epub, .fb2, .html, .htm, .md)
-- Material You
-- Lots of unique themes
-- Color Presets in the Reader
-- Chapters in the Reader
-- Categories to organize your Library
-- Check for the app's update on the app's startup
-- Highly customizable Reader
-- Double click translation(sends to an external translator)
+- 7 supported file formats (.pdf, .txt, .epub, .fb2, .html, .htm, .md)
+- Material You design with lots of unique themes
+- Highly customizable Reader with color presets and chapters
+- **In-app translation** — translate a selection or a whole book in the background, with on-device (ML Kit) and Google providers
+- **Reading statistics** — track your reading sessions with activity drilldowns
+- **Native PDF mode** — render large or image-only PDFs as native pages (remembered per book)
+- Categories to organize your Library, including automatic status categories
+- Update checks with background notifications
 - Tablet UI support
 - More..
 
 <!------------ Build variants ------------>
 
 ## 🧩 Build variants
+
+Three distribution flavors (dimension `distribution`):
+
 - `everbook` — standalone/open-source build without Google service SDKs, Firebase, AdMob, UMP, or Play Billing.
-- `playStore` — Google Play build with Google services kept in `app/src/playStore`.
-- Shared application code lives in `app/src/main`; flavor-specific code and assets live in `app/src/everbook` and `app/src/playStore`.
-- `app/src/playStoreDebug` is only a debug overlay for Play Store test resources.
+- `playStore` — Google Play build: AdMob + Firebase + Play In-App Update/Review. Flavor code lives in `app/src/playStore`.
+- `ruStore` — RuStore build: Yandex ads + RuStore In-App Update/Review/RemoteConfig. Flavor code lives in `app/src/ruStore`.
+- Shared application code lives in `app/src/main`; flavor-specific code and assets live in `app/src/everbook`, `app/src/playStore`, and `app/src/ruStore`.
+- The ad-bearing flavors (`playStore`, `ruStore`) reuse shared sources from `app/src/sharedAds` and on-device ML Kit translation from `app/src/mlkitTranslation`.
+- `app/src/playStoreDebug` and `app/src/ruStoreDebug` are debug-only overlays for store test resources.
 
 Debug builds:
 
 ```bash
 ./gradlew assembleEverbookDebug
 ./gradlew assemblePlayStoreDebug
+./gradlew assembleRuStoreDebug
 ```
 
-Play Store debug APK:
+Store debug APKs:
 
 ```text
 app/build/outputs/apk/playStore/debug/app-playStore-debug.apk
+app/build/outputs/apk/ruStore/debug/app-ruStore-debug.apk
 ```
+
+### 📦 Publishing
+
+- [Publishing to Google Play](docs/PUBLISHING_PLAYSTORE.md) — `playStore` flavor.
+- [Publishing to RuStore](docs/PUBLISHING_RUSTORE.md) — `ruStore` flavor.
 
 <!------------ Privacy ------------>
 
 ## 🔐 Privacy
-- The standalone `everbook` flavor does not include Google service SDKs.
+- The standalone `everbook` flavor does not include Google service SDKs or ads.
 - The `playStore` flavor includes Firebase, AdMob, Remote Config, and UMP consent handling.
+- The `ruStore` flavor includes Yandex ads and RuStore SDKs (In-App Update/Review/RemoteConfig).
 - Privacy policies are flavor-specific:
   - `app/src/everbook/assets/privacy_policy.html`
   - `app/src/playStore/assets/privacy_policy.html`
+  - `app/src/ruStore/assets/privacy_policy.html`
 
 <!------------ Contribution ------------>
 
 ## 🤝 How to contribute
-- **The most improtant thing is I do not want someone's code.** This project is maintaining only by me and I want it to be this way. Creating Pull Requests will not have much sense as they will probably be closed.
+- **The most important thing is I do not want someone's code.** This project is maintaining only by me and I want it to be this way. Creating Pull Requests will not have much sense as they will probably be closed.
 - **Place your suggestions on Issues
   with [Suggestion Needed](https://github.com/ByteFlipper-58/book-story/labels/%F0%9F%93%9D%20Suggestion%20needed)
   label.** When the issue has this label that means I seek new ideas on how to improve what I

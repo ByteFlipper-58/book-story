@@ -22,6 +22,9 @@ import com.byteflipper.everbook.data.local.dto.ColorPresetEntity
 import com.byteflipper.everbook.data.local.dto.HistoryEntity
 import com.byteflipper.everbook.data.local.dto.CategoryEntity
 import com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef
+import com.byteflipper.everbook.data.local.dto.BookTranslationEntity
+import com.byteflipper.everbook.data.local.dto.BookTranslationEntryEntity
+import com.byteflipper.everbook.data.local.dto.ReadingSessionEntity
 import java.io.File
 
 @Database(
@@ -31,8 +34,11 @@ import java.io.File
         ColorPresetEntity::class,
         CategoryEntity::class,
         BookCategoryCrossRef::class,
+        BookTranslationEntity::class,
+        BookTranslationEntryEntity::class,
+        ReadingSessionEntity::class,
     ],
-    version = 12,
+    version = 14,
     autoMigrations = [
         AutoMigration(1, 2),
         AutoMigration(2, 3),
@@ -49,6 +55,7 @@ abstract class BookDatabase : RoomDatabase() {
     abstract val dao: BookDao
     abstract val categoryDao: CategoryDao
     abstract val bookCategoryDao: BookCategoryDao
+    abstract val bookTranslationDao: BookTranslationDao
 }
 
 @Suppress("ClassName")
@@ -254,6 +261,107 @@ object DatabaseHelper {
     }
 
     /**
+     * Migration from version 12 to 13.
+     *
+     * Adds persistent full-book translation metadata and translated text entries.
+     */
+    val MIGRATION_12_13 = object : Migration(12, 13) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS `BookTranslationEntity` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`bookId` INTEGER NOT NULL, " +
+                        "`providerMode` TEXT NOT NULL, " +
+                        "`sourceLanguageCode` TEXT, " +
+                        "`detectedSourceLanguageCode` TEXT, " +
+                        "`targetLanguageCode` TEXT NOT NULL, " +
+                        "`requireWifi` INTEGER NOT NULL, " +
+                        "`status` TEXT NOT NULL, " +
+                        "`sourceFingerprint` TEXT NOT NULL, " +
+                        "`totalUnits` INTEGER NOT NULL, " +
+                        "`completedUnits` INTEGER NOT NULL, " +
+                        "`failedUnits` INTEGER NOT NULL, " +
+                        "`errorMessage` TEXT, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "`updatedAt` INTEGER NOT NULL, " +
+                        "`queuedAt` INTEGER, " +
+                        "`startedAt` INTEGER, " +
+                        "`lastAttemptAt` INTEGER, " +
+                        "`retryCount` INTEGER NOT NULL, " +
+                        "`completedAt` INTEGER, " +
+                        "FOREIGN KEY(`bookId`) REFERENCES `BookEntity`(`id`) " +
+                        "ON UPDATE NO ACTION ON DELETE CASCADE" +
+                        ")"
+            )
+            db.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_BookTranslationEntity_bookId` " +
+                        "ON `BookTranslationEntity` (`bookId`)"
+            )
+            db.execSQL(
+                "CREATE INDEX IF NOT EXISTS " +
+                        "`index_BookTranslationEntity_bookId_providerMode_sourceLanguageCode_targetLanguageCode` " +
+                        "ON `BookTranslationEntity` " +
+                        "(`bookId`, `providerMode`, `sourceLanguageCode`, `targetLanguageCode`)"
+            )
+            db.execSQL(
+                "CREATE INDEX IF NOT EXISTS " +
+                        "`index_BookTranslationEntity_bookId_providerMode_sourceLanguageCode_targetLanguageCode_sourceFingerprint` " +
+                        "ON `BookTranslationEntity` " +
+                        "(`bookId`, `providerMode`, `sourceLanguageCode`, `targetLanguageCode`, `sourceFingerprint`)"
+            )
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS `BookTranslationEntryEntity` (" +
+                        "`translationId` INTEGER NOT NULL, " +
+                        "`readerTextIndex` INTEGER NOT NULL, " +
+                        "`type` TEXT NOT NULL, " +
+                        "`originalText` TEXT NOT NULL, " +
+                        "`translatedText` TEXT NOT NULL, " +
+                        "`sourceLanguageCode` TEXT, " +
+                        "`targetLanguageCode` TEXT NOT NULL, " +
+                        "`updatedAt` INTEGER NOT NULL, " +
+                        "PRIMARY KEY(`translationId`, `readerTextIndex`), " +
+                        "FOREIGN KEY(`translationId`) REFERENCES `BookTranslationEntity`(`id`) " +
+                        "ON UPDATE NO ACTION ON DELETE CASCADE" +
+                        ")"
+            )
+            db.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_BookTranslationEntryEntity_translationId` " +
+                        "ON `BookTranslationEntryEntity` (`translationId`)"
+            )
+            db.execSQL(
+                "CREATE INDEX IF NOT EXISTS " +
+                        "`index_BookTranslationEntryEntity_translationId_readerTextIndex` " +
+                        "ON `BookTranslationEntryEntity` (`translationId`, `readerTextIndex`)"
+            )
+        }
+    }
+
+    /**
+     * Migration from version 13 to 14.
+     *
+     * Adds reading sessions table — the data source for reading statistics.
+     */
+    val MIGRATION_13_14 = object : Migration(13, 14) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS `ReadingSessionEntity` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`bookId` INTEGER NOT NULL, " +
+                        "`startTime` INTEGER NOT NULL, " +
+                        "`endTime` INTEGER NOT NULL, " +
+                        "`progressStart` REAL NOT NULL, " +
+                        "`progressEnd` REAL NOT NULL, " +
+                        "`pagesRead` INTEGER NOT NULL DEFAULT 0" +
+                        ")"
+            )
+            db.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_ReadingSessionEntity_bookId` " +
+                        "ON `ReadingSessionEntity` (`bookId`)"
+            )
+        }
+    }
+
+    /**
      * Callback, который вызывается при создании базы данных (fresh install).
      * Заполняет таблицу `CategoryEntity` четырьмя стандартными категориями, если она пуста.
      */
@@ -295,6 +403,8 @@ object DatabaseHelper {
             .addMigrations(MIGRATION_9_10)
             .addMigrations(MIGRATION_10_11)
             .addMigrations(MIGRATION_11_12)
+            .addMigrations(MIGRATION_12_13)
+            .addMigrations(MIGRATION_13_14)
             .build()
     }
 }

@@ -14,7 +14,9 @@ import com.byteflipper.everbook.domain.config.AdRemoteConfigLimits
 import com.byteflipper.everbook.domain.config.RemoteFeatureConfig
 import com.byteflipper.everbook.domain.config.ReaderNativeAdConfig
 import com.byteflipper.everbook.domain.config.provideAdRemoteConfigDefaults
+import android.util.Log
 import com.google.android.gms.tasks.Task
+import com.google.firebase.FirebaseApp
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +26,17 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
+private const val TAG = "RemoteFeatureConfig"
+
 class PlayStoreRemoteFeatureConfig @Inject constructor() : RemoteFeatureConfig {
-    private val remoteConfig = FirebaseRemoteConfig.getInstance()
+    private val remoteConfig: FirebaseRemoteConfig? = try {
+        FirebaseApp.getInstance()
+        FirebaseRemoteConfig.getInstance()
+    } catch (e: IllegalStateException) {
+        Log.w(TAG, "Firebase not initialized, remote config disabled", e)
+        null
+    }
+
     private val _adsEnabled = MutableStateFlow(false)
     private val _readerEntryInterstitialAdsEnabled = MutableStateFlow(false)
     private val _readerEntryInterstitialShowInterval = MutableStateFlow(4)
@@ -41,23 +52,27 @@ class PlayStoreRemoteFeatureConfig @Inject constructor() : RemoteFeatureConfig {
     override val adSessionConfig: StateFlow<AdSessionConfig> = _adSessionConfig
 
     init {
-        remoteConfig.setConfigSettingsAsync(
-            FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(if (BuildConfig.DEBUG) 60 else 3_600)
-                .build()
-        )
-        remoteConfig.setDefaultsAsync(provideAdRemoteConfigDefaults())
+        remoteConfig?.let { config ->
+            config.setConfigSettingsAsync(
+                FirebaseRemoteConfigSettings.Builder()
+                    .setMinimumFetchIntervalInSeconds(if (BuildConfig.DEBUG) 60 else 3_600)
+                    .build()
+            )
+            config.setDefaultsAsync(provideAdRemoteConfigDefaults())
+        }
     }
 
     override suspend fun refresh() {
+        val config = remoteConfig ?: return
+
         runCatching {
-            remoteConfig.fetchAndActivate().await()
+            config.fetchAndActivate().await()
         }
 
-        _adsEnabled.value = remoteConfig.getBoolean(AdRemoteConfigKeys.ADS_ENABLED)
+        _adsEnabled.value = config.getBoolean(AdRemoteConfigKeys.ADS_ENABLED)
         _readerEntryInterstitialAdsEnabled.value =
-            remoteConfig.getBoolean(AdRemoteConfigKeys.READER_ENTRY_INTERSTITIAL_ADS_ENABLED)
-        _readerEntryInterstitialShowInterval.value = remoteConfig
+            config.getBoolean(AdRemoteConfigKeys.READER_ENTRY_INTERSTITIAL_ADS_ENABLED)
+        _readerEntryInterstitialShowInterval.value = config
             .getLong(AdRemoteConfigKeys.READER_ENTRY_INTERSTITIAL_SHOW_INTERVAL)
             .toInt()
             .coerceIn(
@@ -65,7 +80,7 @@ class PlayStoreRemoteFeatureConfig @Inject constructor() : RemoteFeatureConfig {
                 AdRemoteConfigLimits.READER_ENTRY_INTERSTITIAL_SHOW_INTERVAL_MAX
             )
         _adSessionConfig.value = AdSessionConfig(
-            globalCooldownSeconds = remoteConfig
+            globalCooldownSeconds = config
                 .getLong(AdRemoteConfigKeys.AD_GLOBAL_COOLDOWN_SECONDS)
                 .coerceIn(
                     AdRemoteConfigLimits.AD_GLOBAL_COOLDOWN_SECONDS_MIN,
@@ -73,50 +88,50 @@ class PlayStoreRemoteFeatureConfig @Inject constructor() : RemoteFeatureConfig {
                 )
         )
         _readerNativeAdConfig.value = ReaderNativeAdConfig(
-            enabled = remoteConfig.getBoolean(AdRemoteConfigKeys.READER_NATIVE_ADS_ENABLED),
-            textFirstMinUnits = remoteConfig
+            enabled = config.getBoolean(AdRemoteConfigKeys.READER_NATIVE_ADS_ENABLED),
+            textFirstMinUnits = config
                 .getLong(AdRemoteConfigKeys.READER_NATIVE_TEXT_FIRST_MIN_UNITS)
                 .toInt()
                 .coerceReaderNativeProgress(),
-            textNextMinUnits = remoteConfig
+            textNextMinUnits = config
                 .getLong(AdRemoteConfigKeys.READER_NATIVE_TEXT_NEXT_MIN_UNITS)
                 .toInt()
                 .coerceReaderNativeProgress(),
-            textMaxPerSession = remoteConfig
+            textMaxPerSession = config
                 .getLong(AdRemoteConfigKeys.READER_NATIVE_TEXT_MAX_PER_SESSION)
                 .toInt()
                 .coerceReaderNativeMaxPerSession(),
-            textEndGuardUnits = remoteConfig
+            textEndGuardUnits = config
                 .getLong(AdRemoteConfigKeys.READER_NATIVE_TEXT_END_GUARD_UNITS)
                 .toInt()
                 .coerceIn(
                     AdRemoteConfigLimits.READER_NATIVE_TEXT_END_GUARD_UNITS_MIN,
                     AdRemoteConfigLimits.READER_NATIVE_TEXT_END_GUARD_UNITS_MAX
                 ),
-            textLookaheadUnits = remoteConfig
+            textLookaheadUnits = config
                 .getLong(AdRemoteConfigKeys.READER_NATIVE_TEXT_LOOKAHEAD_UNITS)
                 .toInt()
                 .coerceReaderNativeLookahead(),
-            pdfFirstMinPages = remoteConfig
+            pdfFirstMinPages = config
                 .getLong(AdRemoteConfigKeys.READER_NATIVE_PDF_FIRST_MIN_PAGES)
                 .toInt()
                 .coerceReaderNativeProgress(),
-            pdfNextMinPages = remoteConfig
+            pdfNextMinPages = config
                 .getLong(AdRemoteConfigKeys.READER_NATIVE_PDF_NEXT_MIN_PAGES)
                 .toInt()
                 .coerceReaderNativeProgress(),
-            pdfMaxPerSession = remoteConfig
+            pdfMaxPerSession = config
                 .getLong(AdRemoteConfigKeys.READER_NATIVE_PDF_MAX_PER_SESSION)
                 .toInt()
                 .coerceReaderNativeMaxPerSession(),
-            pdfEndGuardPages = remoteConfig
+            pdfEndGuardPages = config
                 .getLong(AdRemoteConfigKeys.READER_NATIVE_PDF_END_GUARD_PAGES)
                 .toInt()
                 .coerceIn(
                     AdRemoteConfigLimits.READER_NATIVE_PDF_END_GUARD_PAGES_MIN,
                     AdRemoteConfigLimits.READER_NATIVE_PDF_END_GUARD_PAGES_MAX
                 ),
-            pdfLookaheadPages = remoteConfig
+            pdfLookaheadPages = config
                 .getLong(AdRemoteConfigKeys.READER_NATIVE_PDF_LOOKAHEAD_PAGES)
                 .toInt()
                 .coerceReaderNativeLookahead()

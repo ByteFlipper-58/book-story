@@ -26,6 +26,8 @@ sealed class ReaderEvent {
 
     data object OnShowPdfReadingModeBottomSheet : ReaderEvent()
 
+    data object OnShowBookTranslationBottomSheet : ReaderEvent()
+
     data class OnMenuVisibility(
         val show: Boolean,
         val fullscreenMode: Boolean,
@@ -58,6 +60,85 @@ sealed class ReaderEvent {
         val textToTranslate: String,
         val translateWholeParagraph: Boolean,
         val activity: ComponentActivity
+    ) : ReaderEvent()
+
+    data class OnOpenExternalTranslator(
+        val textToTranslate: String,
+        val translateWholeParagraph: Boolean,
+        val activity: ComponentActivity
+    ) : ReaderEvent()
+
+    data class OnTranslateText(
+        val textToTranslate: String,
+        val readerTextIndex: Int? = null,
+        val sourceLanguageCode: String,
+        val targetLanguageCode: String,
+        val providerMode: String,
+        val requireWifi: Boolean,
+        val activity: ComponentActivity,
+        val translateWholeParagraph: Boolean
+    ) : ReaderEvent()
+
+    data object OnDismissTranslation : ReaderEvent()
+
+    data object OnToggleTranslationOriginal : ReaderEvent()
+
+    data class OnChangeBookTranslationProviderMode(
+        val providerMode: String
+    ) : ReaderEvent()
+
+    data class OnChangeBookTranslationSourceLanguage(
+        val languageCode: String
+    ) : ReaderEvent()
+
+    data class OnChangeBookTranslationTargetLanguage(
+        val languageCode: String
+    ) : ReaderEvent()
+
+    data object OnSwapBookTranslationLanguages : ReaderEvent()
+
+    data class OnChangeBookTranslationWifiOnly(
+        val requireWifi: Boolean
+    ) : ReaderEvent()
+
+    data object OnStartBookTranslation : ReaderEvent()
+
+    data object OnShowTranslatedBook : ReaderEvent()
+
+    data object OnShowOriginalBook : ReaderEvent()
+
+    data object OnConfirmBookTranslationGoogleWarning : ReaderEvent()
+
+    data object OnDismissBookTranslationGoogleWarning : ReaderEvent()
+
+    data class OnCancelBookTranslation(
+        val translationId: Long
+    ) : ReaderEvent()
+
+    data class OnPauseBookTranslation(
+        val translationId: Long
+    ) : ReaderEvent()
+
+    data class OnResumeBookTranslation(
+        val translationId: Long
+    ) : ReaderEvent()
+
+    data class OnRetryBookTranslation(
+        val translationId: Long
+    ) : ReaderEvent()
+
+    data object OnDismissBookTranslationError : ReaderEvent()
+
+    /**
+     * Switch the bottom sheet to a different already-existing book translation (provider/source/
+     * target). The reader picks up the matching row via [refreshBookTranslations].
+     */
+    data class OnSelectBookTranslation(
+        val translationId: Long
+    ) : ReaderEvent()
+
+    data class OnDeleteBookTranslation(
+        val translationId: Long
     ) : ReaderEvent()
 
     data class OnOpenShareApp(

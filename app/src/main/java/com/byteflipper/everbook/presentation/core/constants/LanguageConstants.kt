@@ -7,18 +7,4 @@
 
 package com.byteflipper.everbook.presentation.core.constants
 
-fun provideLanguages() = listOf(
-    Pair("en", "English"),
-    Pair("uk", "Українська"),
-    Pair("de", "Deutsch"),
-    Pair("ar", "اَلْعَرَبِيَّةُ"),
-    Pair("es", "Español"),
-    Pair("tr", "Türkçe"),
-    Pair("fr", "Français"),
-    Pair("pl", "Polski"),
-    Pair("ru", "Русский"),
-    Pair("it", "Italiano"),
-    Pair("zh", "汉语"),
-    Pair("hi", "हिन्दी"),
-    Pair("pt", "Português (Brasil)")
-)
+fun provideLanguages() = com.byteflipper.everbook.domain.translation.provideLanguages()

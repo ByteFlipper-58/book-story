@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.GolfCourse
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -54,7 +55,7 @@ fun StartSettingsScaffold(
         ) {
             Spacer(modifier = Modifier.height(24.dp))
             when (currentPage) {
-                4 -> { // Privacy policy step
+                4 -> {
                     Icon(
                         imageVector = Icons.Default.Policy,
                         contentDescription = stringResource(id = R.string.privacy_policy_icon_content_desc),
@@ -73,6 +74,21 @@ fun StartSettingsScaffold(
                         text = stringResource(id = R.string.start_privacy_policy_desc),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    )
+                }
+                5 -> {
+                    Icon(
+                        imageVector = Icons.Default.Notifications,
+                        contentDescription = stringResource(id = R.string.start_permissions_notifications),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(64.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    StyledText(
+                        text = stringResource(id = R.string.start_permissions_notifications),
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     )
                 }

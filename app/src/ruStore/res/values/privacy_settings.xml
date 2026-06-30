@@ -1,0 +1,12 @@
+<resources>
+    <string name="privacy_settings">Privacy</string>
+    <string name="privacy_settings_desc">Ad personalization, privacy policy</string>
+    <string name="privacy_ads_subcategory">Advertising privacy</string>
+    <string name="privacy_ads_personalization_title">Personalized ads</string>
+    <string name="privacy_ads_personalization_desc">Allow Yandex to use your data to show more relevant ads.</string>
+    <string name="privacy_ads_personalization_note">When turned off, ads are still shown but are not personalized to you.</string>
+    <string name="privacy_policy_subcategory">Privacy policy</string>
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_desc">Review how EverBook handles local data, advertising and consent.</string>
+    <string name="native_ad_label">Ad</string>
+</resources>

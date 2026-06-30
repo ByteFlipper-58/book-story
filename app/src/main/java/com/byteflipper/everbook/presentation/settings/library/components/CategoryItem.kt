@@ -111,7 +111,7 @@ fun CategoryItem(
     val scope = rememberCoroutineScope()
     val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = { value ->
-            if (value == SwipeToDismissBoxValue.EndToStart) {
+            if (value == SwipeToDismissBoxValue.EndToStart && !category.isDefault) {
                 showConfirmDelete = true
             }
             false
@@ -122,7 +122,9 @@ fun CategoryItem(
     SwipeToDismissBox(
         state = dismissState,
         enableDismissFromStartToEnd = false,
-        enableDismissFromEndToStart = !isReorderMode,
+        // Default (system) categories are not deletable — keep the swipe gesture off for them,
+        // consistent with rename/edit already being hidden for defaults.
+        enableDismissFromEndToStart = !isReorderMode && !category.isDefault,
         backgroundContent = {
             val maxOffset = with(LocalDensity.current) { 120.dp.toPx() }
             val rawOffset = runCatching { dismissState.requireOffset() }.getOrElse { 0f }

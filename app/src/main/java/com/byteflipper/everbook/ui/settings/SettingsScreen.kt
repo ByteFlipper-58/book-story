@@ -42,6 +42,9 @@ object SettingsScreen : Screen, Parcelable {
             navigateToBrowseSettings = {
                 navigator.push(BrowseSettingsScreen)
             },
+            navigateToTranslatorSettings = {
+                navigator.push(TranslatorSettingsScreen)
+            },
             navigateToLibrarySettings = {
                 navigator.push(LibrarySettingsScreen)
             },

@@ -76,6 +76,8 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         const val CHAPTERS_DRAWER = "chapters_drawer"
         const val SETTINGS_BOTTOM_SHEET = "settings_bottom_sheet"
         const val PDF_READING_MODE_BOTTOM_SHEET = "pdf_reading_mode_bottom_sheet"
+        const val TRANSLATION_BOTTOM_SHEET = "translation_bottom_sheet"
+        const val BOOK_TRANSLATION_BOTTOM_SHEET = "book_translation_bottom_sheet"
     }
 
     @OptIn(ExperimentalLayoutApi::class)
@@ -116,11 +118,13 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
             pdfState.value.book.pdfReadingMode
         ) {
             when {
-                pdfState.value.book.id == bookId ->
-                    pdfState.value.book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF
-
+                // ReaderModel owns pdfReadingMode (single source of truth). pdfState is only a
+                // fallback for the brief window before ReaderModel.init() loads this book.
                 state.value.book.id == bookId ->
                     state.value.book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF
+
+                pdfState.value.book.id == bookId ->
+                    pdfState.value.book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF
 
                 else -> false
             }
@@ -431,7 +435,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 }
             )
         }
-        LaunchedEffect(activePdfMode, state.value.book.id, pdfState.value.book.pdfReadingMode) {
+        LaunchedEffect(activePdfMode, state.value.book.id, pdfState.value.book.id) {
             if (activePdfMode && state.value.book.id == bookId) {
                 pdfScreenModel.init(
                     bookId = bookId,
@@ -443,11 +447,10 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 )
             }
 
-            if (
-                !activePdfMode &&
-                pdfState.value.book.id == bookId &&
-                pdfState.value.book.pdfReadingMode == PdfReadingMode.PARSED_TEXT
-            ) {
+            // Switched to parsed text while the PDF model still holds this book: load/reuse the
+            // text in ReaderModel, then release the renderer. activePdfMode is driven by
+            // state.book.pdfReadingMode, so resetting pdfState (id = -1) can't flip it back.
+            if (!activePdfMode && pdfState.value.book.id == bookId) {
                 screenModel.init(
                     bookId = bookId,
                     fullscreenMode = mainState.value.fullscreen,
@@ -594,14 +597,17 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         }
 
         DisposableEffect(Unit) {
+            val screen = this@ReaderScreen
             onDispose {
-                readerInlineContentModel.resetSession()
-                screenModel.resetScreen()
-                pdfScreenModel.resetScreen()
-                WindowCompat.getInsetsController(
-                    activity.window,
-                    activity.window.decorView
-                ).show(WindowInsetsCompat.Type.systemBars())
+                if (screen !in navigator.items.value) {
+                    readerInlineContentModel.resetSession()
+                    screenModel.resetScreen()
+                    pdfScreenModel.resetScreen()
+                    WindowCompat.getInsetsController(
+                        activity.window,
+                        activity.window.decorView
+                    ).show(WindowInsetsCompat.Type.systemBars())
+                }
             }
         }
 
@@ -634,7 +640,14 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 menuVisibility = pdfScreenModel::onEvent,
                 scrollToPage = pdfScreenModel::onEvent,
                 changeZoom = pdfScreenModel::onEvent,
-                changePdfReadingMode = pdfScreenModel::onEvent,
+                changePdfReadingMode = { event ->
+                    // PdfReaderModel does native cleanup (session record + renderer release);
+                    // ReaderModel owns the mode flip + DB write (single source of truth).
+                    pdfScreenModel.onEvent(event)
+                    screenModel.onEvent(
+                        ReaderEvent.OnChangePdfReadingMode(event.mode)
+                    )
+                },
                 changePdfDefaultReadingMode = {
                     mainModel.onEvent(MainEvent.OnChangePdfDefaultReadingMode(it.name))
                 },
@@ -662,6 +675,8 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 displayContent = readerDisplayContent,
                 chapters = state.value.chapters,
                 bottomSheet = state.value.bottomSheet,
+                translation = state.value.translation,
+                bookTranslation = state.value.bookTranslation,
                 drawer = state.value.drawer,
                 listState = listState,
                 currentChapter = state.value.currentChapter,
@@ -714,6 +729,10 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 letterSpacing = letterSpacing,
                 paragraphIndentation = paragraphIndentation,
                 doubleClickTranslation = mainState.value.doubleClickTranslation,
+                translationProviderMode = mainState.value.translationProviderMode.name,
+                translationSourceLanguage = mainState.value.translationSourceLanguage,
+                translationTargetLanguage = mainState.value.translationTargetLanguage,
+                translationWifiOnly = mainState.value.translationWifiOnly,
                 fullscreenMode = mainState.value.fullscreen,
                 createInlineContentView = { placementId ->
                     readerInlineContentModel.createView(activity, placementId)
@@ -728,11 +747,31 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 openShareApp = screenModel::onEvent,
                 openWebBrowser = screenModel::onEvent,
                 openTranslator = screenModel::onEvent,
+                translateText = screenModel::onEvent,
+                openExternalTranslator = screenModel::onEvent,
+                dismissTranslation = screenModel::onEvent,
+                toggleTranslationOriginal = screenModel::onEvent,
                 openDictionary = screenModel::onEvent,
                 scrollToChapter = screenModel::onEvent,
                 showPdfReadingModeBottomSheet = screenModel::onEvent,
+                showBookTranslationBottomSheet = screenModel::onEvent,
                 showSettingsBottomSheet = screenModel::onEvent,
                 dismissBottomSheet = screenModel::onEvent,
+                startBookTranslation = screenModel::onEvent,
+                showTranslatedBook = screenModel::onEvent,
+                showOriginalBook = screenModel::onEvent,
+                confirmBookTranslationGoogleWarning = screenModel::onEvent,
+                dismissBookTranslationGoogleWarning = screenModel::onEvent,
+                cancelBookTranslation = screenModel::onEvent,
+                pauseBookTranslation = screenModel::onEvent,
+                resumeBookTranslation = screenModel::onEvent,
+                retryBookTranslation = screenModel::onEvent,
+                changeBookTranslationProviderMode = screenModel::onEvent,
+                changeBookTranslationSourceLanguage = screenModel::onEvent,
+                changeBookTranslationTargetLanguage = screenModel::onEvent,
+                swapBookTranslationLanguages = screenModel::onEvent,
+                changeBookTranslationWifiOnly = screenModel::onEvent,
+                dismissBookTranslationError = screenModel::onEvent,
                 showChaptersDrawer = screenModel::onEvent,
                 dismissDrawer = screenModel::onEvent,
                 changePdfReadingMode = screenModel::onEvent,

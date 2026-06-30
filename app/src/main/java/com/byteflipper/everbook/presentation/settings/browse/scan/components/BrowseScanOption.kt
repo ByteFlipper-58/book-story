@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.presentation.settings.browse.scan.components
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.UriPermission
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -35,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import android.widget.Toast
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.anggrayudi.storage.file.DocumentFileCompat
 import com.anggrayudi.storage.file.getBasePath
@@ -109,7 +111,15 @@ fun BrowseScanOption() {
 
     BrowseScanAction(
         requestPersistableUriPermission = {
-            persistedUriIntent.launch(null)
+            try {
+                persistedUriIntent.launch(null)
+            } catch (_: ActivityNotFoundException) {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.error_no_file_manager),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     )
 }

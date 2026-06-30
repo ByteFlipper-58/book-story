@@ -1,0 +1,19 @@
+/*
+ * EverBook — a modified fork of Book's Story, a free and open-source Material You eBook reader.
+ * Copyright (C) 2024-2025 Acclorite
+ * Modified by ByteFlipper for EverBook
+ * SPDX-License-Identifier: GPL-3.0-only
+ */
+
+package com.byteflipper.everbook.domain.translation
+
+import androidx.compose.runtime.Immutable
+
+@Immutable
+data class TranslationRequest(
+    val text: String,
+    val sourceLanguageCode: String?,
+    val targetLanguageCode: String,
+    val requireWifi: Boolean,
+    val providerMode: TranslationProviderMode = TranslationProviderMode.IN_APP
+)

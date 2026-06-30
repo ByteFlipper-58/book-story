@@ -22,6 +22,7 @@ import com.byteflipper.everbook.presentation.core.components.modal_bottom_sheet.
 import com.byteflipper.everbook.ui.about.AboutScreen
 import com.byteflipper.everbook.ui.help.HelpScreen
 import com.byteflipper.everbook.ui.settings.SettingsScreen
+import com.byteflipper.everbook.ui.statistics.StatisticsScreen
 
 val navigatorBottomSheetChannel = Channel<Boolean>(Channel.CONFLATED)
 
@@ -42,6 +43,17 @@ fun NavigatorBottomSheet() {
                     position = Position.TOP
                 ) {
                     navigator.push(AboutScreen)
+                    navigatorBottomSheetChannel.trySend(false)
+                }
+            }
+
+            item {
+                NavigatorBottomSheetItem(
+                    title = stringResource(id = R.string.statistics_screen),
+                    primary = false,
+                    position = Position.CENTER
+                ) {
+                    navigator.push(StatisticsScreen)
                     navigatorBottomSheetChannel.trySend(false)
                 }
             }

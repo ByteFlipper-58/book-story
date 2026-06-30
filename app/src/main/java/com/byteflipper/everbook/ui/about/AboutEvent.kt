@@ -16,4 +16,12 @@ sealed class AboutEvent {
         val page: String,
         val context: Context
     ) : AboutEvent()
+
+    data class OnCheckForUpdate(
+        val context: Context
+    ) : AboutEvent()
+
+    data class OnLeaveReview(
+        val context: Context
+    ) : AboutEvent()
 }

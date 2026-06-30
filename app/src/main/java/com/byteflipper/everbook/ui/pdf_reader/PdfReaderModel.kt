@@ -24,8 +24,10 @@ import androidx.lifecycle.viewModelScope
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.file.CachedFileCompat
 import com.byteflipper.everbook.domain.reader.PdfReadingMode
+import com.byteflipper.everbook.domain.statistics.ReadingSession
 import com.byteflipper.everbook.domain.use_case.book.GetBookById
 import com.byteflipper.everbook.domain.use_case.book.UpdateBook
+import com.byteflipper.everbook.domain.use_case.statistics.RecordReadingSession
 import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.presentation.core.util.coerceAndPreventNaN
 import com.byteflipper.everbook.presentation.core.util.setBrightness
@@ -57,7 +59,8 @@ import kotlin.math.roundToInt
 class PdfReaderModel @Inject constructor(
     private val application: Application,
     private val getBookById: GetBookById,
-    private val updateBook: UpdateBook
+    private val updateBook: UpdateBook,
+    private val recordReadingSession: RecordReadingSession
 ) : ViewModel() {
 
     private val stateMutex = Mutex()
@@ -73,6 +76,9 @@ class PdfReaderModel @Inject constructor(
 
     private var renderer: PdfRenderer? = null
     private var fileDescriptor: ParcelFileDescriptor? = null
+    private var sessionStartTime: Long? = null
+    private var sessionProgressStart: Float = 0f
+    private var sessionPageIndexStart: Int = 0
     private val pageCache = object : LruCache<PdfPageCacheKey, Bitmap>(PAGE_CACHE_MAX_BYTES) {
         override fun sizeOf(key: PdfPageCacheKey, value: Bitmap): Int {
             return value.allocationByteCount
@@ -120,8 +126,8 @@ class PdfReaderModel @Inject constructor(
                     )
                 }
 
-                val result = openRendererWithRetry(book.filePath)
-                if (result == null) {
+                val pageCount = openRendererWithRetry(book.filePath)
+                if (pageCount == null) {
                     _state.update {
                         it.copy(
                             isLoading = false,
@@ -136,7 +142,7 @@ class PdfReaderModel @Inject constructor(
 
                 _state.update {
                     it.copy(
-                        pageCount = result.pageCount,
+                        pageCount = pageCount,
                         isLoading = false,
                         errorMessage = null,
                         showMenu = false
@@ -144,6 +150,11 @@ class PdfReaderModel @Inject constructor(
                 }
 
                 updateBook.execute(book)
+                if (sessionStartTime == null) {
+                    sessionStartTime = System.currentTimeMillis()
+                    sessionProgressStart = book.progress.coerceAndPreventNaN().coerceIn(0f, 1f)
+                    sessionPageIndexStart = book.pdfPageIndex.coerceAtLeast(0)
+                }
                 LibraryScreen.refreshListChannel.trySend(0)
                 HistoryScreen.refreshListChannel.trySend(0)
             }
@@ -164,7 +175,8 @@ class PdfReaderModel @Inject constructor(
                 }
 
                 is PdfReaderEvent.OnChangeProgress -> {
-                    launch(Dispatchers.IO) {
+                    launch(Dispatchers.IO) progressUpdate@{
+                        if (_state.value.book.id <= 0) return@progressUpdate
                         val pageIndex = event.pageIndex.coerceIn(
                             0,
                             (_state.value.pageCount - 1).coerceAtLeast(0)
@@ -216,27 +228,24 @@ class PdfReaderModel @Inject constructor(
                 }
 
                 is PdfReaderEvent.OnChangePdfReadingMode -> {
+                    val currentBook = _state.value.book
+                    if (currentBook.id <= 0) return@launch
+
                     if (
                         event.mode == PdfReadingMode.PARSED_TEXT &&
-                        !_state.value.book.pdfTextModeAvailable
+                        !currentBook.pdfTextModeAvailable
                     ) {
                         return@launch
                     }
 
+                    // Cleanup-only: release the renderer and record the native reading session.
+                    // The mode flip + DB write are owned by ReaderModel (single source of truth)
+                    // — see ReaderEvent.OnChangePdfReadingMode. The page position is already
+                    // persisted live by OnChangeProgress.
                     if (event.mode == PdfReadingMode.PARSED_TEXT) {
-                        saveCurrentPosition()
+                        recordSessionIfNeeded()
                         closeRenderer()
                     }
-                    val updatedBook = _state.value.book.copy(pdfReadingMode = event.mode)
-                    updateBook.execute(updatedBook)
-                    _state.update {
-                        it.copy(
-                            book = updatedBook,
-                            zoom = MIN_ZOOM
-                        )
-                    }
-                    LibraryScreen.refreshListChannel.trySend(0)
-                    HistoryScreen.refreshListChannel.trySend(0)
                 }
 
                 is PdfReaderEvent.OnShowPdfReadingModeBottomSheet -> {
@@ -259,6 +268,7 @@ class PdfReaderModel @Inject constructor(
 
                 is PdfReaderEvent.OnLeave -> {
                     saveCurrentPosition()
+                    recordSessionIfNeeded()
                     WindowCompat.getInsetsController(
                         event.activity.window,
                         event.activity.window.decorView
@@ -328,13 +338,17 @@ class PdfReaderModel @Inject constructor(
 
     fun resetScreen() {
         resetJob = viewModelScope.launch(Dispatchers.Main) {
-            eventJob.cancel()
-            progressJob?.cancel()
-            eventJob = SupervisorJob()
-            closeRenderer()
+            // Hold initMutex so a reset cannot close the renderer or wipe state while init() is
+            // mid-flight (init reads pageCount and builds state under the same lock).
+            initMutex.withLock {
+                eventJob.cancel()
+                progressJob?.cancel()
+                eventJob = SupervisorJob()
+                closeRenderer()
 
-            yield()
-            _state.update { PdfReaderState() }
+                yield()
+                _state.update { PdfReaderState() }
+            }
         }
     }
 
@@ -348,7 +362,13 @@ class PdfReaderModel @Inject constructor(
 
     private suspend fun saveCurrentPosition() {
         _state.value.listState.apply {
-            if (_state.value.isLoading || _state.value.pageCount == 0) return
+            if (
+                _state.value.book.id <= 0 ||
+                _state.value.isLoading ||
+                _state.value.pageCount == 0
+            ) {
+                return
+            }
             _state.update {
                 it.copy(
                     book = it.book.copy(
@@ -364,13 +384,33 @@ class PdfReaderModel @Inject constructor(
         }
     }
 
+    private suspend fun recordSessionIfNeeded() {
+        val start = sessionStartTime ?: return
+        val book = _state.value.book
+        if (book.id <= 0) {
+            sessionStartTime = null
+            return
+        }
+        recordReadingSession.execute(
+            ReadingSession(
+                bookId = book.id,
+                startTime = start,
+                endTime = System.currentTimeMillis(),
+                progressStart = sessionProgressStart,
+                progressEnd = book.progress.coerceAndPreventNaN().coerceIn(0f, 1f),
+                pagesRead = (book.pdfPageIndex - sessionPageIndexStart).coerceAtLeast(0)
+            )
+        )
+        sessionStartTime = null
+    }
+
     private fun calculateProgress(pageIndex: Int): Float {
         val lastPageIndex = (_state.value.pageCount - 1).coerceAtLeast(0)
         if (lastPageIndex == 0) return 0f
         return (pageIndex / lastPageIndex.toFloat()).coerceAndPreventNaN()
     }
 
-    private suspend fun openRendererWithRetry(path: String): PdfRenderer? {
+    private suspend fun openRendererWithRetry(path: String): Int? {
         repeat(OPEN_RETRY_COUNT) { attempt ->
             openRenderer(path)?.let { return it }
             delay(OPEN_RETRY_DELAY_MS * (attempt + 1))
@@ -378,7 +418,7 @@ class PdfReaderModel @Inject constructor(
         return null
     }
 
-    private suspend fun openRenderer(path: String): PdfRenderer? {
+    private suspend fun openRenderer(path: String): Int? {
         return try {
             val file = File(path).takeIf { it.exists() && it.canRead() }
             if (file != null) {
@@ -407,7 +447,7 @@ class PdfReaderModel @Inject constructor(
         }
     }
 
-    private suspend fun openRenderer(file: File): PdfRenderer {
+    private suspend fun openRenderer(file: File): Int {
         val descriptor = ParcelFileDescriptor.open(
             file,
             ParcelFileDescriptor.MODE_READ_ONLY
@@ -417,7 +457,9 @@ class PdfReaderModel @Inject constructor(
                 val pdfRenderer = PdfRenderer(descriptor)
                 fileDescriptor = descriptor
                 renderer = pdfRenderer
-                pdfRenderer
+                // Read pageCount while still holding the lock so a concurrent closeRenderer()
+                // can never invalidate the document between open and this read.
+                pdfRenderer.pageCount
             }
         } catch (e: Exception) {
             try {

@@ -25,8 +25,25 @@ object DataStoreConstants {
     val DOUBLE_PRESS_EXIT = booleanPreferencesKey("double_press_exit")
     val CHANGELOG_LAST_SEEN_VERSION_CODE = intPreferencesKey("changelog_last_seen_version_code")
 
+    // Statistics
+    val READING_GOAL_MINUTES = intPreferencesKey("reading_goal_minutes")
+    val STATISTICS_SECTIONS = stringPreferencesKey("statistics_sections")
+    val STATISTICS_METRICS = stringPreferencesKey("statistics_metrics")
+    val STATISTICS_RANGE = stringPreferencesKey("statistics_range")
+    val STATISTICS_WEEK_START_MONDAY = booleanPreferencesKey("statistics_week_start_monday")
+
     // Reader settings
     val DOUBLE_CLICK_TRANSLATION = booleanPreferencesKey("double_click_translation")
+    val TRANSLATION_PROVIDER_MODE = stringPreferencesKey("translation_provider_mode")
+    val TRANSLATION_SOURCE_LANGUAGE = stringPreferencesKey("translation_source_language")
+    val TRANSLATION_TARGET_LANGUAGE = stringPreferencesKey("translation_target_language")
+    val TRANSLATION_WIFI_ONLY = booleanPreferencesKey("translation_wifi_only")
+    val BOOK_TRANSLATION_GOOGLE_WARNING_ACCEPTED =
+        booleanPreferencesKey("book_translation_google_warning_accepted")
+    val BOOK_TRANSLATION_RECENT_SOURCE_LANGUAGES =
+        stringSetPreferencesKey("book_translation_recent_source_languages")
+    val BOOK_TRANSLATION_RECENT_TARGET_LANGUAGES =
+        stringSetPreferencesKey("book_translation_recent_target_languages")
     val FAST_COLOR_PRESET_CHANGE = booleanPreferencesKey("fast_color_preset_change")
     val SIDE_PADDING = intPreferencesKey("side_padding")
     val VERTICAL_PADDING = intPreferencesKey("vertical_padding")

@@ -36,6 +36,9 @@ class ExternalImportModel @Inject constructor(
     val booksAddedChannel = Channel<Unit>(Channel.CONFLATED)
     val importFailedChannel = Channel<Unit>(Channel.CONFLATED)
 
+    /** Emitted when an imported PDF was too large for text extraction and opens in page mode. */
+    val largePdfNoticeChannel = Channel<Unit>(Channel.CONFLATED)
+
     fun onEvent(event: ExternalImportEvent) {
         when (event) {
             is ExternalImportEvent.OnHandleUris -> {
@@ -61,11 +64,21 @@ class ExternalImportModel @Inject constructor(
 
     private fun importSingle(uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
-            val bookId = importBookFromUri.execute(uri)
+            val bookWithCover = (importBookFromUri.prepare(uri) as? NullableBook.NotNull)
+                ?.bookWithCover
 
-            if (bookId == null) {
+            if (bookWithCover == null) {
                 importFailedChannel.trySend(Unit)
                 return@launch
+            }
+
+            val bookId = importBookFromUri.insert(bookWithCover)
+
+            // Large PDFs are imported as native-only (no text layer extracted) — tell the user
+            // why the text view is unavailable instead of failing silently.
+            val book = bookWithCover.book
+            if (book.filePath.endsWith(".pdf", ignoreCase = true) && !book.pdfTextModeAvailable) {
+                largePdfNoticeChannel.trySend(Unit)
             }
 
             openBookChannel.trySend(bookId)

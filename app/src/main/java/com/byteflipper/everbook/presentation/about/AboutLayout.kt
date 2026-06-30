@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -37,7 +38,6 @@ import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.constants.provideContributorsPage
 import com.byteflipper.everbook.presentation.core.constants.provideIssuesPage
-import com.byteflipper.everbook.presentation.core.constants.provideReleasesPage
 import com.byteflipper.everbook.presentation.core.constants.provideSupportPage
 import com.byteflipper.everbook.presentation.core.constants.provideTranslationPage
 import com.byteflipper.everbook.ui.about.AboutEvent
@@ -46,7 +46,11 @@ import com.byteflipper.everbook.ui.about.AboutEvent
 fun AboutLayout(
     paddingValues: PaddingValues,
     listState: LazyListState,
+    isCheckingUpdate: Boolean,
+    canLeaveReview: Boolean,
     navigateToBrowserPage: (AboutEvent.OnNavigateToBrowserPage) -> Unit,
+    onCheckForUpdate: (AboutEvent.OnCheckForUpdate) -> Unit,
+    onLeaveReview: (AboutEvent.OnLeaveReview) -> Unit,
     navigateToLicenses: () -> Unit,
     navigateToCredits: () -> Unit,
     navigateToChangelog: () -> Unit
@@ -96,16 +100,27 @@ fun AboutLayout(
                     AboutItem(
                         title = stringResource(id = R.string.app_version_option),
                         description = stringResource(
-                            id = R.string.app_version_option_desc_1,
+                            id = if (isCheckingUpdate) {
+                                R.string.app_version_option_desc_checking
+                            } else {
+                                R.string.app_version_option_desc_1
+                            },
                             BuildConfig.VERSION_NAME
                         ),
+                        trailing = if (isCheckingUpdate) {
+                            {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(20.dp),
+                                    strokeWidth = 2.dp
+                                )
+                            }
+                        } else null,
                     ) {
-                        navigateToBrowserPage(
-                            AboutEvent.OnNavigateToBrowserPage(
-                                page = provideReleasesPage(),
-                                context = context
+                        if (!isCheckingUpdate) {
+                            onCheckForUpdate(
+                                AboutEvent.OnCheckForUpdate(context = context)
                             )
-                        )
+                        }
                     }
 
                     AboutItem(
@@ -113,6 +128,17 @@ fun AboutLayout(
                         description = stringResource(id = R.string.changelog_option_desc)
                     ) {
                         navigateToChangelog()
+                    }
+
+                    if (canLeaveReview) {
+                        AboutItem(
+                            title = stringResource(id = R.string.leave_review_option),
+                            description = stringResource(id = R.string.leave_review_option_desc)
+                        ) {
+                            onLeaveReview(
+                                AboutEvent.OnLeaveReview(context = context)
+                            )
+                        }
                     }
 
                     AboutItem(

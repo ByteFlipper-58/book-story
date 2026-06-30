@@ -10,10 +10,14 @@ package com.byteflipper.everbook.presentation.reader
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +26,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineBreak
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -30,18 +35,11 @@ import com.byteflipper.everbook.domain.reader.FontWithName
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderText.Text
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
+import com.byteflipper.everbook.domain.translation.TranslationFeature
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
-import com.byteflipper.everbook.presentation.core.util.noRippleClickable
+import com.byteflipper.everbook.presentation.core.util.doubleTapPriorityGestures
 import com.byteflipper.everbook.ui.reader.ReaderEvent
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.ui.text.style.TextAlign
+import com.byteflipper.everbook.ui.reader.ReaderTranslationState
 
 private val INLINE_REGEX = Regex("\\$([^$]+)\\$")
 
@@ -50,6 +48,7 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
     paragraph: Text,
     activity: ComponentActivity,
     showMenu: Boolean,
+    readerIndex: Int,
     fontFamily: FontWithName,
     fontColor: Color,
     lineHeight: TextUnit,
@@ -63,13 +62,72 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
     paragraphIndentation: TextUnit,
     fullscreenMode: Boolean,
     doubleClickTranslation: Boolean,
+    translationProviderMode: String,
+    translationSourceLanguage: String,
+    translationTargetLanguage: String,
+    translationWifiOnly: Boolean,
+    translation: ReaderTranslationState,
+    closingTranslation: Boolean,
     highlightedReading: Boolean,
     highlightedReadingThickness: FontWeight,
     toolbarHidden: Boolean,
     openTranslator: (ReaderEvent.OnOpenTranslator) -> Unit,
+    translateText: (ReaderEvent.OnTranslateText) -> Unit,
+    openExternalTranslator: (ReaderEvent.OnOpenExternalTranslator) -> Unit,
+    closeTranslation: () -> Unit,
+    toggleTranslationOriginal: (ReaderEvent.OnToggleTranslationOriginal) -> Unit,
     menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit
 ) {
     val rawText = paragraph.line.text
+    val paragraphTextStyle = TextStyle(
+        fontFamily = fontFamily.font,
+        fontWeight = fontThickness.thickness,
+        textAlign = textAlignment.textAlignment,
+        textIndent = TextIndent(firstLine = paragraphIndentation),
+        fontStyle = fontStyle,
+        letterSpacing = letterSpacing,
+        fontSize = fontSize,
+        lineHeight = lineHeight,
+        color = fontColor,
+        lineBreak = LineBreak.Paragraph
+    )
+
+    if (TranslationFeature.INLINE_TRANSLATION_ENABLED && translation.readerTextIndex == readerIndex) {
+        ReaderInlineTranslatedParagraph(
+            originalText = rawText,
+            translation = translation,
+            closing = closingTranslation,
+            paragraphTextStyle = paragraphTextStyle,
+            fontColor = fontColor,
+            sidePadding = sidePadding,
+            horizontalAlignment = horizontalAlignment,
+            openExternalTranslator = {
+                openExternalTranslator(
+                    ReaderEvent.OnOpenExternalTranslator(
+                        textToTranslate = rawText,
+                        translateWholeParagraph = true,
+                        activity = activity
+                    )
+                )
+            },
+            closeTranslation = closeTranslation,
+            toggleReaderMenu = {
+                menuVisibility(
+                    ReaderEvent.OnMenuVisibility(
+                        show = !showMenu,
+                        fullscreenMode = fullscreenMode,
+                        saveCheckpoint = true,
+                        activity = activity
+                    )
+                )
+            },
+            toggleTranslationOriginal = {
+                toggleTranslationOriginal(ReaderEvent.OnToggleTranslationOriginal)
+            },
+        )
+        return
+    }
+
     val matches = INLINE_REGEX.findAll(rawText).toList()
 
     // Если формул нет или рендер выключен – используем прежний вывод
@@ -84,43 +142,44 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
         ) {
             StyledText(
                 text = paragraph.line,
-                modifier = Modifier.then(
-                    if (doubleClickTranslation && toolbarHidden) {
-                        Modifier.noRippleClickable(
-                            onDoubleClick = {
-                                openTranslator(
-                                    ReaderEvent.OnOpenTranslator(
-                                        textToTranslate = paragraph.line.text,
-                                        translateWholeParagraph = true,
-                                        activity = activity
-                                    )
-                                )
-                            },
-                            onClick = {
-                                menuVisibility(
-                                    ReaderEvent.OnMenuVisibility(
-                                        show = !showMenu,
-                                        fullscreenMode = fullscreenMode,
-                                        saveCheckpoint = true,
-                                        activity = activity
-                                    )
-                                )
-                            }
+                modifier = Modifier.doubleTapPriorityGestures(
+                    enabled = doubleClickTranslation && toolbarHidden,
+                    onTap = {
+                        menuVisibility(
+                            ReaderEvent.OnMenuVisibility(
+                                show = !showMenu,
+                                fullscreenMode = fullscreenMode,
+                                saveCheckpoint = true,
+                                activity = activity
+                            )
                         )
-                    } else Modifier
+                    },
+                    onDoubleTap = {
+                        if (TranslationFeature.INLINE_TRANSLATION_ENABLED) {
+                            translateText(
+                                ReaderEvent.OnTranslateText(
+                                    textToTranslate = paragraph.line.text,
+                                    sourceLanguageCode = translationSourceLanguage,
+                                    targetLanguageCode = translationTargetLanguage,
+                                    providerMode = translationProviderMode,
+                                    requireWifi = translationWifiOnly,
+                                    activity = activity,
+                                    translateWholeParagraph = true,
+                                    readerTextIndex = readerIndex
+                                )
+                            )
+                        } else {
+                            openTranslator(
+                                ReaderEvent.OnOpenTranslator(
+                                    textToTranslate = paragraph.line.text,
+                                    translateWholeParagraph = true,
+                                    activity = activity
+                                )
+                            )
+                        }
+                    }
                 ),
-                style = TextStyle(
-                    fontFamily = fontFamily.font,
-                    fontWeight = fontThickness.thickness,
-                    textAlign = textAlignment.textAlignment,
-                    textIndent = TextIndent(firstLine = paragraphIndentation),
-                    fontStyle = fontStyle,
-                    letterSpacing = letterSpacing,
-                    fontSize = fontSize,
-                    lineHeight = lineHeight,
-                    color = fontColor,
-                    lineBreak = LineBreak.Paragraph
-                ),
+                style = paragraphTextStyle,
                 highlightText = highlightedReading,
                 highlightThickness = highlightedReadingThickness
             )

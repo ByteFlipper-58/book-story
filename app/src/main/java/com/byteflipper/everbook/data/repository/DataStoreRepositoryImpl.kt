@@ -39,6 +39,10 @@ class DataStoreRepositoryImpl @Inject constructor(
         dataStore.putData(key, value)
     }
 
+    override suspend fun <T> getNullableDataFromDataStore(key: Preferences.Key<T>): T? {
+        return dataStore.getNullableData(key)
+    }
+
     /**
      * Gets all settings from DataStore and returns [MainState].
      */

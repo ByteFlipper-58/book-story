@@ -21,6 +21,7 @@ import com.byteflipper.everbook.presentation.core.constants.provideEmptyBook
 @Immutable
 data class ReaderState(
     val book: Book = provideEmptyBook(),
+    val originalText: List<ReaderText> = emptyList(),
     val text: List<ReaderText> = emptyList(),
     val chapters: List<Chapter> = emptyList(),
     val chapterIndexes: List<Int> = emptyList(),
@@ -39,5 +40,8 @@ data class ReaderState(
     val lockMenu: Boolean = false,
 
     val bottomSheet: BottomSheet? = null,
-    val drawer: Drawer? = null
+    val drawer: Drawer? = null,
+
+    val translation: ReaderTranslationState = ReaderTranslationState(),
+    val bookTranslation: ReaderBookTranslationState = ReaderBookTranslationState()
 )

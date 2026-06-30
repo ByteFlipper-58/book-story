@@ -17,5 +17,9 @@ interface DataStoreRepository {
         value: T
     )
 
+    suspend fun <T> getNullableDataFromDataStore(
+        key: Preferences.Key<T>
+    ): T?
+
     suspend fun getAllSettings(): MainState
 }

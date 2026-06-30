@@ -68,4 +68,15 @@ interface BookRepository {
         bookId: Int,
         categoryId: Int
     )
+
+    /** Latest open timestamps for books whose primary status category equals [categoryId]. */
+    suspend fun getLastOpenedByBookInCategory(
+        categoryId: Int
+    ): Map<Int, Long>
+
+    /** Replaces category refs and primary status category for a batch of books. */
+    suspend fun setCategoryForBooks(
+        bookIds: List<Int>,
+        categoryId: Int
+    )
 }

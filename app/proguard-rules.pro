@@ -1,5 +1,9 @@
 # Proguard-rules
 -dontwarn android.content.res.**
+-dontwarn androidx.window.extensions.area.ExtensionWindowAreaPresentation
+-dontwarn androidx.window.extensions.core.util.function.Consumer
+-dontwarn androidx.window.extensions.core.util.function.Function
+-dontwarn androidx.window.extensions.core.util.function.Predicate
 -dontwarn com.gemalto.jp2.JP2Decoder
 -dontwarn com.google.auto.service.AutoService
 -dontwarn javax.lang.model.SourceVersion
@@ -56,6 +60,16 @@
 # gRPC
 -keep class io.grpc.** { *; }
 -dontwarn io.grpc.**
+
+# Yandex Mobile Ads (ruStore flavor)
+-keep class com.yandex.mobile.ads.** { *; }
+-dontwarn com.yandex.mobile.ads.**
+-keep class com.yandex.android.** { *; }
+-dontwarn com.yandex.android.**
+
+# RuStore SDKs (In-App Update & Review)
+-keep class ru.rustore.sdk.** { *; }
+-dontwarn ru.rustore.sdk.**
 
 # RxJava
 #-dontwarn io.reactivex.**

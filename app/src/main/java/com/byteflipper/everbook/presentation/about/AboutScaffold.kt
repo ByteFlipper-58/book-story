@@ -27,6 +27,10 @@ fun AboutScaffold(
     scrollBehavior: TopAppBarScrollBehavior,
     listState: LazyListState,
     navigateToBrowserPage: (AboutEvent.OnNavigateToBrowserPage) -> Unit,
+    onCheckForUpdate: (AboutEvent.OnCheckForUpdate) -> Unit,
+    onLeaveReview: (AboutEvent.OnLeaveReview) -> Unit,
+    isCheckingUpdate: Boolean,
+    canLeaveReview: Boolean,
     navigateToLicenses: () -> Unit,
     navigateToCredits: () -> Unit,
     navigateToChangelog: () -> Unit,
@@ -48,7 +52,11 @@ fun AboutScaffold(
         AboutLayout(
             paddingValues = paddingValues,
             listState = listState,
+            isCheckingUpdate = isCheckingUpdate,
+            canLeaveReview = canLeaveReview,
             navigateToBrowserPage = navigateToBrowserPage,
+            onCheckForUpdate = onCheckForUpdate,
+            onLeaveReview = onLeaveReview,
             navigateToLicenses = navigateToLicenses,
             navigateToCredits = navigateToCredits,
             navigateToChangelog = navigateToChangelog

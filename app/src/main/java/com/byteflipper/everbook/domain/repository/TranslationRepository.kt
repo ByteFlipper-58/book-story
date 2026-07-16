@@ -10,9 +10,11 @@ package com.byteflipper.everbook.domain.repository
 import com.byteflipper.everbook.domain.translation.TranslationCapability
 import com.byteflipper.everbook.domain.translation.TranslationRequest
 import com.byteflipper.everbook.domain.translation.TranslationResult
+import kotlinx.coroutines.flow.StateFlow
 
 interface TranslationRepository {
     val capability: TranslationCapability
+    val isModelDownloadInProgress: StateFlow<Boolean>
 
     suspend fun translate(request: TranslationRequest): TranslationResult
 }

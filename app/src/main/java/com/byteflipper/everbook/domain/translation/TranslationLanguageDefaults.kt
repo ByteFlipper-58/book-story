@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.domain.translation
 
+import android.content.res.Resources
 import java.util.Locale
 
 const val AUTO_TRANSLATION_LANGUAGE = "auto"
@@ -58,10 +59,14 @@ fun normalizeTranslationLanguageCode(code: String?): String? =
         ?.substringBefore("_")
         ?.takeIf { it.isNotBlank() && it != DEVICE_TRANSLATION_LANGUAGE }
 
-fun currentDeviceTranslationLanguageCode(): String =
-    normalizeTranslationLanguageCode(Locale.getDefault().toLanguageTag())
-        ?: normalizeTranslationLanguageCode(Locale.getDefault().language)
+fun currentDeviceTranslationLanguageCode(): String {
+    // Locale.getDefault() follows the app-specific locale after AppCompat applies it. The automatic
+    // translation target must instead follow the device language selected in Android settings.
+    val systemLocale = Resources.getSystem().configuration.locales[0]
+    return normalizeTranslationLanguageCode(systemLocale.toLanguageTag())
+        ?: normalizeTranslationLanguageCode(systemLocale.language)
         ?: FALLBACK_TRANSLATION_TARGET_LANGUAGE
+}
 
 fun supportedDeviceTranslationLanguageCode(supportedLanguageCodes: Set<String>): String? =
     currentDeviceTranslationLanguageCode().takeIf { it in supportedLanguageCodes }

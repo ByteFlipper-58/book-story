@@ -56,6 +56,9 @@ fun ReaderTranslationBottomSheet(
     val context = LocalContext.current
     val displayedText = when {
         translation.showOriginal -> translation.text
+        translation.isDownloadingModel &&
+                translation.providerMode == TranslationProviderMode.IN_APP ->
+            stringResource(id = R.string.translation_downloading_model)
         translation.isTranslating -> stringResource(id = R.string.translation_translating)
         translation.errorMessage != null -> translation.errorMessage
         else -> translation.translatedText ?: translation.text

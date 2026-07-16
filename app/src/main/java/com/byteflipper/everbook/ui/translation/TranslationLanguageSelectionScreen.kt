@@ -89,6 +89,9 @@ private fun SettingsTranslationLanguageSelection(
                 )
             )
         },
+        onWifiOnlyChange = { enabled ->
+            mainModel.onEvent(MainEvent.OnChangeTranslationWifiOnly(enabled))
+        },
         onSelectLanguage = { languageCode ->
             mainModel.onEvent(
                 when (role) {
@@ -110,6 +113,8 @@ private fun BookTranslationLanguageSelection(
     navigateBack: () -> Unit
 ) {
     val readerModel = hiltViewModel<ReaderModel>()
+    val mainModel = hiltViewModel<MainModel>()
+    val mainState = mainModel.state.collectAsStateWithLifecycle()
     val readerState = readerModel.state.collectAsStateWithLifecycle()
     val settingsModel = hiltViewModel<TranslatorSettingsModel>()
     val settingsState = settingsModel.state.collectAsStateWithLifecycle()
@@ -123,7 +128,7 @@ private fun BookTranslationLanguageSelection(
             TranslationLanguageSelectionRole.SOURCE -> bookTranslation.sourceLanguageCode
             TranslationLanguageSelectionRole.TARGET -> bookTranslation.targetLanguageCode
         },
-        requireWifi = bookTranslation.requireWifi,
+        requireWifi = mainState.value.translationWifiOnly,
         translatorState = settingsState.value,
         navigateBack = navigateBack,
         onRefreshModels = {
@@ -133,9 +138,13 @@ private fun BookTranslationLanguageSelection(
             settingsModel.onEvent(
                 TranslatorSettingsEvent.OnDownloadModel(
                     languageCode = languageCode,
-                    requireWifi = bookTranslation.requireWifi
+                    requireWifi = mainState.value.translationWifiOnly
                 )
             )
+        },
+        onWifiOnlyChange = { enabled ->
+            mainModel.onEvent(MainEvent.OnChangeTranslationWifiOnly(enabled))
+            readerModel.onEvent(ReaderEvent.OnChangeBookTranslationWifiOnly(enabled))
         },
         onSelectLanguage = { languageCode ->
             if (isCurrentReaderBook) {

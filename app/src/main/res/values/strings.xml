@@ -86,6 +86,7 @@
     <string name="close">Close</string>
     <string name="retry">Retry</string>
     <string name="translation_translating">Translating…</string>
+    <string name="translation_downloading_model">Downloading language model… This may take a while.</string>
     <string name="translation_open_external">External</string>
     <string name="translation_show_original">Show original</string>
     <string name="translation_show_translation">Show translation</string>
@@ -115,6 +116,9 @@
     <string name="translation_collapse_languages_content_desc">Collapse languages</string>
     <string name="translation_wifi_only_option">Download models on Wi-Fi only</string>
     <string name="translation_wifi_only_option_desc">Offline language models are downloaded before local translation</string>
+    <string name="translation_wifi_required_title">Wi-Fi is required</string>
+    <string name="translation_wifi_required_message">Model downloads are limited to Wi-Fi, but no working Wi-Fi connection is available. Turn off the option below to download using the current network.</string>
+    <string name="translation_download">Download</string>
     <string name="translation_offline_models_option">Offline models</string>
     <string name="translation_offline_models_entry_desc">Manage downloaded languages for in-app offline translation</string>
     <string name="translation_offline_models_unavailable">Offline model management is available only in the Play Store build, because ML Kit model downloads depend on Google services.</string>
@@ -135,7 +139,9 @@
     <string name="translation_model_notification_download_text">Downloading %1$s for ML Kit translation</string>
     <string name="translation_model_notification_delete_title">Updating offline models</string>
     <string name="translation_model_notification_delete_text">Removing %1$s ML Kit model</string>
-    <string name="translation_model_error_timeout">Model download timed out. Try clearing Google Play Services cache (Settings → Apps → Google Play Services → Clear cache), then retry.</string>
+    <string name="translation_model_download_help">Downloads are provided by Google Play services. If a model stays on “Working” for a long time, update Google Play services, then clear its cache (Settings → Apps → Google Play services → Storage → Clear cache) and retry.</string>
+    <string name="translation_model_error_stalled">The model download did not start. EverBook retried it automatically, but it is still stuck. Update Google Play services, then clear its cache (Settings → Apps → Google Play services → Storage → Clear cache) and retry.</string>
+    <string name="translation_model_error_timeout">Model download timed out. Update Google Play services, then try clearing its cache (Settings → Apps → Google Play services → Storage → Clear cache) and retry.</string>
     <string name="translation_selection_title">Selected text translation</string>
     <string name="book_translation_title">Book translation</string>
     <string name="book_translation_start">Translate book</string>

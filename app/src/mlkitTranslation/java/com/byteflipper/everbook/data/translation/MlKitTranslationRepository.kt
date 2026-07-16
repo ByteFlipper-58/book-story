@@ -27,6 +27,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -46,6 +48,10 @@ class MlKitTranslationRepository @Inject constructor(
         inAppAvailable = true,
         googleTranslateAvailable = true
     )
+    private val _isModelDownloadInProgress = MutableStateFlow(false)
+    override val isModelDownloadInProgress = _isModelDownloadInProgress.asStateFlow()
+    private val modelDownloadStateLock = Any()
+    private var activeModelDownloads = 0
 
     private val languageIdentifier = LanguageIdentification.getClient()
     private val translatorMutex = Mutex()
@@ -144,6 +150,7 @@ class MlKitTranslationRepository @Inject constructor(
             "ML Kit downloadModelIfNeeded started: source=$source target=$target"
         )
         val downloadStartedAt = System.currentTimeMillis()
+        updateModelDownloadState(started = true)
         try {
             val conditions = DownloadConditions.Builder().run {
                 if (requireWifi) requireWifi()
@@ -180,6 +187,18 @@ class MlKitTranslationRepository @Inject constructor(
             throw exception
         } finally {
             notificationController.clear(target)
+            updateModelDownloadState(started = false)
+        }
+    }
+
+    private fun updateModelDownloadState(started: Boolean) {
+        synchronized(modelDownloadStateLock) {
+            activeModelDownloads = if (started) {
+                activeModelDownloads + 1
+            } else {
+                (activeModelDownloads - 1).coerceAtLeast(0)
+            }
+            _isModelDownloadInProgress.value = activeModelDownloads > 0
         }
     }
 

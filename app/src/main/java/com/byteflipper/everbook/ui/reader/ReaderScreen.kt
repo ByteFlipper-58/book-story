@@ -97,6 +97,14 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         val mainState = mainModel.state.collectAsStateWithLifecycle()
         val settingsState = settingsModel.state.collectAsStateWithLifecycle()
 
+        LaunchedEffect(mainState.value.translationWifiOnly) {
+            screenModel.onEvent(
+                ReaderEvent.OnChangeBookTranslationWifiOnly(
+                    mainState.value.translationWifiOnly
+                )
+            )
+        }
+
         val activity = LocalActivity.current
         val density = LocalDensity.current
         val listState = rememberSaveable(
@@ -790,7 +798,10 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 changeBookTranslationSourceLanguage = screenModel::onEvent,
                 changeBookTranslationTargetLanguage = screenModel::onEvent,
                 swapBookTranslationLanguages = screenModel::onEvent,
-                changeBookTranslationWifiOnly = screenModel::onEvent,
+                changeBookTranslationWifiOnly = { event ->
+                    mainModel.onEvent(MainEvent.OnChangeTranslationWifiOnly(event.requireWifi))
+                    screenModel.onEvent(event)
+                },
                 dismissBookTranslationError = screenModel::onEvent,
                 showChaptersDrawer = screenModel::onEvent,
                 showBookmarksDrawer = screenModel::onEvent,

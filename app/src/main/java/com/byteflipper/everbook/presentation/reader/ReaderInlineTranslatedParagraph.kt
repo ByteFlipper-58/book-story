@@ -101,6 +101,9 @@ fun LazyItemScope.ReaderInlineTranslatedParagraph(
     val context = LocalContext.current
     val displayedText = when {
         translation.showOriginal -> originalText
+        translation.isDownloadingModel &&
+                translation.providerMode == TranslationProviderMode.IN_APP ->
+            stringResource(id = R.string.translation_downloading_model)
         translation.isTranslating -> stringResource(id = R.string.translation_translating)
         translation.errorMessage != null -> translation.errorMessage
         else -> translation.translatedText ?: originalText

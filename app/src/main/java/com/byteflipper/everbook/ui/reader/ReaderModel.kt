@@ -60,6 +60,7 @@ import com.byteflipper.everbook.domain.translation.TranslationResult
 import com.byteflipper.everbook.domain.translation.normalizeTranslationLanguageCode
 import com.byteflipper.everbook.domain.translation.resolveTranslationLanguageCode
 import com.byteflipper.everbook.domain.translation.toTranslationProviderMode
+import com.byteflipper.everbook.domain.repository.TranslationRepository
 import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.domain.use_case.book.GetBookById
 import com.byteflipper.everbook.domain.use_case.book.GetText
@@ -156,6 +157,7 @@ class ReaderModel @Inject constructor(
     private val setDatastore: SetDatastore,
     private val getTranslationCapability: GetTranslationCapability,
     private val translateText: TranslateText,
+    private val translationRepository: TranslationRepository,
     private val getBookTranslations: GetBookTranslations,
     private val observeBookTranslations: ObserveBookTranslations,
     private val observeTranslatedBookText: ObserveTranslatedBookText,
@@ -180,6 +182,16 @@ class ReaderModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val stored = getDatastore.execute(DataStoreConstants.READER_HIGHLIGHT_PALETTE)
             _state.update { it.copy(highlightColors = HighlightPalette.decode(stored)) }
+        }
+        viewModelScope.launch {
+            translationRepository.isModelDownloadInProgress.collect { isDownloading ->
+                _state.update {
+                    it.copy(
+                        translation = it.translation.copy(isDownloadingModel = isDownloading),
+                        bookTranslation = it.bookTranslation.copy(isDownloadingModel = isDownloading)
+                    )
+                }
+            }
         }
     }
 

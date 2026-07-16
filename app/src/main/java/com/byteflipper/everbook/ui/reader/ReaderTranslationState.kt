@@ -28,6 +28,7 @@ data class ReaderTranslationState(
     ),
     val translatedText: String? = null,
     val isTranslating: Boolean = false,
+    val isDownloadingModel: Boolean = false,
     val errorMessage: String? = null
 ) {
     val resolvedSourceLanguageCode: String?

@@ -83,6 +83,7 @@
     <string name="close">Закрыть</string>
     <string name="retry">Повторить</string>
     <string name="translation_translating">Перевод…</string>
+    <string name="translation_downloading_model">Скачивание языковой модели… Это может занять некоторое время.</string>
     <string name="translation_open_external">Внешний</string>
     <string name="translation_show_original">Показать оригинал</string>
     <string name="translation_show_translation">Показать перевод</string>
@@ -111,6 +112,9 @@
     <string name="translation_collapse_languages_content_desc">Свернуть языки</string>
     <string name="translation_wifi_only_option">Скачивать модели только по Wi-Fi</string>
     <string name="translation_wifi_only_option_desc">Офлайн-модели языков скачиваются перед локальным переводом</string>
+    <string name="translation_wifi_required_title">Требуется Wi-Fi</string>
+    <string name="translation_wifi_required_message">Скачивание моделей разрешено только через Wi-Fi, но рабочее Wi-Fi-соединение не найдено. Отключите параметр ниже, чтобы скачать через текущую сеть.</string>
+    <string name="translation_download">Скачать</string>
     <string name="translation_offline_models_option">Офлайн-модели</string>
     <string name="translation_offline_models_entry_desc">Управление скачанными языками для офлайн-перевода в приложении</string>
     <string name="translation_offline_models_unavailable">Управление офлайн-моделями доступно только в Play Store-сборке, потому что загрузка моделей ML Kit зависит от сервисов Google.</string>
@@ -131,7 +135,9 @@
     <string name="translation_model_notification_download_text">Скачивается %1$s для ML Kit перевода</string>
     <string name="translation_model_notification_delete_title">Обновление офлайн-моделей</string>
     <string name="translation_model_notification_delete_text">Удаляется модель ML Kit: %1$s</string>
-    <string name="translation_model_error_timeout">Загрузка модели прервана по тайм-ауту. Попробуйте очистить кэш Google Play Services (Настройки → Приложения → Google Play Services → Очистить кэш), затем повторите.</string>
+    <string name="translation_model_download_help">Загрузка моделей выполняется через Сервисы Google Play. Если статус «Выполняется…» не меняется долгое время, обновите Сервисы Google Play, затем очистите их кэш: Настройки → Приложения → Сервисы Google Play → Хранилище → Очистить кэш. После этого повторите попытку.</string>
+    <string name="translation_model_error_stalled">Загрузка модели не началась. EverBook автоматически повторил попытку, но она снова зависла. Обновите Сервисы Google Play, затем очистите их кэш: Настройки → Приложения → Сервисы Google Play → Хранилище → Очистить кэш. После этого повторите попытку.</string>
+    <string name="translation_model_error_timeout">Загрузка модели прервана по тайм-ауту. Обновите Сервисы Google Play, затем попробуйте очистить их кэш: Настройки → Приложения → Сервисы Google Play → Хранилище → Очистить кэш. После этого повторите попытку.</string>
     <string name="translation_selection_title">Перевод выделенного текста</string>
     <string name="book_translation_title">Перевод книги</string>
     <string name="book_translation_start">Перевести книгу</string>

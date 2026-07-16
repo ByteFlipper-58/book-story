@@ -64,6 +64,7 @@ import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
+import com.byteflipper.everbook.domain.translation.TranslationProviderMode
 import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.presentation.core.components.common.AnimatedVisibility
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
@@ -395,6 +396,9 @@ private fun ReaderBookTranslationStatusBar(
     }
     val statusText = when {
         state.isApplyingTranslation -> stringResource(id = R.string.book_translation_applying)
+        state.isDownloadingModel &&
+                state.currentTranslation?.providerMode == TranslationProviderMode.IN_APP ->
+            stringResource(id = R.string.translation_downloading_model)
         runningTranslation != null -> stringResource(
             id = R.string.book_translation_progress,
             runningTranslation.completedUnits,

@@ -9,6 +9,8 @@ package com.byteflipper.everbook
 
 import android.app.Application
 import android.util.Log
+import androidx.compose.foundation.ComposeFoundationFlags
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.Constraints
@@ -46,7 +48,13 @@ class Application : Application(), Configuration.Provider {
             .setWorkerFactory(workerFactory)
             .build()
 
+    @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate() {
+        // Compose Foundation 1.9+ ignores LocalTextToolbar when the new context menu is on.
+        // EverBook's reader toolbar (highlight, note, bookmark, translate, …) is built on
+        // LocalTextToolbar — keep the legacy path until we migrate to appendTextContextMenuComponents.
+        ComposeFoundationFlags.isNewContextMenuEnabled = false
+
         super.onCreate()
 
         distributionStartup.onAppCreate()

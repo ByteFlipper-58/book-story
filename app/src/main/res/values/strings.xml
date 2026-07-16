@@ -495,6 +495,35 @@
     <!-- Reader -->
     <string name="no_chapters">No chapters</string>
     <string name="chapters">Chapters</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="annotations">Annotations</string>
+    <string name="annotation">Annotation</string>
+    <string name="annotation_style">Style</string>
+    <string name="annotation_note">Note (optional)</string>
+    <string name="add_annotation_note">Add note</string>
+    <string name="annotation_no_color">Bookmark without color</string>
+    <string name="edit_annotation">Edit annotation</string>
+    <string name="annotations_empty">No annotations yet</string>
+    <string name="annotations_filter_all">All</string>
+    <string name="annotations_filter_bookmarks">Bookmarks</string>
+    <string name="annotations_filter_highlights">Highlights</string>
+    <string name="annotations_filter_notes">Notes</string>
+    <string name="bookmarks_content_desc">Bookmarks</string>
+    <string name="bookmark_add_here">Add bookmark here</string>
+    <string name="bookmark_remove_here">Remove bookmark here</string>
+    <string name="bookmarks_empty">No bookmarks yet</string>
+    <string name="highlight">Highlight</string>
+    <string name="add_to_bookmarks">Add to bookmarks</string>
+    <string name="highlight_color">Highlight color</string>
+    <string name="highlight_not_found">Couldn\'t locate the selected text</string>
+    <string name="highlight_multi_paragraph_not_supported">Select text inside one paragraph</string>
+    <string name="highlight_ambiguous_selection">Select a longer unique fragment</string>
+    <string name="reader_annotations_original_only">Bookmarks, highlights and notes are available only in the original text</string>
+    <string name="note">Note</string>
+    <string name="note_hint">Write a note…</string>
+    <string name="add_note">Note</string>
+    <string name="edit_note">Edit note</string>
     <string name="open_original_pdf">Open original PDF</string>
     <string name="open_parsed_text">Open text version</string>
 
@@ -855,4 +884,15 @@
     <string name="statistics_empty">No reading statistics yet. Read a book to start tracking your time.</string>
     <string name="time_hours_minutes">%1$dh %2$dm</string>
     <string name="time_minutes">%1$dm</string>
+    <string name="highlight_palette_title">Highlight palette</string>
+    <string name="highlight_palette_color">Selected color</string>
+    <string name="highlight_palette_manage">Customize colors</string>
+    <string name="highlight_palette_add">Add color</string>
+    <string name="highlight_palette_reset">Reset palette</string>
+    <string name="highlight_palette_move_left">Move color left</string>
+    <string name="highlight_palette_move_right">Move color right</string>
+    <string name="highlight_palette_preview">Color preview</string>
+    <string name="highlight_palette_apply">Apply to selected color</string>
+    <string name="highlight_palette_customize_color">Adjust color</string>
+    <string name="highlight_palette_drag">Move color toolbar</string>
 </resources>

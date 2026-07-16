@@ -56,6 +56,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.library.book.Book
+import com.byteflipper.everbook.domain.reader.Bookmark
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.FontWithName
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
@@ -79,6 +80,9 @@ fun ReaderScaffold(
     book: Book,
     text: List<ReaderText>,
     displayContent: ReaderDisplayContent,
+    highlightsByParagraph: Map<Int, List<Bookmark>>,
+    focusedBookmarkId: Int?,
+    onAnnotationTextLayout: (bookmarkId: Int, topOffsetPx: Float) -> Unit,
     listState: LazyListState,
     currentChapter: Chapter?,
     translation: ReaderTranslationState,
@@ -150,10 +154,18 @@ fun ReaderScaffold(
     dismissTranslation: (ReaderEvent.OnDismissTranslation) -> Unit,
     toggleTranslationOriginal: (ReaderEvent.OnToggleTranslationOriginal) -> Unit,
     openDictionary: (ReaderEvent.OnOpenDictionary) -> Unit,
+    createBookmark: (ReaderEvent.OnCreateBookmark) -> Unit,
+    createHighlight: (ReaderEvent.OnCreateHighlight) -> Unit,
+    showHighlightPalette: (ReaderEvent.OnShowHighlightPalette) -> Unit,
+    highlightColors: List<Int>,
+    showPaletteEditor: (ReaderEvent.OnShowHighlightPaletteEditor) -> Unit,
+    requestAnnotationEditor: (ReaderEvent.OnRequestAnnotationEditor) -> Unit,
+    editAnnotation: (ReaderEvent.OnEditAnnotation) -> Unit,
     showPdfReadingModeBottomSheet: (ReaderEvent.OnShowPdfReadingModeBottomSheet) -> Unit,
     showBookTranslationBottomSheet: (ReaderEvent.OnShowBookTranslationBottomSheet) -> Unit,
     showSettingsBottomSheet: (ReaderEvent.OnShowSettingsBottomSheet) -> Unit,
     showChaptersDrawer: (ReaderEvent.OnShowChaptersDrawer) -> Unit,
+    showBookmarksDrawer: (ReaderEvent.OnShowBookmarksDrawer) -> Unit,
     showTranslatedBook: (ReaderEvent.OnShowTranslatedBook) -> Unit,
     showOriginalBook: (ReaderEvent.OnShowOriginalBook) -> Unit,
     changePdfReadingMode: (ReaderEvent.OnChangePdfReadingMode) -> Unit,
@@ -209,6 +221,7 @@ fun ReaderScaffold(
                     showBookTranslationBottomSheet = showBookTranslationBottomSheet,
                     showSettingsBottomSheet = showSettingsBottomSheet,
                     showChaptersDrawer = showChaptersDrawer,
+                    showBookmarksDrawer = showBookmarksDrawer,
                     navigateBack = navigateBack,
                     navigateToBookInfo = navigateToBookInfo
                 )
@@ -259,6 +272,10 @@ fun ReaderScaffold(
         Box(Modifier.fillMaxSize()) {
             ReaderLayout(
                 displayContent = displayContent,
+                highlightsByParagraph = highlightsByParagraph,
+                focusedBookmarkId = focusedBookmarkId,
+                onAnnotationTextLayout = onAnnotationTextLayout,
+                editAnnotation = editAnnotation,
                 listState = listState,
                 contentPadding = contentPadding,
                 verticalPadding = verticalPadding,
@@ -311,7 +328,14 @@ fun ReaderScaffold(
                 openExternalTranslator = openExternalTranslator,
                 dismissTranslation = dismissTranslation,
                 toggleTranslationOriginal = toggleTranslationOriginal,
-                openDictionary = openDictionary
+                openDictionary = openDictionary,
+                annotationActionsEnabled = !bookTranslation.isTranslatedBookVisible,
+                createBookmark = createBookmark,
+                createHighlight = createHighlight,
+                showHighlightPalette = showHighlightPalette,
+                highlightColors = highlightColors,
+                showPaletteEditor = showPaletteEditor,
+                requestAnnotationEditor = requestAnnotationEditor
             )
 
             ReaderPerceptionExpander(

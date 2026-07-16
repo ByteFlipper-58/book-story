@@ -16,9 +16,11 @@ import androidx.room.Update
 import androidx.room.Upsert
 import com.byteflipper.everbook.data.local.dto.BookEntity
 import com.byteflipper.everbook.data.local.dto.BookLastOpenedTime
+import com.byteflipper.everbook.data.local.dto.BookmarkEntity
 import com.byteflipper.everbook.data.local.dto.ColorPresetEntity
 import com.byteflipper.everbook.data.local.dto.HistoryEntity
 import com.byteflipper.everbook.data.local.dto.ReadingSessionEntity
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Class to manipulate Room database.
@@ -109,6 +111,27 @@ interface BookDao {
 
     @Query("DELETE FROM readingsessionentity")
     suspend fun deleteAllSessions()
+    /* - - - - - - - - - - - - - - - - - - - - - - */
+
+
+    /* ------ BookmarkEntity --------------------- */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBookmark(bookmark: BookmarkEntity): Long
+
+    @Query(
+        "SELECT * FROM bookmarkentity WHERE bookId = :bookId " +
+                "ORDER BY paragraphIndex ASC, charStart ASC"
+    )
+    fun observeBookmarks(bookId: Int): Flow<List<BookmarkEntity>>
+
+    @Query("SELECT * FROM bookmarkentity WHERE id = :id")
+    suspend fun getBookmarkById(id: Int): BookmarkEntity?
+
+    @Query("DELETE FROM bookmarkentity WHERE id = :id")
+    suspend fun deleteBookmark(id: Int)
+
+    @Query("DELETE FROM bookmarkentity WHERE bookId = :bookId")
+    suspend fun deleteBookmarksForBook(bookId: Int)
     /* - - - - - - - - - - - - - - - - - - - - - - */
 
 

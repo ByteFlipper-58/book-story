@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import kotlinx.coroutines.withTimeoutOrNull
@@ -49,7 +50,7 @@ fun Modifier.noRippleClickable(
 @Composable
 fun Modifier.doubleTapPriorityGestures(
     enabled: Boolean,
-    onTap: () -> Unit,
+    onTap: (Offset) -> Unit,
     onDoubleTap: () -> Unit
 ): Modifier {
     val currentOnTap by rememberUpdatedState(onTap)
@@ -76,7 +77,7 @@ fun Modifier.doubleTapPriorityGestures(
                 awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
             }
             if (secondDown == null) {
-                currentOnTap()
+                currentOnTap(firstUp.position)
             } else {
                 // Consume on the Initial pass so the text-selection gesture never starts.
                 secondDown.consume()

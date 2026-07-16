@@ -42,8 +42,11 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.domain.reader.Bookmark
+import com.byteflipper.everbook.domain.reader.BookmarkKind
 import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.Checkpoint
+import com.byteflipper.everbook.domain.reader.HighlightPalette
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
 import com.byteflipper.everbook.domain.translation.AUTO_TRANSLATION_LANGUAGE
@@ -64,6 +67,9 @@ import com.byteflipper.everbook.domain.library.category.CategoryDefaults
 import com.byteflipper.everbook.domain.use_case.book.UpdateBook
 import com.byteflipper.everbook.domain.use_case.data_store.GetDatastore
 import com.byteflipper.everbook.domain.use_case.data_store.SetDatastore
+import com.byteflipper.everbook.domain.use_case.bookmark.DeleteBookmark
+import com.byteflipper.everbook.domain.use_case.bookmark.ObserveBookmarks
+import com.byteflipper.everbook.domain.use_case.bookmark.UpsertBookmark
 import com.byteflipper.everbook.domain.use_case.history.GetLatestHistory
 import com.byteflipper.everbook.domain.statistics.ReadingSession
 import com.byteflipper.everbook.domain.use_case.statistics.RecordReadingSession
@@ -94,6 +100,18 @@ private const val BOOK_TRANSLATION_LOG = "BookTranslation"
 private const val READER_UI_MIN_UPDATE_ITEMS = 640
 private const val READER_UI_MIN_UPDATE_MS = 300L
 
+// Leading text of the bookmarked paragraph, kept as a label and re-anchor hint.
+private const val BOOKMARK_SNIPPET_MAX_CHARS = 160
+
+// Stored quote snapshot for a highlight; caps runaway selections in the drawer/DB.
+private const val HIGHLIGHT_QUOTE_MAX_CHARS = 400
+
+// Paragraphs past the last visible row to still scan when resolving a selection that ends just
+// below the fold.
+private const val HIGHLIGHT_SEARCH_LOOKAHEAD = 2
+
+private const val ANCHOR_CONTEXT_CHARS = 32
+
 // ponytail: trailing-idle cap only — a mid-read pause still counts. Per-gap idle
 // splitting is the upgrade path if reading time starts looking inflated.
 private const val SESSION_IDLE_CAP_MS = 5 * 60 * 1000L
@@ -101,6 +119,30 @@ private const val SESSION_IDLE_CAP_MS = 5 * 60 * 1000L
 private data class ReaderTextScrollAnchor(
     val textIndex: Int,
     val offset: Int
+)
+
+// A located annotation range in the original reader text.
+private data class SelectionAnchor(
+    val paragraphIndex: Int,
+    val charStart: Int,
+    val charEnd: Int,
+    val quoted: String,
+    val paragraphHash: Int,
+    val prefix: String,
+    val suffix: String
+)
+
+private enum class SelectionAnchorFailure {
+    EMPTY,
+    NOT_FOUND,
+    MULTI_PARAGRAPH,
+    AMBIGUOUS,
+    TRANSLATED_TEXT
+}
+
+private data class SelectionAnchorResult(
+    val anchor: SelectionAnchor? = null,
+    val failure: SelectionAnchorFailure? = null
 )
 
 @HiltViewModel
@@ -123,13 +165,23 @@ class ReaderModel @Inject constructor(
     private val resumeBookTranslation: ResumeBookTranslation,
     private val cancelBookTranslation: CancelBookTranslation,
     private val deleteBookTranslation: DeleteBookTranslation,
-    private val recordReadingSession: RecordReadingSession
+    private val recordReadingSession: RecordReadingSession,
+    private val observeBookmarks: ObserveBookmarks,
+    private val upsertBookmark: UpsertBookmark,
+    private val deleteBookmark: DeleteBookmark
 ) : ViewModel() {
 
     private val mutex = Mutex()
 
     private val _state = MutableStateFlow(ReaderState())
     val state = _state.asStateFlow()
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            val stored = getDatastore.execute(DataStoreConstants.READER_HIGHLIGHT_PALETTE)
+            _state.update { it.copy(highlightColors = HighlightPalette.decode(stored)) }
+        }
+    }
 
     private fun newEventJob(): Job = SupervisorJob(viewModelScope.coroutineContext[Job])
 
@@ -141,6 +193,7 @@ class ReaderModel @Inject constructor(
     private var loadJob: Job? = null
     private var bookTranslationsObserveJob: Job? = null
     private var activeBookTranslationTextJob: Job? = null
+    private var bookmarksObserveJob: Job? = null
     private var displayIndexToTextIndex: (Int) -> Int = { it }
     private var textIndexToDisplayIndex: (Int) -> Int = { it }
     private val translationCache = mutableMapOf<String, TranslationResult>()
@@ -158,6 +211,7 @@ class ReaderModel @Inject constructor(
                     loadJob?.cancel()
                     bookTranslationsObserveJob?.cancel()
                     activeBookTranslationTextJob?.cancel()
+                    bookmarksObserveJob?.cancel()
                     loadJob = launch(Dispatchers.IO) {
                         val accumulated = mutableListOf<ReaderText>()
                         val chapterIndexes = mutableListOf<Int>()
@@ -382,6 +436,7 @@ class ReaderModel @Inject constructor(
 
                         refreshBookTranslations(_state.value.book.id)
                         observeBookTranslations(_state.value.book.id)
+                        observeBookmarks(_state.value.book.id)
                         updateBook.execute(_state.value.book)
 
                         LibraryScreen.refreshListChannel.trySend(0)
@@ -1161,6 +1216,277 @@ class ReaderModel @Inject constructor(
                         )
                     }
                 }
+
+                is ReaderEvent.OnShowBookmarksDrawer -> {
+                    _state.update {
+                        it.copy(
+                            drawer = ReaderScreen.BOOKMARKS_DRAWER,
+                            bottomSheet = null
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnDeleteBookmark -> {
+                    launch(Dispatchers.IO) {
+                        deleteBookmark.execute(event.id)
+                    }
+                }
+
+                is ReaderEvent.OnScrollToBookmark -> {
+                    val bookmark = event.bookmark
+                    val state = _state.value
+                    if (state.text.isEmpty()) return@launch
+                    val target = bookmark.paragraphIndex.coerceIn(0, state.text.lastIndex)
+                    _state.update {
+                        it.copy(
+                            pendingBookmarkNavigation = bookmark,
+                            pendingBookmarkDisplayIndex = textIndexToDisplayIndex(target)
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnBookmarkScrollFinished -> {
+                    val bookmark = event.bookmark
+                    val state = _state.value
+                    val target = bookmark.paragraphIndex.coerceIn(0, state.text.lastIndex)
+                    updateChapter(index = target)
+                    onEvent(
+                        ReaderEvent.OnChangeProgress(
+                            progress = calculateProgress(target),
+                            firstVisibleItemIndex = target,
+                            firstVisibleItemOffset = 0
+                        )
+                    )
+                    _state.update {
+                        it.copy(
+                            pendingBookmarkNavigation = null,
+                            pendingBookmarkDisplayIndex = null,
+                            focusedBookmarkId = bookmark.id
+                        )
+                    }
+                    launch {
+                        delay(3_000)
+                        _state.update {
+                            if (it.focusedBookmarkId == bookmark.id) {
+                                it.copy(focusedBookmarkId = null)
+                            } else it
+                        }
+                    }
+                }
+
+                is ReaderEvent.OnRequestAnnotationEditor -> {
+                    _state.update {
+                        it.copy(
+                            pendingAnnotationText = event.selectedText,
+                            pendingAnnotationColorArgb = event.initialColorArgb,
+                            highlightPaletteText = null,
+                            highlightPaletteAnnotation = null,
+                            editingAnnotation = null,
+                            drawer = null,
+                            bottomSheet = null
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnCreateBookmark -> {
+                    launch(Dispatchers.IO) {
+                        saveSelectedAnnotation(event.selectedText, note = null, colorArgb = null)
+                    }
+                }
+
+                is ReaderEvent.OnShowHighlightPalette -> {
+                    _state.update {
+                        it.copy(
+                            highlightPaletteText = event.selectedText,
+                            highlightPaletteAnnotation = event.annotation,
+                            highlightPaletteAnchorX = event.anchorX,
+                            highlightPaletteAnchorY = event.anchorY,
+                            pendingAnnotationText = null,
+                            pendingAnnotationColorArgb = null,
+                            editingAnnotation = null
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnCreateHighlight -> {
+                    _state.update {
+                        it.copy(
+                            highlightPaletteText = null,
+                            highlightPaletteAnnotation = null
+                        )
+                    }
+                    launch(Dispatchers.IO) {
+                        saveSelectedAnnotation(
+                            text = event.selectedText,
+                            note = null,
+                            colorArgb = event.colorArgb
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnDismissHighlightPalette -> {
+                    _state.update {
+                        it.copy(
+                            highlightPaletteText = null,
+                            highlightPaletteAnnotation = null
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnShowHighlightPaletteEditor -> {
+                    _state.update {
+                        it.copy(
+                            showHighlightPaletteEditor = true,
+                            highlightPaletteEditorTarget = event.selectedText?.let { selectedText ->
+                                HighlightPaletteTarget(
+                                    selectedText = selectedText,
+                                    annotation = event.annotation
+                                )
+                            },
+                            highlightPaletteText = null,
+                            highlightPaletteAnnotation = null
+                        )
+                    }
+                }
+
+                ReaderEvent.OnDismissHighlightPaletteEditor -> {
+                    _state.update {
+                        it.copy(
+                            showHighlightPaletteEditor = false,
+                            highlightPaletteEditorTarget = null
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnUpdateHighlightPalette -> {
+                    val colors = HighlightPalette.normalize(event.colors)
+                    _state.update { it.copy(highlightColors = colors) }
+                    launch(Dispatchers.IO) {
+                        setDatastore.execute(
+                            DataStoreConstants.READER_HIGHLIGHT_PALETTE,
+                            HighlightPalette.encode(colors)
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnApplyHighlightPaletteColor -> {
+                    val state = _state.value
+                    val target = state.highlightPaletteEditorTarget
+                    val annotation = target?.annotation
+                    if (annotation != null) {
+                        launch(Dispatchers.IO) {
+                            val existing = _state.value.bookmarks
+                                .firstOrNull { it.id == annotation.id } ?: return@launch
+                            upsertBookmark.execute(
+                                existing.copy(
+                                    kind = BookmarkKind.HIGHLIGHT,
+                                    colorArgb = event.colorArgb,
+                                    updatedAt = System.currentTimeMillis()
+                                )
+                            )
+                        }
+                    } else if (target != null) {
+                        launch(Dispatchers.IO) {
+                            saveSelectedAnnotation(
+                                text = target.selectedText,
+                                note = null,
+                                colorArgb = event.colorArgb
+                            )
+                        }
+                    }
+                }
+
+                is ReaderEvent.OnEditAnnotation -> {
+                    _state.update {
+                        it.copy(
+                            editingAnnotation = event.bookmark,
+                            pendingAnnotationText = null,
+                            pendingAnnotationColorArgb = null,
+                            highlightPaletteText = null,
+                            highlightPaletteAnnotation = null,
+                            drawer = null,
+                            bottomSheet = null
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnSaveAnnotation -> {
+                    val state = _state.value
+                    val editing = state.editingAnnotation
+                    val selectedText = state.pendingAnnotationText
+                    val note = event.note.trim().ifBlank { null }
+                    val kind = if (event.colorArgb == null) {
+                        BookmarkKind.BOOKMARK
+                    } else {
+                        BookmarkKind.HIGHLIGHT
+                    }
+                    _state.update {
+                        it.copy(
+                            editingAnnotation = null,
+                            pendingAnnotationText = null,
+                            pendingAnnotationColorArgb = null
+                        )
+                    }
+
+                    launch(Dispatchers.IO) {
+                        val now = System.currentTimeMillis()
+                        if (editing != null) {
+                            upsertBookmark.execute(
+                                editing.copy(
+                                    kind = kind,
+                                    note = note,
+                                    colorArgb = event.colorArgb,
+                                    updatedAt = now
+                                )
+                            )
+                            return@launch
+                        }
+
+                        saveSelectedAnnotation(text = selectedText ?: return@launch, note, event.colorArgb)
+                    }
+                }
+
+                is ReaderEvent.OnDismissAnnotationEditor -> {
+                    _state.update {
+                        it.copy(
+                            editingAnnotation = null,
+                            pendingAnnotationText = null,
+                            pendingAnnotationColorArgb = null,
+                            highlightPaletteText = null,
+                            highlightPaletteAnnotation = null
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnChangeHighlightColor -> {
+                    launch(Dispatchers.IO) {
+                        val existing = _state.value.bookmarks
+                            .firstOrNull { it.id == event.id } ?: return@launch
+                        if (existing.colorArgb == event.colorArgb) return@launch
+                        upsertBookmark.execute(
+                            existing.copy(
+                                kind = BookmarkKind.HIGHLIGHT,
+                                colorArgb = event.colorArgb,
+                                updatedAt = System.currentTimeMillis()
+                            )
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnClearHighlightColor -> {
+                    launch(Dispatchers.IO) {
+                        val existing = _state.value.bookmarks
+                            .firstOrNull { it.id == event.id } ?: return@launch
+                        upsertBookmark.execute(
+                            existing.copy(
+                                kind = BookmarkKind.BOOKMARK,
+                                colorArgb = null,
+                                updatedAt = System.currentTimeMillis()
+                            )
+                        )
+                    }
+                }
+
             }
         }
     }
@@ -1452,6 +1778,7 @@ class ReaderModel @Inject constructor(
             loadJob?.cancel()
             bookTranslationsObserveJob?.cancel()
             activeBookTranslationTextJob?.cancel()
+            bookmarksObserveJob?.cancel()
             translationCache.clear()
             eventJob = newEventJob()
 
@@ -1728,6 +2055,184 @@ class ReaderModel @Inject constructor(
                 applyCurrentBookTranslation(translations)
             }
         }
+    }
+
+    private fun observeBookmarks(bookId: Int) {
+        if (bookId == -1) return
+
+        bookmarksObserveJob?.cancel()
+        bookmarksObserveJob = CoroutineScope(eventJob + Dispatchers.IO).launch {
+            observeBookmarks.execute(bookId).collectLatest { bookmarks ->
+                _state.update { it.copy(bookmarks = bookmarks) }
+            }
+        }
+    }
+
+    private suspend fun resolveSelectionAnchorOrToast(selectedRaw: String): SelectionAnchor? {
+        val result = resolveSelectionAnchor(selectedRaw)
+        val failure = result.failure
+        if (failure != null) {
+            withContext(Dispatchers.Main) {
+                application.getString(failure.messageResId())
+                    .showToast(context = application, longToast = false)
+            }
+        }
+        return result.anchor
+    }
+
+    private suspend fun resolveSelectionAnchor(selectedRaw: String): SelectionAnchorResult =
+        withContext(Dispatchers.Main) {
+            val state = _state.value
+            if (state.bookTranslation.isTranslatedBookVisible) {
+                return@withContext SelectionAnchorResult(
+                    failure = SelectionAnchorFailure.TRANSLATED_TEXT
+                )
+            }
+
+            val text = state.originalText.takeIf { it.isNotEmpty() } ?: state.text
+            if (text.isEmpty()) {
+                return@withContext SelectionAnchorResult(failure = SelectionAnchorFailure.NOT_FOUND)
+            }
+
+            val selected = selectedRaw.trim()
+            if (selected.isEmpty()) {
+                return@withContext SelectionAnchorResult(failure = SelectionAnchorFailure.EMPTY)
+            }
+
+            val segments = selected.lineSequence()
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+                .toList()
+            if (segments.size != 1) {
+                return@withContext SelectionAnchorResult(
+                    failure = SelectionAnchorFailure.MULTI_PARAGRAPH
+                )
+            }
+
+            val visible = state.listState.layoutInfo.visibleItemsInfo
+            val firstDisplay = visible.firstOrNull()?.index
+                ?: return@withContext SelectionAnchorResult(
+                    failure = SelectionAnchorFailure.NOT_FOUND
+                )
+            val lastDisplay = visible.lastOrNull()?.index ?: firstDisplay
+            val from = displayIndexToTextIndex(firstDisplay).coerceIn(0, text.lastIndex)
+            val to = (displayIndexToTextIndex(lastDisplay) + HIGHLIGHT_SEARCH_LOOKAHEAD)
+                .coerceIn(from, text.lastIndex)
+
+            val segment = segments.single()
+            val matches = mutableListOf<SelectionAnchor>()
+            for (paragraphIndex in from..to) {
+                val source = (text.getOrNull(paragraphIndex) as? ReaderText.Text)?.source
+                    ?: continue
+                source.forEachIndexOf(segment) { start ->
+                    val end = start + segment.length
+                    matches += SelectionAnchor(
+                        paragraphIndex = paragraphIndex,
+                        charStart = start,
+                        charEnd = end,
+                        quoted = segment,
+                        paragraphHash = source.hashCode(),
+                        prefix = source.substring(
+                            (start - ANCHOR_CONTEXT_CHARS).coerceAtLeast(0),
+                            start
+                        ),
+                        suffix = source.substring(
+                            end,
+                            (end + ANCHOR_CONTEXT_CHARS).coerceAtMost(source.length)
+                        )
+                    )
+                }
+
+            }
+
+            when (matches.size) {
+                0 -> SelectionAnchorResult(failure = SelectionAnchorFailure.NOT_FOUND)
+                1 -> SelectionAnchorResult(anchor = matches.single())
+                else -> SelectionAnchorResult(failure = SelectionAnchorFailure.AMBIGUOUS)
+            }
+        }
+
+    private fun String.forEachIndexOf(needle: String, action: (Int) -> Unit) {
+        var index = indexOf(needle)
+        while (index >= 0) {
+            action(index)
+            index = indexOf(needle, startIndex = index + 1)
+        }
+    }
+
+    private fun SelectionAnchorFailure.messageResId(): Int = when (this) {
+        SelectionAnchorFailure.EMPTY,
+        SelectionAnchorFailure.NOT_FOUND -> R.string.highlight_not_found
+
+        SelectionAnchorFailure.MULTI_PARAGRAPH -> R.string.highlight_multi_paragraph_not_supported
+        SelectionAnchorFailure.AMBIGUOUS -> R.string.highlight_ambiguous_selection
+        SelectionAnchorFailure.TRANSLATED_TEXT -> R.string.reader_annotations_original_only
+    }
+
+    private fun ReaderState.createAnnotation(
+        kind: BookmarkKind,
+        anchor: SelectionAnchor,
+        now: Long,
+        note: String? = null,
+        colorArgb: Int? = null
+    ): Bookmark {
+        val chapterPosition = findChapterPosition(anchor.paragraphIndex)
+        val chapterHeadingIndex = chapterIndexes.getOrNull(chapterPosition)
+            ?: anchor.paragraphIndex
+        val chapterTitle = chapters.getOrNull(chapterPosition)?.title.orEmpty()
+        val quoteLimit = if (kind == BookmarkKind.BOOKMARK) {
+            BOOKMARK_SNIPPET_MAX_CHARS
+        } else {
+            HIGHLIGHT_QUOTE_MAX_CHARS
+        }
+        return Bookmark(
+            bookId = book.id,
+            kind = kind,
+            chapterIndex = chapterHeadingIndex,
+            chapterTitle = chapterTitle,
+            paragraphIndex = anchor.paragraphIndex,
+            charStart = anchor.charStart,
+            charEnd = anchor.charEnd,
+            quotedText = anchor.quoted.take(quoteLimit),
+            paragraphHash = anchor.paragraphHash,
+            prefix = anchor.prefix,
+            suffix = anchor.suffix,
+            note = note,
+            colorArgb = colorArgb,
+            progress = calculateProgress(anchor.paragraphIndex),
+            createdAt = now,
+            updatedAt = now
+        )
+    }
+
+    private suspend fun saveSelectedAnnotation(
+        text: String,
+        note: String?,
+        colorArgb: Int?
+    ) {
+        val anchor = resolveSelectionAnchorOrToast(text) ?: return
+        val latest = _state.value
+        if (latest.book.id == -1) return
+        val now = System.currentTimeMillis()
+        val kind = if (colorArgb == null) BookmarkKind.BOOKMARK else BookmarkKind.HIGHLIGHT
+        val existing = latest.bookmarks.firstOrNull {
+            it.paragraphIndex == anchor.paragraphIndex &&
+                    it.charStart == anchor.charStart &&
+                    it.charEnd == anchor.charEnd
+        }
+        val annotation = existing?.copy(
+            kind = kind,
+            note = note,
+            colorArgb = colorArgb,
+            updatedAt = now
+        ) ?: latest.createAnnotation(
+            kind = kind,
+            anchor = anchor,
+            now = now,
+            note = note,
+            colorArgb = colorArgb
+        )
+        upsertBookmark.execute(annotation)
     }
 
     private fun ReaderState.stableOriginalTextOrEmpty(): List<ReaderText> {

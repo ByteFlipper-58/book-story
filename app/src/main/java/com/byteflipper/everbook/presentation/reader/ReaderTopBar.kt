@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Subject
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material.icons.rounded.Menu
@@ -58,6 +60,7 @@ fun ReaderTopBar(
     showBookTranslationBottomSheet: (ReaderEvent.OnShowBookTranslationBottomSheet) -> Unit,
     showSettingsBottomSheet: (ReaderEvent.OnShowSettingsBottomSheet) -> Unit,
     showChaptersDrawer: (ReaderEvent.OnShowChaptersDrawer) -> Unit,
+    showBookmarksDrawer: (ReaderEvent.OnShowBookmarksDrawer) -> Unit,
     navigateToBookInfo: (changePath: Boolean) -> Unit,
     navigateBack: () -> Unit
 ) {
@@ -141,6 +144,15 @@ fun ReaderTopBar(
                     ) {
                         showChaptersDrawer(ReaderEvent.OnShowChaptersDrawer)
                     }
+                }
+
+                IconButton(
+                    icon = Icons.Outlined.BookmarkBorder,
+                    contentDescription = R.string.bookmarks_content_desc,
+                    disableOnClick = false,
+                    enabled = !lockMenu
+                ) {
+                    showBookmarksDrawer(ReaderEvent.OnShowBookmarksDrawer)
                 }
 
                 if (book.filePath.endsWith(".pdf", ignoreCase = true)) {

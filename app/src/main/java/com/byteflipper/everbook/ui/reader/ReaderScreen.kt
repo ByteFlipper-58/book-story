@@ -74,6 +74,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
 
     companion object {
         const val CHAPTERS_DRAWER = "chapters_drawer"
+        const val BOOKMARKS_DRAWER = "bookmarks_drawer"
         const val SETTINGS_BOTTOM_SHEET = "settings_bottom_sheet"
         const val PDF_READING_MODE_BOTTOM_SHEET = "pdf_reading_mode_bottom_sheet"
         const val TRANSLATION_BOTTOM_SHEET = "translation_bottom_sheet"
@@ -315,6 +316,11 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 text = state.value.text,
                 inlineContentPlacements = inlineContentState.value.placements
             )
+        }
+        // Every annotation participates in reader markers and post-navigation focus.
+        val highlightsByParagraph = remember(state.value.bookmarks) {
+            state.value.bookmarks
+                .groupBy { it.paragraphIndex }
         }
 
         val layoutDirection = LocalLayoutDirection.current
@@ -678,6 +684,20 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 translation = state.value.translation,
                 bookTranslation = state.value.bookTranslation,
                 drawer = state.value.drawer,
+                bookmarks = state.value.bookmarks,
+                highlightsByParagraph = highlightsByParagraph,
+                editingAnnotation = state.value.editingAnnotation,
+                pendingAnnotationText = state.value.pendingAnnotationText,
+                pendingAnnotationColorArgb = state.value.pendingAnnotationColorArgb,
+                highlightPaletteText = state.value.highlightPaletteText,
+                highlightPaletteAnnotation = state.value.highlightPaletteAnnotation,
+                highlightPaletteAnchorX = state.value.highlightPaletteAnchorX,
+                highlightPaletteAnchorY = state.value.highlightPaletteAnchorY,
+                highlightColors = state.value.highlightColors,
+                showHighlightPaletteEditor = state.value.showHighlightPaletteEditor,
+                focusedBookmarkId = state.value.focusedBookmarkId,
+                pendingBookmarkNavigation = state.value.pendingBookmarkNavigation,
+                pendingBookmarkDisplayIndex = state.value.pendingBookmarkDisplayIndex,
                 listState = listState,
                 currentChapter = state.value.currentChapter,
                 nestedScrollConnection = nestedScrollConnection.value,
@@ -773,6 +793,24 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 changeBookTranslationWifiOnly = screenModel::onEvent,
                 dismissBookTranslationError = screenModel::onEvent,
                 showChaptersDrawer = screenModel::onEvent,
+                showBookmarksDrawer = screenModel::onEvent,
+                scrollToBookmark = screenModel::onEvent,
+                bookmarkScrollFinished = screenModel::onEvent,
+                deleteBookmark = screenModel::onEvent,
+                createBookmark = screenModel::onEvent,
+                showHighlightPalette = screenModel::onEvent,
+                createHighlight = screenModel::onEvent,
+                applyHighlightPaletteColor = screenModel::onEvent,
+                requestAnnotationEditor = screenModel::onEvent,
+                changeHighlightColor = screenModel::onEvent,
+                clearHighlightColor = screenModel::onEvent,
+                editAnnotation = screenModel::onEvent,
+                saveAnnotation = screenModel::onEvent,
+                dismissAnnotationEditor = screenModel::onEvent,
+                dismissHighlightPalette = screenModel::onEvent,
+                showPaletteEditor = screenModel::onEvent,
+                dismissPaletteEditor = screenModel::onEvent,
+                updateHighlightPalette = screenModel::onEvent,
                 dismissDrawer = screenModel::onEvent,
                 changePdfReadingMode = screenModel::onEvent,
                 changePdfDefaultReadingMode = {

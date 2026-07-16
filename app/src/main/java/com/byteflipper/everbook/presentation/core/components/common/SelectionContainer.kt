@@ -16,7 +16,6 @@ import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
@@ -38,6 +37,9 @@ private const val MENU_ITEM_SHARE = 1
 private const val MENU_ITEM_WEB = 2
 private const val MENU_ITEM_TRANSLATE = 3
 private const val MENU_ITEM_DICTIONARY = 4
+private const val MENU_ITEM_BOOKMARK = 5
+private const val MENU_ITEM_HIGHLIGHT = 6
+private const val MENU_ITEM_NOTE = 7
 
 /**
  * Text ActionMode callback.
@@ -50,15 +52,46 @@ private class TextActionModeCallback(
     var onShareRequested: (() -> Unit)? = null,
     var onWebSearchRequested: (() -> Unit)? = null,
     var onTranslateRequested: (() -> Unit)? = null,
-    var onDictionaryRequested: (() -> Unit)? = null
+    var onDictionaryRequested: (() -> Unit)? = null,
+    var onBookmarkRequested: (() -> Unit)? = null,
+    var onHighlightRequested: (() -> Unit)? = null,
+    var onNoteRequested: (() -> Unit)? = null,
+    var onDestroyActionModeCallback: (() -> Unit)? = null
 ) : ActionMode.Callback {
+
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         requireNotNull(menu)
         requireNotNull(mode)
+        populateMenu(menu)
+        return true
+    }
 
+    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        requireNotNull(menu)
+        menu.clear()
+        populateMenu(menu)
+        return true
+    }
+
+    private fun populateMenu(menu: Menu) {
         onCopyRequested?.let {
             menu.add(0, MENU_ITEM_COPY, 0, context.getString(R.string.copy))
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+        }
+
+        onBookmarkRequested?.let {
+            menu.add(0, MENU_ITEM_BOOKMARK, 1, context.getString(R.string.add_to_bookmarks))
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        }
+
+        onHighlightRequested?.let {
+            menu.add(0, MENU_ITEM_HIGHLIGHT, 2, context.getString(R.string.highlight))
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        }
+
+        onNoteRequested?.let {
+            menu.add(0, MENU_ITEM_NOTE, 3, context.getString(R.string.add_note))
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         }
 
         onShareRequested?.let {
@@ -80,28 +113,28 @@ private class TextActionModeCallback(
             menu.add(0, MENU_ITEM_DICTIONARY, 4, context.getString(R.string.dictionary))
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
         }
-
-        return true
-    }
-
-    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        return false
     }
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+        val itemId = item?.itemId ?: return false
         when (item!!.itemId) {
             MENU_ITEM_COPY -> onCopyRequested?.invoke()
             MENU_ITEM_SHARE -> onShareRequested?.invoke()
             MENU_ITEM_WEB -> onWebSearchRequested?.invoke()
             MENU_ITEM_TRANSLATE -> onTranslateRequested?.invoke()
             MENU_ITEM_DICTIONARY -> onDictionaryRequested?.invoke()
+            MENU_ITEM_BOOKMARK -> onBookmarkRequested?.invoke()
+            MENU_ITEM_HIGHLIGHT -> onHighlightRequested?.invoke()
+            MENU_ITEM_NOTE -> onNoteRequested?.invoke()
             else -> return false
         }
         mode?.finish()
         return true
     }
 
-    override fun onDestroyActionMode(mode: ActionMode?) {}
+    override fun onDestroyActionMode(mode: ActionMode?) {
+        onDestroyActionModeCallback?.invoke()
+    }
 }
 
 /**
@@ -148,10 +181,19 @@ private class SelectionToolbar(
     private val onShareRequest: ((String) -> Unit)?,
     private val onWebSearchRequest: ((String) -> Unit)?,
     private val onTranslateRequest: ((String) -> Unit)?,
-    private val onDictionaryRequest: ((String) -> Unit)?
+    private val onDictionaryRequest: ((String) -> Unit)?,
+    private val onBookmarkRequest: ((String) -> Unit)?,
+    private val onHighlightRequest: ((String, Rect) -> Unit)?,
+    private val onNoteRequest: ((String) -> Unit)?,
 ) : TextToolbar {
     private var actionMode: ActionMode? = null
-    private val callback = TextActionModeCallback(context = context)
+    private val callback = TextActionModeCallback(
+        context = context,
+        onDestroyActionModeCallback = {
+            actionMode = null
+            status = TextToolbarStatus.Hidden
+        }
+    )
 
     val clipboardManager =
         context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -170,66 +212,13 @@ private class SelectionToolbar(
             onCopyRequested?.invoke()
             onCopyRequest?.invoke()
         }
-        callback.onShareRequested = {
-            val previousClipboard = clipboardManager.primaryClip
-            onCopyRequested?.invoke()
-            val currentClipboard = clipboardManager.text
-
-            onShareRequest?.invoke(currentClipboard.toString())
-
-            if (previousClipboard != null) {
-                clipboardManager.setPrimaryClip(
-                    previousClipboard
-                )
-            } else {
-                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, " "))
-            }
-        }
-        callback.onWebSearchRequested = {
-            val previousClipboard = clipboardManager.primaryClip
-            onCopyRequested?.invoke()
-            val currentClipboard = clipboardManager.text
-
-            onWebSearchRequest?.invoke(currentClipboard.toString())
-
-            if (previousClipboard != null) {
-                clipboardManager.setPrimaryClip(
-                    previousClipboard
-                )
-            } else {
-                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, " "))
-            }
-        }
-        callback.onTranslateRequested = {
-            val previousClipboard = clipboardManager.primaryClip
-            onCopyRequested?.invoke()
-            val currentClipboard = clipboardManager.text
-
-            onTranslateRequest?.invoke(currentClipboard.toString())
-
-            if (previousClipboard != null) {
-                clipboardManager.setPrimaryClip(
-                    previousClipboard
-                )
-            } else {
-                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, " "))
-            }
-        }
-        callback.onDictionaryRequested = {
-            val previousClipboard = clipboardManager.primaryClip
-            onCopyRequested?.invoke()
-            val currentClipboard = clipboardManager.text
-
-            onDictionaryRequest?.invoke(currentClipboard.toString())
-
-            if (previousClipboard != null) {
-                clipboardManager.setPrimaryClip(
-                    previousClipboard
-                )
-            } else {
-                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, " "))
-            }
-        }
+        callback.onShareRequested = selectedTextAction(onCopyRequested, onShareRequest)
+        callback.onWebSearchRequested = selectedTextAction(onCopyRequested, onWebSearchRequest)
+        callback.onTranslateRequested = selectedTextAction(onCopyRequested, onTranslateRequest)
+        callback.onDictionaryRequested = selectedTextAction(onCopyRequested, onDictionaryRequest)
+        callback.onBookmarkRequested = selectedTextAction(onCopyRequested, onBookmarkRequest)
+        callback.onHighlightRequested = selectedTextActionWithRect(onCopyRequested, onHighlightRequest)
+        callback.onNoteRequested = selectedTextAction(onCopyRequested, onNoteRequest)
 
         if (actionMode == null) {
             status = TextToolbarStatus.Shown
@@ -239,6 +228,44 @@ private class SelectionToolbar(
             )
         } else {
             actionMode?.invalidate()
+        }
+    }
+
+    private fun selectedTextAction(
+        onCopyRequested: (() -> Unit)?,
+        onTextAction: ((String) -> Unit)?
+    ): (() -> Unit)? {
+        onTextAction ?: return null
+        return {
+            val previousClipboard = clipboardManager.primaryClip
+            onCopyRequested?.invoke()
+            val currentClipboard = clipboardManager.text
+
+            onTextAction.invoke(currentClipboard.toString())
+
+            if (previousClipboard != null) {
+                clipboardManager.setPrimaryClip(previousClipboard)
+            } else {
+                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, " "))
+            }
+        }
+    }
+
+    private fun selectedTextActionWithRect(
+        onCopyRequested: (() -> Unit)?,
+        onTextAction: ((String, Rect) -> Unit)?
+    ): (() -> Unit)? {
+        onTextAction ?: return null
+        return {
+            val previousClipboard = clipboardManager.primaryClip
+            onCopyRequested?.invoke()
+            val selectedText = clipboardManager.text.toString()
+            onTextAction(selectedText, callback.rect)
+            if (previousClipboard != null) {
+                clipboardManager.setPrimaryClip(previousClipboard)
+            } else {
+                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, " "))
+            }
         }
     }
 
@@ -252,10 +279,9 @@ private class SelectionToolbar(
 /**
  * Selection container.
  *
- * @param onCopyRequested Callback for when the copy option is clicked.
- * @param onTranslateRequested Callback for when the translate option is clicked.
- * @param onDictionaryRequested Callback for when the dictionary option is clicked.
- * @param content Selection container content.
+ * Requires [androidx.compose.foundation.ComposeFoundationFlags.isNewContextMenuEnabled] to be
+ * false so Compose routes selection through [LocalTextToolbar] rather than the platform context
+ * menu (Copy / Share only).
  */
 @Composable
 fun SelectionContainer(
@@ -264,31 +290,37 @@ fun SelectionContainer(
     onWebSearchRequested: ((String) -> Unit),
     onTranslateRequested: ((String) -> Unit),
     onDictionaryRequested: ((String) -> Unit),
+    onBookmarkRequested: ((String) -> Unit)?,
+    onHighlightRequested: ((String, Rect) -> Unit)?,
+    onNoteRequested: ((String) -> Unit)?,
     content: @Composable (toolbarHidden: Boolean) -> Unit
 ) {
     val view = LocalView.current
     val context = LocalContext.current
 
-    val selectionToolbar = remember {
+    val selectionToolbar = remember(
+        view,
+        context,
+        onCopyRequested,
+        onShareRequested,
+        onWebSearchRequested,
+        onTranslateRequested,
+        onDictionaryRequested,
+        onBookmarkRequested,
+        onHighlightRequested,
+        onNoteRequested
+    ) {
         SelectionToolbar(
             view = view,
             context = context,
-
-            onCopyRequest = {
-                onCopyRequested()
-            },
-            onShareRequest = {
-                onShareRequested(it)
-            },
-            onWebSearchRequest = {
-                onWebSearchRequested(it)
-            },
-            onTranslateRequest = {
-                onTranslateRequested(it)
-            },
-            onDictionaryRequest = {
-                onDictionaryRequested(it)
-            }
+            onCopyRequest = { onCopyRequested() },
+            onShareRequest = { onShareRequested(it) },
+            onWebSearchRequest = { onWebSearchRequested(it) },
+            onTranslateRequest = { onTranslateRequested(it) },
+            onDictionaryRequest = { onDictionaryRequested(it) },
+            onBookmarkRequest = onBookmarkRequested,
+            onHighlightRequest = onHighlightRequested,
+            onNoteRequest = onNoteRequested
         )
     }
     val isToolbarHidden = remember(selectionToolbar.status) {
@@ -300,7 +332,7 @@ fun SelectionContainer(
     CompositionLocalProvider(
         LocalTextToolbar provides selectionToolbar
     ) {
-        SelectionContainer {
+        androidx.compose.foundation.text.selection.SelectionContainer {
             content(isToolbarHidden.value)
         }
     }

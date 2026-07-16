@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Shape
  * @param containerColor Container color.
  * @param onDismissRequest OnDismiss callback.
  * @param sheetGesturesEnabled Whether bottom sheet gestures are enabled.
+ * @param skipPartiallyExpanded Whether the sheet should skip its compact state.
  * @param dragHandle Drag Handle, pass null to disable.
  * @param content Content inside [ModalBottomSheet].
  */
@@ -46,6 +47,7 @@ fun ModalBottomSheet(
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     onDismissRequest: () -> Unit,
     sheetGesturesEnabled: Boolean,
+    skipPartiallyExpanded: Boolean = true,
     dragHandle: @Composable (() -> Unit)? = { BottomSheetDefaults.DragHandle() },
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -65,7 +67,7 @@ fun ModalBottomSheet(
                 onDismissRequest()
             },
             shape = shape,
-            sheetState = rememberModalBottomSheetState(true),
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded),
             containerColor = containerColor
         ) {
             content()

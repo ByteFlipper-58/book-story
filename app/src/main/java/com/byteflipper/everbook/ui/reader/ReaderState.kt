@@ -10,7 +10,9 @@ package com.byteflipper.everbook.ui.reader
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Immutable
 import com.byteflipper.everbook.domain.library.book.Book
+import com.byteflipper.everbook.domain.reader.Bookmark
 import com.byteflipper.everbook.domain.reader.Checkpoint
+import com.byteflipper.everbook.domain.reader.HighlightPalette
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
 import com.byteflipper.everbook.domain.ui.UIText
@@ -42,6 +44,28 @@ data class ReaderState(
     val bottomSheet: BottomSheet? = null,
     val drawer: Drawer? = null,
 
+    val bookmarks: List<Bookmark> = emptyList(),
+    val editingAnnotation: Bookmark? = null,
+    val pendingAnnotationText: String? = null,
+    val pendingAnnotationColorArgb: Int? = null,
+    val highlightPaletteText: String? = null,
+    val highlightPaletteAnnotation: Bookmark? = null,
+    val highlightPaletteAnchorX: Int = 0,
+    val highlightPaletteAnchorY: Int = 0,
+    val highlightColors: List<Int> = HighlightPalette.defaultArgbPalette,
+    val showHighlightPaletteEditor: Boolean = false,
+    val highlightPaletteEditorTarget: HighlightPaletteTarget? = null,
+    // Bookmark temporarily emphasized after navigation from the annotations drawer.
+    val focusedBookmarkId: Int? = null,
+    // Navigation is animated by ReaderContent, whose coroutine owns a Compose frame clock.
+    val pendingBookmarkNavigation: Bookmark? = null,
+    val pendingBookmarkDisplayIndex: Int? = null,
+
     val translation: ReaderTranslationState = ReaderTranslationState(),
     val bookTranslation: ReaderBookTranslationState = ReaderBookTranslationState()
+)
+
+data class HighlightPaletteTarget(
+    val selectedText: String,
+    val annotation: Bookmark?
 )

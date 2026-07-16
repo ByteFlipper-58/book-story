@@ -9,6 +9,7 @@ package com.byteflipper.everbook.ui.reader
 
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Immutable
+import com.byteflipper.everbook.domain.reader.Bookmark
 import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
 
@@ -163,4 +164,53 @@ sealed class ReaderEvent {
     data object OnShowChaptersDrawer : ReaderEvent()
 
     data object OnDismissDrawer : ReaderEvent()
+
+    data class OnDeleteBookmark(val id: Int) : ReaderEvent()
+
+    data class OnScrollToBookmark(val bookmark: Bookmark) : ReaderEvent()
+
+    data class OnBookmarkScrollFinished(val bookmark: Bookmark) : ReaderEvent()
+
+    data object OnShowBookmarksDrawer : ReaderEvent()
+
+    data class OnCreateBookmark(val selectedText: String) : ReaderEvent()
+
+    data class OnShowHighlightPalette(
+        val selectedText: String,
+        val anchorX: Int,
+        val anchorY: Int,
+        val annotation: Bookmark? = null
+    ) : ReaderEvent()
+
+    data class OnCreateHighlight(val selectedText: String, val colorArgb: Int) : ReaderEvent()
+
+    data class OnRequestAnnotationEditor(
+        val selectedText: String,
+        val initialColorArgb: Int? = null
+    ) : ReaderEvent()
+
+    data object OnDismissHighlightPalette : ReaderEvent()
+
+    data class OnShowHighlightPaletteEditor(
+        val selectedText: String? = null,
+        val annotation: Bookmark? = null
+    ) : ReaderEvent()
+
+    data object OnDismissHighlightPaletteEditor : ReaderEvent()
+
+    data class OnUpdateHighlightPalette(val colors: List<Int>) : ReaderEvent()
+
+    data class OnApplyHighlightPaletteColor(val colorArgb: Int) : ReaderEvent()
+
+    data class OnSaveAnnotation(val note: String, val colorArgb: Int?) : ReaderEvent()
+
+    data object OnDismissAnnotationEditor : ReaderEvent()
+
+    /** Recolor an existing highlight. */
+    data class OnChangeHighlightColor(val id: Int, val colorArgb: Int) : ReaderEvent()
+
+    /** Removes only the highlight color while preserving the bookmark and its note. */
+    data class OnClearHighlightColor(val id: Int) : ReaderEvent()
+
+    data class OnEditAnnotation(val bookmark: Bookmark) : ReaderEvent()
 }

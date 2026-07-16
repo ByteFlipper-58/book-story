@@ -25,6 +25,7 @@ import com.byteflipper.everbook.data.local.dto.BookCategoryCrossRef
 import com.byteflipper.everbook.data.local.dto.BookTranslationEntity
 import com.byteflipper.everbook.data.local.dto.BookTranslationEntryEntity
 import com.byteflipper.everbook.data.local.dto.ReadingSessionEntity
+import com.byteflipper.everbook.data.local.dto.BookmarkEntity
 import java.io.File
 
 @Database(
@@ -37,8 +38,9 @@ import java.io.File
         BookTranslationEntity::class,
         BookTranslationEntryEntity::class,
         ReadingSessionEntity::class,
+        BookmarkEntity::class,
     ],
-    version = 14,
+    version = 15,
     autoMigrations = [
         AutoMigration(1, 2),
         AutoMigration(2, 3),
@@ -362,6 +364,41 @@ object DatabaseHelper {
     }
 
     /**
+     * Migration from version 14 to 15.
+     *
+     * Adds the bookmarks table — one store for bookmarks, highlights/quotes and notes.
+     */
+    val MIGRATION_14_15 = object : Migration(14, 15) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS `BookmarkEntity` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`bookId` INTEGER NOT NULL, " +
+                        "`kind` TEXT NOT NULL, " +
+                        "`chapterIndex` INTEGER NOT NULL, " +
+                        "`chapterTitle` TEXT NOT NULL, " +
+                        "`paragraphIndex` INTEGER NOT NULL, " +
+                        "`charStart` INTEGER NOT NULL, " +
+                        "`charEnd` INTEGER NOT NULL, " +
+                        "`quotedText` TEXT NOT NULL, " +
+                        "`paragraphHash` INTEGER NOT NULL, " +
+                        "`prefix` TEXT NOT NULL, " +
+                        "`suffix` TEXT NOT NULL, " +
+                        "`note` TEXT, " +
+                        "`colorArgb` INTEGER, " +
+                        "`progress` REAL NOT NULL, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "`updatedAt` INTEGER NOT NULL" +
+                        ")"
+            )
+            db.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_BookmarkEntity_bookId` " +
+                        "ON `BookmarkEntity` (`bookId`)"
+            )
+        }
+    }
+
+    /**
      * Callback, который вызывается при создании базы данных (fresh install).
      * Заполняет таблицу `CategoryEntity` четырьмя стандартными категориями, если она пуста.
      */
@@ -405,6 +442,7 @@ object DatabaseHelper {
             .addMigrations(MIGRATION_11_12)
             .addMigrations(MIGRATION_12_13)
             .addMigrations(MIGRATION_13_14)
+            .addMigrations(MIGRATION_14_15)
             .build()
     }
 }

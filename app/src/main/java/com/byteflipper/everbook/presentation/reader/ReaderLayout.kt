@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.domain.reader.Bookmark
 import com.byteflipper.everbook.domain.reader.FontWithName
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderHorizontalGesture
@@ -63,6 +64,10 @@ private const val TRANSLATION_DISMISS_ANIMATION_MS = 260
 @Composable
 fun ReaderLayout(
     displayContent: ReaderDisplayContent,
+    highlightsByParagraph: Map<Int, List<Bookmark>>,
+    focusedBookmarkId: Int?,
+    onAnnotationTextLayout: (bookmarkId: Int, topOffsetPx: Float) -> Unit,
+    editAnnotation: (ReaderEvent.OnEditAnnotation) -> Unit,
     listState: LazyListState,
     contentPadding: PaddingValues,
     verticalPadding: Dp,
@@ -115,7 +120,14 @@ fun ReaderLayout(
     openExternalTranslator: (ReaderEvent.OnOpenExternalTranslator) -> Unit,
     dismissTranslation: (ReaderEvent.OnDismissTranslation) -> Unit,
     toggleTranslationOriginal: (ReaderEvent.OnToggleTranslationOriginal) -> Unit,
-    openDictionary: (ReaderEvent.OnOpenDictionary) -> Unit
+    openDictionary: (ReaderEvent.OnOpenDictionary) -> Unit,
+    annotationActionsEnabled: Boolean,
+    createBookmark: (ReaderEvent.OnCreateBookmark) -> Unit,
+    createHighlight: (ReaderEvent.OnCreateHighlight) -> Unit,
+    showHighlightPalette: (ReaderEvent.OnShowHighlightPalette) -> Unit,
+    highlightColors: List<Int>,
+    showPaletteEditor: (ReaderEvent.OnShowHighlightPaletteEditor) -> Unit,
+    requestAnnotationEditor: (ReaderEvent.OnRequestAnnotationEditor) -> Unit
 ) {
     val activity = LocalActivity.current
     var closingTranslationReaderIndex by remember {
@@ -186,7 +198,28 @@ fun ReaderLayout(
                     activity = activity
                 )
             )
-        }
+        },
+        onBookmarkRequested = if (annotationActionsEnabled) {
+            { selectedText ->
+                createBookmark(ReaderEvent.OnCreateBookmark(selectedText))
+            }
+        } else null,
+        onHighlightRequested = if (annotationActionsEnabled) {
+            { selectedText, rect ->
+                showHighlightPalette(
+                    ReaderEvent.OnShowHighlightPalette(
+                        selectedText = selectedText,
+                        anchorX = rect.center.x.toInt(),
+                        anchorY = rect.top.toInt()
+                    )
+                )
+            }
+        } else null,
+        onNoteRequested = if (annotationActionsEnabled) {
+            { selectedText ->
+                requestAnnotationEditor(ReaderEvent.OnRequestAnnotationEditor(selectedText))
+            }
+        } else null
     ) { toolbarHidden ->
         Column(
             Modifier
@@ -270,6 +303,11 @@ fun ReaderLayout(
                                     activity = activity,
                                     showMenu = showMenu,
                                     readerIndex = row.readerIndex,
+                                    highlights = highlightsByParagraph[row.readerIndex].orEmpty(),
+                                    focusedBookmarkId = focusedBookmarkId,
+                                    onAnnotationTextLayout = onAnnotationTextLayout,
+                                    showHighlightPalette = showHighlightPalette,
+                                    editAnnotation = editAnnotation,
                                     entry = row.entry,
                                     imagesCornersRoundness = imagesCornersRoundness,
                                     imagesAlignment = imagesAlignment,

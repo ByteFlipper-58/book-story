@@ -45,6 +45,7 @@ object DataStoreConstants {
     val BOOK_TRANSLATION_RECENT_TARGET_LANGUAGES =
         stringSetPreferencesKey("book_translation_recent_target_languages")
     val FAST_COLOR_PRESET_CHANGE = booleanPreferencesKey("fast_color_preset_change")
+    val READER_HIGHLIGHT_PALETTE = stringPreferencesKey("reader_highlight_palette")
     val SIDE_PADDING = intPreferencesKey("side_padding")
     val VERTICAL_PADDING = intPreferencesKey("vertical_padding")
     val FONT = stringPreferencesKey("font")

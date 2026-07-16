@@ -418,6 +418,35 @@
     <!-- Reader -->
     <string name="no_chapters">Нет глав</string>
     <string name="chapters">Главы</string>
+    <string name="bookmark">Закладка</string>
+    <string name="bookmarks">Закладки</string>
+    <string name="annotations">Аннотации</string>
+    <string name="annotation">Аннотация</string>
+    <string name="annotation_style">Оформление</string>
+    <string name="annotation_note">Заметка (необязательно)</string>
+    <string name="add_annotation_note">Добавить заметку</string>
+    <string name="annotation_no_color">Закладка без цвета</string>
+    <string name="edit_annotation">Изменить аннотацию</string>
+    <string name="annotations_empty">Пока нет аннотаций</string>
+    <string name="annotations_filter_all">Все</string>
+    <string name="annotations_filter_bookmarks">Закладки</string>
+    <string name="annotations_filter_highlights">Выделения</string>
+    <string name="annotations_filter_notes">Заметки</string>
+    <string name="bookmarks_content_desc">Закладки</string>
+    <string name="bookmark_add_here">Добавить закладку здесь</string>
+    <string name="bookmark_remove_here">Убрать закладку здесь</string>
+    <string name="bookmarks_empty">Пока нет закладок</string>
+    <string name="highlight">Выделить</string>
+    <string name="add_to_bookmarks">В закладки</string>
+    <string name="highlight_color">Цвет выделения</string>
+    <string name="highlight_not_found">Не удалось найти выделенный текст</string>
+    <string name="highlight_multi_paragraph_not_supported">Выделите текст внутри одного абзаца</string>
+    <string name="highlight_ambiguous_selection">Выделите более длинный уникальный фрагмент</string>
+    <string name="reader_annotations_original_only">Закладки, выделения и заметки доступны только в оригинальном тексте</string>
+    <string name="note">Заметка</string>
+    <string name="note_hint">Введите заметку…</string>
+    <string name="add_note">Заметка</string>
+    <string name="edit_note">Изменить заметку</string>
 
     <!-- About -->
     <string name="app_version_option">Версия приложения</string>
@@ -854,4 +883,15 @@
     <string name="time_minutes">%1$dм</string>
     <!-- Missing translations added from base strings. -->
     <string name="error_no_file_manager">Приложение файлового менеджера не найдено.</string>
+    <string name="highlight_palette_title">Палитра выделений</string>
+    <string name="highlight_palette_color">Выбранный цвет</string>
+    <string name="highlight_palette_manage">Настроить цвета</string>
+    <string name="highlight_palette_add">Добавить цвет</string>
+    <string name="highlight_palette_reset">Сбросить палитру</string>
+    <string name="highlight_palette_move_left">Переместить цвет влево</string>
+    <string name="highlight_palette_move_right">Переместить цвет вправо</string>
+    <string name="highlight_palette_preview">Предпросмотр цвета</string>
+    <string name="highlight_palette_apply">Применить к выбранному цвету</string>
+    <string name="highlight_palette_customize_color">Настроить цвет</string>
+    <string name="highlight_palette_drag">Переместить панель цветов</string>
 </resources>

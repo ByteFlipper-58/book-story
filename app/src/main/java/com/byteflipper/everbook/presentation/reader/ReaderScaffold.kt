@@ -139,6 +139,9 @@ fun ReaderScaffold(
     translationTargetLanguage: String,
     translationWifiOnly: Boolean,
     fullscreenMode: Boolean,
+    customScreenBrightness: Boolean,
+    screenBrightness: Float,
+    changeScreenBrightness: (Float) -> Unit,
     createInlineContentView: (Long) -> View?,
     selectPreviousPreset: (SettingsEvent.OnSelectPreviousPreset) -> Unit,
     selectNextPreset: (SettingsEvent.OnSelectNextPreset) -> Unit,
@@ -344,6 +347,12 @@ fun ReaderScaffold(
                 perceptionExpanderPadding = perceptionExpanderPadding,
                 perceptionExpanderThickness = perceptionExpanderThickness,
                 perceptionExpanderColor = fontColor
+            )
+
+            ReaderBrightnessGesture(
+                enabled = customScreenBrightness && !isLoading && !showMenu,
+                brightness = screenBrightness,
+                onBrightnessChange = changeScreenBrightness
             )
 
             if (isLoading && text.isEmpty()) {

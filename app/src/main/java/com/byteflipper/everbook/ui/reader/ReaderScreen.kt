@@ -762,6 +762,11 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 translationTargetLanguage = mainState.value.translationTargetLanguage,
                 translationWifiOnly = mainState.value.translationWifiOnly,
                 fullscreenMode = mainState.value.fullscreen,
+                customScreenBrightness = mainState.value.customScreenBrightness,
+                screenBrightness = mainState.value.screenBrightness,
+                changeScreenBrightness = { brightness ->
+                    mainModel.onEvent(MainEvent.OnChangeScreenBrightness(brightness))
+                },
                 createInlineContentView = { placementId ->
                     readerInlineContentModel.createView(activity, placementId)
                 },

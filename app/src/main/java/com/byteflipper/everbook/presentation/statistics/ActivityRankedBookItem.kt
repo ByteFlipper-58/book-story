@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.statistics
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,8 +23,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -103,7 +102,7 @@ internal fun ActivityRankedBookItem(
                 )
             } else {
                 Icon(
-                    imageVector = Icons.Default.Image,
+                    painter = painterResource(R.drawable.ic_image_rounded_24px),
                     contentDescription = null,
                     modifier = Modifier
                         .align(Alignment.Center)

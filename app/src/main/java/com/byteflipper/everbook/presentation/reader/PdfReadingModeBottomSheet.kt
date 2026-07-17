@@ -6,6 +6,8 @@
  */
 
 package com.byteflipper.everbook.presentation.reader
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,9 +22,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Subject
-import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -70,7 +69,7 @@ fun PdfReadingModeBottomSheet(
 
             item {
                 PdfReadingModeBottomSheetItem(
-                    icon = Icons.AutoMirrored.Filled.Subject,
+                    icon = R.drawable.ic_subject_rounded_24px,
                     title = stringResource(id = R.string.pdf_reading_mode_parsed_text),
                     description = stringResource(id = R.string.pdf_reading_mode_text_version_desc),
                     selected = book.pdfReadingMode == PdfReadingMode.PARSED_TEXT,
@@ -85,7 +84,7 @@ fun PdfReadingModeBottomSheet(
 
             item {
                 PdfReadingModeBottomSheetItem(
-                    icon = Icons.Default.PictureAsPdf,
+                    icon = R.drawable.ic_picture_as_pdf_rounded_24px,
                     title = stringResource(id = R.string.pdf_reading_mode_original_pdf),
                     description = stringResource(id = R.string.pdf_reading_mode_original_pdf_desc),
                     selected = book.pdfReadingMode == PdfReadingMode.ORIGINAL_PDF,
@@ -103,7 +102,7 @@ fun PdfReadingModeBottomSheet(
 
 @Composable
 private fun LazyItemScope.PdfReadingModeBottomSheetItem(
-    icon: ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     title: String,
     description: String,
     selected: Boolean,
@@ -129,7 +128,7 @@ private fun LazyItemScope.PdfReadingModeBottomSheetItem(
         horizontalArrangement = Arrangement.Start
     ) {
         Icon(
-            imageVector = icon,
+            painter = androidx.compose.ui.res.painterResource(id = icon),
             contentDescription = null,
             modifier = Modifier.size(24.dp),
             tint = when {

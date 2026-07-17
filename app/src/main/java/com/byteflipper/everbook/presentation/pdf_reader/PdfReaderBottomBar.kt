@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.pdf_reader
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,10 +19,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material.icons.filled.ZoomIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -100,7 +97,7 @@ fun PdfReaderBottomBar(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.ZoomIn,
+                    painter = painterResource(R.drawable.ic_zoom_in_rounded_24px),
                     contentDescription = null,
                     modifier = Modifier.size(20.dp),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
@@ -109,7 +106,7 @@ fun PdfReaderBottomBar(
                 Spacer(Modifier.width(8.dp))
 
                 IconButton(
-                    icon = Icons.Default.Remove,
+                    icon = R.drawable.ic_remove_rounded_24px,
                     contentDescription = R.string.zoom_out_content_desc,
                     modifier = Modifier.size(32.dp),
                     disableOnClick = false,
@@ -133,7 +130,7 @@ fun PdfReaderBottomBar(
                 )
 
                 IconButton(
-                    icon = Icons.Default.Add,
+                    icon = R.drawable.ic_add_rounded_24px,
                     contentDescription = R.string.zoom_in_content_desc,
                     modifier = Modifier.size(32.dp),
                     disableOnClick = false,

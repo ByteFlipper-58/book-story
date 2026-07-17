@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.reader
+import androidx.compose.ui.res.painterResource
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -27,10 +28,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Translate
-import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -489,10 +486,10 @@ private fun ReaderBookTranslationStatusBar(
                 )
             } else {
                 Icon(
-                    imageVector = if (rateLimitedTranslation != null) {
-                        Icons.Default.WarningAmber
+                    painter = if (rateLimitedTranslation != null) {
+                        painterResource(R.drawable.ic_warning_rounded_24px)
                     } else {
-                        Icons.Default.Translate
+                        painterResource(R.drawable.ic_translate_rounded_24px)
                     },
                     contentDescription = null,
                     modifier = Modifier.size(18.dp),
@@ -520,7 +517,7 @@ private fun ReaderBookTranslationStatusBar(
                 onClick = dismissStatusBar
             ) {
                 Icon(
-                    imageVector = Icons.Default.Close,
+                    painter = painterResource(R.drawable.ic_close_rounded_24px),
                     contentDescription = stringResource(id = R.string.close),
                     modifier = Modifier.size(18.dp),
                     tint = MaterialTheme.colorScheme.secondary

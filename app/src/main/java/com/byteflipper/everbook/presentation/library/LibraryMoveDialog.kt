@@ -8,8 +8,6 @@
 package com.byteflipper.everbook.presentation.library
 
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.MoveUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -53,7 +51,7 @@ fun LibraryMoveDialog(
 
     Dialog(
         title = stringResource(id = R.string.move_books),
-        icon = Icons.Outlined.MoveUp,
+        icon = R.drawable.ic_move_up_rounded_24px,
         description = stringResource(
             id = R.string.move_books_description,
             selectedItemsCount

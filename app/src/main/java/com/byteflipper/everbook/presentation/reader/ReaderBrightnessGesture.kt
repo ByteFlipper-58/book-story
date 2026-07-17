@@ -6,6 +6,8 @@
  */
 
 package com.byteflipper.everbook.presentation.reader
+import androidx.compose.ui.res.painterResource
+import com.byteflipper.everbook.R
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -24,10 +26,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Brightness4
-import androidx.compose.material.icons.filled.Brightness6
-import androidx.compose.material.icons.filled.Brightness7
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -120,10 +118,10 @@ fun BoxScope.ReaderBrightnessGesture(
                 verticalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    imageVector = when {
-                        indicatorBrightness < 0.33f -> Icons.Filled.Brightness4
-                        indicatorBrightness < 0.66f -> Icons.Filled.Brightness6
-                        else -> Icons.Filled.Brightness7
+                    painter = when {
+                        indicatorBrightness < 0.33f -> painterResource(R.drawable.ic_brightness_low_rounded_24px)
+                        indicatorBrightness < 0.66f -> painterResource(R.drawable.ic_brightness_medium_rounded_24px)
+                        else -> painterResource(R.drawable.ic_brightness_high_rounded_24px)
                     },
                     contentDescription = null,
                     modifier = Modifier.size(36.dp)

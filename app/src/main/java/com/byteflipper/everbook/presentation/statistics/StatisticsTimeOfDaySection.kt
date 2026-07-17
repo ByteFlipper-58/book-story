@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.statistics
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -21,11 +22,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.WbSunny
-import androidx.compose.material.icons.outlined.WbTwilight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -51,10 +47,10 @@ internal fun TimeOfDaySection(timeOfDayMs: List<Long>) {
         stringResource(id = R.string.statistics_night)
     )
     val icons = listOf(
-        Icons.Outlined.LightMode,
-        Icons.Outlined.WbSunny,
-        Icons.Outlined.WbTwilight,
-        Icons.Outlined.DarkMode
+        R.drawable.ic_light_mode_rounded_24px,
+        R.drawable.ic_wb_sunny_rounded_24px,
+        R.drawable.ic_wb_twilight_rounded_24px,
+        R.drawable.ic_dark_mode_rounded_24px
     )
     val accent = MaterialTheme.colorScheme.primary
     val track = MaterialTheme.colorScheme.surfaceContainerHighest
@@ -73,7 +69,7 @@ internal fun TimeOfDaySection(timeOfDayMs: List<Long>) {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                imageVector = Icons.Outlined.WbSunny,
+                painter = painterResource(R.drawable.ic_wb_sunny_rounded_24px),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(20.dp)
@@ -121,7 +117,7 @@ internal fun TimeOfDaySection(timeOfDayMs: List<Long>) {
                     }
                     Spacer(Modifier.height(8.dp))
                     Icon(
-                        imageVector = icons[i],
+                        painter = painterResource(icons[i]),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(18.dp)

@@ -12,10 +12,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.Subject
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.LocalTextStyle
@@ -57,7 +53,7 @@ fun PdfReaderTopBar(
         TopAppBar(
             navigationIcon = {
                 IconButton(
-                    icon = Icons.AutoMirrored.Default.ArrowBack,
+                    icon = R.drawable.ic_arrow_back_rounded_24px,
                     contentDescription = R.string.go_back_content_desc,
                     disableOnClick = true
                 ) {
@@ -95,7 +91,7 @@ fun PdfReaderTopBar(
             actions = {
                 if (book.filePath.endsWith(".pdf", ignoreCase = true)) {
                     IconButton(
-                        icon = Icons.AutoMirrored.Filled.Subject,
+                        icon = R.drawable.ic_subject_rounded_24px,
                         contentDescription = R.string.pdf_reading_mode_option,
                         disableOnClick = false
                     ) {
@@ -106,7 +102,7 @@ fun PdfReaderTopBar(
                 }
 
                 IconButton(
-                    icon = Icons.Default.Settings,
+                    icon = R.drawable.ic_settings_rounded_24px,
                     contentDescription = R.string.open_reader_settings_content_desc,
                     disableOnClick = false
                 ) {

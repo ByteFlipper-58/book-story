@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.library
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -21,9 +22,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -147,7 +145,7 @@ private fun LibraryGridItem(
                 )
             } else {
                 Icon(
-                    imageVector = Icons.Default.Image,
+                    painter = painterResource(R.drawable.ic_image_rounded_24px),
                     contentDescription = stringResource(
                         id = R.string.cover_image_not_found_content_desc
                     ),
@@ -212,7 +210,7 @@ private fun LibraryGridItem(
                         )
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.PlayArrow,
+                            painter = painterResource(R.drawable.ic_play_arrow_rounded_24px),
                             contentDescription = stringResource(id = R.string.continue_reading_content_desc),
                             Modifier.size(20.dp)
                         )
@@ -291,7 +289,7 @@ private fun LibraryListItem(
                 )
             } else {
                 Icon(
-                    imageVector = Icons.Default.Image,
+                    painter = painterResource(R.drawable.ic_image_rounded_24px),
                     contentDescription = stringResource(id = R.string.cover_image_not_found_content_desc),
                     modifier = Modifier
                         .align(Alignment.Center)
@@ -339,7 +337,7 @@ private fun LibraryListItem(
                 )
             ) {
                 Icon(
-                    imageVector = Icons.Filled.PlayArrow,
+                    painter = painterResource(R.drawable.ic_play_arrow_rounded_24px),
                     contentDescription = stringResource(id = R.string.continue_reading_content_desc),
                     modifier = Modifier.size(20.dp)
                 )

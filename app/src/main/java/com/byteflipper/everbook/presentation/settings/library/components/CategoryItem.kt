@@ -6,6 +6,8 @@
  */
 
 package com.byteflipper.everbook.presentation.settings.library.components
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
@@ -23,13 +25,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.DragIndicator
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Folder
-import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
@@ -168,7 +163,7 @@ fun CategoryItem(
                         color = MaterialTheme.colorScheme.onErrorContainer
                     )
                     Icon(
-                        imageVector = Icons.Outlined.Delete,
+                        painter = painterResource(R.drawable.ic_delete_rounded_24px),
                         contentDescription = stringResource(R.string.delete_category),
                         tint = MaterialTheme.colorScheme.onErrorContainer,
                         modifier = Modifier
@@ -199,7 +194,7 @@ fun CategoryItem(
     if (showConfirmDelete) {
         Dialog(
             title = stringResource(R.string.delete_category),
-            icon = Icons.Outlined.Delete,
+            icon = R.drawable.ic_delete_rounded_24px,
             description = stringResource(R.string.delete_category_confirm),
             onDismiss = {
                 scope.launch { dismissState.reset() }
@@ -260,7 +255,7 @@ private fun CategoryContent(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             if (!category.isDefault) {
-                                SmallIconButton(Icons.Outlined.Edit, R.string.edit_category, onEdit)
+                                SmallIconButton(R.drawable.ic_edit_rounded_24px, R.string.edit_category, onEdit)
                             }
                             VisibilityButton(category.isVisible, onToggleVisibility)
                         }
@@ -284,7 +279,7 @@ private fun DragHandle(modifier: Modifier = Modifier) {
         )
     ) {
         Icon(
-            imageVector = Icons.Outlined.DragIndicator,
+            painter = painterResource(R.drawable.ic_drag_indicator_rounded_24px),
             contentDescription = stringResource(id = R.string.drag_to_reorder),
             modifier = Modifier.size(20.dp)
         )
@@ -300,7 +295,7 @@ private fun CategoryIcon(isDefault: Boolean) {
     ) {
         Box(contentAlignment = Alignment.Center) {
             Icon(
-                imageVector = Icons.Outlined.Folder,
+                painter = painterResource(R.drawable.ic_folder_rounded_24px),
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
                 tint = if (isDefault) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSecondaryContainer
@@ -332,7 +327,7 @@ private fun VisibilityButton(visible: Boolean, onClick: () -> Unit) {
     ) {
         Crossfade(targetState = visible, animationSpec = tween(200), label = "icon_visibility") { state ->
             Icon(
-                imageVector = if (state) Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff,
+                painter = if (state) painterResource(R.drawable.ic_visibility_rounded_24px) else painterResource(R.drawable.ic_visibility_off_rounded_24px),
                 contentDescription = if (state) stringResource(id = R.string.hide_category) else stringResource(id = R.string.show_category),
                 modifier = Modifier.size(20.dp)
             )
@@ -341,7 +336,7 @@ private fun VisibilityButton(visible: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-private fun SmallIconButton(icon: ImageVector, descRes: Int, onClick: () -> Unit, isError: Boolean = false) {
+private fun SmallIconButton(@androidx.annotation.DrawableRes icon: Int, descRes: Int, onClick: () -> Unit, isError: Boolean = false) {
     val hapticFeedback = LocalHapticFeedback.current
     
     val targetContainer = if (isError) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surfaceVariant
@@ -361,6 +356,6 @@ private fun SmallIconButton(icon: ImageVector, descRes: Int, onClick: () -> Unit
             contentColor = contentColor
         )
     ) {
-        Icon(imageVector = icon, contentDescription = stringResource(id = descRes), modifier = Modifier.size(20.dp))
+        Icon(painter = androidx.compose.ui.res.painterResource(id = icon), contentDescription = stringResource(id = descRes), modifier = Modifier.size(20.dp))
     }
 }

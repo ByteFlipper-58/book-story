@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.settings.library.subcategory
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -30,9 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.outlined.Reorder
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
@@ -262,7 +260,7 @@ private fun ReorderButton(
         )
     ) {
         Icon(
-            imageVector = Icons.Outlined.Reorder,
+            painter = painterResource(R.drawable.ic_reorder_rounded_24px),
             contentDescription = stringResource(R.string.reorder_categories),
             modifier = Modifier.size(24.dp)
         )
@@ -287,7 +285,7 @@ private fun SaveOrderButton(
         modifier = modifier.height(56.dp)
     ) {
         Icon(
-            imageVector = Icons.Default.Done,
+            painter = painterResource(R.drawable.ic_done_rounded_24px),
             contentDescription = null,
             modifier = Modifier.padding(end = 8.dp)
         )

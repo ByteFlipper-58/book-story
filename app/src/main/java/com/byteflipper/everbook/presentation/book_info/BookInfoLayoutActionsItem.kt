@@ -6,6 +6,8 @@
  */
 
 package com.byteflipper.everbook.presentation.book_info
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,7 +32,7 @@ fun BookInfoLayoutActionsItem(
     modifier: Modifier = Modifier,
     alignmentStart: Boolean,
     title: String,
-    icon: ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     onClick: () -> Unit
 ) {
     val shape = remember(alignmentStart) {
@@ -57,7 +59,7 @@ fun BookInfoLayoutActionsItem(
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Icon(
-            imageVector = icon,
+            painter = androidx.compose.ui.res.painterResource(id = icon),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(18.dp)

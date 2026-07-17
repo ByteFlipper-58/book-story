@@ -6,6 +6,8 @@
  */
 
 package com.byteflipper.everbook.presentation.reader
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -18,9 +20,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Bookmark
-import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -116,7 +115,7 @@ fun ReaderAnnotationDialog(
             ) {
                 item {
                     AnnotationIconAction(
-                        imageVector = Icons.Outlined.Bookmark,
+                        icon = R.drawable.ic_bookmark_rounded_24px,
                         contentDescription = stringResource(id = R.string.annotation_no_color),
                         selected = selectedColor == null,
                         onClick = { selectedColor = null }
@@ -164,7 +163,7 @@ fun ReaderAnnotationDialog(
 
 @Composable
 private fun AnnotationIconAction(
-    imageVector: androidx.compose.ui.graphics.vector.ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     contentDescription: String,
     selected: Boolean,
     onClick: () -> Unit
@@ -178,7 +177,7 @@ private fun AnnotationIconAction(
     ) {
         IconButton(onClick = onClick) {
             Icon(
-                imageVector = imageVector,
+                painter = painterResource(id = icon),
                 contentDescription = contentDescription,
                 tint = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -193,7 +192,7 @@ private fun AnnotationPaletteAction(onClick: () -> Unit) {
         modifier = Modifier.size(40.dp)
     ) {
         Icon(
-            imageVector = Icons.Outlined.Palette,
+            painter = painterResource(R.drawable.ic_palette_rounded_24px),
             contentDescription = stringResource(R.string.highlight_palette_manage)
         )
     }

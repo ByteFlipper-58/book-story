@@ -9,8 +9,6 @@
 
 package com.byteflipper.everbook.presentation.translation.language_selection
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
@@ -53,7 +51,7 @@ internal fun TranslationLanguageSelectionTopBar(
         actions = {
             if (providerMode == TranslationProviderMode.IN_APP) {
                 IconButton(
-                    icon = Icons.Outlined.Refresh,
+                    icon = R.drawable.ic_refresh_rounded_24px,
                     contentDescription = R.string.translation_refresh_models_content_desc,
                     disableOnClick = false,
                     enabled = modelManagerAvailable && !isLoadingModels,

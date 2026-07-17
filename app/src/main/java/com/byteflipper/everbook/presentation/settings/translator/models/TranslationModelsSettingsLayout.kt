@@ -11,6 +11,8 @@
 )
 
 package com.byteflipper.everbook.presentation.settings.translator.models
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import android.util.Log
 import androidx.compose.ui.platform.LocalContext
@@ -30,13 +32,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.CloudDownload
-import androidx.compose.material.icons.outlined.DeleteOutline
-import androidx.compose.material.icons.outlined.DownloadForOffline
-import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
@@ -235,7 +230,7 @@ private fun TranslationModelsSearch(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Outlined.Search,
+                painter = painterResource(R.drawable.ic_search_rounded_24px),
                 contentDescription = null,
                 modifier = Modifier.size(22.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
@@ -384,10 +379,10 @@ private fun TranslationModelStatusIcon(
             )
         } else {
             Icon(
-                imageVector = when {
-                    !supported -> Icons.Outlined.ErrorOutline
-                    downloaded -> Icons.Outlined.CheckCircle
-                    else -> Icons.Outlined.CloudDownload
+                painter = when {
+                    !supported -> painterResource(R.drawable.ic_error_rounded_24px)
+                    downloaded -> painterResource(R.drawable.ic_check_circle_rounded_24px)
+                    else -> painterResource(R.drawable.ic_cloud_download_rounded_24px)
                 },
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
@@ -411,9 +406,9 @@ private fun TranslationModelActionIcon(
 
     TranslationModelIcon(
         icon = if (downloaded) {
-            Icons.Outlined.DeleteOutline
+            R.drawable.ic_delete_rounded_24px
         } else {
-            Icons.Outlined.DownloadForOffline
+            R.drawable.ic_download_for_offline_rounded_24px
         },
         tint = if (downloaded) {
             MaterialTheme.colorScheme.error
@@ -425,11 +420,11 @@ private fun TranslationModelActionIcon(
 
 @Composable
 private fun TranslationModelIcon(
-    icon: ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     tint: androidx.compose.ui.graphics.Color
 ) {
     Icon(
-        imageVector = icon,
+        painter = androidx.compose.ui.res.painterResource(id = icon),
         contentDescription = null,
         modifier = Modifier.size(22.dp),
         tint = tint

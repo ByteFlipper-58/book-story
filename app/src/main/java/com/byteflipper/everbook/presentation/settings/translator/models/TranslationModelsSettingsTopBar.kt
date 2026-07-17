@@ -7,8 +7,6 @@
 
 package com.byteflipper.everbook.presentation.settings.translator.models
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -45,7 +43,7 @@ fun TranslationModelsSettingsTopBar(
         },
         actions = {
             IconButton(
-                icon = Icons.Outlined.Refresh,
+                icon = R.drawable.ic_refresh_rounded_24px,
                 contentDescription = R.string.translation_refresh_models_content_desc,
                 disableOnClick = false,
                 enabled = state.value.modelManagerAvailable && !state.value.isLoadingModels,

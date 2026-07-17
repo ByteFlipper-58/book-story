@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.browse
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,9 +14,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PushPin
-import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -54,8 +52,7 @@ fun BrowseLayoutHeader(
                 .noRippleClickable {
                     pin()
                 },
-            imageVector = if (pinned) Icons.Default.PushPin
-            else Icons.Outlined.PushPin,
+            painter = if (pinned) painterResource(R.drawable.ic_push_pin_filled_rounded_24px) else painterResource(R.drawable.ic_push_pin_rounded_24px),
             contentDescription = stringResource(R.string.pin_content_desc),
             tint = if (pinned) MaterialTheme.colorScheme.primary
             else MaterialTheme.colorScheme.onSurfaceVariant

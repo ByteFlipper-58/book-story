@@ -6,6 +6,9 @@
  */
 
 package com.byteflipper.everbook.presentation.translation.language_selection
+import com.byteflipper.everbook.R
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,13 +17,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.CloudDownload
-import androidx.compose.material.icons.outlined.DownloadForOffline
-import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -92,10 +88,10 @@ private fun TranslationLanguageStatusIcon(item: TranslationLanguageSelectionItem
 
     TranslationLanguageIcon(
         icon = when {
-            !item.supported -> Icons.Outlined.ErrorOutline
-            item.selected -> Icons.Outlined.CheckCircle
-            item.downloaded == false -> Icons.Outlined.CloudDownload
-            else -> Icons.Outlined.Language
+            !item.supported -> R.drawable.ic_error_rounded_24px
+            item.selected -> R.drawable.ic_check_circle_rounded_24px
+            item.downloaded == false -> R.drawable.ic_cloud_download_rounded_24px
+            else -> R.drawable.ic_language_rounded_24px
         },
         tint = when {
             !item.supported -> MaterialTheme.colorScheme.error
@@ -111,12 +107,12 @@ private fun TranslationLanguageActionIcon(item: TranslationLanguageSelectionItem
     if (!item.supported || item.busy) return
     when {
         item.selected -> TranslationLanguageIcon(
-            icon = Icons.Outlined.Check,
+            icon = R.drawable.ic_check_rounded_24px,
             tint = MaterialTheme.colorScheme.primary
         )
 
         item.downloaded == false -> TranslationLanguageIcon(
-            icon = Icons.Outlined.DownloadForOffline,
+            icon = R.drawable.ic_download_for_offline_rounded_24px,
             tint = MaterialTheme.colorScheme.primary
         )
     }
@@ -124,11 +120,11 @@ private fun TranslationLanguageActionIcon(item: TranslationLanguageSelectionItem
 
 @Composable
 private fun TranslationLanguageIcon(
-    icon: ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     tint: androidx.compose.ui.graphics.Color
 ) {
     Icon(
-        imageVector = icon,
+        painter = androidx.compose.ui.res.painterResource(id = icon),
         contentDescription = null,
         modifier = Modifier.size(22.dp),
         tint = tint

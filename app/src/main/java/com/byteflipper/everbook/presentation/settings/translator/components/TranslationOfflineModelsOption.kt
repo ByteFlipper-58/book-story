@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.settings.translator.components
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,9 +15,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -40,7 +38,7 @@ fun TranslationOfflineModelsOption(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Icon(
-            imageVector = Icons.Outlined.CloudDownload,
+            painter = painterResource(R.drawable.ic_cloud_download_rounded_24px),
             contentDescription = null,
             modifier = Modifier.size(24.dp),
             tint = MaterialTheme.colorScheme.tertiary
@@ -65,7 +63,7 @@ fun TranslationOfflineModelsOption(
         }
 
         Icon(
-            imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
+            painter = painterResource(R.drawable.ic_keyboard_arrow_right_rounded_24px),
             contentDescription = null,
             modifier = Modifier.size(24.dp),
             tint = MaterialTheme.colorScheme.onSurfaceVariant

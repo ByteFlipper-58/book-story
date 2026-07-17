@@ -8,8 +8,6 @@
 package com.byteflipper.everbook.presentation.library
 
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -42,7 +40,7 @@ fun LibraryCategoriesDialog(
 
     Dialog(
         title = stringResource(id = R.string.choose_categories),
-        icon = Icons.Outlined.Category,
+        icon = R.drawable.ic_category_rounded_24px,
         description = stringResource(id = R.string.move_books_description, selectedBooksCount),
         actionEnabled = true,
         onDismiss = onDismiss,

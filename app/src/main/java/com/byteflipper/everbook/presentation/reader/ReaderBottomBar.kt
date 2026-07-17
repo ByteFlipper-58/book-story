@@ -19,9 +19,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -108,7 +105,7 @@ fun ReaderBottomBar(
                 startDirection = true
             ) {
                 IconButton(
-                    icon = Icons.AutoMirrored.Default.ArrowBack,
+                    icon = R.drawable.ic_arrow_back_rounded_24px,
                     contentDescription = R.string.checkpoint_back_content_desc,
                     modifier = Modifier.size(24.dp),
                     color = MaterialTheme.colorScheme.secondary,
@@ -142,7 +139,7 @@ fun ReaderBottomBar(
                 startDirection = false
             ) {
                 IconButton(
-                    icon = Icons.AutoMirrored.Default.ArrowForward,
+                    icon = R.drawable.ic_arrow_forward_rounded_24px,
                     contentDescription = R.string.checkpoint_forward_content_desc,
                     modifier = Modifier.size(24.dp),
                     color = MaterialTheme.colorScheme.secondary,

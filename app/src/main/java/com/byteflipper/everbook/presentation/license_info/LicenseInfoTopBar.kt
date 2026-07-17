@@ -7,8 +7,6 @@
 
 package com.byteflipper.everbook.presentation.license_info
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -46,7 +44,7 @@ fun LicenseInfoTopBar(
         actions = {
             if (library.website?.isNotBlank() == true) {
                 IconButton(
-                    icon = Icons.Outlined.Language,
+                    icon = R.drawable.ic_language_rounded_24px,
                     contentDescription = R.string.open_in_web_content_desc,
                     disableOnClick = false
                 ) {

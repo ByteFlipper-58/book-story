@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.reader
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -27,11 +28,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DeleteOutline
-import androidx.compose.material.icons.outlined.EditNote
-import androidx.compose.material.icons.outlined.BookmarkBorder
-import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
@@ -200,7 +196,7 @@ fun ReaderHighlightPalette(
                                 }
                             ) {
                                 Icon(
-                                    imageVector = Icons.Outlined.BookmarkBorder,
+                                    painter = painterResource(R.drawable.ic_bookmark_rounded_24px),
                                     contentDescription = stringResource(R.string.annotation_no_color),
                                     tint = MaterialTheme.colorScheme.onSurface
                                 )
@@ -242,7 +238,7 @@ fun ReaderHighlightPalette(
                                 }
                             ) {
                                 Icon(
-                                    imageVector = Icons.Outlined.Palette,
+                                    painter = painterResource(R.drawable.ic_palette_rounded_24px),
                                     contentDescription = stringResource(R.string.highlight_palette_manage)
                                 )
                             }
@@ -269,7 +265,7 @@ fun ReaderHighlightPalette(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.EditNote,
+                            painter = painterResource(R.drawable.ic_edit_note_rounded_24px),
                             contentDescription = stringResource(id = R.string.add_annotation_note),
                             tint = MaterialTheme.colorScheme.onSurface
                         )
@@ -285,7 +281,7 @@ fun ReaderHighlightPalette(
                             }
                         ) {
                             Icon(
-                                imageVector = Icons.Outlined.DeleteOutline,
+                                painter = painterResource(R.drawable.ic_delete_rounded_24px),
                                 contentDescription = stringResource(id = R.string.delete),
                                 tint = MaterialTheme.colorScheme.error
                             )

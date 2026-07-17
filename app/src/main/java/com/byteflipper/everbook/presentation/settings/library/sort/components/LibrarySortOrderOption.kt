@@ -8,6 +8,7 @@
 @file:Suppress("FunctionName")
 
 package com.byteflipper.everbook.presentation.settings.library.sort.components
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -18,9 +19,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -76,8 +74,8 @@ private fun LibrarySortOrderOptionItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = if (isDescending) Icons.Default.ArrowDownward
-            else Icons.Default.ArrowUpward,
+            painter = if (isDescending) painterResource(R.drawable.ic_arrow_downward_rounded_24px)
+            else painterResource(R.drawable.ic_arrow_upward_rounded_24px),
             contentDescription = stringResource(id = R.string.sort_order_content_desc),
             modifier = Modifier.size(28.dp),
             tint = if (isSelected) MaterialTheme.colorScheme.secondary

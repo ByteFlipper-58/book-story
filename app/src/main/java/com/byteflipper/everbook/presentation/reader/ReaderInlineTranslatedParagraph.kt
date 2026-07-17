@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.reader
+import androidx.compose.ui.res.painterResource
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -43,12 +44,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.OpenInNew
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Translate
-import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ButtonDefaults
@@ -443,7 +438,7 @@ private fun InlineTranslationActions(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    imageVector = if (showOriginal) Icons.Default.Translate else Icons.Default.Visibility,
+                    painter = if (showOriginal) painterResource(R.drawable.ic_translate_rounded_24px) else painterResource(R.drawable.ic_visibility_rounded_24px),
                     contentDescription = stringResource(
                         id = if (showOriginal) {
                             R.string.translation_show_translation
@@ -490,7 +485,7 @@ private fun InlineTranslationActions(
                     modifier = Modifier.size(36.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.ContentCopy,
+                        painter = painterResource(R.drawable.ic_content_copy_rounded_24px),
                         contentDescription = stringResource(id = R.string.copy),
                         modifier = Modifier.size(18.dp),
                         tint = contentColor
@@ -502,7 +497,7 @@ private fun InlineTranslationActions(
                     contentColor = contentColor,
                     icon = {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+                            painter = painterResource(R.drawable.ic_open_in_new_rounded_24px),
                             contentDescription = null,
                             modifier = Modifier.size(18.dp)
                         )
@@ -518,7 +513,7 @@ private fun InlineTranslationActions(
                     contentColor = contentColor,
                     icon = {
                         Icon(
-                            imageVector = Icons.Default.Close,
+                            painter = painterResource(R.drawable.ic_close_rounded_24px),
                             contentDescription = null,
                             modifier = Modifier.size(18.dp)
                         )

@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddChart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +39,7 @@ fun BrowseAddDialog(
     val context = LocalContext.current
     Dialog(
         title = stringResource(id = R.string.add_books),
-        icon = Icons.Default.AddChart,
+        icon = R.drawable.ic_add_chart_rounded_24px,
         description = stringResource(id = R.string.add_books_description),
         actionEnabled = !loadingAddDialog && selectedBooksAddDialog.any { it.data is NullableBook.NotNull },
         onDismiss = { dismissAddDialog(BrowseEvent.OnDismissAddDialog) },

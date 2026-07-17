@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.book_info
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -23,8 +24,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -113,7 +112,7 @@ fun BookInfoLayoutDescription(
             exit = shrinkVertically() + fadeOut()
         ) {
             Icon(
-                imageVector = Icons.Default.KeyboardArrowDown,
+                painter = painterResource(R.drawable.ic_keyboard_arrow_down_rounded_24px),
                 contentDescription = stringResource(
                     id = if (expand.value) R.string.show_less_content_desc
                     else R.string.show_more_content_desc

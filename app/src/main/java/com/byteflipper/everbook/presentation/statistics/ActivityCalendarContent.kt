@@ -6,6 +6,8 @@
  */
 
 package com.byteflipper.everbook.presentation.statistics
+import com.byteflipper.everbook.R
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,9 +16,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -57,7 +56,7 @@ internal fun ActivityCalendarContent(
         ) {
             IconButton(onClick = onPreviousMonth) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    painter = painterResource(R.drawable.ic_arrow_back_rounded_24px),
                     contentDescription = null
                 )
             }
@@ -75,7 +74,7 @@ internal fun ActivityCalendarContent(
                 onClick = onNextMonth
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    painter = painterResource(R.drawable.ic_arrow_forward_rounded_24px),
                     contentDescription = null,
                     tint = if (canGoNext) MaterialTheme.colorScheme.onSurface
                     else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.32f)

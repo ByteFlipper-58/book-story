@@ -6,6 +6,8 @@
  */
 
 package com.byteflipper.everbook.presentation.core.components.dialog
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
@@ -56,7 +58,7 @@ import com.byteflipper.everbook.presentation.core.components.common.StyledText
 @Composable
 fun Dialog(
     modifier: Modifier = Modifier,
-    icon: ImageVector? = null,
+    @androidx.annotation.DrawableRes icon: Int? = null,
     title: String,
     description: String?,
     disableOnClick: Boolean = true,
@@ -100,7 +102,7 @@ fun Dialog(
         Column {
             if (icon != null) {
                 Icon(
-                    imageVector = icon,
+                    painter = androidx.compose.ui.res.painterResource(id = icon),
                     contentDescription = title,
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)

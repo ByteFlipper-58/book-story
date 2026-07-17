@@ -24,9 +24,6 @@ import androidx.compose.runtime.setValue
 import sh.calvin.reorderable.rememberReorderableLazyListState
 import androidx.compose.ui.res.stringResource
 import com.byteflipper.everbook.R
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Edit
 
 private data class CategoryDialogData(
     val id: Int?,
@@ -89,7 +86,7 @@ fun LibrarySettingsLayout(
                 else R.string.edit_category_dialog_title
             ),
             placeholder = stringResource(R.string.category_name_placeholder),
-            icon = if (isCreating) Icons.Outlined.Add else Icons.Outlined.Edit,
+            icon = if (isCreating) R.drawable.ic_add_rounded_24px else R.drawable.ic_edit_rounded_24px,
             description = stringResource(
                 if (isCreating) R.string.create_category_dialog_desc
                 else R.string.edit_category_dialog_desc

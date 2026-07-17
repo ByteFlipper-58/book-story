@@ -8,13 +8,6 @@
 package com.byteflipper.everbook.presentation.browse
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.FilterList
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -96,14 +89,14 @@ fun BrowseTopBar(
                 },
                 contentActions = {
                     IconButton(
-                        icon = Icons.Default.Search,
+                        icon = R.drawable.ic_search_rounded_24px,
                         contentDescription = R.string.search_content_desc,
                         disableOnClick = true
                     ) {
                         searchVisibility(BrowseEvent.OnSearchVisibility(true))
                     }
                     IconButton(
-                        icon = Icons.Default.FilterList,
+                        icon = R.drawable.ic_filter_list_rounded_24px,
                         contentDescription = R.string.filter_content_desc,
                         disableOnClick = false,
                         color = animatedFilterIconColor.value
@@ -118,7 +111,7 @@ fun BrowseTopBar(
                 contentID = 1,
                 contentNavigationIcon = {
                     IconButton(
-                        icon = Icons.AutoMirrored.Default.ArrowBack,
+                        icon = R.drawable.ic_arrow_back_rounded_24px,
                         contentDescription = R.string.exit_search_content_desc,
                         disableOnClick = true
                     ) {
@@ -150,7 +143,7 @@ fun BrowseTopBar(
                 contentID = 2,
                 contentNavigationIcon = {
                     IconButton(
-                        icon = Icons.Default.Clear,
+                        icon = R.drawable.ic_close_rounded_24px,
                         contentDescription = R.string.clear_selected_items_content_desc,
                         disableOnClick = true
                     ) {
@@ -169,7 +162,7 @@ fun BrowseTopBar(
                 },
                 contentActions = {
                     IconButton(
-                        icon = Icons.Default.SelectAll,
+                        icon = R.drawable.ic_select_all_rounded_24px,
                         contentDescription = R.string.select_all_files_content_desc,
                         disableOnClick = false,
                     ) {
@@ -181,7 +174,7 @@ fun BrowseTopBar(
                         )
                     }
                     IconButton(
-                        icon = Icons.Default.Check,
+                        icon = R.drawable.ic_check_rounded_24px,
                         contentDescription = R.string.add_files_content_desc,
                         disableOnClick = false
                     ) {

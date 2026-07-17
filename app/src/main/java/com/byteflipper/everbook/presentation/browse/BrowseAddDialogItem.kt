@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.browse
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,8 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -79,7 +78,7 @@ fun BrowseAddDialogItem(result: SelectableNullableBook, onClick: (Boolean) -> Un
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Default.Error,
+                painter = painterResource(R.drawable.ic_error_rounded_24px),
                 contentDescription = stringResource(id = R.string.error_content_desc),
                 modifier = Modifier.size(26.dp),
                 tint = MaterialTheme.colorScheme.error

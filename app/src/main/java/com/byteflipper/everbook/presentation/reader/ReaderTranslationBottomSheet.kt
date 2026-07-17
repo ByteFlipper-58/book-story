@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.reader
+import androidx.compose.ui.res.painterResource
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -21,12 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.OpenInNew
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Translate
-import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -140,7 +135,7 @@ fun ReaderTranslationBottomSheet(
                             enabled = canCopy,
                             icon = {
                                 Icon(
-                                    imageVector = Icons.Default.ContentCopy,
+                                    painter = painterResource(R.drawable.ic_content_copy_rounded_24px),
                                     contentDescription = null,
                                     modifier = Modifier.size(18.dp)
                                 )
@@ -161,9 +156,9 @@ fun ReaderTranslationBottomSheet(
                             enabled = canToggleOriginal,
                             icon = {
                                 Icon(
-                                    imageVector = if (translation.showOriginal) {
-                                        Icons.Default.Translate
-                                    } else Icons.Default.Visibility,
+                                    painter = if (translation.showOriginal) {
+                                        painterResource(R.drawable.ic_translate_rounded_24px)
+                                    } else painterResource(R.drawable.ic_visibility_rounded_24px),
                                     contentDescription = null,
                                     modifier = Modifier.size(18.dp)
                                 )
@@ -181,7 +176,7 @@ fun ReaderTranslationBottomSheet(
                             enabled = true,
                             icon = {
                                 Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+                                    painter = painterResource(R.drawable.ic_open_in_new_rounded_24px),
                                     contentDescription = null,
                                     modifier = Modifier.size(18.dp)
                                 )
@@ -196,7 +191,7 @@ fun ReaderTranslationBottomSheet(
                             enabled = true,
                             icon = {
                                 Icon(
-                                    imageVector = Icons.Default.Close,
+                                    painter = painterResource(R.drawable.ic_close_rounded_24px),
                                     contentDescription = null,
                                     modifier = Modifier.size(18.dp)
                                 )

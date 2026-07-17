@@ -7,8 +7,6 @@
 
 package com.byteflipper.everbook.presentation.library
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -26,7 +24,7 @@ fun LibraryDeleteDialog(
 
     Dialog(
         title = stringResource(id = R.string.delete_books),
-        icon = Icons.Outlined.DeleteOutline,
+        icon = R.drawable.ic_delete_rounded_24px,
         description = stringResource(
             id = R.string.delete_books_description,
             selectedItemsCount

@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.statistics
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
@@ -20,8 +21,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -63,7 +62,7 @@ internal fun ActivitySection(
             verticalAlignment = Alignment.Top
         ) {
             Icon(
-                imageVector = Icons.Outlined.Insights,
+                painter = painterResource(R.drawable.ic_insights_rounded_24px),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier

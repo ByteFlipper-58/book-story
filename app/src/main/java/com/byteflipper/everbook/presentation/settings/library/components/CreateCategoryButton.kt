@@ -6,12 +6,11 @@
  */
 
 package com.byteflipper.everbook.presentation.settings.library.components
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -32,7 +31,7 @@ fun CreateCategoryButton(
         modifier = modifier.height(56.dp)
     ) {
         Icon(
-            imageVector = Icons.Default.Add,
+            painter = painterResource(R.drawable.ic_add_rounded_24px),
             contentDescription = null,
             modifier = Modifier
                 .padding(end = 8.dp)

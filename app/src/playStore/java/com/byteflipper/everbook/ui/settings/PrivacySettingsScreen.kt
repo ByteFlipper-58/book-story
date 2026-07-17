@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.ui.settings
+import androidx.compose.ui.res.painterResource
 
 import android.os.Parcelable
 import androidx.activity.ComponentActivity
@@ -23,9 +24,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Refresh
-import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -298,7 +296,7 @@ private fun PrivacyOptionsItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.Refresh,
+                    painter = painterResource(R.drawable.ic_refresh_rounded_24px),
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.padding(horizontal = 4.dp))
@@ -310,7 +308,7 @@ private fun PrivacyOptionsItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.Tune,
+                    painter = painterResource(R.drawable.ic_tune_rounded_24px),
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.padding(horizontal = 4.dp))

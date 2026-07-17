@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.ui.about
+import androidx.compose.ui.res.painterResource
 
 import android.os.Parcelable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,8 +16,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -103,7 +102,7 @@ private fun UpdateAvailableBottomSheet(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    imageVector = Icons.Outlined.NewReleases,
+                    painter = painterResource(R.drawable.ic_new_releases_rounded_24px),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
                 )

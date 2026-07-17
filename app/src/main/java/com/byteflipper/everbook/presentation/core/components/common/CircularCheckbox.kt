@@ -6,14 +6,13 @@
  */
 
 package com.byteflipper.everbook.presentation.core.components.common
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -40,7 +39,7 @@ fun CircularCheckbox(
     size: Dp = 22.dp
 ) {
     Icon(
-        imageVector = Icons.Default.Check,
+        painter = painterResource(R.drawable.ic_check_rounded_24px),
         tint = if (selected) containerColor else Color.Transparent,
         modifier = modifier
             .border(

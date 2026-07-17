@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.reader
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -22,13 +23,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowDropUp
-import androidx.compose.material.icons.outlined.Bookmark
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.EditNote
-import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -201,7 +195,7 @@ fun ReaderDrawer(
                             if (!expandableChapter.chapters.isNullOrEmpty()) {
                                 Spacer(modifier = Modifier.width(18.dp))
                                 Icon(
-                                    imageVector = Icons.Outlined.ArrowDropUp,
+                                    painter = painterResource(R.drawable.ic_arrow_drop_up_rounded_24px),
                                     modifier = Modifier
                                         .size(24.dp)
                                         .noRippleClickable {
@@ -342,7 +336,7 @@ private fun AnnotationActionsMenu(
     Box {
         IconButton(onClick = { expanded = true }) {
             Icon(
-                imageVector = Icons.Outlined.MoreVert,
+                painter = painterResource(R.drawable.ic_more_vert_rounded_24px),
                 contentDescription = stringResource(id = R.string.show_more_content_desc)
             )
         }
@@ -370,7 +364,7 @@ private fun AnnotationActionsMenu(
                     editAnnotation(ReaderEvent.OnEditAnnotation(bookmark))
                 },
                 leadingIcon = {
-                    Icon(imageVector = Icons.Outlined.Edit, contentDescription = null)
+                    Icon(painter = painterResource(R.drawable.ic_edit_rounded_24px), contentDescription = null)
                 }
             )
             DropdownMenuItem(
@@ -380,7 +374,7 @@ private fun AnnotationActionsMenu(
                     deleteBookmark(ReaderEvent.OnDeleteBookmark(bookmark.id))
                 },
                 leadingIcon = {
-                    Icon(imageVector = Icons.Outlined.Delete, contentDescription = null)
+                    Icon(painter = painterResource(R.drawable.ic_delete_rounded_24px), contentDescription = null)
                 }
             )
         }
@@ -403,14 +397,14 @@ private fun AnnotationTypeIndicator(bookmark: BookStoryBookmark) {
     ) {
         when {
             bookmark.hasNote -> Icon(
-                imageVector = Icons.Outlined.EditNote,
+                painter = painterResource(R.drawable.ic_edit_note_rounded_24px),
                 contentDescription = null,
                 modifier = Modifier.size(17.dp),
                 tint = MaterialTheme.colorScheme.onPrimary
             )
             bookmark.isHighlight -> Unit
             else -> Icon(
-                imageVector = Icons.Outlined.Bookmark,
+                painter = painterResource(R.drawable.ic_bookmark_rounded_24px),
                 contentDescription = null,
                 modifier = Modifier.size(16.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant

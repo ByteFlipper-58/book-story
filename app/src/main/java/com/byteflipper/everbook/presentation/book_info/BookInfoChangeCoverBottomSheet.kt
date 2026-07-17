@@ -14,10 +14,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.HideImage
-import androidx.compose.material.icons.filled.ImageSearch
-import androidx.compose.material.icons.filled.Restore
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -69,7 +65,7 @@ fun BookInfoChangeCoverBottomSheet(
             if (canResetCover) {
                 item {
                     BookInfoChangeCoverBottomSheetItem(
-                        icon = Icons.Default.Restore,
+                        icon = R.drawable.ic_settings_backup_restore_rounded_24px,
                         text = stringResource(id = R.string.reset_cover),
                         description = stringResource(id = R.string.reset_cover_desc)
                     ) {
@@ -84,7 +80,7 @@ fun BookInfoChangeCoverBottomSheet(
 
             item {
                 BookInfoChangeCoverBottomSheetItem(
-                    icon = Icons.Default.ImageSearch,
+                    icon = R.drawable.ic_image_search_rounded_24px,
                     text = stringResource(id = R.string.change_cover),
                     description = stringResource(id = R.string.change_cover_desc)
                 ) {
@@ -97,7 +93,7 @@ fun BookInfoChangeCoverBottomSheet(
             if (book.coverImage != null) {
                 item {
                     BookInfoChangeCoverBottomSheetItem(
-                        icon = Icons.Default.HideImage,
+                        icon = R.drawable.ic_hide_image_rounded_24px,
                         text = stringResource(id = R.string.delete_cover),
                         description = stringResource(id = R.string.delete_cover_desc)
                     ) {

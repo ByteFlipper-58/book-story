@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.statistics
+import androidx.compose.ui.res.painterResource
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
@@ -59,32 +60,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.AutoStories
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.Done
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Flag
-import androidx.compose.material.icons.outlined.EmojiEvents
-import androidx.compose.material.icons.outlined.Insights
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.LocalFireDepartment
-import androidx.compose.material.icons.outlined.Remove
-import androidx.compose.material.icons.outlined.Repeat
-import androidx.compose.material.icons.outlined.RestartAlt
-import androidx.compose.material.icons.outlined.Schedule
-import androidx.compose.material.icons.outlined.Star
-import androidx.compose.material.icons.outlined.Timer
-import androidx.compose.material.icons.outlined.TrendingUp
-import androidx.compose.material.icons.outlined.Tune
-import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material.icons.outlined.WbSunny
-import androidx.compose.material.icons.outlined.WbTwilight
-import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -229,7 +204,7 @@ internal fun HeatmapSection(heatmap: List<DayBucket>) {
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    imageVector = Icons.Outlined.Schedule,
+                    painter = painterResource(R.drawable.ic_schedule_rounded_24px),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(20.dp)

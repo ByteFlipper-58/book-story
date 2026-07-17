@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.reader
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,10 +22,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.DeleteOutline
-import androidx.compose.material.icons.outlined.Shuffle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -157,7 +154,7 @@ fun ReaderHighlightPaletteEditor(
                                 )
                             }
                         ) {
-                            Icon(Icons.Outlined.Shuffle, stringResource(R.string.shuffle_color_preset_content_desc))
+                            Icon(painterResource(R.drawable.ic_shuffle_rounded_24px), stringResource(R.string.shuffle_color_preset_content_desc))
                         }
                         IconButton(
                             enabled = workingColors.size < HighlightPalette.maxSize,
@@ -173,7 +170,7 @@ fun ReaderHighlightPaletteEditor(
                                 commit(workingColors + newColor, workingColors.size)
                             }
                         ) {
-                            Icon(Icons.Outlined.Add, stringResource(R.string.highlight_palette_add))
+                            Icon(painterResource(R.drawable.ic_add_rounded_24px), stringResource(R.string.highlight_palette_add))
                         }
                         IconButton(
                             enabled = workingColors.size > 1,
@@ -182,7 +179,7 @@ fun ReaderHighlightPaletteEditor(
                                 commit(updated, selectedIndex.coerceAtMost(updated.lastIndex))
                             }
                         ) {
-                            Icon(Icons.Outlined.DeleteOutline, stringResource(R.string.delete))
+                            Icon(painterResource(R.drawable.ic_delete_rounded_24px), stringResource(R.string.delete))
                         }
                     }
 

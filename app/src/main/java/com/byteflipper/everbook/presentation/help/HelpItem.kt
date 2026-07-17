@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.help
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -22,8 +23,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowDropUp
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -122,7 +121,7 @@ fun HelpItem(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Icon(
-                imageVector = Icons.Outlined.ArrowDropUp,
+                painter = painterResource(R.drawable.ic_arrow_drop_up_rounded_24px),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.large)

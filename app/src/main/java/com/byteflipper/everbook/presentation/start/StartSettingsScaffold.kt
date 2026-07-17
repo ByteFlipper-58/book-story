@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.start
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -15,10 +16,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.GolfCourse
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -57,7 +54,7 @@ fun StartSettingsScaffold(
             when (currentPage) {
                 4 -> {
                     Icon(
-                        imageVector = Icons.Default.Policy,
+                        painter = painterResource(R.drawable.ic_policy_rounded_24px),
                         contentDescription = stringResource(id = R.string.privacy_policy_icon_content_desc),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(64.dp)
@@ -79,7 +76,7 @@ fun StartSettingsScaffold(
                 }
                 5 -> {
                     Icon(
-                        imageVector = Icons.Default.Notifications,
+                        painter = painterResource(R.drawable.ic_notifications_rounded_24px),
                         contentDescription = stringResource(id = R.string.start_permissions_notifications),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(64.dp)
@@ -94,7 +91,7 @@ fun StartSettingsScaffold(
                 }
                 else -> {
                     Icon(
-                        imageVector = Icons.Default.GolfCourse,
+                        painter = painterResource(R.drawable.ic_golf_course_rounded_24px),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(64.dp)

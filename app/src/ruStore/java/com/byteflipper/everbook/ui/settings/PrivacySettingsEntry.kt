@@ -7,8 +7,6 @@
 
 package com.byteflipper.everbook.ui.settings
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.PrivacyTip
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.byteflipper.everbook.R
@@ -21,7 +19,7 @@ fun PrivacySettingsEntry(
 ) {
     SettingsLayoutItem(
         index = index,
-        icon = Icons.Outlined.PrivacyTip,
+        icon = R.drawable.ic_privacy_tip_rounded_24px,
         title = stringResource(id = R.string.privacy_settings),
         description = stringResource(id = R.string.privacy_settings_desc),
         onClick = navigateToPrivacySettings

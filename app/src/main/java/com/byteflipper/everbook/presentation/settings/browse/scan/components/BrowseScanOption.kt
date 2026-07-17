@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.settings.browse.scan.components
+import androidx.compose.ui.res.painterResource
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -21,10 +22,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.outlined.Clear
-import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -144,7 +141,7 @@ private fun BrowseScanFolderItem(
         horizontalArrangement = Arrangement.spacedBy(18.dp)
     ) {
         Icon(
-            imageVector = Icons.Outlined.Folder,
+            painter = painterResource(R.drawable.ic_folder_rounded_24px),
             contentDescription = null,
             modifier = Modifier
                 .clip(CircleShape)
@@ -173,7 +170,7 @@ private fun BrowseScanFolderItem(
 
         IconButton(
             modifier = Modifier.size(24.dp),
-            icon = Icons.Outlined.Clear,
+            icon = R.drawable.ic_close_rounded_24px,
             contentDescription = R.string.remove_content_desc,
             disableOnClick = false,
             color = MaterialTheme.colorScheme.onSurface
@@ -198,7 +195,7 @@ private fun BrowseScanAction(
     ) {
         Icon(
             modifier = Modifier.size(24.dp),
-            imageVector = Icons.Default.Add,
+            painter = painterResource(R.drawable.ic_add_rounded_24px),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.secondary
         )

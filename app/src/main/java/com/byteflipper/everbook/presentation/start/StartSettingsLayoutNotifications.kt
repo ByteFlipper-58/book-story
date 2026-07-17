@@ -6,6 +6,8 @@
 @file:Suppress("FunctionName")
 
 package com.byteflipper.everbook.presentation.start
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import android.Manifest
 import android.os.Build
@@ -22,12 +24,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.NotificationsActive
-import androidx.compose.material.icons.outlined.NotificationsOff
-import androidx.compose.material.icons.outlined.SystemUpdate
-import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -140,10 +136,10 @@ private fun NotificationStatusIcon(granted: Boolean) {
         label = "notification_icon"
     ) { isGranted ->
         Icon(
-            imageVector = if (isGranted) {
-                Icons.Outlined.NotificationsActive
+            painter = if (isGranted) {
+                painterResource(R.drawable.ic_notifications_active_rounded_24px)
             } else {
-                Icons.Outlined.NotificationsOff
+                painterResource(R.drawable.ic_notifications_off_rounded_24px)
             },
             contentDescription = null,
             modifier = Modifier.size(100.dp),
@@ -169,22 +165,22 @@ private fun NotificationUsageList() {
     Spacer(modifier = Modifier.height(8.dp))
 
     NotificationUsageItem(
-        icon = Icons.Outlined.SystemUpdate,
+        icon = R.drawable.ic_system_update_rounded_24px,
         text = stringResource(id = R.string.start_notifications_item_updates)
     )
     NotificationUsageItem(
-        icon = Icons.Outlined.Translate,
+        icon = R.drawable.ic_translate_rounded_24px,
         text = stringResource(id = R.string.start_notifications_item_translation)
     )
     NotificationUsageItem(
-        icon = Icons.Outlined.Language,
+        icon = R.drawable.ic_language_rounded_24px,
         text = stringResource(id = R.string.start_notifications_item_models)
     )
 }
 
 @Composable
 private fun NotificationUsageItem(
-    icon: ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     text: String
 ) {
     Row(
@@ -194,7 +190,7 @@ private fun NotificationUsageItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = icon,
+            painter = androidx.compose.ui.res.painterResource(id = icon),
             contentDescription = null,
             modifier = Modifier.size(20.dp),
             tint = MaterialTheme.colorScheme.primary

@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.settings.appearance.theme_preferences.components
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -29,8 +30,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -152,7 +151,7 @@ private fun AppThemeOptionItem(
                     exit = fadeOut(tween(100))
                 ) {
                     Icon(
-                        imageVector = Icons.Default.CheckCircle,
+                        painter = painterResource(R.drawable.ic_check_circle_rounded_24px),
                         contentDescription = stringResource(id = R.string.selected_content_desc),
                         modifier = Modifier
                             .size(26.dp),

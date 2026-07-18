@@ -8,13 +8,21 @@
 package com.byteflipper.everbook.presentation.reader
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.domain.library.book.Book
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.ReaderText
@@ -41,6 +50,9 @@ import com.byteflipper.everbook.ui.theme.HorizontalExpandingTransition
 
 @Composable
 fun ReaderBottomBar(
+    onSetAutoScrolling: (ReaderEvent.OnSetAutoScrolling) -> Unit,
+    menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit,
+    fullscreenMode: Boolean,
     book: Book,
     progress: String,
     text: List<ReaderText>,
@@ -54,6 +66,7 @@ fun ReaderBottomBar(
     scroll: (ReaderEvent.OnScroll) -> Unit,
     changeProgress: (ReaderEvent.OnChangeProgress) -> Unit
 ) {
+    val activity = LocalActivity.current
     val firstVisibleItemIndex = remember(displayContent) {
         derivedStateOf {
             displayContent.displayIndexToTextIndex(listState.firstVisibleItemIndex)
@@ -88,18 +101,12 @@ fun ReaderBottomBar(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(12.dp))
 
-        StyledText(
-            text = progress,
-            style = MaterialTheme.typography.titleLarge.copy(
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        )
-
-        Spacer(Modifier.height(6.dp))
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxWidth().height(48.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             HorizontalExpandingTransition(
                 visible = arrowDirection.value == Direction.START,
                 startDirection = true
@@ -117,9 +124,9 @@ fun ReaderBottomBar(
 
             Box(
                 modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.CenterStart
+                contentAlignment = Alignment.Center
             ) {
-                ReaderBottomBarSlider(
+                ReaderProgressIndicator(
                     book = book,
                     lockMenu = lockMenu,
                     isParsing = isParsing,
@@ -130,7 +137,38 @@ fun ReaderBottomBar(
                 )
 
                 if (arrowDirection.value != Direction.NEUTRAL) {
-                    ReaderBottomBarSliderIndicator(progress = checkpointProgress.value)
+                    Box(
+                        modifier = Modifier.matchParentSize(),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        ReaderBottomBarSliderIndicator(
+                            progress = checkpointProgress.value,
+                            bookProgress = book.progress
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.5f),
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .padding(horizontal = 8.dp, vertical = 2.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = progress,
+                            style = MaterialTheme.typography.labelMedium.copy(
+                                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        )
+                    }
                 }
             }
 
@@ -150,6 +188,39 @@ fun ReaderBottomBar(
             }
         }
 
-        Spacer(Modifier.height(8.dp + bottomBarPadding))
+        Spacer(Modifier.height(8.dp))
+
+        TextButton(
+            onClick = {
+                onSetAutoScrolling(ReaderEvent.OnSetAutoScrolling(true))
+                menuVisibility(
+                    ReaderEvent.OnMenuVisibility(
+                        show = false,
+                        fullscreenMode = fullscreenMode,
+                        saveCheckpoint = false,
+                        activity = activity
+                    )
+                )
+            },
+            modifier = Modifier
+                .padding(bottom = 4.dp)
+                .height(32.dp),
+            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_block),
+                contentDescription = null,
+                modifier = Modifier.size(12.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(Modifier.width(4.dp))
+            Text(
+                text = stringResource(id = R.string.auto_scroll_button),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+
+        Spacer(Modifier.height(6.dp + bottomBarPadding))
     }
 }

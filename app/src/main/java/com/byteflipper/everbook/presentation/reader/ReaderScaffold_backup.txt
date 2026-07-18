@@ -1,0 +1,240 @@
+            AnimatedVisibility(
+                visible = isAutoScrolling,
+                enter = fadeIn() + slideInVertically { it },
+                exit = fadeOut() + slideOutVertically { it },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .navigationBarsPadding()
+            ) {
+                val springSpec = spring<Dp>(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessMedium
+                )
+                val springFloatSpec = spring<Float>(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessMedium
+                )
+
+                val panelHeight by animateDpAsState(
+                    targetValue = if (isPanelCollapsed) 40.dp else 160.dp,
+                    animationSpec = springSpec
+                )
+                val panelWidthFraction by animateFloatAsState(
+                    targetValue = if (isPanelCollapsed) {
+                        if (autoScrollChipPlayPause) 0.38f else 0.28f
+                    } else 1f,
+                    animationSpec = springFloatSpec
+                )
+                val panelAlignment = when (autoScrollChipAlignment) {
+                    "BOTTOM_LEFT" -> if (isPanelCollapsed) Alignment.BottomStart else Alignment.BottomCenter
+                    "BOTTOM_CENTER" -> Alignment.BottomCenter
+                    else -> if (isPanelCollapsed) Alignment.BottomEnd else Alignment.BottomCenter
+                }
+                val panelCorner by animateDpAsState(
+                    targetValue = if (isPanelCollapsed) 20.dp else 24.dp,
+                    animationSpec = springSpec
+                )
+
+                val chipAlpha = if (isPanelCollapsed && autoScrollChipOpacityEnabled) {
+                    autoScrollChipOpacity / 100f
+                } else {
+                    1f
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                    contentAlignment = panelAlignment
+                ) {
+                    Card(
+                        modifier = Modifier
+                            .graphicsLayer { alpha = chipAlpha }
+                            .fillMaxWidth(panelWidthFraction)
+                            .height(panelHeight)
+                            .noRippleClickable {
+                                if (isPanelCollapsed) {
+                                    isPanelCollapsed = false
+                                }
+                                lastInteractionTime = System.currentTimeMillis()
+                            },
+                        shape = RoundedCornerShape(panelCorner),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainer
+                        ),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+                    ) {
+                        if (!isPanelCollapsed) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_speed),
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(24.dp)
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text(
+                                            text = "Auto Scroll",
+                                            style = MaterialTheme.typography.titleMedium,
+                                            color = MaterialTheme.colorScheme.onSurface
+                                        )
+                                    }
+                                    Box(
+                                        modifier = Modifier
+                                            .background(
+                                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                                shape = RoundedCornerShape(8.dp)
+                                            )
+                                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    ) {
+                                        Text(
+                                            text = "${String.format(java.util.Locale.US, "%.1f", autoScrollSpeed)}x",
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                                        )
+                                    }
+                                }
+
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    IconButton(
+                                        onClick = {
+                                            lastInteractionTime = System.currentTimeMillis()
+                                            val newSpeed = (autoScrollSpeed - 0.5f).coerceIn(1.0f, 10.0f)
+                                            onChangeAutoScrollSpeed(newSpeed)
+                                        },
+                                        modifier = Modifier.size(32.dp)
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_remove_rounded_24px),
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    }
+
+                                    Spacer(modifier = Modifier.width(4.dp))
+
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .height(32.dp)
+                                            .clip(RoundedCornerShape(16.dp))
+                                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                                            .pointerInput(Unit) {
+                                                detectTapGestures { offset ->
+                                                    lastInteractionTime = System.currentTimeMillis()
+                                                    val fraction = (offset.x / size.width).coerceIn(0f, 1f)
+                                                    val rawSpeed = 1.0f + fraction * 9.0f
+                                                    val roundedSpeed = (Math.round(rawSpeed * 2.0) / 2.0).toFloat()
+                                                    onChangeAutoScrollSpeed(roundedSpeed)
+                                                }
+                                            }
+                                            .pointerInput(Unit) {
+                                                detectHorizontalDragGestures { change, _ ->
+                                                    lastInteractionTime = System.currentTimeMillis()
+                                                    change.consume()
+                                                    val fraction = (change.position.x / size.width).coerceIn(0f, 1f)
+                                                    val rawSpeed = 1.0f + fraction * 9.0f
+                                                    val roundedSpeed = (Math.round(rawSpeed * 2.0) / 2.0).toFloat()
+                                                    onChangeAutoScrollSpeed(roundedSpeed)
+                                                }
+                                            },
+                                        contentAlignment = Alignment.CenterStart
+                                    ) {
+                                        val fraction = (autoScrollSpeed - 1.0f) / 9.0f
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth(fraction.coerceAtLeast(0.001f))
+                                                .fillMaxHeight()
+                                                .background(MaterialTheme.colorScheme.primary)
+                                        )
+                                    }
+
+                                    Spacer(modifier = Modifier.width(4.dp))
+
+                                    IconButton(
+                                        onClick = {
+                                            lastInteractionTime = System.currentTimeMillis()
+                                            val newSpeed = (autoScrollSpeed + 0.5f).coerceIn(1.0f, 10.0f)
+                                            onChangeAutoScrollSpeed(newSpeed)
+                                        },
+                                        modifier = Modifier.size(32.dp)
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_add_rounded_24px),
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    }
+                                }
+
+                                Text(
+                                    text = stringResource(id = R.string.auto_scroll_tap_to_stop),
+                                    style = MaterialTheme.typography.labelSmall.copy(
+                                        fontSize = 9.sp,
+                                        lineHeight = 11.sp
+                                    ),
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        } else {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                if (autoScrollChipPlayPause) {
+                                    IconButton(
+                                        onClick = {
+                                            onSetAutoScrollPaused(ReaderEvent.OnSetAutoScrollPaused(!isAutoScrollPaused))
+                                        },
+                                        modifier = Modifier.size(24.dp)
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(
+                                                id = if (isAutoScrollPaused) R.drawable.ic_play_arrow_rounded_24px 
+                                                     else R.drawable.ic_pause_rounded_24px
+                                            ),
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(16.dp)
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                }
+
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_speed),
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(
+                                    text = "${String.format(java.util.Locale.US, "%.1f", autoScrollSpeed)}x",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        }
+                    }
+                }
+            }

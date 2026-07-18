@@ -62,7 +62,9 @@ data class ReaderState(
     val pendingBookmarkDisplayIndex: Int? = null,
 
     val translation: ReaderTranslationState = ReaderTranslationState(),
-    val bookTranslation: ReaderBookTranslationState = ReaderBookTranslationState()
+    val bookTranslation: ReaderBookTranslationState = ReaderBookTranslationState(),
+    val isAutoScrolling: Boolean = false,
+    val isAutoScrollPaused: Boolean = false
 )
 
 data class HighlightPaletteTarget(

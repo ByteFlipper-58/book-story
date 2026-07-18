@@ -18,21 +18,32 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ReaderBottomBarSliderIndicator(progress: Float) {
+fun ReaderBottomBarSliderIndicator(
+    progress: Float,
+    bookProgress: Float
+) {
+    val isOnActivePart = progress < bookProgress
+    val markerColor = if (isOnActivePart) {
+        MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
+    } else {
+        MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+    }
+
     Row(Modifier.fillMaxWidth()) {
         Spacer(
             modifier = Modifier.fillMaxWidth(progress)
         )
         Box(
             Modifier
-                .width(4.dp)
-                .height(16.dp)
-                .clip(RoundedCornerShape(0.5.dp))
-                .background(MaterialTheme.colorScheme.onPrimary.copy(0.6f))
+                .width(3.dp)
+                .height(36.dp)
+                .background(
+                    color = markerColor,
+                    shape = RoundedCornerShape(1.5.dp)
+                )
         )
     }
 }

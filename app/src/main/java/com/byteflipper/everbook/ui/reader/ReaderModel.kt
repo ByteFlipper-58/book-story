@@ -627,7 +627,8 @@ class ReaderModel @Inject constructor(
 
                         _state.update {
                             it.copy(
-                                lockMenu = true
+                                lockMenu = true,
+                                isAutoScrolling = false
                             )
                         }
 
@@ -1496,6 +1497,21 @@ class ReaderModel @Inject constructor(
                                 updatedAt = System.currentTimeMillis()
                             )
                         )
+                    }
+                }
+
+                is ReaderEvent.OnSetAutoScrolling -> {
+                    _state.update {
+                        it.copy(
+                            isAutoScrolling = event.active,
+                            isAutoScrollPaused = false
+                        )
+                    }
+                }
+
+                is ReaderEvent.OnSetAutoScrollPaused -> {
+                    _state.update {
+                        it.copy(isAutoScrollPaused = event.paused)
                     }
                 }
 

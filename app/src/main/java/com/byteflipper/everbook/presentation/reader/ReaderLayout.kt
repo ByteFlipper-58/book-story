@@ -40,6 +40,12 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.R
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.runtime.withFrameMillis
+import androidx.compose.foundation.gestures.scrollBy
+import androidx.compose.foundation.MutatePriority
+import kotlin.coroutines.cancellation.CancellationException
 import com.byteflipper.everbook.domain.reader.Bookmark
 import com.byteflipper.everbook.domain.reader.FontWithName
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
@@ -63,6 +69,10 @@ private const val TRANSLATION_DISMISS_ANIMATION_MS = 260
 
 @Composable
 fun ReaderLayout(
+    isAutoScrolling: Boolean,
+    autoScrollSpeed: Float,
+    isAutoScrollPaused: Boolean,
+    onSetAutoScrolling: (ReaderEvent.OnSetAutoScrolling) -> Unit,
     displayContent: ReaderDisplayContent,
     highlightsByParagraph: Map<Int, List<Bookmark>>,
     focusedBookmarkId: Int?,
@@ -132,6 +142,94 @@ fun ReaderLayout(
     val activity = LocalActivity.current
     var closingTranslationReaderIndex by remember {
         mutableStateOf<Int?>(null)
+    }
+
+    var isUserTouching by remember { mutableStateOf(false) }
+    val density = LocalDensity.current
+
+    val localMenuVisibility = remember(isAutoScrolling) {
+        { event: ReaderEvent.OnMenuVisibility ->
+            if (isAutoScrolling) {
+                onSetAutoScrolling(ReaderEvent.OnSetAutoScrolling(false))
+                menuVisibility(
+                    ReaderEvent.OnMenuVisibility(
+                        show = true,
+                        fullscreenMode = event.fullscreenMode,
+                        saveCheckpoint = event.saveCheckpoint,
+                        activity = event.activity
+                    )
+                )
+            } else {
+                menuVisibility(event)
+            }
+        }
+    }
+
+    LaunchedEffect(isAutoScrolling) {
+        if (!isAutoScrolling) {
+            isUserTouching = false
+        }
+    }
+
+    LaunchedEffect(isAutoScrolling, autoScrollSpeed, isAutoScrollPaused) {
+        if (isAutoScrolling) {
+            val targetSpeedDpSec = 10f + autoScrollSpeed * 15f
+            var lastFrameTime = 0L
+            var isResuming = false
+            var resumeTime = 0L
+            while (listState.canScrollForward) {
+                if (isAutoScrollPaused) {
+                    lastFrameTime = 0L
+                    delay(100)
+                    continue
+                }
+
+                if (isUserTouching || listState.isScrollInProgress) {
+                    isResuming = true
+                    lastFrameTime = 0L
+                    delay(100)
+                    continue
+                }
+
+                if (isResuming) {
+                    delay(1500)
+                    isResuming = false
+                    lastFrameTime = withFrameMillis { it }
+                    resumeTime = lastFrameTime
+                    continue
+                }
+
+                if (lastFrameTime == 0L) {
+                    lastFrameTime = withFrameMillis { it }
+                    resumeTime = lastFrameTime
+                }
+
+                val currentFrameTime = withFrameMillis { it }
+                val deltaMs = currentFrameTime - lastFrameTime
+                val elapsedSeconds = deltaMs / 1000f
+                lastFrameTime = currentFrameTime
+
+                val timeSinceResume = currentFrameTime - resumeTime
+                val rampFactor = (timeSinceResume / 1000f).coerceIn(0f, 1f)
+
+                val speedPixels = density.run { targetSpeedDpSec.dp.toPx() }
+                val scrollAmount = speedPixels * elapsedSeconds * rampFactor
+
+                if (scrollAmount > 0f) {
+                    try {
+                        listState.scroll(MutatePriority.Default) {
+                            scrollBy(scrollAmount)
+                        }
+                    } catch (e: CancellationException) {
+                        isResuming = true
+                        lastFrameTime = 0L
+                        delay(100)
+                    }
+                }
+            }
+
+            onSetAutoScrolling(ReaderEvent.OnSetAutoScrolling(false))
+        }
     }
 
     LaunchedEffect(translation.readerTextIndex, translation.text) {
@@ -229,7 +327,7 @@ fun ReaderLayout(
                     if (!isLoading && toolbarHidden) {
                         Modifier.noRippleClickable(
                             onClick = {
-                                menuVisibility(
+                                localMenuVisibility(
                                     ReaderEvent.OnMenuVisibility(
                                         show = !showMenu,
                                         fullscreenMode = fullscreenMode,
@@ -257,7 +355,16 @@ fun ReaderLayout(
                 state = listState,
                 enableScrollbar = false,
                 parentModifier = Modifier.weight(1f),
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .pointerInput(Unit) {
+                        awaitPointerEventScope {
+                            while (true) {
+                                val event = awaitPointerEvent()
+                                isUserTouching = event.changes.any { it.pressed }
+                            }
+                        }
+                    },
                 contentPadding = PaddingValues(
                     top = (WindowInsets.displayCutout.asPaddingValues()
                         .calculateTopPadding() + paragraphHeight)
@@ -341,7 +448,7 @@ fun ReaderLayout(
                                     openExternalTranslator = openExternalTranslator,
                                     closeTranslation = closeInlineTranslation,
                                     toggleTranslationOriginal = toggleTranslationOriginal,
-                                    menuVisibility = menuVisibility
+                                    menuVisibility = localMenuVisibility
                                 )
                             }
                         }

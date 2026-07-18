@@ -26,6 +26,7 @@ import com.byteflipper.everbook.presentation.settings.reader.pdf.PdfSystemSubcat
 import com.byteflipper.everbook.presentation.settings.reader.progress.ProgressSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.reading_mode.ReadingModeSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.reading_speed.ReadingSpeedSubcategory
+import com.byteflipper.everbook.presentation.settings.reader.auto_scroll.AutoScrollSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.system.SystemSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.text.TextSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.translator.TranslatorSubcategory
@@ -67,6 +68,9 @@ fun LazyListScope.ReaderSettingsCategory(
         titleColor = titleColor
     )
     ReadingSpeedSubcategory(
+        titleColor = titleColor
+    )
+    AutoScrollSubcategory(
         titleColor = titleColor
     )
     ProgressSubcategory(

@@ -213,4 +213,6 @@ sealed class ReaderEvent {
     data class OnClearHighlightColor(val id: Int) : ReaderEvent()
 
     data class OnEditAnnotation(val bookmark: Bookmark) : ReaderEvent()
+    data class OnSetAutoScrolling(val active: Boolean) : ReaderEvent()
+    data class OnSetAutoScrollPaused(val paused: Boolean) : ReaderEvent()
 }

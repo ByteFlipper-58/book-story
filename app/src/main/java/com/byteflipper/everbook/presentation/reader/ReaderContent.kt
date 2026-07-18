@@ -47,6 +47,16 @@ import kotlin.math.abs
 
 @Composable
 fun ReaderContent(
+    isAutoScrolling: Boolean,
+    autoScrollSpeed: Float,
+    isAutoScrollPaused: Boolean,
+    autoScrollChipAlignment: String,
+    autoScrollChipOpacity: Int,
+    autoScrollChipOpacityEnabled: Boolean,
+    autoScrollChipPlayPause: Boolean,
+    onSetAutoScrolling: (ReaderEvent.OnSetAutoScrolling) -> Unit,
+    onSetAutoScrollPaused: (ReaderEvent.OnSetAutoScrollPaused) -> Unit,
+    onChangeAutoScrollSpeed: (Float) -> Unit,
     book: Book,
     text: List<ReaderText>,
     displayContent: ReaderDisplayContent,
@@ -267,6 +277,16 @@ fun ReaderContent(
 
     if (isLoading || errorMessage == null) {
         ReaderScaffold(
+            isAutoScrolling = isAutoScrolling,
+            autoScrollSpeed = autoScrollSpeed,
+            isAutoScrollPaused = isAutoScrollPaused,
+            autoScrollChipAlignment = autoScrollChipAlignment,
+            autoScrollChipOpacity = autoScrollChipOpacity,
+            autoScrollChipOpacityEnabled = autoScrollChipOpacityEnabled,
+            autoScrollChipPlayPause = autoScrollChipPlayPause,
+            onSetAutoScrolling = onSetAutoScrolling,
+            onSetAutoScrollPaused = onSetAutoScrollPaused,
+            onChangeAutoScrollSpeed = onChangeAutoScrollSpeed,
             book = book,
             text = text,
             displayContent = displayContent,

@@ -770,6 +770,18 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 createInlineContentView = { placementId ->
                     readerInlineContentModel.createView(activity, placementId)
                 },
+                isAutoScrolling = state.value.isAutoScrolling,
+                autoScrollSpeed = mainState.value.autoScrollSpeed,
+                isAutoScrollPaused = state.value.isAutoScrollPaused,
+                autoScrollChipAlignment = mainState.value.autoScrollChipAlignment,
+                autoScrollChipOpacity = mainState.value.autoScrollChipOpacity,
+                autoScrollChipOpacityEnabled = mainState.value.autoScrollChipOpacityEnabled,
+                autoScrollChipPlayPause = mainState.value.autoScrollChipPlayPause,
+                onSetAutoScrolling = screenModel::onEvent,
+                onSetAutoScrollPaused = screenModel::onEvent,
+                onChangeAutoScrollSpeed = {
+                    mainModel.onEvent(MainEvent.OnChangeAutoScrollSpeed(it))
+                },
                 selectPreviousPreset = settingsModel::onEvent,
                 selectNextPreset = settingsModel::onEvent,
                 leave = screenModel::onEvent,

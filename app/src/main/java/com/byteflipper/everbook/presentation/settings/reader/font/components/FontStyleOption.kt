@@ -10,6 +10,7 @@ package com.byteflipper.everbook.presentation.settings.reader.font.components
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,9 +26,10 @@ import com.byteflipper.everbook.ui.main.MainModel
 fun FontStyleOption() {
     val mainModel = hiltViewModel<MainModel>()
     val state = mainModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     val fontFamily = remember(state.value.fontFamily) {
-        provideFonts().run {
+        provideFonts(context).run {
             find {
                 it.id == state.value.fontFamily
             } ?: get(0)

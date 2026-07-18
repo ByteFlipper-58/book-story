@@ -126,11 +126,7 @@ class MainModel @Inject constructor(
                 value = event.value,
                 updateState = {
                     it.copy(
-                        fontFamily = provideFonts().run {
-                            find { font ->
-                                font.id == event.value
-                            }?.id ?: get(0).id
-                        }
+                        fontFamily = event.value
                     )
                 }
             )

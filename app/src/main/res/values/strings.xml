@@ -284,6 +284,8 @@
 
     <!-- Reader -->
     <string name="font_family_option">Font family</string>
+    <string name="import_font">Import font</string>
+    <string name="remove_font">Remove font</string>
     <string name="font_thickness_option">Font thickness</string>
     <string name="font_style_option">Font style</string>
     <string name="font_size_option">Font size</string>

@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -84,6 +85,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun Content() {
+        val context = LocalContext.current
         val navigator = LocalNavigator.current
         val screenModel = hiltViewModel<ReaderModel>()
         val pdfScreenModel = hiltViewModel<PdfReaderModel>()
@@ -197,7 +199,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         }
 
         val fontFamily = remember(mainState.value.fontFamily) {
-            provideFonts().run {
+            provideFonts(context).run {
                 find {
                     it.id == mainState.value.fontFamily
                 } ?: get(0)

@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-class PlayStorePrivacyConsentManager @Inject constructor() : PrivacyConsentManager {
+class AdMobPrivacyConsentManager @Inject constructor() : PrivacyConsentManager {
     private val _privacyOptionsRequired = MutableStateFlow(false)
 
     override val privacyOptionsRequired: StateFlow<Boolean> = _privacyOptionsRequired

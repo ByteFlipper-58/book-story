@@ -6,11 +6,11 @@
  */
 
 package com.byteflipper.everbook.ui.settings
-import androidx.compose.ui.res.painterResource
 
 import android.os.Parcelable
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,21 +38,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.byteflipper.everbook.BuildConfig
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.data.ads.AdMobAppOpenAdManager
 import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.domain.privacy.PrivacyConsentManager
+import com.google.android.gms.ads.MobileAds
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.components.common.PrivacyPolicyWebView
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.core.components.modal_bottom_sheet.ModalBottomSheet
+import com.byteflipper.everbook.presentation.core.components.settings.SwitchWithTitle
 import com.byteflipper.everbook.presentation.core.components.top_bar.collapsibleTopAppBarScrollBehavior
 import com.byteflipper.everbook.presentation.core.util.LocalActivity
 import com.byteflipper.everbook.presentation.core.util.showToast
@@ -79,6 +86,8 @@ object PrivacySettingsScreen : Screen, Parcelable {
         val state = model.state.collectAsStateWithLifecycle()
         val privacyOptionsRequired =
             model.privacyOptionsRequired.collectAsStateWithLifecycle()
+        val appOpenAdsEnabled = model.appOpenAdsEnabled.collectAsStateWithLifecycle()
+        var showAdInspector by rememberSaveable { mutableStateOf(BuildConfig.DEBUG) }
         val (scrollBehavior, listState) = TopAppBarDefaults.collapsibleTopAppBarScrollBehavior()
 
         LaunchedEffect(activity) {
@@ -91,6 +100,8 @@ object PrivacySettingsScreen : Screen, Parcelable {
             isLoading = state.value.isLoading,
             canRequestAds = state.value.canRequestAds,
             privacyOptionsRequired = privacyOptionsRequired.value,
+            appOpenAdsEnabled = appOpenAdsEnabled.value,
+            showAdInspector = showAdInspector,
             refresh = {
                 model.refresh(activity)
             },
@@ -102,6 +113,13 @@ object PrivacySettingsScreen : Screen, Parcelable {
                     }
                 )
             },
+            openAdInspector = {
+                MobileAds.openAdInspector(activity) { error ->
+                    error?.message?.showToast(activity, longToast = false)
+                }
+            },
+            setAppOpenAdsEnabled = model::setAppOpenAdsEnabled,
+            unlockAdInspector = { showAdInspector = true },
             navigateBack = {
                 navigator.pop()
             }
@@ -116,12 +134,18 @@ data class PrivacySettingsState(
 
 @HiltViewModel
 class PrivacySettingsModel @Inject constructor(
-    private val privacyConsentManager: PrivacyConsentManager
+    private val privacyConsentManager: PrivacyConsentManager,
+    private val appOpenAdManager: AdMobAppOpenAdManager
 ) : ViewModel() {
     private val _state = MutableStateFlow(PrivacySettingsState())
 
     val state: StateFlow<PrivacySettingsState> = _state
     val privacyOptionsRequired = privacyConsentManager.privacyOptionsRequired
+    val appOpenAdsEnabled = appOpenAdManager.isEnabled
+
+    fun setAppOpenAdsEnabled(enabled: Boolean) {
+        appOpenAdManager.setEnabled(enabled)
+    }
 
     fun refresh(activity: ComponentActivity) {
         if (_state.value.isLoading) return
@@ -166,8 +190,13 @@ private fun PrivacySettingsContent(
     isLoading: Boolean,
     canRequestAds: Boolean,
     privacyOptionsRequired: Boolean,
+    appOpenAdsEnabled: Boolean,
+    showAdInspector: Boolean,
     refresh: () -> Unit,
     showPrivacyOptions: () -> Unit,
+    openAdInspector: () -> Unit,
+    setAppOpenAdsEnabled: (Boolean) -> Unit,
+    unlockAdInspector: () -> Unit,
     navigateBack: () -> Unit
 ) {
     val showPrivacyPolicy = remember { mutableStateOf(false) }
@@ -189,7 +218,13 @@ private fun PrivacySettingsContent(
         topBar = {
             LargeTopAppBar(
                 title = {
-                    StyledText(stringResource(id = R.string.privacy_settings))
+                    Box(
+                        modifier = Modifier.pointerInput(Unit) {
+                            detectTapGestures(onLongPress = { unlockAdInspector() })
+                        }
+                    ) {
+                        StyledText(stringResource(id = R.string.privacy_settings))
+                    }
                 },
                 navigationIcon = {
                     NavigatorBackIconButton(navigateBack = navigateBack)
@@ -219,8 +254,10 @@ private fun PrivacySettingsContent(
                         isLoading = isLoading,
                         canRequestAds = canRequestAds,
                         privacyOptionsRequired = privacyOptionsRequired,
+                        showAdInspector = showAdInspector,
                         refresh = refresh,
-                        showPrivacyOptions = showPrivacyOptions
+                        showPrivacyOptions = showPrivacyOptions,
+                        openAdInspector = openAdInspector
                     )
                 }
                 item {
@@ -232,6 +269,12 @@ private fun PrivacySettingsContent(
                                 R.string.privacy_options_not_required_note
                             }
                         )
+                    )
+                }
+                item {
+                    AppOpenAdsItem(
+                        enabled = appOpenAdsEnabled,
+                        onEnabledChange = setAppOpenAdsEnabled
                     )
                 }
             }
@@ -254,12 +297,27 @@ private fun PrivacySettingsContent(
 }
 
 @Composable
+private fun AppOpenAdsItem(
+    enabled: Boolean,
+    onEnabledChange: (Boolean) -> Unit
+) {
+    SwitchWithTitle(
+        selected = enabled,
+        title = stringResource(R.string.app_open_ads_title),
+        description = stringResource(R.string.app_open_ads_desc),
+        onClick = { onEnabledChange(!enabled) }
+    )
+}
+
+@Composable
 private fun PrivacyOptionsItem(
     isLoading: Boolean,
     canRequestAds: Boolean,
     privacyOptionsRequired: Boolean,
+    showAdInspector: Boolean,
     refresh: () -> Unit,
-    showPrivacyOptions: () -> Unit
+    showPrivacyOptions: () -> Unit,
+    openAdInspector: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -313,6 +371,15 @@ private fun PrivacyOptionsItem(
                 )
                 Spacer(modifier = Modifier.padding(horizontal = 4.dp))
                 Text(text = stringResource(id = R.string.privacy_options_manage))
+            }
+            if (showAdInspector) {
+                OutlinedButton(
+                    enabled = !isLoading,
+                    onClick = openAdInspector,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = stringResource(id = R.string.ad_inspector_open))
+                }
             }
         }
     }

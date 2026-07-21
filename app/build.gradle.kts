@@ -44,8 +44,8 @@ android {
 
     // Three distribution flavors:
     //   everbook  — clean build, no ads / analytics / Google services
-    //   playStore — Google Play: AdMob + Firebase + Play In-App Update/Review
-    //   ruStore   — RuStore: Yandex ads + RuStore In-App Update/Review/RemoteConfig
+    //   playStore — Google Play: AdMob mediation + Firebase + Play In-App Update/Review
+    //   ruStore   — RuStore: AdMob mediation + RuStore In-App Update/Review/RemoteConfig
     flavorDimensions += "distribution"
     productFlavors {
         create("everbook") {
@@ -214,7 +214,7 @@ dependencies {
     implementation("androidx.hilt:hilt-work:1.3.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
 
-    // ── playStore flavor: Google services + AdMob ───────────────────────────────
+    // ── playStore flavor: Google services ───────────────────────────────────────
     add("playStoreImplementation", platform("com.google.firebase:firebase-bom:34.11.0"))
     add("playStoreImplementation", "com.google.firebase:firebase-analytics")
     add("playStoreImplementation", "com.google.firebase:firebase-crashlytics")
@@ -224,18 +224,19 @@ dependencies {
     add("playStoreImplementation", "com.android.billingclient:billing:8.0.0")
     add("playStoreImplementation", "com.google.android.play:app-update-ktx:2.1.0")
     add("playStoreImplementation", "com.google.android.play:review-ktx:2.0.2")
-    add("playStoreImplementation", "com.google.android.ump:user-messaging-platform:3.1.0")
-    add("playStoreImplementation", "com.google.android.gms:play-services-ads:24.9.0")
-
-    // ── ruStore flavor: Yandex ads + RuStore SDKs (BOM 2026.06.01 → 10.5.0) ──────
-    add("ruStoreImplementation", "com.yandex.android:mobileads:8.1.0")
+    // ── ruStore flavor: RuStore SDKs (BOM 2026.06.01 → 10.5.0) ──────────────────
     add("ruStoreImplementation", platform("ru.rustore.sdk:bom:2026.06.01"))
     add("ruStoreImplementation", "ru.rustore.sdk:appupdate")
     add("ruStoreImplementation", "ru.rustore.sdk:review")
     add("ruStoreImplementation", "ru.rustore.sdk:remoteconfig")
 
-    // ── shared by both ad flavors: on-device ML Kit translation (works without GMS) ─
+    // ── shared by both ad flavors: AdMob mediation, Yandex demand, ML Kit ─────────
     listOf("playStoreImplementation", "ruStoreImplementation").forEach { config ->
+        add(config, "com.google.android.ump:user-messaging-platform:3.2.0")
+        add(config, "com.google.android.gms:play-services-ads:24.9.0")
+        add(config, "com.yandex.android:mobileads:8.2.0")
+        add(config, "com.yandex.ads.adapter:admob-mobileads:8.2.0.0")
+        add(config, "com.google.ads.mediation:unity:4.16.6.0")
         add(config, "com.google.mlkit:translate:17.0.3")
         add(config, "com.google.mlkit:language-id:17.0.6")
         add(config, "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.1")

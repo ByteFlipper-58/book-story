@@ -9,12 +9,12 @@ package com.byteflipper.everbook.data.distribution
 
 import android.content.Context
 import android.util.Log
+import com.byteflipper.everbook.data.ads.AdMobAppOpenAdManager
 import com.byteflipper.everbook.BuildConfig
 import com.byteflipper.everbook.data.di.ApplicationScope
 import com.byteflipper.everbook.domain.config.RemoteFeatureConfig
 import com.byteflipper.everbook.domain.config.provideAdRemoteConfigDefaults
 import com.byteflipper.everbook.domain.distribution.DistributionStartup
-import com.yandex.mobile.ads.common.YandexAds
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -29,15 +29,12 @@ private const val TAG = "RuStoreDistStartup"
 
 class RuStoreDistributionStartup @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val appOpenAdManager: AdMobAppOpenAdManager,
     private val remoteFeatureConfig: RemoteFeatureConfig,
     @ApplicationScope private val applicationScope: CoroutineScope
 ) : DistributionStartup {
     override fun onAppCreate() {
-        // Yandex Mobile Ads
-        YandexAds.initialize(context) {
-            // SDK ready; ad managers initialize lazily on first request.
-        }
-
+        appOpenAdManager.start()
         // RuStore Remote Config
         initRemoteConfig()
 

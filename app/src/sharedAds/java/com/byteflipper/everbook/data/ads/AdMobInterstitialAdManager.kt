@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PlayStoreInterstitialAdManager @Inject constructor(
+class AdMobInterstitialAdManager @Inject constructor(
     private val adSessionController: AdSessionController,
     private val remoteFeatureConfig: RemoteFeatureConfig,
     private val privacyConsentManager: PrivacyConsentManager

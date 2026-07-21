@@ -13,7 +13,7 @@ import com.byteflipper.everbook.domain.ads.AdSessionConfig
 import com.byteflipper.everbook.domain.ads.AdSessionController
 import javax.inject.Inject
 
-class PlayStoreAdSessionController @Inject constructor() : AdSessionController {
+class DefaultAdSessionController @Inject constructor() : AdSessionController {
     private var config = AdSessionConfig()
     private var lastAdShownElapsed: Long? = null
 

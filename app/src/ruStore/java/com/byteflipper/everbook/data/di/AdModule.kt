@@ -7,9 +7,9 @@
 
 package com.byteflipper.everbook.data.di
 
-import com.byteflipper.everbook.data.ads.PlayStoreAdSessionController
-import com.byteflipper.everbook.data.ads.RuStoreInterstitialAdManager
-import com.byteflipper.everbook.data.ads.RuStoreNativeReaderAdManager
+import com.byteflipper.everbook.data.ads.AdMobInterstitialAdManager
+import com.byteflipper.everbook.data.ads.AdMobNativeReaderAdManager
+import com.byteflipper.everbook.data.ads.DefaultAdSessionController
 import com.byteflipper.everbook.data.distribution.RuStoreDistributionStartup
 import com.byteflipper.everbook.data.distribution.RuStoreManualUpdateChecker
 import com.byteflipper.everbook.data.distribution.RuStoreStoreUpdateController
@@ -33,7 +33,7 @@ abstract class AdModule {
     @Binds
     @Singleton
     abstract fun bindAdSessionController(
-        impl: PlayStoreAdSessionController
+        impl: DefaultAdSessionController
     ): AdSessionController
 
     @Binds
@@ -45,13 +45,13 @@ abstract class AdModule {
     @Binds
     @Singleton
     abstract fun bindReaderEntryActionController(
-        impl: RuStoreInterstitialAdManager
+        impl: AdMobInterstitialAdManager
     ): ReaderEntryActionController
 
     @Binds
     @Singleton
     abstract fun bindReaderInlineContentController(
-        impl: RuStoreNativeReaderAdManager
+        impl: AdMobNativeReaderAdManager
     ): ReaderInlineContentController
 
     @Binds

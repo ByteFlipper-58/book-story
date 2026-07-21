@@ -9,6 +9,8 @@ package com.byteflipper.everbook.data.ads
 
 import android.content.res.Configuration
 import android.graphics.Color
+import android.os.SystemClock
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -21,23 +23,23 @@ import androidx.lifecycle.lifecycleScope
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.ads.AdFormat
 import com.byteflipper.everbook.domain.ads.AdSessionController
-import com.byteflipper.everbook.domain.config.ReaderNativeAdConfig
 import com.byteflipper.everbook.domain.config.RemoteFeatureConfig
+import com.byteflipper.everbook.domain.config.ReaderNativeAdConfig
 import com.byteflipper.everbook.domain.distribution.ReaderInlineContentController
 import com.byteflipper.everbook.domain.distribution.ReaderInlineContentMode
 import com.byteflipper.everbook.domain.distribution.ReaderInlineContentPlacement
 import com.byteflipper.everbook.domain.distribution.ReaderInlineContentState
 import com.byteflipper.everbook.domain.privacy.PrivacyConsentManager
-import com.yandex.mobile.ads.common.AdBindingResult
-import com.yandex.mobile.ads.common.AdRequest
-import com.yandex.mobile.ads.common.AdRequestError
-import com.yandex.mobile.ads.nativeads.MediaView
-import com.yandex.mobile.ads.nativeads.NativeAd
-import com.yandex.mobile.ads.nativeads.NativeAdLoadListener
-import com.yandex.mobile.ads.nativeads.NativeAdLoader
-import com.yandex.mobile.ads.nativeads.NativeAdView
-import com.yandex.mobile.ads.nativeads.Rating
-import com.yandex.mobile.ads.nativeads.NativeAdViewBinder
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.VideoOptions
+import com.google.android.gms.ads.nativead.MediaView
+import com.google.android.gms.ads.nativead.NativeAd
+import com.google.android.gms.ads.nativead.NativeAdOptions
+import com.google.android.gms.ads.nativead.NativeAdView
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -46,12 +48,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * In-reader native ads backed by the Yandex Mobile Ads SDK. The placement / session pacing logic
- * matches the Play Store flavor; only ad loading ([NativeAdLoader]) and rendering
- * ([NativeAdViewBinder]) are Yandex-specific.
- */
-class RuStoreNativeReaderAdManager @Inject constructor(
+class AdMobNativeReaderAdManager @Inject constructor(
     private val adSessionController: AdSessionController,
     private val remoteFeatureConfig: RemoteFeatureConfig,
     private val privacyConsentManager: PrivacyConsentManager
@@ -66,14 +63,13 @@ class RuStoreNativeReaderAdManager @Inject constructor(
     private var pdfSessionStartPage: Int? = null
     private var pdfLastBreakPage: Int? = null
     private var pdfShownThisSession = 0
+    private var isMobileAdsInitialized = false
     private var loading = false
-    private var nextRetryAtMillis = 0L
-    private var consecutiveFailures = 0
+    private var nextLoadAttemptAtElapsed = 0L
     private var nextBreakId = 0L
     private var pendingNativeAdMode: ReaderInlineContentMode? = null
     private var pendingNativeAd: NativeAd? = null
     private var configurationJob: Job? = null
-    private var nativeAdLoader: NativeAdLoader? = null
     private val inlineAds = linkedMapOf<Long, NativeAd>()
     private val inlineAdModes = linkedMapOf<Long, ReaderInlineContentMode>()
 
@@ -90,10 +86,11 @@ class RuStoreNativeReaderAdManager @Inject constructor(
                 adSessionController.configure(adSessionConfig)
                 adsEnabled to nativeAdConfig
             }.collectLatest { (adsEnabled, nativeAdConfig) ->
-                this@RuStoreNativeReaderAdManager.adsEnabled = adsEnabled && nativeAdConfig.enabled
-                this@RuStoreNativeReaderAdManager.config = nativeAdConfig
+                this@AdMobNativeReaderAdManager.adsEnabled =
+                    adsEnabled && nativeAdConfig.enabled
+                this@AdMobNativeReaderAdManager.config = nativeAdConfig
 
-                if (!this@RuStoreNativeReaderAdManager.adsEnabled) {
+                if (!this@AdMobNativeReaderAdManager.adsEnabled) {
                     clearAd()
                     _state.value = ReaderInlineContentState()
                     return@collectLatest
@@ -127,8 +124,8 @@ class RuStoreNativeReaderAdManager @Inject constructor(
         val minProgressUnits = minProgressUnits(mode)
         val progressDelta = (eligibilityProgressUnit - baseUnit).coerceAtLeast(0)
 
-        if (progressDelta >= minProgressUnits / 2) {
-            load(activity, mode)
+        if (progressDelta >= preloadProgressUnits(minProgressUnits)) {
+            initializeAndLoad(activity, mode)
         }
 
         if (
@@ -158,12 +155,8 @@ class RuStoreNativeReaderAdManager @Inject constructor(
                 )
             )
             adSessionController.recordShown(AdFormat.READER_NATIVE)
-            android.util.Log.i(TAG, "Native placement queued ($mode at unit $breakProgressUnit)")
             setLastBreakUnit(mode, breakProgressUnit)
             incrementShownThisSession(mode)
-            if (maxPerSession(mode) > shownThisSession(mode)) {
-                load(activity, mode)
-            }
         }
     }
 
@@ -171,29 +164,30 @@ class RuStoreNativeReaderAdManager @Inject constructor(
         val ad = inlineAds[placementId] ?: return null
         val mode = inlineAdModes[placementId] ?: return null
 
-        return createNativeAdView(activity, ad, mode)
+        return when (mode) {
+            ReaderInlineContentMode.TEXT -> createTextNativeAdView(activity, ad)
+            ReaderInlineContentMode.PDF -> createPdfNativeAdView(activity, ad)
+        }
     }
 
-    private fun createNativeAdView(
+    private fun createTextNativeAdView(
         activity: ComponentActivity,
-        ad: NativeAd,
-        mode: ReaderInlineContentMode
-    ): View? {
+        ad: NativeAd
+    ): View {
         val context = activity
         val density = context.resources.displayMetrics.density
         val colors = nativeAdColors(context.resources.configuration)
-        val isPdf = mode == ReaderInlineContentMode.PDF
-
-        // Yandex SDK 8 NativeAdViewBinder binds into a NativeAdView. We create a NativeAdView,
-        // pack our layout into it, and let the binder attach to the sub-views.
-        val nativeAdView = NativeAdView(context).apply {
+        val adView = NativeAdView(context).apply {
             setBackgroundColor(Color.TRANSPARENT)
         }
         val container = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
-            if (isPdf) minimumHeight = (PDF_NATIVE_MIN_HEIGHT_DP * density).toInt()
-            val pad = ((if (isPdf) 20 else 16) * density).toInt()
-            setPadding(pad, pad, pad, pad)
+            setPadding(
+                (16 * density).toInt(),
+                (14 * density).toInt(),
+                (16 * density).toInt(),
+                (14 * density).toInt()
+            )
         }
         val label = TextView(context).apply {
             text = context.getString(R.string.native_ad_label)
@@ -201,10 +195,10 @@ class RuStoreNativeReaderAdManager @Inject constructor(
             setTextColor(colors.muted)
         }
         val mediaView = MediaView(context).apply {
+            visibility = if (ad.mediaContent != null) View.VISIBLE else View.GONE
             layoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ((if (isPdf) PDF_NATIVE_MEDIA_HEIGHT_DP else TEXT_NATIVE_MEDIA_HEIGHT_DP) * density)
-                    .toInt()
+                (180 * density).toInt()
             ).apply {
                 topMargin = (8 * density).toInt()
                 bottomMargin = (10 * density).toInt()
@@ -218,9 +212,139 @@ class RuStoreNativeReaderAdManager @Inject constructor(
             )
         }
         val icon = ImageView(context).apply {
-            val iconSize = ((if (isPdf) 48 else 40) * density).toInt()
-            layoutParams = LinearLayout.LayoutParams(iconSize, iconSize).apply {
+            val iconDrawable = ad.icon?.drawable
+            visibility = if (iconDrawable == null) View.GONE else View.VISIBLE
+            setImageDrawable(iconDrawable)
+            layoutParams = LinearLayout.LayoutParams(
+                (40 * density).toInt(),
+                (40 * density).toInt()
+            ).apply {
                 rightMargin = (10 * density).toInt()
+            }
+            scaleType = ImageView.ScaleType.CENTER_CROP
+        }
+        val headline = TextView(context).apply {
+            text = ad.headline.orEmpty()
+            textSize = 16f
+            setTextColor(colors.primary)
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+        }
+        val advertiser = TextView(context).apply {
+            text = ad.advertiser.orEmpty()
+            textSize = 12f
+            setTextColor(colors.muted)
+            visibility = if (ad.advertiser.isNullOrBlank()) View.GONE else View.VISIBLE
+        }
+        val body = TextView(context).apply {
+            text = ad.body.orEmpty()
+            textSize = 14f
+            setTextColor(colors.secondary)
+            visibility = if (ad.body.isNullOrBlank()) View.GONE else View.VISIBLE
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = (8 * density).toInt()
+            }
+        }
+        val callToAction = Button(context).apply {
+            text = ad.callToAction.orEmpty()
+            visibility = if (ad.callToAction.isNullOrBlank()) View.GONE else View.VISIBLE
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = (12 * density).toInt()
+            }
+        }
+        val assetRow = createNativeAdAssetRow(
+            activity = activity,
+            ad = ad,
+            colors = colors
+        )
+
+        container.addView(label)
+        container.addView(mediaView)
+        header.addView(icon)
+        header.addView(headline)
+        container.addView(header)
+        container.addView(advertiser)
+        assetRow?.let { container.addView(it) }
+        container.addView(body)
+        container.addView(callToAction)
+
+        adView.addView(container)
+        adView.mediaView = mediaView
+        adView.iconView = icon
+        adView.headlineView = headline
+        adView.advertiserView = advertiser
+        adView.bodyView = body
+        adView.callToActionView = callToAction
+        assetRow?.let { row ->
+            adView.starRatingView = row.findViewWithTag(STAR_RATING_TAG)
+            adView.storeView = row.findViewWithTag(STORE_TAG)
+            adView.priceView = row.findViewWithTag(PRICE_TAG)
+        }
+        adView.setNativeAd(ad)
+
+        return adView
+    }
+
+    private fun createPdfNativeAdView(
+        activity: ComponentActivity,
+        ad: NativeAd
+    ): View {
+        val context = activity
+        val density = context.resources.displayMetrics.density
+        val colors = nativeAdColors(context.resources.configuration)
+        val adView = NativeAdView(context).apply {
+            setBackgroundColor(Color.TRANSPARENT)
+        }
+        val container = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            minimumHeight = (PDF_NATIVE_MIN_HEIGHT_DP * density).toInt()
+            setPadding(
+                (20 * density).toInt(),
+                (20 * density).toInt(),
+                (20 * density).toInt(),
+                (20 * density).toInt()
+            )
+        }
+        val label = TextView(context).apply {
+            text = context.getString(R.string.native_ad_label)
+            textSize = 12f
+            setTextColor(colors.muted)
+        }
+        val mediaView = MediaView(context).apply {
+            visibility = if (ad.mediaContent != null) View.VISIBLE else View.GONE
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                (PDF_NATIVE_MEDIA_HEIGHT_DP * density).toInt()
+            ).apply {
+                topMargin = (12 * density).toInt()
+                bottomMargin = (14 * density).toInt()
+            }
+        }
+        val header = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+        val icon = ImageView(context).apply {
+            val iconDrawable = ad.icon?.drawable
+            visibility = if (iconDrawable == null) View.GONE else View.VISIBLE
+            setImageDrawable(iconDrawable)
+            layoutParams = LinearLayout.LayoutParams(
+                (48 * density).toInt(),
+                (48 * density).toInt()
+            ).apply {
+                rightMargin = (12 * density).toInt()
             }
             scaleType = ImageView.ScaleType.CENTER_CROP
         }
@@ -232,106 +356,27 @@ class RuStoreNativeReaderAdManager @Inject constructor(
                 1f
             )
         }
-        val title = TextView(context).apply {
-            textSize = if (isPdf) 18f else 16f
+        val headline = TextView(context).apply {
+            text = ad.headline.orEmpty()
+            textSize = 18f
             setTextColor(colors.primary)
         }
-        // Yandex marks a subset of assets as "required" per creative (e.g. domain, age, price);
-        // the binder must supply a view for every required asset or bindNativeAd() returns Failure.
-        // We register all common assets and pack the secondary ones into compact rows so empty
-        // ones collapse instead of leaving blank lines.
-        val sponsored = TextView(context).apply {
+        val advertiser = TextView(context).apply {
+            text = ad.advertiser.orEmpty()
             textSize = 12f
             setTextColor(colors.muted)
+            visibility = if (ad.advertiser.isNullOrBlank()) View.GONE else View.VISIBLE
         }
-        val domain = TextView(context).apply {
-            textSize = 12f
-            setTextColor(colors.muted)
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply { leftMargin = (6 * density).toInt() }
-        }
-        val age = TextView(context).apply {
-            textSize = 12f
-            setTextColor(colors.muted)
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply { leftMargin = (6 * density).toInt() }
-        }
-        val favicon = ImageView(context).apply {
-            val faviconSize = (16 * density).toInt()
-            layoutParams = LinearLayout.LayoutParams(faviconSize, faviconSize).apply {
-                rightMargin = (6 * density).toInt()
-            }
-            scaleType = ImageView.ScaleType.CENTER_CROP
-        }
-        val feedback = ImageView(context).apply {
-            val feedbackSize = (20 * density).toInt()
-            layoutParams = LinearLayout.LayoutParams(feedbackSize, feedbackSize)
-            scaleType = ImageView.ScaleType.CENTER_INSIDE
-        }
-        val metaRow = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-        }
+        val assetRow = createNativeAdAssetRow(
+            activity = activity,
+            ad = ad,
+            colors = colors
+        )
         val body = TextView(context).apply {
+            text = ad.body.orEmpty()
             textSize = 14f
             setTextColor(colors.secondary)
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply {
-                topMargin = (8 * density).toInt()
-            }
-        }
-        val price = TextView(context).apply {
-            textSize = 13f
-            setTextColor(colors.secondary)
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-        }
-        val rating = YandexRatingBar(context).apply {
-            numStars = 5
-            stepSize = 0.5f
-            setIsIndicator(true)
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply { leftMargin = (8 * density).toInt() }
-        }
-        val reviewCount = TextView(context).apply {
-            textSize = 12f
-            setTextColor(colors.muted)
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply { leftMargin = (8 * density).toInt() }
-        }
-        val priceRow = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply { topMargin = (6 * density).toInt() }
-        }
-        val warning = TextView(context).apply {
-            textSize = 11f
-            setTextColor(colors.muted)
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply {
-                topMargin = (4 * density).toInt()
-            }
-        }
-        val callToAction = Button(context).apply {
+            visibility = if (ad.body.isNullOrBlank()) View.GONE else View.VISIBLE
             layoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -339,58 +384,110 @@ class RuStoreNativeReaderAdManager @Inject constructor(
                 topMargin = (12 * density).toInt()
             }
         }
+        val callToAction = Button(context).apply {
+            text = ad.callToAction.orEmpty()
+            visibility = if (ad.callToAction.isNullOrBlank()) View.GONE else View.VISIBLE
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = (16 * density).toInt()
+            }
+        }
 
-        metaRow.addView(favicon)
-        metaRow.addView(sponsored)
-        metaRow.addView(domain)
-        metaRow.addView(age)
-        priceRow.addView(price)
-        priceRow.addView(rating)
-        priceRow.addView(reviewCount)
-        titleColumn.addView(title)
-        titleColumn.addView(metaRow)
+        titleColumn.addView(headline)
+        titleColumn.addView(advertiser)
         header.addView(icon)
         header.addView(titleColumn)
-        header.addView(feedback)
         container.addView(label)
         container.addView(mediaView)
         container.addView(header)
+        assetRow?.let { container.addView(it) }
         container.addView(body)
-        container.addView(priceRow)
-        container.addView(warning)
         container.addView(callToAction)
 
-        val binder = NativeAdViewBinder.Builder(nativeAdView)
-            .setMediaView(mediaView)
-            .setIconView(icon)
-            .setFaviconView(favicon)
-            .setTitleView(title)
-            .setSponsoredView(sponsored)
-            .setDomainView(domain)
-            .setAgeView(age)
-            .setBodyView(body)
-            .setPriceView(price)
-            .setRatingView(rating)
-            .setReviewCountView(reviewCount)
-            .setWarningView(warning)
-            .setFeedbackView(feedback)
-            .setCallToActionView(callToAction)
-            .build()
+        adView.addView(container)
+        adView.mediaView = mediaView
+        adView.iconView = icon
+        adView.headlineView = headline
+        adView.advertiserView = advertiser
+        adView.bodyView = body
+        adView.callToActionView = callToAction
+        assetRow?.let { row ->
+            adView.starRatingView = row.findViewWithTag(STAR_RATING_TAG)
+            adView.storeView = row.findViewWithTag(STORE_TAG)
+            adView.priceView = row.findViewWithTag(PRICE_TAG)
+        }
+        adView.setNativeAd(ad)
 
-        return when (val result = ad.bindNativeAd(binder)) {
-            is AdBindingResult.Success -> {
-                android.util.Log.i(TAG, "Native bound & rendered ($mode)")
-                nativeAdView.addView(container)
-                nativeAdView
+        return adView
+    }
+
+    private fun createNativeAdAssetRow(
+        activity: ComponentActivity,
+        ad: NativeAd,
+        colors: NativeAdColors
+    ): LinearLayout? {
+        val context = activity
+        val density = context.resources.displayMetrics.density
+        val hasStarRating = ad.starRating != null
+        val hasStore = !ad.store.isNullOrBlank()
+        val hasPrice = !ad.price.isNullOrBlank()
+        if (!hasStarRating && !hasStore && !hasPrice) return null
+
+        return LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = (8 * density).toInt()
             }
 
-            is AdBindingResult.Failure -> {
-                android.util.Log.w(
-                    TAG,
-                    "Native ad binding failed: missingAsset=${result.missingAssetName}",
-                    result.exception
+            if (hasStarRating) {
+                addView(
+                    RatingBar(
+                        context,
+                        null,
+                        android.R.attr.ratingBarStyleSmall
+                    ).apply {
+                        tag = STAR_RATING_TAG
+                        rating = ad.starRating?.toFloat() ?: 0f
+                        setIsIndicator(true)
+                        layoutParams = LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            rightMargin = (10 * density).toInt()
+                        }
+                    }
                 )
-                null
+            }
+            if (hasStore) {
+                addView(
+                    TextView(context).apply {
+                        tag = STORE_TAG
+                        text = ad.store.orEmpty()
+                        textSize = 12f
+                        setTextColor(colors.muted)
+                        layoutParams = LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            rightMargin = (10 * density).toInt()
+                        }
+                    }
+                )
+            }
+            if (hasPrice) {
+                addView(
+                    TextView(context).apply {
+                        tag = PRICE_TAG
+                        text = ad.price.orEmpty()
+                        textSize = 12f
+                        setTextColor(colors.muted)
+                    }
+                )
             }
         }
     }
@@ -408,52 +505,68 @@ class RuStoreNativeReaderAdManager @Inject constructor(
 
     private fun load(activity: ComponentActivity, mode: ReaderInlineContentMode) {
         if (!adsEnabled || loading) return
-        if (android.os.SystemClock.elapsedRealtime() < nextRetryAtMillis) return
+        if (SystemClock.elapsedRealtime() < nextLoadAttemptAtElapsed) return
         if (pendingNativeAd != null) {
             if (pendingNativeAdMode == mode) return
 
+            pendingNativeAd?.destroy()
             pendingNativeAd = null
             pendingNativeAdMode = null
         }
 
         val adUnitId = activity.getString(
             when (mode) {
-                ReaderInlineContentMode.TEXT -> R.string.yandex_native_reader_text_unit_id
-                ReaderInlineContentMode.PDF -> R.string.yandex_native_reader_pdf_unit_id
+                ReaderInlineContentMode.TEXT -> R.string.admob_native_reader_text_unit_id
+                ReaderInlineContentMode.PDF -> R.string.admob_native_reader_pdf_unit_id
             }
         )
         if (adUnitId.isBlank()) return
 
-        val loader = nativeAdLoader ?: NativeAdLoader(activity).also { nativeAdLoader = it }
-
         loading = true
-        android.util.Log.d(TAG, "Native requesting ($mode, unit=$adUnitId)")
-        loader.loadAd(
-            AdRequest.Builder(adUnitId).build(),
-            object : NativeAdLoadListener {
-                override fun onAdLoaded(nativeAd: NativeAd) {
-                    pendingNativeAdMode = mode
-                    pendingNativeAd = nativeAd
-                    loading = false
-                    consecutiveFailures = 0
-                    nextRetryAtMillis = 0L
-                    android.util.Log.i(TAG, "Native loaded ($mode)")
-                }
-
-                override fun onAdFailedToLoad(error: AdRequestError) {
-                    loading = false
-                    consecutiveFailures += 1
-                    // Exponential backoff capped at MAX_BACKOFF_MS to avoid spamming on "no fill".
-                    val backoff = (BASE_BACKOFF_MS shl (consecutiveFailures - 1))
-                        .coerceAtMost(MAX_BACKOFF_MS)
-                    nextRetryAtMillis = android.os.SystemClock.elapsedRealtime() + backoff
-                    android.util.Log.w(
-                        TAG, "Native reader ad failed: ${error.code} ${error.description}; " +
-                            "retry in ${backoff}ms"
-                    )
-                }
+        AdLoader.Builder(activity, adUnitId)
+            .forNativeAd { ad ->
+                pendingNativeAd?.destroy()
+                pendingNativeAdMode = mode
+                pendingNativeAd = ad
+                loading = false
+                nextLoadAttemptAtElapsed = 0L
             }
-        )
+            .withNativeAdOptions(
+                NativeAdOptions.Builder()
+                    .setMediaAspectRatio(NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE)
+                    .setVideoOptions(
+                        VideoOptions.Builder()
+                            .setStartMuted(true)
+                            .build()
+                    )
+                    .build()
+            )
+            .withAdListener(
+                object : AdListener() {
+                    override fun onAdFailedToLoad(error: LoadAdError) {
+                        loading = false
+                        nextLoadAttemptAtElapsed = SystemClock.elapsedRealtime() + LOAD_RETRY_DELAY_MS
+                        Log.w(TAG, "Native reader ad failed: ${error.code} ${error.message}")
+                    }
+                }
+            )
+            .build()
+            .loadAd(AdRequest.Builder().build())
+    }
+
+    private fun initializeAndLoad(
+        activity: ComponentActivity,
+        mode: ReaderInlineContentMode
+    ) {
+        if (!isMobileAdsInitialized) {
+            isMobileAdsInitialized = true
+            MobileAds.initialize(activity) {
+                load(activity, mode)
+            }
+            return
+        }
+
+        load(activity, mode)
     }
 
     private fun eligibilityProgressUnit(
@@ -490,8 +603,11 @@ class RuStoreNativeReaderAdManager @Inject constructor(
 
     private fun clearAd() {
         loading = false
+        nextLoadAttemptAtElapsed = 0L
+        pendingNativeAd?.destroy()
         pendingNativeAdMode = null
         pendingNativeAd = null
+        inlineAds.values.forEach { it.destroy() }
         inlineAds.clear()
         inlineAdModes.clear()
     }
@@ -570,6 +686,12 @@ class RuStoreNativeReaderAdManager @Inject constructor(
         }
     }
 
+    private fun preloadProgressUnits(minProgressUnits: Int): Int {
+        return (minProgressUnits * PRELOAD_PROGRESS_FRACTION)
+            .toInt()
+            .coerceAtLeast(1)
+    }
+
     private fun maxPerSession(mode: ReaderInlineContentMode): Int {
         return when (mode) {
             ReaderInlineContentMode.TEXT -> config.textMaxPerSession
@@ -582,9 +704,11 @@ class RuStoreNativeReaderAdManager @Inject constructor(
         private const val PDF_END_GUARD_PAGES_MAX = 2
         private const val PDF_NATIVE_MIN_HEIGHT_DP = 520
         private const val PDF_NATIVE_MEDIA_HEIGHT_DP = 280
-        private const val TEXT_NATIVE_MEDIA_HEIGHT_DP = 180
-        private const val BASE_BACKOFF_MS = 30_000L
-        private const val MAX_BACKOFF_MS = 600_000L
+        private const val STAR_RATING_TAG = "native_ad_star_rating"
+        private const val STORE_TAG = "native_ad_store"
+        private const val PRICE_TAG = "native_ad_price"
+        private const val PRELOAD_PROGRESS_FRACTION = 0.75f
+        private const val LOAD_RETRY_DELAY_MS = 60_000L
     }
 }
 
@@ -593,14 +717,3 @@ private data class NativeAdColors(
     val secondary: Int,
     val muted: Int
 )
-
-/**
- * Yandex's [NativeAdViewBinder.setRatingView] requires a view implementing [Rating]. [RatingBar]
- * already exposes matching `getRating`/`setRating` methods, so subclassing it satisfies the
- * interface without extra logic. Uses the small indicator style for a compact star row.
- */
-private class YandexRatingBar(context: android.content.Context) : RatingBar(
-    context,
-    null,
-    android.R.attr.ratingBarStyleSmall
-), Rating

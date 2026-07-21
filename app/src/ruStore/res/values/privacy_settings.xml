@@ -1,12 +1,20 @@
 <resources>
-    <string name="privacy_settings">Privacy</string>
-    <string name="privacy_settings_desc">Ad personalization, privacy policy</string>
+    <string name="privacy_settings">Ads &amp; Privacy</string>
+    <string name="refresh">Refresh</string>
+    <string name="privacy_settings_desc">Ad consent, privacy options</string>
     <string name="privacy_ads_subcategory">Advertising privacy</string>
-    <string name="privacy_ads_personalization_title">Personalized ads</string>
-    <string name="privacy_ads_personalization_desc">Allow Yandex to use your data to show more relevant ads.</string>
-    <string name="privacy_ads_personalization_note">When turned off, ads are still shown but are not personalized to you.</string>
+    <string name="privacy_ads_consent_title">Ad consent</string>
+    <string name="privacy_ads_consent_desc_ready">Ads can be requested with the current consent state.</string>
+    <string name="privacy_ads_consent_desc_limited">Ads are limited until consent is available or updated.</string>
+    <string name="privacy_options_manage">Privacy options</string>
+    <string name="privacy_options_updated">Privacy options updated.</string>
+    <string name="privacy_options_required_note">Google requires privacy options for this region. Use this button to change or withdraw consent for ads.</string>
+    <string name="privacy_options_not_required_note">Google does not require a privacy options form for the current region or consent state.</string>
+    <string name="ad_inspector_open">Open Ad Inspector</string>
+    <string name="app_open_ads_title">App open ads</string>
+    <string name="app_open_ads_desc">Show an ad when you return to the app. Disabled by default.</string>
     <string name="privacy_policy_subcategory">Privacy policy</string>
     <string name="privacy_policy_title">Privacy Policy</string>
-    <string name="privacy_policy_desc">Review how EverBook handles local data, advertising and consent.</string>
+    <string name="privacy_policy_desc">Review how EverBook handles local data, advertising, analytics and consent.</string>
     <string name="native_ad_label">Ad</string>
 </resources>

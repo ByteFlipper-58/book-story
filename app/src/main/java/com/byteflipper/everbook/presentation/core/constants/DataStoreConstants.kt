@@ -25,6 +25,9 @@ object DataStoreConstants {
     val DOUBLE_PRESS_EXIT = booleanPreferencesKey("double_press_exit")
     val CHANGELOG_LAST_SEEN_VERSION_CODE = intPreferencesKey("changelog_last_seen_version_code")
 
+    // Advertising settings
+    val APP_OPEN_ADS_ENABLED = booleanPreferencesKey("app_open_ads_enabled")
+
     // Statistics
     val READING_GOAL_MINUTES = intPreferencesKey("reading_goal_minutes")
     val STATISTICS_SECTIONS = stringPreferencesKey("statistics_sections")

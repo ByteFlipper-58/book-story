@@ -22,6 +22,7 @@ data class AdSessionConfig(
 )
 
 enum class AdFormat {
+    APP_OPEN,
     INTERSTITIAL,
     READER_NATIVE
 }

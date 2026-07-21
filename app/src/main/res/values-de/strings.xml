@@ -444,7 +444,7 @@
     <string name="start_language_preferences">Spracheinstellungen</string>
     <string name="start_theme_preferences">Themen-Einstellungen</string>
     <string name="start_permissions_notifications">Benachrichtigungsberechtigung</string>
-    <string name="start_permissions_notifications_desc">Benachrichtigungen werden verwendet für:</string>
+    <string name="start_permissions_notifications_desc">Damit bleibst du auf dem Laufenden über:</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">Diese App basiert auf einem Fork des Acclorite/book-story Projekts. Das Originalprojekt ist unter der GPL-3.0 Lizenz verfügbar.</string>
     <string name="start_source_code">Quellcode</string>
@@ -751,11 +751,11 @@
     <string name="later">Später</string>
     <string name="leave_review_option">Hinterlassen Sie eine Bewertung</string>
     <string name="leave_review_option_desc">Bewerten Sie die App und teilen Sie Ihr Feedback im Store</string>
-    <string name="start_notifications_item_updates">Verfügbarkeit von App-Updates</string>
+    <string name="start_notifications_item_updates">Neue App-Updates</string>
     <string name="start_notifications_item_translation">Fortschritt der Buchübersetzung</string>
-    <string name="start_notifications_item_models">Downloadstatus des ML-Modells</string>
+    <string name="start_notifications_item_models">Downloads von Offline-Übersetzungsmodellen</string>
     <string name="start_notifications_grant">Benachrichtigungen zulassen</string>
-    <string name="start_notifications_granted">Benachrichtigungen erlaubt</string>
+    <string name="start_notifications_granted">Benachrichtigungen sind aktiviert</string>
     <string name="book_translation_content_desc">Buchübersetzung</string>
     <string name="statistics_total_time">Gesamtzeit</string>
     <string name="statistics_streak">Tagessträhne</string>

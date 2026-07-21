@@ -402,7 +402,7 @@
     <string name="start_language_preferences">Preferências de idioma</string>
     <string name="start_theme_preferences">Preferências de tema</string>
      <string name="start_permissions_notifications">Permissão de notificações</string>
-    <string name="start_permissions_notifications_desc">As notificações são usadas para:</string>
+    <string name="start_permissions_notifications_desc">As notificações ajudam você a acompanhar:</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">Este aplicativo é baseado em um fork do projeto Acclorite/book-story. O projeto original está disponível sob a licença GPL-3.0.</string>
     <string name="start_source_code">Código-fonte</string>
@@ -754,11 +754,11 @@
     <string name="later">Mais tarde</string>
     <string name="leave_review_option">Deixe um comentário</string>
     <string name="leave_review_option_desc">Avalie o aplicativo e compartilhe seus comentários na loja</string>
-    <string name="start_notifications_item_updates">Disponibilidade de atualização de aplicativos</string>
+    <string name="start_notifications_item_updates">Novas atualizações do aplicativo</string>
     <string name="start_notifications_item_translation">Progresso da tradução do livro</string>
-    <string name="start_notifications_item_models">Status de download do modelo de ML</string>
+    <string name="start_notifications_item_models">Downloads de modelos de tradução off-line</string>
     <string name="start_notifications_grant">Permitir notificações</string>
-    <string name="start_notifications_granted">Notificações permitidas</string>
+    <string name="start_notifications_granted">Notificações ativadas</string>
     <string name="book_translation_content_desc">Tradução de livros</string>
     <string name="statistics_total_time">Tempo total</string>
     <string name="statistics_streak">Sequência do dia</string>

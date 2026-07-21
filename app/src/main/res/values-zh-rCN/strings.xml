@@ -401,7 +401,7 @@
     <string name="start_language_preferences">语言偏好设置</string>
     <string name="start_theme_preferences">主题偏好设置</string>
     <string name="start_permissions_notifications">通知权限</string>
-    <string name="start_permissions_notifications_desc">通知用于：</string>
+    <string name="start_permissions_notifications_desc">通知可帮助您了解：</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">此应用程序基于 Acclorite/book-story 项目的一个分支。原始项目在 GPL-3.0 许可下提供。</string>
     <string name="start_source_code">源代码</string>
@@ -753,11 +753,11 @@
     <string name="later">之后</string>
     <string name="leave_review_option">发表评论</string>
     <string name="leave_review_option_desc">对应用进行评分并在商店中分享您的反馈</string>
-    <string name="start_notifications_item_updates">应用程序更新可用性</string>
+    <string name="start_notifications_item_updates">新的应用更新</string>
     <string name="start_notifications_item_translation">图书翻译进度</string>
-    <string name="start_notifications_item_models">ML模型下载状态</string>
+    <string name="start_notifications_item_models">离线翻译模型下载</string>
     <string name="start_notifications_grant">允许通知</string>
-    <string name="start_notifications_granted">允许通知</string>
+    <string name="start_notifications_granted">通知已开启</string>
     <string name="book_translation_content_desc">书籍翻译</string>
     <string name="statistics_total_time">总时间</string>
     <string name="statistics_streak">连续日数</string>

@@ -401,7 +401,7 @@
     <string name="start_language_preferences">Préférences linguistiques</string>
     <string name="start_theme_preferences">Préférences de thème</string>
   <string name="start_permissions_notifications">Autorisation des notifications</string>
-    <string name="start_permissions_notifications_desc">Les notifications sont utilisées pour :</string>
+    <string name="start_permissions_notifications_desc">Les notifications vous permettent de suivre :</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">Cette application est basée sur un fork du projet Acclorite/book-story. Le projet d’origine est disponible sous la licence GPL-3.0.</string>
     <string name="start_source_code">Code source</string>
@@ -753,11 +753,11 @@
     <string name="later">Plus tard</string>
     <string name="leave_review_option">Laisser un avis</string>
     <string name="leave_review_option_desc">Notez l\'application et partagez vos commentaires dans la boutique</string>
-    <string name="start_notifications_item_updates">Disponibilité des mises à jour de l\'application</string>
+    <string name="start_notifications_item_updates">Les nouvelles mises à jour de l\'application</string>
     <string name="start_notifications_item_translation">Progression de la traduction du livre</string>
-    <string name="start_notifications_item_models">État du téléchargement du modèle ML</string>
+    <string name="start_notifications_item_models">Les téléchargements de modèles de traduction hors ligne</string>
     <string name="start_notifications_grant">Autoriser les notifications</string>
-    <string name="start_notifications_granted">Notifications autorisées</string>
+    <string name="start_notifications_granted">Les notifications sont activées</string>
     <string name="book_translation_content_desc">Traduction de livres</string>
     <string name="statistics_total_time">Durée totale</string>
     <string name="statistics_streak">Séquence d\'une journée</string>

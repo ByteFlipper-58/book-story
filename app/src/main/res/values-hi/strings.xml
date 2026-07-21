@@ -400,7 +400,7 @@
     <string name="start_language_preferences">भाषा प्राथमिकताएँ</string>
     <string name="start_theme_preferences">थीम प्राथमिकताएँ</string>
     <string name="start_permissions_notifications">अधिसूचना अनुमति</string>
-    <string name="start_permissions_notifications_desc">अधिसूचनाओं का उपयोग इसके लिए किया जाता है:</string>
+    <string name="start_permissions_notifications_desc">सूचनाएँ आपको इनकी जानकारी रखने में मदद करती हैं:</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">यह ऐप Acclorite/book-story प्रोजेक्ट के एक फ़ॉर्क पर आधारित है। मूल प्रोजेक्ट GPL-3.0 लाइसेंस के तहत उपलब्ध है।</string>
     <string name="start_source_code">स्रोत कोड</string>
@@ -752,11 +752,11 @@
     <string name="later">बाद में</string>
     <string name="leave_review_option">समीक्षा लिखें</string>
     <string name="leave_review_option_desc">ऐप को रेट करें और स्टोर में अपना फीडबैक साझा करें</string>
-    <string name="start_notifications_item_updates">ऐप अपडेट उपलब्धता</string>
+    <string name="start_notifications_item_updates">नए ऐप अपडेट</string>
     <string name="start_notifications_item_translation">पुस्तक अनुवाद की प्रगति</string>
-    <string name="start_notifications_item_models">एमएल मॉडल डाउनलोड स्थिति</string>
+    <string name="start_notifications_item_models">ऑफ़लाइन अनुवाद मॉडल डाउनलोड</string>
     <string name="start_notifications_grant">सूचनाओं की अनुमति दें</string>
-    <string name="start_notifications_granted">सूचनाओं की अनुमति है</string>
+    <string name="start_notifications_granted">सूचनाएँ चालू हैं</string>
     <string name="book_translation_content_desc">पुस्तक अनुवाद</string>
     <string name="statistics_total_time">कुल समय</string>
     <string name="statistics_streak">दिन का सिलसिला</string>

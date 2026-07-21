@@ -913,4 +913,14 @@
     <string name="highlight_palette_apply">Применить к выбранному цвету</string>
     <string name="highlight_palette_customize_color">Настроить цвет</string>
     <string name="highlight_palette_drag">Переместить панель цветов</string>
+    <string name="translation_powered_by_google" translatable="false">Работает на Google Переводчике</string>
+    <string name="import_font">Импортировать шрифт</string>
+    <string name="remove_font">Удалить шрифт</string>
+    <string name="reddit_badge">Reddit</string>
+    <string name="github_badge">GitHub</string>
+    <string name="gitlab_badge">GitLab</string>
+    <string name="codeberg_badge">Codeberg</string>
+    <string name="vk_content_desc">VK</string>
+    <string name="telegram_chennel_content_desc">Канал в Telegram</string>
+    <string name="byteflipper_site_content_desc">Сайт ByteFlipper</string>
 </resources>

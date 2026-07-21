@@ -9,7 +9,7 @@
     <string name="updates_notification_title">Nuovo aggiornamento di EverBook!</string>
     <string name="updates_notification_desc">Aggiornamento %1$s appena rilasciato!\nClicca per andare alla pagina di rilascio.</string>
     <string name="updates_notification_action">Scarica</string>
-    <string name="updates_notification_version_build">build %1$s</string>
+    <string name="updates_notification_version_build">costruisci %1$s</string>
 
     <!-- Screens -->
     <string name="library_screen">Libreria</string>
@@ -49,7 +49,7 @@
     <string name="error_could_not_get_text">Il file è vuoto, danneggiato o non esiste. Verifica e riprova.</string>
     <string name="error_check_internet">Qualcosa è andato storto.\nRiprova più tardi.</string>
     <string name="error_could_not_reset_cover">Impossibile ripristinare l\'immagine di copertina.</string>
-    <string name="error_closed_source">Closed source</string>
+    <string name="error_closed_source">Sorgente chiusa</string>
 
     <!-- Is Empty messages -->
     <string name="search_field_empty">Cerca...</string>
@@ -81,7 +81,7 @@
     <string name="dictionary">Dizionario</string>
     <string name="next">Avanti</string>
     <string name="yes_go_to_help">Sì, vai alla guida</string>
-    <string name="no">No</string>
+    <string name="no">NO</string>
     <string name="done">Fatto</string>
     <string name="enable">Abilita</string>
     <string name="web_search">Ricerca web</string>
@@ -276,7 +276,7 @@
     <string name="lavender_theme">Eris</string>
     <string name="marsh_theme">Plutone</string>
     <string name="yellow_theme">Venere</string>
-    <string name="yellow2_theme">Makemake</string>
+    <string name="yellow2_theme">Fai fai</string>
     <string name="aqua_theme">Urano</string>
 
     <!-- Toast messages -->
@@ -330,10 +330,10 @@
     <string name="credits_option_desc">Vedi ringraziamenti e crediti del progetto</string>
     <string name="help_translate_option_desc">Aiuta a rendere EverBook disponibile in più lingue</string>
     <string name="support_development_option_desc">Supporta il progetto e i futuri aggiornamenti di EverBook</string>
-    <string name="slava_ukraini">Slava Ukraini!</string>
+    <string name="slava_ukraini">Slava ucraino!</string>
 
     <!-- Credits -->
-    <string name="credits_design">Design</string>
+    <string name="credits_design">Progetto</string>
     <string name="credits_icon">Icone</string>
     <string name="credits_updates">Gestione nuovi aggiornamenti</string>
     <string name="credits_fonts">Caratteri</string>
@@ -423,7 +423,7 @@
     <string name="cover_image_content_desc">Immagine di copertina</string>
     <string name="open_reader_settings_content_desc">Impostazioni del lettore</string>
     <string name="file_icon_content_desc">File</string>
-    <string name="directory_icon_content_desc">Directory</string>
+    <string name="directory_icon_content_desc">Direttorio</string>
     <string name="favorite_directory_content_desc">Directory preferita</string>
     <string name="sort_order_content_desc">Ordine di ordinamento</string>
     <string name="path_arrow_icon_content_desc">Freccia percorso</string>
@@ -842,6 +842,76 @@
     <string name="activity_day_summary_of">di %1$d</string>
     <string name="activity_minutes_label">minuti</string>
     <string name="statistics_empty">Nessuna statistica di lettura ancora. Leggi un libro per iniziare a monitorare il tuo tempo.</string>
-    <string name="time_hours_minutes">%1$dh %2$dm</string>
-    <string name="time_minutes">%1$dm</string>
+    <string name="time_hours_minutes">%1$dh %2$DM</string>
+    <string name="time_minutes">%1$DM</string>
+    <string name="translation_downloading_model">Download del modello linguistico… Potrebbe volerci un po’.</string>
+    <string name="translation_powered_by_google">Offerto da Google Traduttore</string>
+    <string name="translation_wifi_required_title">È necessario il Wi‑Fi</string>
+    <string name="translation_wifi_required_message">Il download dei modelli è limitato al Wi‑Fi, ma non è disponibile una connessione Wi‑Fi funzionante. Disattiva l’opzione sotto per scaricare usando la rete attuale.</string>
+    <string name="translation_download">Scarica</string>
+    <string name="translation_model_download_help">I download sono forniti dai servizi Google Play. Se un modello rimane su «In corso» per molto tempo, aggiorna i servizi Google Play, svuota la cache (Impostazioni → App → Servizi Google Play → Spazio di archiviazione → Svuota cache) e riprova.</string>
+    <string name="translation_model_error_stalled">Il download del modello non è iniziato. EverBook ha riprovato automaticamente, ma è ancora bloccato. Aggiorna i servizi Google Play, svuota la cache e riprova.</string>
+    <string name="import_font">Importa carattere</string>
+    <string name="remove_font">Rimuovi carattere</string>
+    <string name="auto_scroll_button">Scorrimento automatico</string>
+    <string name="auto_scroll_tap_to_stop">Tocca ovunque per fermare</string>
+    <string name="auto_scroll_speed_option">Velocità di scorrimento automatico</string>
+    <string name="auto_scroll_reader_settings">Scorrimento automatico</string>
+    <string name="auto_scroll_chip_alignment_option">Posizione del chip</string>
+    <string name="alignment_bottom_right">In basso a destra</string>
+    <string name="alignment_bottom_center">In basso al centro</string>
+    <string name="alignment_bottom_left">In basso a sinistra</string>
+    <string name="auto_scroll_chip_opacity_enabled_option">Opacità del chip</string>
+    <string name="auto_scroll_chip_opacity_enabled_option_desc">Attiva la trasparenza per il chip compatto nell’angolo</string>
+    <string name="auto_scroll_chip_opacity_option">Valore dell’opacità</string>
+    <string name="auto_scroll_chip_play_pause_option">Pulsante riproduci/pausa nel chip</string>
+    <string name="auto_scroll_chip_play_pause_option_desc">Mostra un comando rapido riproduci/pausa nel chip compatto</string>
+    <string name="pdf_too_large_native_only">Il PDF è troppo grande per l\'estrazione del testo. È disponibile solo la modalità pagina.</string>
+    <string name="bookmark">Segnalibro</string>
+    <string name="bookmarks">Segnalibri</string>
+    <string name="annotations">Annotazioni</string>
+    <string name="annotation">Annotazione</string>
+    <string name="annotation_style">Stile</string>
+    <string name="annotation_note">Nota (facoltativa)</string>
+    <string name="add_annotation_note">Aggiungi nota</string>
+    <string name="annotation_no_color">Segnalibro senza colore</string>
+    <string name="edit_annotation">Modifica annotazione</string>
+    <string name="annotations_empty">Nessuna annotazione ancora</string>
+    <string name="annotations_filter_all">Tutto</string>
+    <string name="annotations_filter_bookmarks">Segnalibri</string>
+    <string name="annotations_filter_highlights">Punti salienti</string>
+    <string name="annotations_filter_notes">Note</string>
+    <string name="bookmarks_content_desc">Segnalibri</string>
+    <string name="bookmark_add_here">Aggiungi segnalibro qui</string>
+    <string name="bookmark_remove_here">Rimuovi il segnalibro qui</string>
+    <string name="bookmarks_empty">Nessun segnalibro ancora</string>
+    <string name="highlight">Evidenziazione</string>
+    <string name="add_to_bookmarks">Aggiungi ai segnalibri</string>
+    <string name="highlight_color">Colore evidenziazione</string>
+    <string name="highlight_not_found">Couldn\\'t locate the selected text</string>
+    <string name="highlight_multi_paragraph_not_supported">Seleziona il testo all\'interno di un paragrafo</string>
+    <string name="highlight_ambiguous_selection">Seleziona un frammento unico più lungo</string>
+    <string name="reader_annotations_original_only">Segnalibri, evidenziazioni e note sono disponibili solo nel testo originale</string>
+    <string name="note">Nota</string>
+    <string name="note_hint">Scrivi una nota…</string>
+    <string name="add_note">Nota</string>
+    <string name="edit_note">Modifica nota</string>
+    <string name="reddit_badge">Reddit</string>
+    <string name="github_badge">GitHub</string>
+    <string name="gitlab_badge">GitLab</string>
+    <string name="codeberg_badge">Codeberg</string>
+    <string name="vk_content_desc">VK</string>
+    <string name="telegram_chennel_content_desc">Canale Telegram</string>
+    <string name="byteflipper_site_content_desc">Sito ByteFlipper</string>
+    <string name="highlight_palette_title">Tavolozza evidenziazione</string>
+    <string name="highlight_palette_color">Colore selezionato</string>
+    <string name="highlight_palette_manage">Personalizza i colori</string>
+    <string name="highlight_palette_add">Aggiungi colore</string>
+    <string name="highlight_palette_reset">Reimposta tavolozza</string>
+    <string name="highlight_palette_move_left">Sposta il colore a sinistra</string>
+    <string name="highlight_palette_move_right">Sposta il colore a destra</string>
+    <string name="highlight_palette_preview">Anteprima a colori</string>
+    <string name="highlight_palette_apply">Applica al colore selezionato</string>
+    <string name="highlight_palette_customize_color">Regola il colore</string>
+    <string name="highlight_palette_drag">Sposta la barra degli strumenti del colore</string>
 </resources>

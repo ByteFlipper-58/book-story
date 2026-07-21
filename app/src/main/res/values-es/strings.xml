@@ -276,7 +276,7 @@
     <string name="lavender_theme">Eris</string>
     <string name="marsh_theme">Plutón</string>
     <string name="yellow_theme">Venus</string>
-    <string name="yellow2_theme">Makemake</string>
+    <string name="yellow2_theme">hacer hacer</string>
     <string name="aqua_theme">Urano</string>
 
     <!-- Toast messages -->
@@ -457,7 +457,7 @@
     <string name="x_content_desc" translatable="false">X</string>
     <string name="reddit_content_desc" translatable="false">Reddit</string>
     <string name="patreon_content_desc" translatable="false">Patreon</string>
-    <string name="tryzub_content_desc">Tryzub</string>
+    <string name="tryzub_content_desc">prueba</string>
     <string name="github_profile_content_desc">Perfil de GitHub</string>
     <string name="drag_content_desc">Arrastrar</string>
     <string name="filter_content_desc">Filtrar</string>
@@ -469,7 +469,7 @@
     <!-- Распределить позже -->
     <string name="edit">Editar</string>
     <string name="error_no_file">El archivo no existe</string>
-    <string name="ok">OK</string>
+    <string name="ok">DE ACUERDO</string>
     <string name="change_path">Cambiar ruta</string>
     <string name="progress_reader_settings">Progreso</string>
     <string name="font_thickness_option">Grosor de fuente</string>
@@ -498,10 +498,10 @@
     <string name="progress_count_percentage">Porcentaje</string>
     <string name="progress_count_quantity">Cantidad</string>
 
-    <string name="green2_theme">Io</string>
+    <string name="green2_theme">yo</string>
     <string name="green_gray_theme">Encélado</string>
     <string name="red_gray_theme">Calisto</string>
-    <string name="purple_gray_theme">Ceres</string>
+    <string name="purple_gray_theme">ceres</string>
 
     <string name="title_changed">El título se cambió correctamente.</string>
     <string name="author_changed">El autor se cambió correctamente.</string>
@@ -844,4 +844,74 @@
     <string name="statistics_empty">Aún no hay estadísticas de lectura. Lea un libro para comenzar a realizar un seguimiento de su tiempo.</string>
     <string name="time_hours_minutes">%1$dh %2$dm</string>
     <string name="time_minutes">%1$dm</string>
+    <string name="translation_downloading_model">Descargando el modelo de idioma… Esto puede tardar un poco.</string>
+    <string name="translation_powered_by_google">Con tecnología de Google Traductor</string>
+    <string name="translation_wifi_required_title">Se necesita Wi‑Fi</string>
+    <string name="translation_wifi_required_message">La descarga de modelos está limitada a Wi‑Fi, pero no hay una conexión Wi‑Fi disponible. Desactiva la opción siguiente para descargar usando la red actual.</string>
+    <string name="translation_download">Descargar</string>
+    <string name="translation_model_download_help">Las descargas las proporciona Google Play Services. Si un modelo permanece en «En curso» durante mucho tiempo, actualiza Google Play Services, borra su caché (Ajustes → Aplicaciones → Google Play Services → Almacenamiento → Borrar caché) y vuelve a intentarlo.</string>
+    <string name="translation_model_error_stalled">La descarga del modelo no comenzó. EverBook lo reintentó automáticamente, pero sigue bloqueada. Actualiza Google Play Services, borra la caché y vuelve a intentarlo.</string>
+    <string name="import_font">Importar fuente</string>
+    <string name="remove_font">Eliminar fuente</string>
+    <string name="auto_scroll_button">Desplazamiento automático</string>
+    <string name="auto_scroll_tap_to_stop">Toca en cualquier lugar para detenerlo</string>
+    <string name="auto_scroll_speed_option">Velocidad de desplazamiento automático</string>
+    <string name="auto_scroll_reader_settings">Desplazamiento automático</string>
+    <string name="auto_scroll_chip_alignment_option">Posición de la burbuja</string>
+    <string name="alignment_bottom_right">Abajo a la derecha</string>
+    <string name="alignment_bottom_center">Abajo en el centro</string>
+    <string name="alignment_bottom_left">Abajo a la izquierda</string>
+    <string name="auto_scroll_chip_opacity_enabled_option">Opacidad de la burbuja</string>
+    <string name="auto_scroll_chip_opacity_enabled_option_desc">Activar la transparencia de la burbuja compacta de la esquina</string>
+    <string name="auto_scroll_chip_opacity_option">Valor de opacidad</string>
+    <string name="auto_scroll_chip_play_pause_option">Botón de reproducir/pausar en la burbuja</string>
+    <string name="auto_scroll_chip_play_pause_option_desc">Mostrar un control rápido de reproducir/pausar dentro de la burbuja compacta</string>
+    <string name="pdf_too_large_native_only">El PDF es demasiado grande para la extracción de texto. Sólo está disponible el modo de página.</string>
+    <string name="bookmark">Marcador</string>
+    <string name="bookmarks">Marcadores</string>
+    <string name="annotations">Anotaciones</string>
+    <string name="annotation">Anotación</string>
+    <string name="annotation_style">Estilo</string>
+    <string name="annotation_note">Nota (opcional)</string>
+    <string name="add_annotation_note">Agregar nota</string>
+    <string name="annotation_no_color">Marcador sin color</string>
+    <string name="edit_annotation">Editar anotación</string>
+    <string name="annotations_empty">Aún no hay anotaciones</string>
+    <string name="annotations_filter_all">Todo</string>
+    <string name="annotations_filter_bookmarks">Marcadores</string>
+    <string name="annotations_filter_highlights">Reflejos</string>
+    <string name="annotations_filter_notes">Notas</string>
+    <string name="bookmarks_content_desc">Marcadores</string>
+    <string name="bookmark_add_here">Añadir marcador aquí</string>
+    <string name="bookmark_remove_here">Quitar marcador aquí</string>
+    <string name="bookmarks_empty">Aún no hay marcadores</string>
+    <string name="highlight">Resaltado</string>
+    <string name="add_to_bookmarks">Añadir a marcadores</string>
+    <string name="highlight_color">Color del resaltado</string>
+    <string name="highlight_not_found">Couldn\\'t locate the selected text</string>
+    <string name="highlight_multi_paragraph_not_supported">Seleccionar texto dentro de un párrafo</string>
+    <string name="highlight_ambiguous_selection">Seleccione un fragmento único más largo</string>
+    <string name="reader_annotations_original_only">Los marcadores, resaltados y notas están disponibles solo en el texto original.</string>
+    <string name="note">Nota</string>
+    <string name="note_hint">Escribe una nota…</string>
+    <string name="add_note">Nota</string>
+    <string name="edit_note">Editar nota</string>
+    <string name="reddit_badge">Reddit</string>
+    <string name="github_badge">GitHub</string>
+    <string name="gitlab_badge">GitLab</string>
+    <string name="codeberg_badge">Códigoberg</string>
+    <string name="vk_content_desc">VK</string>
+    <string name="telegram_chennel_content_desc">canal de telegramas</string>
+    <string name="byteflipper_site_content_desc">Sitio ByteFlipper</string>
+    <string name="highlight_palette_title">Paleta de resaltado</string>
+    <string name="highlight_palette_color">Color seleccionado</string>
+    <string name="highlight_palette_manage">Personalizar colores</string>
+    <string name="highlight_palette_add">agregar color</string>
+    <string name="highlight_palette_reset">Restablecer paleta</string>
+    <string name="highlight_palette_move_left">Mover color a la izquierda</string>
+    <string name="highlight_palette_move_right">Mover color a la derecha</string>
+    <string name="highlight_palette_preview">Vista previa de color</string>
+    <string name="highlight_palette_apply">Aplicar al color seleccionado</string>
+    <string name="highlight_palette_customize_color">Ajustar color</string>
+    <string name="highlight_palette_drag">Mover barra de herramientas de color</string>
 </resources>

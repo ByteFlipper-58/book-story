@@ -886,7 +886,7 @@
     <string name="highlight">हाइलाइट</string>
     <string name="add_to_bookmarks">बुकमार्क में जोड़ें</string>
     <string name="highlight_color">हाइलाइट का रंग</string>
-    <string name="highlight_not_found">Couldn\\'t locate the selected text</string>
+    <string name="highlight_not_found">चयनित टेक्स्ट नहीं मिला</string>
     <string name="highlight_multi_paragraph_not_supported">एक पैराग्राफ के अंदर टेक्स्ट का चयन करें</string>
     <string name="highlight_ambiguous_selection">एक लंबा अनोखा टुकड़ा चुनें</string>
     <string name="reader_annotations_original_only">बुकमार्क, हाइलाइट्स और नोट्स केवल मूल पाठ में उपलब्ध हैं</string>

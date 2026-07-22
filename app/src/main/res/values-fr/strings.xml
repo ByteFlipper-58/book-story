@@ -887,7 +887,7 @@
     <string name="highlight">Surlignage</string>
     <string name="add_to_bookmarks">Ajouter aux signets</string>
     <string name="highlight_color">Couleur du surlignage</string>
-    <string name="highlight_not_found">Couldn\\'t locate the selected text</string>
+    <string name="highlight_not_found">Impossible de trouver le texte sélectionné</string>
     <string name="highlight_multi_paragraph_not_supported">Sélectionner du texte à l\'intérieur d\'un paragraphe</string>
     <string name="highlight_ambiguous_selection">Sélectionnez un fragment unique plus long</string>
     <string name="reader_annotations_original_only">Les signets, surlignages et notes sont disponibles uniquement dans le texte original</string>

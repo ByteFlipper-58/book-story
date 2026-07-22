@@ -888,7 +888,7 @@
     <string name="highlight">Destaque</string>
     <string name="add_to_bookmarks">Adicionar aos marcadores</string>
     <string name="highlight_color">Cor do destaque</string>
-    <string name="highlight_not_found">Couldn\\'t locate the selected text</string>
+    <string name="highlight_not_found">Não foi possível localizar o texto selecionado</string>
     <string name="highlight_multi_paragraph_not_supported">Selecione o texto dentro de um parágrafo</string>
     <string name="highlight_ambiguous_selection">Selecione um fragmento exclusivo mais longo</string>
     <string name="reader_annotations_original_only">Marcadores, destaques e notas estão disponíveis apenas no texto original</string>

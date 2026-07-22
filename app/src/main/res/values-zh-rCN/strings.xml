@@ -887,7 +887,7 @@
     <string name="highlight">高亮</string>
     <string name="add_to_bookmarks">添加到书签</string>
     <string name="highlight_color">高亮颜色</string>
-    <string name="highlight_not_found">Couldn\\'t locate the selected text</string>
+    <string name="highlight_not_found">未能找到所选文本</string>
     <string name="highlight_multi_paragraph_not_supported">选择一个段落内的文本</string>
     <string name="highlight_ambiguous_selection">选择较长的独特片段</string>
     <string name="reader_annotations_original_only">书签、突出显示和注释仅在原文中提供</string>

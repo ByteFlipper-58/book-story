@@ -891,7 +891,7 @@
     <string name="highlight">Виділення</string>
     <string name="add_to_bookmarks">Додати до закладок</string>
     <string name="highlight_color">Колір виділення</string>
-    <string name="highlight_not_found">Couldn\\'t locate the selected text</string>
+    <string name="highlight_not_found">Не вдалося знайти виділений текст</string>
     <string name="highlight_multi_paragraph_not_supported">Виділіть текст всередині одного абзацу</string>
     <string name="highlight_ambiguous_selection">Виберіть довший унікальний фрагмент</string>
     <string name="reader_annotations_original_only">Закладки, виділення та примітки доступні лише в оригінальному тексті</string>

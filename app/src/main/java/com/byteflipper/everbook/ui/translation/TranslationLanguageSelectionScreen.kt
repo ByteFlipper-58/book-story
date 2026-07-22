@@ -9,7 +9,7 @@ package com.byteflipper.everbook.ui.translation
 
 import android.os.Parcelable
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.domain.navigator.Screen
 import com.byteflipper.everbook.presentation.navigator.LocalNavigator

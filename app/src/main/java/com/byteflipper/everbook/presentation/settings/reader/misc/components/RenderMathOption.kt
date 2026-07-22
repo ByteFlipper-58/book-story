@@ -8,7 +8,7 @@
 package com.byteflipper.everbook.presentation.settings.reader.misc.components
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.presentation.core.components.settings.SwitchWithTitle
 import com.byteflipper.everbook.ui.main.MainEvent

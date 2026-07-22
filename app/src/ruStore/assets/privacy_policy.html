@@ -38,7 +38,7 @@
 
     <p>
         This Privacy Policy explains how <strong>EverBook</strong> ("the App", "we", "our") handles your
-        information when you use the standalone distribution of the App.
+        information when you use the RuStore distribution of the App.
         We respect your privacy and design the App to work <strong>entirely offline</strong> whenever possible.
         The App is <a href="https://github.com/byteflipper-58/book-story" target="_blank">open-source software</a>
         distributed under the GPL-3.0 license, so anyone can audit the source code.
@@ -59,17 +59,44 @@
         Firebase Cloud Messaging, Google Play Billing, or other Google service SDKs.
     </p>
     <p>
-        We do not receive crash reports, analytics events, Firebase installation IDs, advertising identifiers,
-        or push-notification tokens from this distribution.
+        We do not operate our own user account database or receive Firebase Analytics, Crashlytics, or Firebase
+        installation data from this distribution. However, the advertising SDKs described below may process
+        advertising identifiers, device and network information, ad interactions, and consent signals.
     </p>
 
-    <h2>3. Optional Network Connections</h2>
+    <h2>3. Advertising and Consent</h2>
+    <p>
+        The RuStore version may display advertising through Google AdMob mediation. Its advertising partners in
+        this version are Google AdMob, Unity Ads, and Yandex Mobile Ads. These partners may collect or receive
+        the Android Advertising ID, IP address and network-derived approximate location, device and app
+        information, advertising and app interactions, diagnostic information, and privacy or consent signals.
+        They use this information to serve, measure, limit, and improve advertising; prevent fraud and abuse;
+        apply frequency caps; and, where permitted by law and your choices, personalize ads.
+    </p>
+    <p>
+        Depending on region and applicable law, the App uses Google's User Messaging Platform (UMP) to present
+        privacy choices. Your applicable GDPR consent signal is forwarded to Unity Ads after the UMP form is
+        completed or changed. You can reopen privacy options from Settings &gt; Privacy where the option is
+        available. Ads may be personalized or non-personalized depending on your choices, region, and device
+        settings.
+    </p>
+    <p>
+        Advertising partners process data under their own policies:
+        <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a>,
+        <a href="https://unity.com/legal/privacy-policy" target="_blank">Unity Privacy Policy</a>, and
+        <a href="https://yandex.ru/legal/confidential/" target="_blank">Yandex Privacy Policy</a>.
+        We do not share the content of your ebooks, notes, reading progress, or local library with advertising
+        partners.
+    </p>
+
+    <h2>4. Optional Network Connections</h2>
     <p>The App can access the Internet only in the cases listed below:</p>
     <ul>
         <li>Checking for App updates on GitHub if you enable "Check for updates" in Settings</li>
         <li>Opening external links you tap (e.g. Help articles or project homepage)</li>
         <li>Downloading cover images through the built-in image loader (<code>coil-compose</code>)</li>
         <li>Translating selected text or full books with Google Translate online if you choose that translation provider</li>
+        <li>Loading and measuring advertising when advertising is enabled</li>
     </ul>
     <p>
         The standalone distribution does not include Google ML Kit offline translation. If you choose
@@ -78,14 +105,14 @@
         <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a>.
     </p>
 
-    <h2>4. Permissions Explained</h2>
+    <h2>5. Permissions Explained</h2>
     <ul>
         <li><strong>Storage / File Access</strong> - to let you pick local ebook files and keep reading progress.</li>
         <li><strong>Post Notifications</strong> - optional; used for local update reminders.</li>
-        <li><strong>Internet</strong> - used only for optional update checks, external links, image loading, and Google Translate requests you choose.</li>
+        <li><strong>Internet</strong> - used for optional update checks, external links, image loading, Google Translate requests you choose, and advertising when enabled.</li>
     </ul>
 
-    <h2>5. Third-Party Open-Source Libraries</h2>
+    <h2>6. Third-Party Libraries and Services</h2>
     <p>The App relies on the following open-source libraries, all of which work with local App data unless you request network content such as external links, images, or online translation:</p>
     <ul>
         <li><a href="https://developer.android.com/jetpack/compose" target="_blank">AndroidX Jetpack Compose &amp; Material&nbsp;3</a> - UI framework</li>
@@ -99,49 +126,53 @@
         <li><a href="https://github.com/commonmark/commonmark-java" target="_blank">commonmark-java</a></li>
     </ul>
 
-    <h2>6. Data Retention &amp; Deletion</h2>
+    <h2>7. Data Retention &amp; Deletion</h2>
     <p>
-        Locally stored data (books, settings, reading history) stays on your device until you delete
-        it or uninstall the App. Because this distribution does not send analytics or crash reports to us,
-        there is no server-side App data for us to retain or delete.
+        Locally stored data (books, settings, reading history) stays on your device until you delete it or
+        uninstall the App. Advertising data is retained by Google, Unity, Yandex, and their partners under their
+        respective retention policies. You can reset or delete your Android Advertising ID in Android's privacy
+        or ads settings and change available consent choices from Settings &gt; Privacy.
     </p>
 
-    <h2>7. Legal Basis for Processing (GDPR)</h2>
+    <h2>8. Legal Basis for Processing (GDPR)</h2>
     <p>
-        If you are located in the European Economic Area, local App data is processed on your device only
-        as necessary to provide the reader features you request. We do not maintain user-identifiable App data
-        on our servers for this distribution.
+        If you are located in the European Economic Area, local App data is processed on your device only as
+        necessary to provide the reader features you request. Advertising-related processing is based on consent
+        where required; limited advertising, measurement, or fraud-prevention processing may use another lawful
+        basis where permitted by applicable law. We do not maintain a user-identifiable App database on our servers.
     </p>
 
-    <h2>8. Your Rights</h2>
+    <h2>9. Your Rights</h2>
     <p>
         You can erase or rectify local data at any time by deleting books inside the App, clearing the App's
-        storage, or uninstalling it. If you make a Data Subject Access Request, we will normally answer that
-        we have no data relating to you from the standalone distribution.
+        storage, or uninstalling it. You can withdraw or change available advertising consent choices in
+        Settings &gt; Privacy and contact Google, Unity, or Yandex regarding data processed by their services.
+        If you make a Data Subject Access Request, we will normally have no user-identifiable App data to provide.
     </p>
 
-    <h2>9. International Data Transfers</h2>
+    <h2>10. International Data Transfers</h2>
     <p>
-        The standalone distribution does not transfer analytics, crash reports, or push-notification data to
-        Google Firebase or to our servers.
+        The App does not transfer analytics, crash reports, or push-notification data to Firebase or to our
+        servers. Advertising partners may process advertising data on servers located in countries other than
+        yours, subject to their own privacy policies and transfer safeguards.
     </p>
 
-    <h2>10. Children's Privacy</h2>
+    <h2>11. Children's Privacy</h2>
     <p>The App is not directed to children under 13. We do not knowingly collect personal data from children.</p>
 
-    <h2>11. Your Consent</h2>
+    <h2>12. Your Consent</h2>
     <p>
         By checking the "I accept the privacy policy" box in the App you acknowledge that you have
         read and understood this Privacy Policy.
     </p>
 
-    <h2>12. Changes to This Policy</h2>
+    <h2>13. Changes to This Policy</h2>
     <p>
         We may update this policy from time to time. New versions will be published within the App and
         on the project GitHub page. Continued use of the App constitutes acceptance of the revised policy.
     </p>
 
-    <h2>13. Contact</h2>
+    <h2>14. Contact</h2>
     <p>
         For questions or concerns, please open an issue on our
         <a href="https://github.com/byteflipper-58/book-story" target="_blank">GitHub repository</a>,

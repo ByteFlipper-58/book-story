@@ -7,6 +7,8 @@
 
 package com.byteflipper.everbook.data.privacy
 
+import android.content.Context
+import android.preference.PreferenceManager
 import android.util.Log
 import androidx.activity.ComponentActivity
 import com.byteflipper.everbook.domain.privacy.PrivacyConsentManager
@@ -14,6 +16,7 @@ import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentDebugSettings
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
+import com.unity3d.ads.metadata.MetaData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -42,12 +45,14 @@ class AdMobPrivacyConsentManager @Inject constructor() : PrivacyConsentManager {
                         Log.w(TAG, "Consent form failed: ${it.errorCode} ${it.message}")
                     }
                     updatePrivacyOptionsRequirement(activity)
+                    syncUnityGdprConsent(activity)
                     onConsentUpdated()
                 }
             },
             { requestError ->
                 Log.w(TAG, "Consent info update failed: ${requestError.errorCode} ${requestError.message}")
                 updatePrivacyOptionsRequirement(activity)
+                syncUnityGdprConsent(activity)
                 onConsentUpdated()
             }
         )
@@ -64,11 +69,13 @@ class AdMobPrivacyConsentManager @Inject constructor() : PrivacyConsentManager {
             consentRequestParameters(),
             {
                 updatePrivacyOptionsRequirement(activity)
+                syncUnityGdprConsent(activity)
                 onComplete()
             },
             { requestError ->
                 Log.w(TAG, "Consent info update failed: ${requestError.errorCode} ${requestError.message}")
                 updatePrivacyOptionsRequirement(activity)
+                syncUnityGdprConsent(activity)
                 onComplete()
             }
         )
@@ -80,6 +87,7 @@ class AdMobPrivacyConsentManager @Inject constructor() : PrivacyConsentManager {
     ) {
         UserMessagingPlatform.showPrivacyOptionsForm(activity) { formError ->
             updatePrivacyOptionsRequirement(activity)
+            syncUnityGdprConsent(activity)
             onComplete(formError?.message)
         }
     }
@@ -101,6 +109,24 @@ class AdMobPrivacyConsentManager @Inject constructor() : PrivacyConsentManager {
                 ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED
     }
 
+    /**
+     * UMP writes the IAB TCF result to shared preferences, but does not forward it
+     * to mediation networks. Unity Ads requires this value before ads are requested.
+     */
+    private fun syncUnityGdprConsent(context: Context) {
+        val purposeConsents = PreferenceManager.getDefaultSharedPreferences(context)
+            .getString(IAB_TCF_PURPOSE_CONSENTS, "")
+            .orEmpty()
+        if (purposeConsents.isEmpty()) return
+
+        val hasPurposeOneConsent = purposeConsents.firstOrNull() == '1'
+
+        MetaData(context).apply {
+            set(UNITY_GDPR_CONSENT_KEY, hasPurposeOneConsent)
+            commit()
+        }
+    }
+
     @Suppress("unused")
     private fun debugParams(activity: ComponentActivity): ConsentRequestParameters {
         val debugSettings = ConsentDebugSettings.Builder(activity)
@@ -115,5 +141,7 @@ class AdMobPrivacyConsentManager @Inject constructor() : PrivacyConsentManager {
 
     companion object {
         private const val TAG = "PrivacyConsent"
+        private const val IAB_TCF_PURPOSE_CONSENTS = "IABTCF_PurposeConsents"
+        private const val UNITY_GDPR_CONSENT_KEY = "gdpr.consent"
     }
 }

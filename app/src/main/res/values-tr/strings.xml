@@ -887,7 +887,7 @@
     <string name="highlight">Vurgu</string>
     <string name="add_to_bookmarks">Yer imlerine ekle</string>
     <string name="highlight_color">Vurgu rengi</string>
-    <string name="highlight_not_found">Couldn\\'t locate the selected text</string>
+    <string name="highlight_not_found">Seçili metin bulunamadı</string>
     <string name="highlight_multi_paragraph_not_supported">Bir paragrafın içindeki metni seç</string>
     <string name="highlight_ambiguous_selection">Daha uzun benzersiz bir parça seçin</string>
     <string name="reader_annotations_original_only">Yer işaretleri, vurgulamalar ve notlar yalnızca orijinal metinde mevcuttur</string>

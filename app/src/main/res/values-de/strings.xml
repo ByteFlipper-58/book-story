@@ -885,7 +885,7 @@
     <string name="highlight">Hervorhebung</string>
     <string name="add_to_bookmarks">Zu Lesezeichen hinzufügen</string>
     <string name="highlight_color">Hervorhebungsfarbe</string>
-    <string name="highlight_not_found">Couldn\\'t locate the selected text</string>
+    <string name="highlight_not_found">Ausgewählter Text konnte nicht gefunden werden</string>
     <string name="highlight_multi_paragraph_not_supported">Markieren Sie Text innerhalb eines Absatzes</string>
     <string name="highlight_ambiguous_selection">Wählen Sie ein längeres einzigartiges Fragment aus</string>
     <string name="reader_annotations_original_only">Lesezeichen, Markierungen und Notizen sind nur im Originaltext verfügbar</string>

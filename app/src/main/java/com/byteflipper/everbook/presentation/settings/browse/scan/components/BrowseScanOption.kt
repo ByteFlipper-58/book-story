@@ -34,7 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import android.widget.Toast
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.anggrayudi.storage.file.DocumentFileCompat
 import com.anggrayudi.storage.file.getBasePath
 import com.anggrayudi.storage.file.getRootPath

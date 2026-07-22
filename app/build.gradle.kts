@@ -180,6 +180,7 @@ dependencies {
     // Core
     implementation("androidx.core:core-ktx:1.16.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-process:2.10.0")
     implementation("androidx.activity:activity-compose:1.13.0")
 
     // Compose BOM — alpha
@@ -236,6 +237,7 @@ dependencies {
         add(config, "com.google.android.gms:play-services-ads:24.9.0")
         add(config, "com.yandex.android:mobileads:8.2.0")
         add(config, "com.yandex.ads.adapter:admob-mobileads:8.2.0.0")
+        add(config, "com.unity3d.ads:unity-ads:4.16.6")
         add(config, "com.google.ads.mediation:unity:4.16.6.0")
         add(config, "com.google.mlkit:translate:17.0.3")
         add(config, "com.google.mlkit:language-id:17.0.6")

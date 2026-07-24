@@ -7,8 +7,6 @@
 
 package com.byteflipper.everbook.presentation.history
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -24,7 +22,7 @@ fun HistoryDeleteWholeHistoryDialog(
     val context = LocalContext.current
     Dialog(
         title = stringResource(id = R.string.delete_history),
-        icon = Icons.Outlined.DeleteOutline,
+        icon = R.drawable.ic_delete_rounded_24px,
         description = stringResource(id = R.string.delete_history_description),
         actionEnabled = true,
         onDismiss = {

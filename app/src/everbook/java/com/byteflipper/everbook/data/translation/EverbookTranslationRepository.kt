@@ -15,11 +15,14 @@ import com.byteflipper.everbook.domain.translation.TranslationRequest
 import com.byteflipper.everbook.domain.translation.TranslationResult
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Singleton
 class EverbookTranslationRepository @Inject constructor(
     private val googleTranslateWebClient: GoogleTranslateWebClient
 ) : TranslationRepository {
+    override val isModelDownloadInProgress: StateFlow<Boolean> = MutableStateFlow(false)
     override val capability = TranslationCapability(
         inAppAvailable = false,
         googleTranslateAvailable = true

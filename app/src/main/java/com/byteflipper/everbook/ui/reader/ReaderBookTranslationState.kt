@@ -23,6 +23,7 @@ data class ReaderBookTranslationState(
     val targetLanguageCode: String = DEFAULT_TRANSLATION_TARGET_LANGUAGE,
     val requireWifi: Boolean = true,
     val isStarting: Boolean = false,
+    val isDownloadingModel: Boolean = false,
     val isApplyingTranslation: Boolean = false,
     val displayMode: ReaderBookTranslationDisplayMode = ReaderBookTranslationDisplayMode.ORIGINAL,
     val activeTranslationId: Long? = null,

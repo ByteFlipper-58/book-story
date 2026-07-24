@@ -25,8 +25,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.byteflipper.everbook.domain.translation.TranslationProviderMode
+import com.byteflipper.everbook.data.translation.isConnectedToValidatedWifi
+import com.byteflipper.everbook.presentation.translation.TranslationWifiRequiredBottomSheet
 import com.byteflipper.everbook.ui.settings.TranslatorSettingsState
 import java.util.Locale
 
@@ -40,12 +43,15 @@ fun TranslationLanguageSelectionLayout(
     navigateBack: () -> Unit,
     onRefreshModels: () -> Unit,
     onDownloadModel: (String) -> Unit,
+    onWifiOnlyChange: (Boolean) -> Unit,
     onSelectLanguage: (String) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val listState = rememberLazyListState()
     var query by remember { mutableStateOf("") }
     var pendingSelection by remember { mutableStateOf<PendingLanguageSelection?>(null) }
+    var wifiBlockedDownloadCode by remember { mutableStateOf<String?>(null) }
+    val context = LocalContext.current
     val items = translationLanguageSelectionItems(
         role = role,
         providerMode = providerMode,
@@ -76,6 +82,24 @@ fun TranslationLanguageSelectionLayout(
             pendingSelection = null
             navigateBack()
         }
+    }
+
+    wifiBlockedDownloadCode?.let { languageCode ->
+        TranslationWifiRequiredBottomSheet(
+            wifiOnly = requireWifi,
+            onWifiOnlyChange = onWifiOnlyChange,
+            onContinue = {
+                pendingSelection = PendingLanguageSelection(
+                    selectedLanguageCode = filteredItems.firstOrNull {
+                        it.downloadLanguageCode == languageCode
+                    }?.code ?: languageCode,
+                    downloadLanguageCode = languageCode
+                )
+                onDownloadModel(languageCode)
+                wifiBlockedDownloadCode = null
+            },
+            onDismiss = { wifiBlockedDownloadCode = null }
+        )
     }
 
     Scaffold(
@@ -111,11 +135,15 @@ fun TranslationLanguageSelectionLayout(
                     item.downloadLanguageCode != null &&
                     item.downloaded == false
                 ) {
-                    pendingSelection = PendingLanguageSelection(
-                        selectedLanguageCode = item.code,
-                        downloadLanguageCode = item.downloadLanguageCode
-                    )
-                    onDownloadModel(item.downloadLanguageCode)
+                    if (requireWifi && !context.isConnectedToValidatedWifi()) {
+                        wifiBlockedDownloadCode = item.downloadLanguageCode
+                    } else {
+                        pendingSelection = PendingLanguageSelection(
+                            selectedLanguageCode = item.code,
+                            downloadLanguageCode = item.downloadLanguageCode
+                        )
+                        onDownloadModel(item.downloadLanguageCode)
+                    }
                 } else {
                     onSelectLanguage(item.code)
                     navigateBack()

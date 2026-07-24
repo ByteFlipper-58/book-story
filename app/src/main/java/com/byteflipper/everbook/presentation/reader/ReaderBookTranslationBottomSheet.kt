@@ -6,6 +6,8 @@
  */
 
 package com.byteflipper.everbook.presentation.reader
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -27,17 +29,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.ErrorOutline
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Translate
-import androidx.compose.material.icons.filled.WarningAmber
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -60,7 +51,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.translation.AUTO_TRANSLATION_LANGUAGE
@@ -128,7 +119,7 @@ fun ReaderBookTranslationBottomSheet(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Filled.WarningAmber,
+                    painter = painterResource(R.drawable.ic_warning_rounded_24px),
                     contentDescription = null,
                     modifier = Modifier
                         .size(32.dp)
@@ -493,19 +484,19 @@ private fun BookTranslationActionButton(
                     )
                 } else if (pausedTranslation != null) {
                     Icon(
-                        imageVector = Icons.Default.PlayArrow,
+                        painter = painterResource(R.drawable.ic_play_arrow_rounded_24px),
                         contentDescription = null,
                         modifier = Modifier.size(18.dp)
                     )
                 } else if (rateLimitedTranslation != null) {
                     Icon(
-                        imageVector = Icons.Default.WarningAmber,
+                        painter = painterResource(R.drawable.ic_warning_rounded_24px),
                         contentDescription = null,
                         modifier = Modifier.size(18.dp)
                     )
                 } else if (progressTranslation == null && state.isBookTextReadyForTranslation) {
                     Icon(
-                        imageVector = Icons.Default.Translate,
+                        painter = painterResource(R.drawable.ic_translate_rounded_24px),
                         contentDescription = null,
                         modifier = Modifier.size(18.dp)
                     )
@@ -554,13 +545,13 @@ private fun BookTranslationActionButton(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.Translate,
+                        painter = painterResource(R.drawable.ic_translate_rounded_24px),
                         contentDescription = null,
                         modifier = Modifier.size(16.dp),
                         tint = contentColor
                     )
                     Icon(
-                        imageVector = Icons.Outlined.KeyboardArrowUp,
+                        painter = painterResource(R.drawable.ic_keyboard_arrow_up_rounded_24px),
                         contentDescription = stringResource(
                             id = R.string.book_translation_manager_title
                         ),
@@ -722,7 +713,7 @@ private fun BookTranslationManagerRow(
                 if (isActive) {
                     Spacer(modifier = Modifier.width(8.dp))
                     Icon(
-                        imageVector = Icons.Default.CheckCircle,
+                        painter = painterResource(R.drawable.ic_check_circle_rounded_24px),
                         contentDescription = stringResource(
                             id = R.string.book_translation_manager_active
                         ),
@@ -741,7 +732,7 @@ private fun BookTranslationManagerRow(
         }
         IconButton(onClick = onDelete) {
             Icon(
-                imageVector = Icons.Outlined.Delete,
+                painter = painterResource(R.drawable.ic_delete_rounded_24px),
                 contentDescription = stringResource(
                     id = R.string.book_translation_manager_delete
                 ),
@@ -814,7 +805,7 @@ private fun BookTranslationRateLimitActionsBottomSheet(
 
             BookTranslationRateLimitAction(
                 index = 0,
-                icon = Icons.Default.Refresh,
+                icon = R.drawable.ic_refresh_rounded_24px,
                 title = stringResource(id = R.string.book_translation_retry),
                 description = stringResource(id = R.string.book_translation_retry_rate_limited_desc),
                 onClick = {
@@ -826,7 +817,7 @@ private fun BookTranslationRateLimitActionsBottomSheet(
             if (canSwitchToInApp) {
                 BookTranslationRateLimitAction(
                     index = 1,
-                    icon = Icons.Default.Translate,
+                    icon = R.drawable.ic_translate_rounded_24px,
                     title = stringResource(id = R.string.book_translation_switch_to_in_app),
                     description = stringResource(id = R.string.book_translation_switch_to_in_app_desc),
                     onClick = {
@@ -838,7 +829,7 @@ private fun BookTranslationRateLimitActionsBottomSheet(
 
             BookTranslationRateLimitAction(
                 index = 2,
-                icon = Icons.Default.Cancel,
+                icon = R.drawable.ic_cancel_rounded_24px,
                 title = stringResource(id = R.string.cancel),
                 description = stringResource(id = R.string.book_translation_cancel_rate_limited_desc),
                 onClick = {
@@ -853,7 +844,7 @@ private fun BookTranslationRateLimitActionsBottomSheet(
 @Composable
 private fun BookTranslationRateLimitAction(
     index: Int,
-    icon: ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     title: String,
     description: String,
     onClick: () -> Unit
@@ -869,7 +860,7 @@ private fun BookTranslationRateLimitAction(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Icon(
-            imageVector = icon,
+            painter = androidx.compose.ui.res.painterResource(id = icon),
             contentDescription = null,
             modifier = Modifier
                 .clip(CircleShape)
@@ -949,10 +940,10 @@ private fun BookTranslationProgressControl(
                     }
                 ) {
                     Icon(
-                        imageVector = if (isRunning) {
-                            Icons.Default.Pause
+                        painter = if (isRunning) {
+                            painterResource(R.drawable.ic_pause_rounded_24px)
                         } else {
-                            Icons.Default.PlayArrow
+                            painterResource(R.drawable.ic_play_arrow_rounded_24px)
                         },
                         contentDescription = stringResource(
                             id = if (isRunning) {
@@ -980,7 +971,7 @@ private fun BookTranslationProgressControl(
                 )
                 IconButton(onClick = { cancelTranslation(control.id) }) {
                     Icon(
-                        imageVector = Icons.Default.Cancel,
+                        painter = painterResource(R.drawable.ic_cancel_rounded_24px),
                         contentDescription = stringResource(id = R.string.cancel),
                         tint = contentColor,
                         modifier = Modifier.size(20.dp)
@@ -1023,7 +1014,7 @@ private fun RetryBookTranslation(
             }
             TextButton(onClick = { retryTranslation(translation.id) }) {
                 Icon(
-                    imageVector = Icons.Default.Refresh,
+                    painter = painterResource(R.drawable.ic_refresh_rounded_24px),
                     contentDescription = null,
                     modifier = Modifier.size(18.dp)
                 )
@@ -1126,7 +1117,7 @@ private fun BookTranslationError(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = Icons.Default.ErrorOutline,
+            painter = painterResource(R.drawable.ic_error_rounded_24px),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.error,
             modifier = Modifier.size(20.dp)

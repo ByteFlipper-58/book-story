@@ -16,3 +16,7 @@
 local.properties
 /app/google-services.json
 /keystore.properties
+
+# Local Codex and development-tool artifacts
+/.material-icons/
+/material-icons-policy.json

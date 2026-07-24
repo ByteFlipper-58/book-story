@@ -1,12 +1,20 @@
 <resources>
-    <string name="privacy_settings">Конфиденциальность</string>
-    <string name="privacy_settings_desc">Персонализация рекламы, политика конфиденциальности</string>
+    <string name="privacy_settings">Реклама и конфиденциальность</string>
+    <string name="refresh">Обновить</string>
+    <string name="privacy_settings_desc">Согласие на рекламу, параметры конфиденциальности</string>
     <string name="privacy_ads_subcategory">Конфиденциальность рекламы</string>
-    <string name="privacy_ads_personalization_title">Персонализированная реклама</string>
-    <string name="privacy_ads_personalization_desc">Разрешить Яндексу использовать ваши данные для показа более релевантной рекламы.</string>
-    <string name="privacy_ads_personalization_note">Если выключено, реклама всё равно показывается, но не персонализируется.</string>
+    <string name="privacy_ads_consent_title">Согласие на рекламу</string>
+    <string name="privacy_ads_consent_desc_ready">Реклама может запрашиваться с текущими настройками согласия.</string>
+    <string name="privacy_ads_consent_desc_limited">Реклама ограничена, пока согласие не получено или не обновлено.</string>
+    <string name="privacy_options_manage">Параметры конфиденциальности</string>
+    <string name="privacy_options_updated">Параметры конфиденциальности обновлены.</string>
+    <string name="privacy_options_required_note">Google требует параметры конфиденциальности для этого региона. Здесь можно изменить или отозвать согласие на рекламу.</string>
+    <string name="privacy_options_not_required_note">Google не требует форму параметров конфиденциальности для текущего региона или состояния согласия.</string>
+    <string name="ad_inspector_open">Открыть Ad Inspector</string>
+    <string name="app_open_ads_title">Реклама при запуске</string>
+    <string name="app_open_ads_desc">Показывать рекламу при возвращении в приложение. По умолчанию выключено.</string>
     <string name="privacy_policy_subcategory">Политика конфиденциальности</string>
     <string name="privacy_policy_title">Политика конфиденциальности</string>
-    <string name="privacy_policy_desc">Посмотрите, как EverBook обрабатывает локальные данные, рекламу и согласие.</string>
+    <string name="privacy_policy_desc">Посмотрите, как EverBook обрабатывает локальные данные, рекламу, аналитику и согласие.</string>
     <string name="native_ad_label">Реклама</string>
 </resources>

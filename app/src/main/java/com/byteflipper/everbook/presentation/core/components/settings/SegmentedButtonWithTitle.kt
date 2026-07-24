@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.core.components.settings
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
@@ -29,8 +30,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SegmentedButtonColors
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -170,7 +169,7 @@ private fun SegmentedButton(
         ) {
             Row {
                 Icon(
-                    imageVector = Icons.Default.Done,
+                    painter = painterResource(R.drawable.ic_done_rounded_24px),
                     contentDescription = stringResource(id = R.string.selected_content_desc),
                     modifier = Modifier
                         .size(18.dp),

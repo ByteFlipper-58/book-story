@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.statistics
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -30,11 +31,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Done
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Flag
-import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -179,8 +175,8 @@ internal fun StatisticsTopPanel(
                     label = "primaryIcon"
                 ) { editing ->
                     Icon(
-                        imageVector = if (editing) Icons.Outlined.RestartAlt
-                        else Icons.Outlined.Flag,
+                        painter = if (editing) painterResource(R.drawable.ic_restart_alt_rounded_24px)
+                        else painterResource(R.drawable.ic_flag_rounded_24px),
                         contentDescription = null,
                         modifier = Modifier.size(20.dp)
                     )
@@ -213,8 +209,8 @@ internal fun StatisticsTopPanel(
                     label = "secondaryIcon"
                 ) { editing ->
                     Icon(
-                        imageVector = if (editing) Icons.Outlined.Done
-                        else Icons.Outlined.Edit,
+                        painter = if (editing) painterResource(R.drawable.ic_done_rounded_24px)
+                        else painterResource(R.drawable.ic_edit_rounded_24px),
                         contentDescription = stringResource(
                             id = R.string.statistics_edit_panel_content_desc
                         ),

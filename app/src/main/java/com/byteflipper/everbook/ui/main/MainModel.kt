@@ -126,11 +126,7 @@ class MainModel @Inject constructor(
                 value = event.value,
                 updateState = {
                     it.copy(
-                        fontFamily = provideFonts().run {
-                            find { font ->
-                                font.id == event.value
-                            }?.id ?: get(0).id
-                        }
+                        fontFamily = event.value
                     )
                 }
             )
@@ -727,6 +723,46 @@ class MainModel @Inject constructor(
             )
 
             is MainEvent.OnChangeReaderCacheWarmUp -> handleReaderCacheWarmUpUpdate(event)
+
+            is MainEvent.OnChangeAutoScrollSpeed -> handleDatastoreUpdate(
+                key = DataStoreConstants.AUTO_SCROLL_SPEED,
+                value = event.value.toDouble(),
+                updateState = {
+                    it.copy(autoScrollSpeed = this.toFloat())
+                }
+            )
+
+            is MainEvent.OnChangeAutoScrollChipAlignment -> handleDatastoreUpdate(
+                key = DataStoreConstants.AUTO_SCROLL_CHIP_ALIGNMENT,
+                value = event.value,
+                updateState = {
+                    it.copy(autoScrollChipAlignment = this)
+                }
+            )
+
+            is MainEvent.OnChangeAutoScrollChipOpacity -> handleDatastoreUpdate(
+                key = DataStoreConstants.AUTO_SCROLL_CHIP_OPACITY,
+                value = event.value,
+                updateState = {
+                    it.copy(autoScrollChipOpacity = this)
+                }
+            )
+
+            is MainEvent.OnChangeAutoScrollChipOpacityEnabled -> handleDatastoreUpdate(
+                key = DataStoreConstants.AUTO_SCROLL_CHIP_OPACITY_ENABLED,
+                value = event.value,
+                updateState = {
+                    it.copy(autoScrollChipOpacityEnabled = this)
+                }
+            )
+
+            is MainEvent.OnChangeAutoScrollChipPlayPause -> handleDatastoreUpdate(
+                key = DataStoreConstants.AUTO_SCROLL_CHIP_PLAY_PAUSE,
+                value = event.value,
+                updateState = {
+                    it.copy(autoScrollChipPlayPause = this)
+                }
+            )
         }
     }
 

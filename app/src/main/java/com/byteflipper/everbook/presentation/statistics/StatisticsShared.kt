@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.statistics
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
@@ -22,10 +23,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -111,7 +108,7 @@ internal fun EditCard(
 
         OverlayControl(modifier = Modifier.align(Alignment.TopStart)) {
             Icon(
-                imageVector = Icons.Rounded.DragHandle,
+                painter = painterResource(R.drawable.ic_drag_handle_rounded_24px),
                 contentDescription = stringResource(id = R.string.drag_content_desc),
                 tint = MaterialTheme.colorScheme.onSurface,
                 modifier = handleModifier.size(22.dp)
@@ -123,8 +120,8 @@ internal fun EditCard(
             onClick = onToggleVisible
         ) {
             Icon(
-                imageVector = if (visible) Icons.Outlined.Visibility
-                else Icons.Outlined.VisibilityOff,
+                painter = if (visible) painterResource(R.drawable.ic_visibility_rounded_24px)
+                else painterResource(R.drawable.ic_visibility_off_rounded_24px),
                 contentDescription = null,
                 tint = if (visible) MaterialTheme.colorScheme.primary
                 else MaterialTheme.colorScheme.onSurfaceVariant,

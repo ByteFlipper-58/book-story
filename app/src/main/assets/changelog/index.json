@@ -1,6 +1,11 @@
 {
   "releases": [
     {
+      "versionCode": 16,
+      "versionName": "1.7.0",
+      "file": "1.7.0"
+    },
+    {
       "versionCode": 15,
       "versionName": "1.6.0",
       "file": "1.6.0"

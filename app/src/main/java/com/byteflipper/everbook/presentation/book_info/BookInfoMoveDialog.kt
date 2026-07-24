@@ -8,8 +8,6 @@
 package com.byteflipper.everbook.presentation.book_info
 
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.DriveFileMove
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +37,7 @@ fun BookInfoMoveDialog(
 
     Dialog(
         title = stringResource(id = R.string.move_book),
-        icon = Icons.AutoMirrored.Outlined.DriveFileMove,
+        icon = R.drawable.ic_drive_file_move_rounded_24px,
         description = stringResource(
             id = R.string.move_book_description
         ),

@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <!-- Yandex Mobile Ads App ID -->
+        <!-- AdMob is the single client SDK; Yandex is connected through mediation. -->
         <meta-data
-            android:name="com.yandex.mobile.ads.APPLICATION_ID"
-            android:value="19400445" />
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${adMobAppId}" />
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.browse
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -20,8 +21,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -74,7 +73,7 @@ fun RowScope.BrowseListFileItem(file: SelectableFile) {
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.InsertDriveFile,
+                painter = painterResource(R.drawable.ic_description_rounded_24px),
                 contentDescription = stringResource(id = R.string.file_icon_content_desc),
                 modifier = Modifier
                     .size(22.dp),

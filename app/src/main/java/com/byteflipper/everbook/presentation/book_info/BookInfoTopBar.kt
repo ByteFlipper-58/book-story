@@ -8,8 +8,6 @@
 package com.byteflipper.everbook.presentation.book_info
 
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -66,7 +64,7 @@ fun BookInfoTopBar(
                 },
                 contentActions = {
                     IconButton(
-                        icon = Icons.Outlined.Info,
+                        icon = R.drawable.ic_info_rounded_24px,
                         contentDescription = R.string.file_details,
                         disableOnClick = false,
                         onClick = {

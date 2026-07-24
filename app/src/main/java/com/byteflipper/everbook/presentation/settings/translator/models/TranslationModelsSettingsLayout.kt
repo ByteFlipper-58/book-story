@@ -11,8 +11,11 @@
 )
 
 package com.byteflipper.everbook.presentation.settings.translator.models
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,13 +32,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.CloudDownload
-import androidx.compose.material.icons.outlined.DeleteOutline
-import androidx.compose.material.icons.outlined.DownloadForOffline
-import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
@@ -44,26 +40,31 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.translation.TranslationModelState
+import com.byteflipper.everbook.data.translation.isConnectedToValidatedWifi
 import com.byteflipper.everbook.presentation.core.components.common.LazyColumnWithScrollbar
 import com.byteflipper.everbook.presentation.core.components.common.SearchTextField
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.settings.components.SettingsSubcategoryNote
 import com.byteflipper.everbook.ui.main.MainModel
+import com.byteflipper.everbook.ui.main.MainEvent
+import com.byteflipper.everbook.presentation.translation.TranslationWifiRequiredBottomSheet
 import com.byteflipper.everbook.ui.settings.TranslationModelFilter
 import com.byteflipper.everbook.ui.settings.TranslatorSettingsEvent
 import com.byteflipper.everbook.ui.settings.TranslatorSettingsModel
-import com.byteflipper.everbook.ui.settings.TranslatorSettingsState
-import java.util.Locale
 
 private const val TRANSLATION_MODELS_LOG = "TranslationModels"
 
@@ -76,6 +77,27 @@ fun TranslationModelsSettingsLayout(
     val mainModel = hiltViewModel<MainModel>()
     val state = model.state.collectAsStateWithLifecycle()
     val mainState = mainModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    var pendingWifiDownloadCode by remember { mutableStateOf<String?>(null) }
+
+    pendingWifiDownloadCode?.let { languageCode ->
+        TranslationWifiRequiredBottomSheet(
+            wifiOnly = mainState.value.translationWifiOnly,
+            onWifiOnlyChange = { enabled ->
+                mainModel.onEvent(MainEvent.OnChangeTranslationWifiOnly(enabled))
+            },
+            onContinue = {
+                model.onEvent(
+                    TranslatorSettingsEvent.OnDownloadModel(
+                        languageCode = languageCode,
+                        requireWifi = false
+                    )
+                )
+                pendingWifiDownloadCode = null
+            },
+            onDismiss = { pendingWifiDownloadCode = null }
+        )
+    }
 
     LazyColumnWithScrollbar(
         Modifier
@@ -113,15 +135,13 @@ fun TranslationModelsSettingsLayout(
             }
         }
 
-        if (state.value.busyLanguageCodes.isNotEmpty()) {
+        if (state.value.modelManagerAvailable) {
             item {
-                TranslationModelsBusy(
-                    languageNames = state.value.busyLanguageNames()
+                SettingsSubcategoryNote(
+                    text = stringResource(id = R.string.translation_model_download_help),
+                    verticalPadding = 12.dp
                 )
             }
-        }
-
-        if (state.value.modelManagerAvailable) {
             if (state.value.filteredModels.isEmpty() && !state.value.isLoadingModels) {
                 item {
                     TranslationModelsEmpty()
@@ -137,12 +157,18 @@ fun TranslationModelsSettingsLayout(
                     busy = translationModel.language.code in state.value.busyLanguageCodes,
                     requireWifi = mainState.value.translationWifiOnly,
                     onDownload = {
-                        model.onEvent(
-                            TranslatorSettingsEvent.OnDownloadModel(
-                                languageCode = translationModel.language.code,
-                                requireWifi = mainState.value.translationWifiOnly
+                        if (mainState.value.translationWifiOnly &&
+                            !context.isConnectedToValidatedWifi()
+                        ) {
+                            pendingWifiDownloadCode = translationModel.language.code
+                        } else {
+                            model.onEvent(
+                                TranslatorSettingsEvent.OnDownloadModel(
+                                    languageCode = translationModel.language.code,
+                                    requireWifi = mainState.value.translationWifiOnly
+                                )
                             )
-                        )
+                        }
                     },
                     onDelete = {
                         model.onEvent(
@@ -163,7 +189,6 @@ fun TranslationModelsSettingsLayout(
         }
     }
 }
-
 @Composable
 private fun TranslationModelsStickyControls(
     query: String,
@@ -205,7 +230,7 @@ private fun TranslationModelsSearch(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Outlined.Search,
+                painter = painterResource(R.drawable.ic_search_rounded_24px),
                 contentDescription = null,
                 modifier = Modifier.size(22.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
@@ -354,10 +379,10 @@ private fun TranslationModelStatusIcon(
             )
         } else {
             Icon(
-                imageVector = when {
-                    !supported -> Icons.Outlined.ErrorOutline
-                    downloaded -> Icons.Outlined.CheckCircle
-                    else -> Icons.Outlined.CloudDownload
+                painter = when {
+                    !supported -> painterResource(R.drawable.ic_error_rounded_24px)
+                    downloaded -> painterResource(R.drawable.ic_check_circle_rounded_24px)
+                    else -> painterResource(R.drawable.ic_cloud_download_rounded_24px)
                 },
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
@@ -381,9 +406,9 @@ private fun TranslationModelActionIcon(
 
     TranslationModelIcon(
         icon = if (downloaded) {
-            Icons.Outlined.DeleteOutline
+            R.drawable.ic_delete_rounded_24px
         } else {
-            Icons.Outlined.DownloadForOffline
+            R.drawable.ic_download_for_offline_rounded_24px
         },
         tint = if (downloaded) {
             MaterialTheme.colorScheme.error
@@ -395,48 +420,15 @@ private fun TranslationModelActionIcon(
 
 @Composable
 private fun TranslationModelIcon(
-    icon: ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     tint: androidx.compose.ui.graphics.Color
 ) {
     Icon(
-        imageVector = icon,
+        painter = androidx.compose.ui.res.painterResource(id = icon),
         contentDescription = null,
         modifier = Modifier.size(22.dp),
         tint = tint
     )
-}
-
-@Composable
-private fun TranslationModelsBusy(
-    languageNames: String
-) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 18.dp, vertical = 8.dp),
-        shape = MaterialTheme.shapes.large,
-        color = MaterialTheme.colorScheme.surfaceContainerHighest
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(20.dp),
-                strokeWidth = 2.dp
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            StyledText(
-                text = stringResource(
-                    id = R.string.translation_models_updating,
-                    languageNames
-                ),
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            )
-        }
-    }
 }
 
 @Composable
@@ -484,12 +476,3 @@ private fun TranslationModelsError(
         }
     }
 }
-
-private fun TranslatorSettingsState.busyLanguageNames(): String =
-    busyLanguageCodes.sorted().joinToString(", ") { code ->
-        models.firstOrNull { it.language.code == code }
-            ?.language
-            ?.name
-            ?: code.uppercase(Locale.ROOT)
-    }
-

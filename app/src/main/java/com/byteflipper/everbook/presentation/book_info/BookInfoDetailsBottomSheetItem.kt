@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -67,7 +65,7 @@ fun BookInfoDetailsBottomSheetItem(
 
         if (editable) {
             IconButton(
-                icon = Icons.Default.EditNote,
+                icon = R.drawable.ic_edit_note_rounded_24px,
                 contentDescription = R.string.edit_content_desc,
                 disableOnClick = false,
                 color = MaterialTheme.colorScheme.primary,

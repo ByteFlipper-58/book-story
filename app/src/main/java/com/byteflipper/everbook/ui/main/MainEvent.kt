@@ -93,4 +93,9 @@ sealed class MainEvent {
     data class OnChangeHorizontalGesturePullAnim(val value: Boolean) : MainEvent()
     data class OnChangeRenderMath(val value: Boolean) : MainEvent()
     data class OnChangeReaderCacheWarmUp(val value: Boolean) : MainEvent()
+    data class OnChangeAutoScrollSpeed(val value: Float) : MainEvent()
+    data class OnChangeAutoScrollChipAlignment(val value: String) : MainEvent()
+    data class OnChangeAutoScrollChipOpacity(val value: Int) : MainEvent()
+    data class OnChangeAutoScrollChipOpacityEnabled(val value: Boolean) : MainEvent()
+    data class OnChangeAutoScrollChipPlayPause(val value: Boolean) : MainEvent()
 }

@@ -365,6 +365,7 @@ class BookRepositoryImpl @Inject constructor(
                 bookTranslationWorkScheduler.cancel(translation.id)
             }
             bookTranslationRepository.deleteTranslationsForBook(b.id)
+            database.deleteBookmarksForBook(b.id)
 
             if (b.coverImage != null) {
                 try {

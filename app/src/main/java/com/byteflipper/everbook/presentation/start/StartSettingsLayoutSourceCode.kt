@@ -8,6 +8,7 @@
 @file:Suppress("FunctionName")
 
 package com.byteflipper.everbook.presentation.start
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -16,8 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Code
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -61,7 +60,7 @@ private fun SourceCodeIcon() {
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            imageVector = Icons.Default.Code,
+            painter = painterResource(R.drawable.ic_code_rounded_24px),
             contentDescription = "Source Code Icon",
             modifier = Modifier.size(100.dp),
             tint = MaterialTheme.colorScheme.primary

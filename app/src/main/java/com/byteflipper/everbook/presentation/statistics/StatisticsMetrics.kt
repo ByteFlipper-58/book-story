@@ -6,6 +6,8 @@
  */
 
 package com.byteflipper.everbook.presentation.statistics
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
@@ -59,32 +61,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.AutoStories
-import androidx.compose.material.icons.outlined.CheckCircle
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.Done
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Flag
-import androidx.compose.material.icons.outlined.EmojiEvents
-import androidx.compose.material.icons.outlined.Insights
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.LocalFireDepartment
-import androidx.compose.material.icons.outlined.Remove
-import androidx.compose.material.icons.outlined.Repeat
-import androidx.compose.material.icons.outlined.RestartAlt
-import androidx.compose.material.icons.outlined.Schedule
-import androidx.compose.material.icons.outlined.Star
-import androidx.compose.material.icons.outlined.Timer
-import androidx.compose.material.icons.outlined.TrendingUp
-import androidx.compose.material.icons.outlined.Tune
-import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material.icons.outlined.WbSunny
-import androidx.compose.material.icons.outlined.WbTwilight
-import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -173,7 +149,7 @@ internal enum class MetricEditPhase {
 @Composable
 internal fun StatCard(
     modifier: Modifier = Modifier,
-    icon: ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     accent: Color,
     value: String,
     label: String
@@ -195,7 +171,7 @@ internal fun StatCard(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = icon,
+                painter = androidx.compose.ui.res.painterResource(id = icon),
                 contentDescription = null,
                 tint = accent,
                 modifier = Modifier.size(22.dp)
@@ -383,7 +359,7 @@ internal fun MetricPanelCard(
                 ) {
                     OverlayControl {
                         Icon(
-                            imageVector = Icons.Rounded.DragHandle,
+                            painter = painterResource(R.drawable.ic_drag_handle_rounded_24px),
                             contentDescription = stringResource(id = R.string.drag_content_desc),
                             tint = MaterialTheme.colorScheme.onSurface,
                             modifier = handleModifier.size(22.dp)
@@ -398,7 +374,7 @@ internal fun MetricPanelCard(
                 ) {
                     OverlayControl(onClick = { onToggleMetric(pref.metric) }) {
                         Icon(
-                            imageVector = Icons.Outlined.Remove,
+                            painter = painterResource(R.drawable.ic_remove_rounded_24px),
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.error,
                             modifier = Modifier.size(20.dp)
@@ -458,7 +434,7 @@ internal fun MetricEditCard(
             onClick = onToggleMetric
         ) {
             Icon(
-                imageVector = if (pref.visible) Icons.Outlined.Remove else Icons.Outlined.Add,
+                painter = if (pref.visible) painterResource(R.drawable.ic_remove_rounded_24px) else painterResource(R.drawable.ic_add_rounded_24px),
                 contentDescription = null,
                 tint = if (pref.visible) MaterialTheme.colorScheme.error
                 else MaterialTheme.colorScheme.primary,
@@ -511,7 +487,7 @@ internal fun MetricCard(
     when (metric) {
         StatMetric.TOTAL_TIME -> StatCard(
             modifier = modifier,
-            icon = Icons.Outlined.Schedule,
+            icon = R.drawable.ic_schedule_rounded_24px,
             accent = MaterialTheme.colorScheme.primary,
             value = formatDuration(stats.totalTimeMs),
             label = stringResource(id = R.string.statistics_total_time)
@@ -519,7 +495,7 @@ internal fun MetricCard(
 
         StatMetric.AVG_PER_DAY -> StatCard(
             modifier = modifier,
-            icon = Icons.Outlined.TrendingUp,
+            icon = R.drawable.ic_trending_up_rounded_24px,
             accent = MaterialTheme.colorScheme.secondary,
             value = formatDuration(stats.averagePerActiveDayMs),
             label = stringResource(id = R.string.statistics_avg_per_day)
@@ -527,7 +503,7 @@ internal fun MetricCard(
 
         StatMetric.STREAK -> StatCard(
             modifier = modifier,
-            icon = Icons.Outlined.LocalFireDepartment,
+            icon = R.drawable.ic_local_fire_department_rounded_24px,
             accent = FireColor,
             value = animatedCount(stats.streakDays).toString(),
             label = stringResource(id = R.string.statistics_streak)
@@ -535,7 +511,7 @@ internal fun MetricCard(
 
         StatMetric.BEST_STREAK -> StatCard(
             modifier = modifier,
-            icon = Icons.Outlined.EmojiEvents,
+            icon = R.drawable.ic_emoji_events_rounded_24px,
             accent = TrophyColor,
             value = animatedCount(stats.longestStreakDays).toString(),
             label = stringResource(id = R.string.statistics_best_streak)
@@ -543,7 +519,7 @@ internal fun MetricCard(
 
         StatMetric.FINISHED -> StatCard(
             modifier = modifier,
-            icon = Icons.Outlined.CheckCircle,
+            icon = R.drawable.ic_check_circle_rounded_24px,
             accent = MaterialTheme.colorScheme.primary,
             value = animatedCount(stats.booksFinished).toString(),
             label = stringResource(id = R.string.statistics_books_finished)
@@ -551,7 +527,7 @@ internal fun MetricCard(
 
         StatMetric.IN_PROGRESS -> StatCard(
             modifier = modifier,
-            icon = Icons.Outlined.AutoStories,
+            icon = R.drawable.ic_auto_stories_rounded_24px,
             accent = MaterialTheme.colorScheme.tertiary,
             value = animatedCount(stats.booksInProgress).toString(),
             label = stringResource(id = R.string.statistics_books_in_progress)
@@ -559,7 +535,7 @@ internal fun MetricCard(
 
         StatMetric.LONGEST_SESSION -> StatCard(
             modifier = modifier,
-            icon = Icons.Outlined.Timer,
+            icon = R.drawable.ic_timer_rounded_24px,
             accent = MaterialTheme.colorScheme.primary,
             value = formatDuration(stats.longestSessionMs),
             label = stringResource(id = R.string.statistics_longest_session)
@@ -567,7 +543,7 @@ internal fun MetricCard(
 
         StatMetric.BEST_DAY -> StatCard(
             modifier = modifier,
-            icon = Icons.Outlined.Star,
+            icon = R.drawable.ic_star_rounded_24px,
             accent = TrophyColor,
             value = formatDuration(stats.bestDayMs),
             label = stringResource(id = R.string.statistics_best_day)
@@ -575,7 +551,7 @@ internal fun MetricCard(
 
         StatMetric.TOTAL_SESSIONS -> StatCard(
             modifier = modifier,
-            icon = Icons.Outlined.Repeat,
+            icon = R.drawable.ic_repeat_rounded_24px,
             accent = MaterialTheme.colorScheme.secondary,
             value = animatedCount(stats.totalSessions).toString(),
             label = stringResource(id = R.string.statistics_total_sessions)

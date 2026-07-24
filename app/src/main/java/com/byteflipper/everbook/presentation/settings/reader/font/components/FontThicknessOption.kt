@@ -10,8 +10,9 @@ package com.byteflipper.everbook.presentation.settings.reader.font.components
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
@@ -25,9 +26,10 @@ import com.byteflipper.everbook.ui.main.MainModel
 fun FontThicknessOption() {
     val mainModel = hiltViewModel<MainModel>()
     val state = mainModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     val fontFamily = remember(state.value.fontFamily) {
-        provideFonts().run {
+        provideFonts(context).run {
             find {
                 it.id == state.value.fontFamily
             } ?: get(0)

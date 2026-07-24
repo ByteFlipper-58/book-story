@@ -8,6 +8,7 @@
 @file:OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 
 package com.byteflipper.everbook.presentation.translation.language_selection
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,8 +22,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -127,7 +126,7 @@ private fun TranslationLanguageSearch(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Outlined.Search,
+                painter = painterResource(R.drawable.ic_search_rounded_24px),
                 contentDescription = null,
                 modifier = Modifier.size(22.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant

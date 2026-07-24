@@ -80,6 +80,7 @@ object AppModule {
                 DatabaseHelper.MIGRATION_11_12,
                 DatabaseHelper.MIGRATION_12_13,
                 DatabaseHelper.MIGRATION_13_14,
+                DatabaseHelper.MIGRATION_14_15,
             )
             .addCallback(DatabaseHelper.PREPOPULATE_CATEGORIES)
             .build()

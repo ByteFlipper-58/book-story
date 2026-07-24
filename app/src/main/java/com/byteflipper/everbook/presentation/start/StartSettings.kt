@@ -12,7 +12,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.byteflipper.everbook.domain.navigator.StackEvent
 import com.byteflipper.everbook.domain.ui.ButtonItem
 import com.byteflipper.everbook.ui.about.AboutEvent

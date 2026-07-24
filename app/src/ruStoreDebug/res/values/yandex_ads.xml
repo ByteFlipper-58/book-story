@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Yandex demo ad units — always return a test ad. Used only in debug builds. -->
-    <string name="yandex_interstitial_unit_id" translatable="false">demo-interstitial-yandex</string>
-    <string name="yandex_native_reader_text_unit_id" translatable="false">demo-native-content-yandex</string>
-    <string name="yandex_native_reader_pdf_unit_id" translatable="false">demo-native-content-yandex</string>
-</resources>

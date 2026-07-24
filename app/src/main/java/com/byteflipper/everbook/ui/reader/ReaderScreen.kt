@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -43,7 +44,7 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.parcelize.Parcelize
 import com.byteflipper.everbook.domain.distribution.ReaderInlineContentMode
@@ -74,6 +75,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
 
     companion object {
         const val CHAPTERS_DRAWER = "chapters_drawer"
+        const val BOOKMARKS_DRAWER = "bookmarks_drawer"
         const val SETTINGS_BOTTOM_SHEET = "settings_bottom_sheet"
         const val PDF_READING_MODE_BOTTOM_SHEET = "pdf_reading_mode_bottom_sheet"
         const val TRANSLATION_BOTTOM_SHEET = "translation_bottom_sheet"
@@ -83,6 +85,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun Content() {
+        val context = LocalContext.current
         val navigator = LocalNavigator.current
         val screenModel = hiltViewModel<ReaderModel>()
         val pdfScreenModel = hiltViewModel<PdfReaderModel>()
@@ -95,6 +98,14 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         val inlineContentState = readerInlineContentModel.state.collectAsStateWithLifecycle()
         val mainState = mainModel.state.collectAsStateWithLifecycle()
         val settingsState = settingsModel.state.collectAsStateWithLifecycle()
+
+        LaunchedEffect(mainState.value.translationWifiOnly) {
+            screenModel.onEvent(
+                ReaderEvent.OnChangeBookTranslationWifiOnly(
+                    mainState.value.translationWifiOnly
+                )
+            )
+        }
 
         val activity = LocalActivity.current
         val density = LocalDensity.current
@@ -188,7 +199,7 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
         }
 
         val fontFamily = remember(mainState.value.fontFamily) {
-            provideFonts().run {
+            provideFonts(context).run {
                 find {
                     it.id == mainState.value.fontFamily
                 } ?: get(0)
@@ -315,6 +326,11 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 text = state.value.text,
                 inlineContentPlacements = inlineContentState.value.placements
             )
+        }
+        // Every annotation participates in reader markers and post-navigation focus.
+        val highlightsByParagraph = remember(state.value.bookmarks) {
+            state.value.bookmarks
+                .groupBy { it.paragraphIndex }
         }
 
         val layoutDirection = LocalLayoutDirection.current
@@ -678,6 +694,20 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 translation = state.value.translation,
                 bookTranslation = state.value.bookTranslation,
                 drawer = state.value.drawer,
+                bookmarks = state.value.bookmarks,
+                highlightsByParagraph = highlightsByParagraph,
+                editingAnnotation = state.value.editingAnnotation,
+                pendingAnnotationText = state.value.pendingAnnotationText,
+                pendingAnnotationColorArgb = state.value.pendingAnnotationColorArgb,
+                highlightPaletteText = state.value.highlightPaletteText,
+                highlightPaletteAnnotation = state.value.highlightPaletteAnnotation,
+                highlightPaletteAnchorX = state.value.highlightPaletteAnchorX,
+                highlightPaletteAnchorY = state.value.highlightPaletteAnchorY,
+                highlightColors = state.value.highlightColors,
+                showHighlightPaletteEditor = state.value.showHighlightPaletteEditor,
+                focusedBookmarkId = state.value.focusedBookmarkId,
+                pendingBookmarkNavigation = state.value.pendingBookmarkNavigation,
+                pendingBookmarkDisplayIndex = state.value.pendingBookmarkDisplayIndex,
                 listState = listState,
                 currentChapter = state.value.currentChapter,
                 nestedScrollConnection = nestedScrollConnection.value,
@@ -734,8 +764,25 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 translationTargetLanguage = mainState.value.translationTargetLanguage,
                 translationWifiOnly = mainState.value.translationWifiOnly,
                 fullscreenMode = mainState.value.fullscreen,
+                customScreenBrightness = mainState.value.customScreenBrightness,
+                screenBrightness = mainState.value.screenBrightness,
+                changeScreenBrightness = { brightness ->
+                    mainModel.onEvent(MainEvent.OnChangeScreenBrightness(brightness))
+                },
                 createInlineContentView = { placementId ->
                     readerInlineContentModel.createView(activity, placementId)
+                },
+                isAutoScrolling = state.value.isAutoScrolling,
+                autoScrollSpeed = mainState.value.autoScrollSpeed,
+                isAutoScrollPaused = state.value.isAutoScrollPaused,
+                autoScrollChipAlignment = mainState.value.autoScrollChipAlignment,
+                autoScrollChipOpacity = mainState.value.autoScrollChipOpacity,
+                autoScrollChipOpacityEnabled = mainState.value.autoScrollChipOpacityEnabled,
+                autoScrollChipPlayPause = mainState.value.autoScrollChipPlayPause,
+                onSetAutoScrolling = screenModel::onEvent,
+                onSetAutoScrollPaused = screenModel::onEvent,
+                onChangeAutoScrollSpeed = {
+                    mainModel.onEvent(MainEvent.OnChangeAutoScrollSpeed(it))
                 },
                 selectPreviousPreset = settingsModel::onEvent,
                 selectNextPreset = settingsModel::onEvent,
@@ -770,9 +817,30 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 changeBookTranslationSourceLanguage = screenModel::onEvent,
                 changeBookTranslationTargetLanguage = screenModel::onEvent,
                 swapBookTranslationLanguages = screenModel::onEvent,
-                changeBookTranslationWifiOnly = screenModel::onEvent,
+                changeBookTranslationWifiOnly = { event ->
+                    mainModel.onEvent(MainEvent.OnChangeTranslationWifiOnly(event.requireWifi))
+                    screenModel.onEvent(event)
+                },
                 dismissBookTranslationError = screenModel::onEvent,
                 showChaptersDrawer = screenModel::onEvent,
+                showBookmarksDrawer = screenModel::onEvent,
+                scrollToBookmark = screenModel::onEvent,
+                bookmarkScrollFinished = screenModel::onEvent,
+                deleteBookmark = screenModel::onEvent,
+                createBookmark = screenModel::onEvent,
+                showHighlightPalette = screenModel::onEvent,
+                createHighlight = screenModel::onEvent,
+                applyHighlightPaletteColor = screenModel::onEvent,
+                requestAnnotationEditor = screenModel::onEvent,
+                changeHighlightColor = screenModel::onEvent,
+                clearHighlightColor = screenModel::onEvent,
+                editAnnotation = screenModel::onEvent,
+                saveAnnotation = screenModel::onEvent,
+                dismissAnnotationEditor = screenModel::onEvent,
+                dismissHighlightPalette = screenModel::onEvent,
+                showPaletteEditor = screenModel::onEvent,
+                dismissPaletteEditor = screenModel::onEvent,
+                updateHighlightPalette = screenModel::onEvent,
                 dismissDrawer = screenModel::onEvent,
                 changePdfReadingMode = screenModel::onEvent,
                 changePdfDefaultReadingMode = {

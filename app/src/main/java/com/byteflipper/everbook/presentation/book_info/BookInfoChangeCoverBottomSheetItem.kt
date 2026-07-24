@@ -6,6 +6,8 @@
  */
 
 package com.byteflipper.everbook.presentation.book_info
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +31,7 @@ import com.byteflipper.everbook.presentation.core.components.common.StyledText
 
 @Composable
 fun LazyItemScope.BookInfoChangeCoverBottomSheetItem(
-    icon: ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     text: String,
     description: String,
     onClick: () -> Unit
@@ -46,7 +48,7 @@ fun LazyItemScope.BookInfoChangeCoverBottomSheetItem(
         horizontalArrangement = Arrangement.Start
     ) {
         Icon(
-            imageVector = icon,
+            painter = androidx.compose.ui.res.painterResource(id = icon),
             contentDescription = null,
             modifier = Modifier.size(24.dp),
             tint = MaterialTheme.colorScheme.tertiary

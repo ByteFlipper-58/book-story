@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.history
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,9 +24,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -89,7 +87,7 @@ fun LazyItemScope.HistoryItem(
                     )
                 } else {
                     Icon(
-                        imageVector = Icons.Default.Image,
+                        painter = painterResource(R.drawable.ic_image_rounded_24px),
                         contentDescription = stringResource(
                             id = R.string.cover_image_not_found_content_desc
                         ),
@@ -135,7 +133,7 @@ fun LazyItemScope.HistoryItem(
 
         Spacer(Modifier.width(10.dp))
         IconButton(
-            icon = Icons.Outlined.Delete,
+            icon = R.drawable.ic_delete_rounded_24px,
             contentDescription = R.string.delete_history_element_content_desc,
             disableOnClick = true,
             enabled = !isRefreshing,

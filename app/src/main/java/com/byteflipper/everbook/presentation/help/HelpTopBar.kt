@@ -7,8 +7,6 @@
 
 package com.byteflipper.everbook.presentation.help
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +37,7 @@ fun HelpTopBar(
         actions = {
             if (!fromStart) {
                 IconButton(
-                    icon = Icons.Outlined.RestartAlt,
+                    icon = R.drawable.ic_restart_alt_rounded_24px,
                     contentDescription = R.string.reset_start_content_desc,
                     disableOnClick = false
                 ) {

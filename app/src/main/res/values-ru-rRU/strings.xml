@@ -83,6 +83,7 @@
     <string name="close">Закрыть</string>
     <string name="retry">Повторить</string>
     <string name="translation_translating">Перевод…</string>
+    <string name="translation_downloading_model">Скачивание языковой модели… Это может занять некоторое время.</string>
     <string name="translation_open_external">Внешний</string>
     <string name="translation_show_original">Показать оригинал</string>
     <string name="translation_show_translation">Показать перевод</string>
@@ -111,6 +112,9 @@
     <string name="translation_collapse_languages_content_desc">Свернуть языки</string>
     <string name="translation_wifi_only_option">Скачивать модели только по Wi-Fi</string>
     <string name="translation_wifi_only_option_desc">Офлайн-модели языков скачиваются перед локальным переводом</string>
+    <string name="translation_wifi_required_title">Требуется Wi-Fi</string>
+    <string name="translation_wifi_required_message">Скачивание моделей разрешено только через Wi-Fi, но рабочее Wi-Fi-соединение не найдено. Отключите параметр ниже, чтобы скачать через текущую сеть.</string>
+    <string name="translation_download">Скачать</string>
     <string name="translation_offline_models_option">Офлайн-модели</string>
     <string name="translation_offline_models_entry_desc">Управление скачанными языками для офлайн-перевода в приложении</string>
     <string name="translation_offline_models_unavailable">Управление офлайн-моделями доступно только в Play Store-сборке, потому что загрузка моделей ML Kit зависит от сервисов Google.</string>
@@ -131,7 +135,9 @@
     <string name="translation_model_notification_download_text">Скачивается %1$s для ML Kit перевода</string>
     <string name="translation_model_notification_delete_title">Обновление офлайн-моделей</string>
     <string name="translation_model_notification_delete_text">Удаляется модель ML Kit: %1$s</string>
-    <string name="translation_model_error_timeout">Загрузка модели прервана по тайм-ауту. Попробуйте очистить кэш Google Play Services (Настройки → Приложения → Google Play Services → Очистить кэш), затем повторите.</string>
+    <string name="translation_model_download_help">Загрузка моделей выполняется через Сервисы Google Play. Если статус «Выполняется…» не меняется долгое время, обновите Сервисы Google Play, затем очистите их кэш: Настройки → Приложения → Сервисы Google Play → Хранилище → Очистить кэш. После этого повторите попытку.</string>
+    <string name="translation_model_error_stalled">Загрузка модели не началась. EverBook автоматически повторил попытку, но она снова зависла. Обновите Сервисы Google Play, затем очистите их кэш: Настройки → Приложения → Сервисы Google Play → Хранилище → Очистить кэш. После этого повторите попытку.</string>
+    <string name="translation_model_error_timeout">Загрузка модели прервана по тайм-ауту. Обновите Сервисы Google Play, затем попробуйте очистить их кэш: Настройки → Приложения → Сервисы Google Play → Хранилище → Очистить кэш. После этого повторите попытку.</string>
     <string name="translation_selection_title">Перевод выделенного текста</string>
     <string name="book_translation_title">Перевод книги</string>
     <string name="book_translation_start">Перевести книгу</string>
@@ -299,6 +305,19 @@
     <string name="horizontal_gesture_scroll_option">Фракция прокрутки</string>
     <string name="horizontal_gesture_sensitivity_option">Чувствительность</string>
     <string name="bottom_bar_padding_option">Отступ нижней панели</string>
+    <string name="auto_scroll_button">Автопрокрутка</string>
+    <string name="auto_scroll_tap_to_stop">Нажмите в любом месте для остановки</string>
+    <string name="auto_scroll_speed_option">Скорость автопрокрутки</string>
+    <string name="auto_scroll_reader_settings">Автопрокрутка</string>
+    <string name="auto_scroll_chip_alignment_option">Положение чипа</string>
+    <string name="alignment_bottom_right">Справа снизу</string>
+    <string name="alignment_bottom_center">В центре снизу</string>
+    <string name="alignment_bottom_left">Слева снизу</string>
+    <string name="auto_scroll_chip_opacity_enabled_option">Прозрачность чипа</string>
+    <string name="auto_scroll_chip_opacity_enabled_option_desc">Включить прозрачность для свернутого чипа в углу</string>
+    <string name="auto_scroll_chip_opacity_option">Прозрачность</string>
+    <string name="auto_scroll_chip_play_pause_option">Кнопка паузы в чипе</string>
+    <string name="auto_scroll_chip_play_pause_option_desc">Показывать кнопку воспроизведения/паузы внутри свернутого чипа</string>
     <string name="highlighted_reading_option">Выделение слов</string>
     <string name="highlighted_reading_option_desc">Выделить начало каждого слова</string>
     <string name="highlighted_reading_thickness_option">Толщина выделения</string>
@@ -418,6 +437,35 @@
     <!-- Reader -->
     <string name="no_chapters">Нет глав</string>
     <string name="chapters">Главы</string>
+    <string name="bookmark">Закладка</string>
+    <string name="bookmarks">Закладки</string>
+    <string name="annotations">Аннотации</string>
+    <string name="annotation">Аннотация</string>
+    <string name="annotation_style">Оформление</string>
+    <string name="annotation_note">Заметка (необязательно)</string>
+    <string name="add_annotation_note">Добавить заметку</string>
+    <string name="annotation_no_color">Закладка без цвета</string>
+    <string name="edit_annotation">Изменить аннотацию</string>
+    <string name="annotations_empty">Пока нет аннотаций</string>
+    <string name="annotations_filter_all">Все</string>
+    <string name="annotations_filter_bookmarks">Закладки</string>
+    <string name="annotations_filter_highlights">Выделения</string>
+    <string name="annotations_filter_notes">Заметки</string>
+    <string name="bookmarks_content_desc">Закладки</string>
+    <string name="bookmark_add_here">Добавить закладку здесь</string>
+    <string name="bookmark_remove_here">Убрать закладку здесь</string>
+    <string name="bookmarks_empty">Пока нет закладок</string>
+    <string name="highlight">Выделить</string>
+    <string name="add_to_bookmarks">В закладки</string>
+    <string name="highlight_color">Цвет выделения</string>
+    <string name="highlight_not_found">Не удалось найти выделенный текст</string>
+    <string name="highlight_multi_paragraph_not_supported">Выделите текст внутри одного абзаца</string>
+    <string name="highlight_ambiguous_selection">Выделите более длинный уникальный фрагмент</string>
+    <string name="reader_annotations_original_only">Закладки, выделения и заметки доступны только в оригинальном тексте</string>
+    <string name="note">Заметка</string>
+    <string name="note_hint">Введите заметку…</string>
+    <string name="add_note">Заметка</string>
+    <string name="edit_note">Изменить заметку</string>
 
     <!-- About -->
     <string name="app_version_option">Версия приложения</string>
@@ -500,6 +548,21 @@
     <string name="help_desc_how_to_customize_reader_2">Настройки</string>
     <string name="help_desc_how_to_customize_reader_3">   и выберите категорию «Читалка», чтобы настроить общие настройки,\nили категорию «Внешний вид», чтобы настроить параметры цветов.</string>
 
+    <string name="help_title_how_to_use_auto_scroll">Как пользоваться автопрокруткой?</string>
+    <string name="help_desc_how_to_use_auto_scroll">Во время чтения нажмите на экран, чтобы показать панели, затем запустите автопрокрутку с нижней панели. Внизу появится панель: на ней можно выбрать скорость от 1× до 10×, поставить чтение на паузу и продолжить его. Через несколько секунд панель сворачивается — нажмите на неё, чтобы снова открыть настройки. Её расположение и вид можно выбрать в настройках читалки.</string>
+
+    <string name="help_title_how_to_adjust_brightness">Как регулировать яркость жестом?</string>
+    <string name="help_desc_how_to_adjust_brightness">Сначала включите «Пользовательскую яркость экрана» в настройках читалки. Затем проведите вверх или вниз вдоль левого либо правого края экрана: вверх — ярче, вниз — темнее. Центральная часть экрана остаётся свободной для обычного чтения и прокрутки.</string>
+
+    <string name="help_title_how_to_use_translation">Как переводить текст или книгу?</string>
+    <string name="help_desc_how_to_use_translation">Выделите текст в оригинале книги и выберите «Перевести», чтобы увидеть перевод в читалке. На панели перевода можно скопировать результат, переключаться между оригиналом и переводом или открыть текст в другом переводчике. Чтобы перевести всю книгу, откройте панель перевода книги в читалке, выберите языки и запустите перевод. Его можно поставить на паузу, продолжить позже и переключаться между оригиналом и готовым переводом.</string>
+
+    <string name="help_title_how_to_use_annotations">Как создавать и использовать аннотации?</string>
+    <string name="help_desc_how_to_use_annotations">Выделите фрагмент в оригинальном тексте, затем выберите цвет выделения, добавьте закладку или напишите заметку. Откройте «Аннотации» в читалке, чтобы посмотреть все закладки, выделения и заметки, отфильтровать их по типу, изменить или перейти к сохранённому фрагменту.</string>
+
+    <string name="help_title_how_to_use_custom_fonts">Как использовать свои шрифты?</string>
+    <string name="help_desc_how_to_use_custom_fonts">Откройте настройки читалки, перейдите в раздел «Шрифт» и выберите «Импортировать шрифт». Выберите один или несколько файлов TTF или OTF, затем укажите импортированный шрифт в списке. Ненужный шрифт можно удалить в этом же списке.</string>
+
     <string name="help_title_how_to_manage_history">Как управлять историей?</string>
     <string name="help_desc_how_to_manage_history_1">Перейдите в</string>
     <string name="help_desc_how_to_manage_history_2">История</string>
@@ -536,12 +599,12 @@
     <string name="start_language_preferences">Языковые настройки</string>
     <string name="start_theme_preferences">Настройки темы</string>
     <string name="start_permissions_notifications">Разрешение на уведомления</string>
-    <string name="start_permissions_notifications_desc">Уведомления используются для:</string>
-    <string name="start_notifications_item_updates">Доступность обновлений приложения</string>
-    <string name="start_notifications_item_translation">Прогресс перевода книг</string>
-    <string name="start_notifications_item_models">Статус загрузки ML-моделей</string>
-    <string name="start_notifications_grant">Разрешить уведомления</string>
-    <string name="start_notifications_granted">Уведомления разрешены</string>
+    <string name="start_permissions_notifications_desc">С ними вы не пропустите:</string>
+    <string name="start_notifications_item_updates">Новые обновления приложения</string>
+    <string name="start_notifications_item_translation">Ход перевода книг</string>
+    <string name="start_notifications_item_models">Загрузку офлайн-моделей перевода</string>
+    <string name="start_notifications_grant">Включить уведомления</string>
+    <string name="start_notifications_granted">Уведомления включены</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">Это приложение основано на форке проекта Acclorite/book-story. Оригинальный проект доступен по лицензии GPL-3.0.</string>
     <string name="start_source_code">Исходный код</string>
@@ -854,4 +917,25 @@
     <string name="time_minutes">%1$dм</string>
     <!-- Missing translations added from base strings. -->
     <string name="error_no_file_manager">Приложение файлового менеджера не найдено.</string>
+    <string name="highlight_palette_title">Палитра выделений</string>
+    <string name="highlight_palette_color">Выбранный цвет</string>
+    <string name="highlight_palette_manage">Настроить цвета</string>
+    <string name="highlight_palette_add">Добавить цвет</string>
+    <string name="highlight_palette_reset">Сбросить палитру</string>
+    <string name="highlight_palette_move_left">Переместить цвет влево</string>
+    <string name="highlight_palette_move_right">Переместить цвет вправо</string>
+    <string name="highlight_palette_preview">Предпросмотр цвета</string>
+    <string name="highlight_palette_apply">Применить к выбранному цвету</string>
+    <string name="highlight_palette_customize_color">Настроить цвет</string>
+    <string name="highlight_palette_drag">Переместить панель цветов</string>
+    <string name="translation_powered_by_google" translatable="false">Работает на Google Переводчике</string>
+    <string name="import_font">Импортировать шрифт</string>
+    <string name="remove_font">Удалить шрифт</string>
+    <string name="reddit_badge">Reddit</string>
+    <string name="github_badge">GitHub</string>
+    <string name="gitlab_badge">GitLab</string>
+    <string name="codeberg_badge">Codeberg</string>
+    <string name="vk_content_desc">VK</string>
+    <string name="telegram_chennel_content_desc">Канал в Telegram</string>
+    <string name="byteflipper_site_content_desc">Сайт ByteFlipper</string>
 </resources>

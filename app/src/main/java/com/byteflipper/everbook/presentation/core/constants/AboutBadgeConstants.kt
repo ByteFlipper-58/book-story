@@ -7,8 +7,6 @@
 
 package com.byteflipper.everbook.presentation.core.constants
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.about.Badge
 
@@ -43,8 +41,8 @@ fun provideAboutBadges() = listOf(
     ),
     Badge(
         id = "github_profile",
-        drawable = null,
-        imageVector = Icons.Default.Person,
+        drawable = R.drawable.ic_person_rounded_24px,
+        imageVector = null,
         contentDescription = R.string.github_profile_content_desc,
         url = "https://www.github.com/ByteFlipper-58"
     ),

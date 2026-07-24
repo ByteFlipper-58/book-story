@@ -7,7 +7,7 @@
 
 package com.byteflipper.everbook.data.di
 
-import com.byteflipper.everbook.data.privacy.PlayStorePrivacyConsentManager
+import com.byteflipper.everbook.data.privacy.AdMobPrivacyConsentManager
 import com.byteflipper.everbook.domain.privacy.PrivacyConsentManager
 import dagger.Binds
 import dagger.Module
@@ -21,6 +21,6 @@ abstract class PrivacyConsentModule {
     @Binds
     @Singleton
     abstract fun bindPrivacyConsentManager(
-        impl: PlayStorePrivacyConsentManager
+        impl: AdMobPrivacyConsentManager
     ): PrivacyConsentManager
 }

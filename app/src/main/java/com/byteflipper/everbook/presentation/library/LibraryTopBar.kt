@@ -17,13 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.MoveUp
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.FilterList
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -135,14 +128,14 @@ fun LibraryTopBar(
                 },
                 contentActions = {
                     IconButton(
-                        icon = Icons.Default.Search,
+                        icon = R.drawable.ic_search_rounded_24px,
                         contentDescription = R.string.search_content_desc,
                         disableOnClick = true,
                     ) {
                         searchVisibility(LibraryEvent.OnSearchVisibility(true))
                     }
                     IconButton(
-                        icon = Icons.Default.FilterList,
+                        icon = R.drawable.ic_filter_list_rounded_24px,
                         contentDescription = R.string.filter_content_desc,
                         disableOnClick = false,
                         color = animatedFilterIconColor.value
@@ -157,7 +150,7 @@ fun LibraryTopBar(
                 contentID = 1,
                 contentNavigationIcon = {
                     IconButton(
-                        icon = Icons.AutoMirrored.Default.ArrowBack,
+                        icon = R.drawable.ic_arrow_back_rounded_24px,
                         contentDescription = R.string.exit_search_content_desc,
                         disableOnClick = true
                     ) {
@@ -189,7 +182,7 @@ fun LibraryTopBar(
                 contentID = 2,
                 contentNavigationIcon = {
                     IconButton(
-                        icon = Icons.Default.Clear,
+                        icon = R.drawable.ic_close_rounded_24px,
                         contentDescription = R.string.clear_selected_items_content_desc,
                         disableOnClick = true
                     ) {
@@ -208,7 +201,7 @@ fun LibraryTopBar(
                 },
                 contentActions = {
                     IconButton(
-                        icon = Icons.Outlined.MoveUp,
+                        icon = R.drawable.ic_move_up_rounded_24px,
                         contentDescription = R.string.move_books_content_desc,
                         enabled = !isLoading && !isRefreshing,
                         disableOnClick = false,
@@ -216,7 +209,7 @@ fun LibraryTopBar(
                         showCategoriesDialog(LibraryEvent.OnShowCategoriesDialog)
                     }
                     IconButton(
-                        icon = Icons.Outlined.Delete,
+                        icon = R.drawable.ic_delete_rounded_24px,
                         contentDescription = R.string.delete_books_content_desc,
                         enabled = !isLoading && !isRefreshing,
                         disableOnClick = false

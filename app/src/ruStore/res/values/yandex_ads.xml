@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Yandex real ad units (app id 19400445): native = -1, interstitial = -2 -->
-    <string name="yandex_interstitial_unit_id" translatable="false">R-M-19400445-2</string>
-    <string name="yandex_native_reader_text_unit_id" translatable="false">R-M-19400445-1</string>
-    <string name="yandex_native_reader_pdf_unit_id" translatable="false">R-M-19400445-1</string>
-</resources>

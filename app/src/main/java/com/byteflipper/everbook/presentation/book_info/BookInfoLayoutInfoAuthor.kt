@@ -6,13 +6,12 @@
  */
 
 package com.byteflipper.everbook.presentation.book_info
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -36,7 +35,7 @@ fun BookInfoLayoutInfoAuthor(
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Icon(
-            imageVector = Icons.Outlined.Person,
+            painter = painterResource(R.drawable.ic_person_rounded_24px),
             contentDescription = stringResource(id = R.string.author),
             modifier = Modifier.size(18.dp),
             tint = MaterialTheme.colorScheme.onSurfaceVariant

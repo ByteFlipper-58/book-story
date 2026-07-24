@@ -11,13 +11,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.MenuBook
-import androidx.compose.material.icons.outlined.DisplaySettings
-import androidx.compose.material.icons.outlined.Explore
-import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.LocalLibrary
-import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -49,7 +42,7 @@ fun SettingsLayout(
         item {
             SettingsLayoutItem(
                 index = 0,
-                icon = Icons.Outlined.DisplaySettings,
+                icon = R.drawable.ic_display_settings_rounded_24px,
                 title = stringResource(id = R.string.general_settings),
                 description = stringResource(id = R.string.general_settings_desc)
             ) {
@@ -60,7 +53,7 @@ fun SettingsLayout(
         item {
             SettingsLayoutItem(
                 index = 1,
-                icon = Icons.Outlined.Palette,
+                icon = R.drawable.ic_palette_rounded_24px,
                 title = stringResource(id = R.string.appearance_settings),
                 description = stringResource(id = R.string.appearance_settings_desc)
             ) {
@@ -71,7 +64,7 @@ fun SettingsLayout(
         item {
             SettingsLayoutItem(
                 index = 2,
-                icon = Icons.Outlined.LocalLibrary,
+                icon = R.drawable.ic_local_library_rounded_24px,
                 title = stringResource(id = R.string.library_settings),
                 description = stringResource(id = R.string.library_settings_desc)
             ) {
@@ -82,7 +75,7 @@ fun SettingsLayout(
         item {
             SettingsLayoutItem(
                 index = 3,
-                icon = Icons.AutoMirrored.Outlined.MenuBook,
+                icon = R.drawable.ic_menu_book_rounded_24px,
                 title = stringResource(id = R.string.reader_settings),
                 description = stringResource(id = R.string.reader_settings_desc)
             ) {
@@ -93,7 +86,7 @@ fun SettingsLayout(
         item {
             SettingsLayoutItem(
                 index = 4,
-                icon = Icons.Outlined.Explore,
+                icon = R.drawable.ic_explore_rounded_24px,
                 title = stringResource(id = R.string.browse_settings),
                 description = stringResource(id = R.string.browse_settings_desc)
             ) {
@@ -105,7 +98,7 @@ fun SettingsLayout(
             item {
                 SettingsLayoutItem(
                     index = 5,
-                    icon = Icons.Outlined.Language,
+                    icon = R.drawable.ic_language_rounded_24px,
                     title = stringResource(id = R.string.translator_settings),
                     description = stringResource(id = R.string.translator_settings_desc)
                 ) {

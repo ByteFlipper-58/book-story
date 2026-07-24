@@ -106,6 +106,11 @@ data class MainState(
     },
     val translationWifiOnly: Boolean = provideDefaultValue { true },
     val fastColorPresetChange: Boolean = provideDefaultValue { true },
+    val autoScrollSpeed: Float = provideDefaultValue { 5.0f },
+    val autoScrollChipAlignment: String = provideDefaultValue { "BOTTOM_RIGHT" },
+    val autoScrollChipOpacity: Int = provideDefaultValue { 100 },
+    val autoScrollChipOpacityEnabled: Boolean = provideDefaultValue { false },
+    val autoScrollChipPlayPause: Boolean = provideDefaultValue { false },
     val textAlignment: ReaderTextAlignment = provideDefaultValue { ReaderTextAlignment.JUSTIFY },
     val letterSpacing: Int = provideDefaultValue { 0 },
     val cutoutPadding: Boolean = provideDefaultValue { false },
@@ -281,6 +286,26 @@ data class MainState(
                     fastColorPresetChange = provideValue(
                         FAST_COLOR_PRESET_CHANGE
                     ) { fastColorPresetChange },
+
+                    autoScrollSpeed = provideValue(
+                        AUTO_SCROLL_SPEED, convert = { this.toFloat() }
+                    ) { autoScrollSpeed },
+
+                    autoScrollChipAlignment = provideValue(
+                        AUTO_SCROLL_CHIP_ALIGNMENT
+                    ) { autoScrollChipAlignment },
+
+                    autoScrollChipOpacity = provideValue(
+                        AUTO_SCROLL_CHIP_OPACITY
+                    ) { autoScrollChipOpacity },
+
+                    autoScrollChipOpacityEnabled = provideValue(
+                        AUTO_SCROLL_CHIP_OPACITY_ENABLED
+                    ) { autoScrollChipOpacityEnabled },
+
+                    autoScrollChipPlayPause = provideValue(
+                        AUTO_SCROLL_CHIP_PLAY_PAUSE
+                    ) { autoScrollChipPlayPause },
 
                     browseLayout = provideValue(
                         BROWSE_LAYOUT, convert = { toBrowseLayout() }

@@ -6,14 +6,13 @@
  */
 
 package com.byteflipper.everbook.presentation.settings.components
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -41,7 +40,7 @@ fun SettingsSubcategoryNote(
     ) {
         Icon(
             modifier = Modifier.size(24.dp),
-            imageVector = Icons.Outlined.Info,
+            painter = painterResource(R.drawable.ic_info_rounded_24px),
             contentDescription = stringResource(id = R.string.note_content_desc),
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )

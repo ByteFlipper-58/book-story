@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.settings.appearance.colors.components
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.expandHorizontally
@@ -32,12 +33,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.DeleteOutline
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Shuffle
-import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -55,7 +50,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
@@ -302,7 +297,7 @@ private fun ReorderableCollectionItemScope.ColorPresetOptionRowItem(
             else Transitions.NoExitAnimation
         ) {
             Icon(
-                imageVector = Icons.Default.Done,
+                painter = painterResource(R.drawable.ic_done_rounded_24px),
                 contentDescription = stringResource(id = R.string.selected_content_desc),
                 modifier = Modifier
                     .padding(end = 8.dp)
@@ -327,7 +322,7 @@ private fun ReorderableCollectionItemScope.ColorPresetOptionRowItem(
             else Transitions.NoExitAnimation
         ) {
             Icon(
-                imageVector = Icons.Rounded.DragHandle,
+                painter = painterResource(R.drawable.ic_drag_handle_rounded_24px),
                 contentDescription = stringResource(id = R.string.drag_content_desc),
                 modifier = Modifier
                     .padding(start = 8.dp)
@@ -409,7 +404,7 @@ private fun ColorPresetOptionConfigurationItem(
         FadeTransitionPreservingSpace(visible = canDelete) {
             IconButton(
                 modifier = Modifier.size(24.dp),
-                icon = Icons.Default.DeleteOutline,
+                icon = R.drawable.ic_delete_rounded_24px,
                 contentDescription = R.string.delete_color_preset_content_desc,
                 disableOnClick = false,
                 enabled = canDelete,
@@ -421,7 +416,7 @@ private fun ColorPresetOptionConfigurationItem(
 
         IconButton(
             modifier = Modifier.size(24.dp),
-            icon = Icons.Default.Shuffle,
+            icon = R.drawable.ic_shuffle_rounded_24px,
             contentDescription = R.string.shuffle_color_preset_content_desc,
             disableOnClick = false,
             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -431,7 +426,7 @@ private fun ColorPresetOptionConfigurationItem(
 
         IconButton(
             modifier = Modifier.size(24.dp),
-            icon = Icons.Default.Add,
+            icon = R.drawable.ic_add_rounded_24px,
             contentDescription = R.string.create_color_preset_content_desc,
             disableOnClick = false,
             color = MaterialTheme.colorScheme.onSurfaceVariant

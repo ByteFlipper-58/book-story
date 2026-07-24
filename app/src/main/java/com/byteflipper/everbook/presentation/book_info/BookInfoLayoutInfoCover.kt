@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.book_info
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,8 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -61,7 +60,7 @@ fun BookInfoLayoutInfoCover(
             )
         } else {
             Icon(
-                imageVector = Icons.Default.Image,
+                painter = painterResource(R.drawable.ic_image_rounded_24px),
                 contentDescription = stringResource(id = R.string.cover_image_not_found_content_desc),
                 modifier = Modifier
                     .align(Alignment.Center)

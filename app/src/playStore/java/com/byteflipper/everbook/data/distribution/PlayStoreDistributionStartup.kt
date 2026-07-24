@@ -8,6 +8,7 @@
 package com.byteflipper.everbook.data.distribution
 
 import com.byteflipper.everbook.data.di.ApplicationScope
+import com.byteflipper.everbook.data.ads.AdMobAppOpenAdManager
 import com.byteflipper.everbook.domain.config.RemoteFeatureConfig
 import com.byteflipper.everbook.domain.distribution.DistributionStartup
 import kotlinx.coroutines.CoroutineScope
@@ -15,10 +16,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PlayStoreDistributionStartup @Inject constructor(
+    private val appOpenAdManager: AdMobAppOpenAdManager,
     private val remoteFeatureConfig: RemoteFeatureConfig,
     @ApplicationScope private val applicationScope: CoroutineScope
 ) : DistributionStartup {
     override fun onAppCreate() {
+        appOpenAdManager.start()
         applicationScope.launch {
             remoteFeatureConfig.refresh()
         }

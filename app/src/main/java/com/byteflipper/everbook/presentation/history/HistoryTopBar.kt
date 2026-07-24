@@ -7,10 +7,6 @@
 
 package com.byteflipper.everbook.presentation.history
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -61,14 +57,14 @@ fun HistoryTopBar(
                 },
                 contentActions = {
                     IconButton(
-                        icon = Icons.Default.Search,
+                        icon = R.drawable.ic_search_rounded_24px,
                         contentDescription = R.string.search_content_desc,
                         disableOnClick = true,
                     ) {
                         searchVisibility(HistoryEvent.OnSearchVisibility(true))
                     }
                     IconButton(
-                        icon = Icons.Outlined.DeleteSweep,
+                        icon = R.drawable.ic_delete_sweep_rounded_24px,
                         contentDescription = R.string.delete_whole_history_content_desc,
                         disableOnClick = false,
                         enabled = !isLoading
@@ -87,7 +83,7 @@ fun HistoryTopBar(
                 contentID = 1,
                 contentNavigationIcon = {
                     IconButton(
-                        icon = Icons.AutoMirrored.Default.ArrowBack,
+                        icon = R.drawable.ic_arrow_back_rounded_24px,
                         contentDescription = R.string.exit_search_content_desc,
                         disableOnClick = true
                     ) {

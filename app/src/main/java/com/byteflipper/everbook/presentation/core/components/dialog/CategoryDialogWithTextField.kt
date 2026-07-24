@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.core.components.dialog
+import androidx.annotation.DrawableRes
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -35,7 +36,7 @@ fun CategoryDialogWithTextField(
     title: String,
     placeholder: String,
     initialValue: String,
-    icon: ImageVector? = null,
+    @androidx.annotation.DrawableRes icon: Int? = null,
     description: String? = null,
     lengthLimit: Int = 50,
     editable: Boolean = true,

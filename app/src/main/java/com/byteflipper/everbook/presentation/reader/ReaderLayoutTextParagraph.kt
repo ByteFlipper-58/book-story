@@ -8,7 +8,10 @@
 package com.byteflipper.everbook.presentation.reader
 
 import androidx.activity.ComponentActivity
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -16,21 +19,38 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextIndent
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
+import com.byteflipper.everbook.domain.reader.Bookmark
 import com.byteflipper.everbook.domain.reader.FontWithName
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderText.Text
@@ -43,12 +63,67 @@ import com.byteflipper.everbook.ui.reader.ReaderTranslationState
 
 private val INLINE_REGEX = Regex("\\$([^$]+)\\$")
 
+private fun AnnotatedString.withAnnotations(
+    annotations: List<Bookmark>,
+    focusedBookmarkId: Int?,
+    noteColor: Color,
+    focusColor: Color,
+    focusIntensity: Float
+): AnnotatedString {
+    if (annotations.isEmpty()) return this
+    val length = this.length
+    return buildAnnotatedString {
+        append(this@withAnnotations)
+        annotations.forEach { annotation ->
+            val start = annotation.charStart.coerceIn(0, length)
+            val end = annotation.charEnd.coerceIn(start, length)
+            if (end > start) {
+                val baseStyle = when {
+                    annotation.isHighlight -> SpanStyle(
+                        background = ReaderHighlightColors.colorFor(annotation.colorArgb)
+                            .copy(alpha = ReaderHighlightColors.backgroundAlpha)
+                    )
+                    annotation.hasNote -> SpanStyle(
+                        background = noteColor.copy(alpha = 0.10f),
+                        textDecoration = TextDecoration.Underline
+                    )
+                    else -> SpanStyle(textDecoration = TextDecoration.Underline)
+                }
+                addStyle(baseStyle, start, end)
+                if (annotation.id == focusedBookmarkId) {
+                    val focusedBackground = if (annotation.isHighlight) {
+                        ReaderHighlightColors.colorFor(annotation.colorArgb).copy(
+                            alpha = lerp(
+                                ReaderHighlightColors.backgroundAlpha,
+                                0.72f,
+                                focusIntensity
+                            )
+                        )
+                    } else {
+                        focusColor.copy(alpha = lerp(0.10f, 0.30f, focusIntensity))
+                    }
+                    addStyle(
+                        SpanStyle(background = focusedBackground),
+                        start,
+                        end
+                    )
+                }
+            }
+        }
+    }
+}
+
 @Composable
 fun LazyItemScope.ReaderLayoutTextParagraph(
     paragraph: Text,
     activity: ComponentActivity,
     showMenu: Boolean,
     readerIndex: Int,
+    highlights: List<Bookmark>,
+    focusedBookmarkId: Int?,
+    onAnnotationTextLayout: (bookmarkId: Int, topOffsetPx: Float) -> Unit,
+    showHighlightPalette: (ReaderEvent.OnShowHighlightPalette) -> Unit,
+    editAnnotation: (ReaderEvent.OnEditAnnotation) -> Unit,
     fontFamily: FontWithName,
     fontColor: Color,
     lineHeight: TextUnit,
@@ -132,30 +207,87 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
 
     // Если формул нет или рендер выключен – используем прежний вывод
     if (matches.isEmpty() || !com.byteflipper.everbook.math.MathConfig.enabled) {
-        Column(
+        val focused = highlights.any { it.id == focusedBookmarkId }
+        val focusIntensity = remember { Animatable(0f) }
+        var textPositionInRoot by remember { mutableStateOf(Offset.Zero) }
+        var textLayoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
+        LaunchedEffect(focused) {
+            if (focused) {
+                focusIntensity.snapTo(0f)
+                focusIntensity.animateTo(1f, tween(220))
+                kotlinx.coroutines.delay(2_200)
+                focusIntensity.animateTo(0f, tween(360))
+            } else {
+                focusIntensity.snapTo(0f)
+            }
+        }
+        Box(
             modifier = Modifier
                 .animateItem(fadeInSpec = null, fadeOutSpec = null)
+                .fillMaxWidth()
+        ) {
+        Column(
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = sidePadding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = horizontalAlignment
         ) {
+            val noteColor = MaterialTheme.colorScheme.primary
+            val focusColor = MaterialTheme.colorScheme.tertiary
+            val displayedLine = remember(
+                paragraph.line,
+                highlights,
+                focusedBookmarkId,
+                    noteColor,
+                    focusColor,
+                    focusIntensity.value
+                ) {
+                paragraph.line.withAnnotations(
+                    annotations = highlights,
+                    focusedBookmarkId = focusedBookmarkId,
+                    noteColor = noteColor,
+                    focusColor = focusColor,
+                    focusIntensity = focusIntensity.value
+                )
+            }
             StyledText(
-                text = paragraph.line,
-                modifier = Modifier.doubleTapPriorityGestures(
-                    enabled = doubleClickTranslation && toolbarHidden,
-                    onTap = {
-                        menuVisibility(
-                            ReaderEvent.OnMenuVisibility(
-                                show = !showMenu,
-                                fullscreenMode = fullscreenMode,
-                                saveCheckpoint = true,
-                                activity = activity
+                text = displayedLine,
+                modifier = Modifier
+                    .onGloballyPositioned { textPositionInRoot = it.positionInRoot() }
+                    .doubleTapPriorityGestures(
+                    enabled = toolbarHidden && (doubleClickTranslation || highlights.isNotEmpty()),
+                    onTap = { tapPosition ->
+                        val tappedOffset = textLayoutResult?.getOffsetForPosition(tapPosition)
+                        val annotation = tappedOffset?.let { offset ->
+                            highlights.lastOrNull { offset in it.charStart until it.charEnd }
+                        }
+                        when {
+                            annotation?.hasNote == true && !annotation.isHighlight -> {
+                                editAnnotation(ReaderEvent.OnEditAnnotation(annotation))
+                            }
+                            annotation != null -> {
+                                showHighlightPalette(
+                                    ReaderEvent.OnShowHighlightPalette(
+                                        selectedText = annotation.quotedText,
+                                        anchorX = (textPositionInRoot.x + tapPosition.x).toInt(),
+                                        anchorY = (textPositionInRoot.y + tapPosition.y).toInt(),
+                                        annotation = annotation
+                                    )
+                                )
+                            }
+                            else -> menuVisibility(
+                                ReaderEvent.OnMenuVisibility(
+                                    show = !showMenu,
+                                    fullscreenMode = fullscreenMode,
+                                    saveCheckpoint = true,
+                                    activity = activity
+                                )
                             )
-                        )
+                        }
                     },
                     onDoubleTap = {
-                        if (TranslationFeature.INLINE_TRANSLATION_ENABLED) {
+                        if (doubleClickTranslation && TranslationFeature.INLINE_TRANSLATION_ENABLED) {
                             translateText(
                                 ReaderEvent.OnTranslateText(
                                     textToTranslate = paragraph.line.text,
@@ -168,7 +300,7 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
                                     readerTextIndex = readerIndex
                                 )
                             )
-                        } else {
+                        } else if (doubleClickTranslation) {
                             openTranslator(
                                 ReaderEvent.OnOpenTranslator(
                                     textToTranslate = paragraph.line.text,
@@ -181,8 +313,21 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
                 ),
                 style = paragraphTextStyle,
                 highlightText = highlightedReading,
-                highlightThickness = highlightedReadingThickness
+                highlightThickness = highlightedReadingThickness,
+                onTextLayout = if (!highlightedReading) {
+                    { layoutResult ->
+                        textLayoutResult = layoutResult
+                        highlights.forEach { annotation ->
+                            val offset = annotation.charStart.coerceIn(0, rawText.length)
+                            onAnnotationTextLayout(
+                                annotation.id,
+                                layoutResult.getBoundingBox(offset).top
+                            )
+                        }
+                    }
+                } else null
             )
+        }
         }
         return
     }

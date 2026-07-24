@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.presentation.core.constants
 
+import android.content.Context
 import androidx.annotation.FontRes
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
@@ -17,9 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.domain.reader.FontWithName
 import com.byteflipper.everbook.domain.ui.UIText
+import com.byteflipper.everbook.data.font.CustomFontStore
 
 @OptIn(ExperimentalTextApi::class)
-fun provideFonts(): List<FontWithName> {
+fun provideFonts(context: Context? = null): List<FontWithName> {
     return mutableListOf(
         FontWithName(
             "default",
@@ -155,7 +157,9 @@ fun provideFonts(): List<FontWithName> {
                 Font(R.font.open_dyslexic_bold, weight = FontWeight.Bold)
             )
         )
-    )
+    ).apply {
+        if (context != null) addAll(CustomFontStore.list(context))
+    }
 }
 
 @OptIn(ExperimentalTextApi::class)

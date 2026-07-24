@@ -25,6 +25,9 @@ object DataStoreConstants {
     val DOUBLE_PRESS_EXIT = booleanPreferencesKey("double_press_exit")
     val CHANGELOG_LAST_SEEN_VERSION_CODE = intPreferencesKey("changelog_last_seen_version_code")
 
+    // Advertising settings
+    val APP_OPEN_ADS_ENABLED = booleanPreferencesKey("app_open_ads_enabled")
+
     // Statistics
     val READING_GOAL_MINUTES = intPreferencesKey("reading_goal_minutes")
     val STATISTICS_SECTIONS = stringPreferencesKey("statistics_sections")
@@ -45,6 +48,12 @@ object DataStoreConstants {
     val BOOK_TRANSLATION_RECENT_TARGET_LANGUAGES =
         stringSetPreferencesKey("book_translation_recent_target_languages")
     val FAST_COLOR_PRESET_CHANGE = booleanPreferencesKey("fast_color_preset_change")
+    val READER_HIGHLIGHT_PALETTE = stringPreferencesKey("reader_highlight_palette")
+    val AUTO_SCROLL_SPEED = doublePreferencesKey("auto_scroll_speed")
+    val AUTO_SCROLL_CHIP_ALIGNMENT = stringPreferencesKey("auto_scroll_chip_alignment")
+    val AUTO_SCROLL_CHIP_OPACITY = intPreferencesKey("auto_scroll_chip_opacity")
+    val AUTO_SCROLL_CHIP_OPACITY_ENABLED = booleanPreferencesKey("auto_scroll_chip_opacity_enabled")
+    val AUTO_SCROLL_CHIP_PLAY_PAUSE = booleanPreferencesKey("auto_scroll_chip_play_pause")
     val SIDE_PADDING = intPreferencesKey("side_padding")
     val VERTICAL_PADDING = intPreferencesKey("vertical_padding")
     val FONT = stringPreferencesKey("font")

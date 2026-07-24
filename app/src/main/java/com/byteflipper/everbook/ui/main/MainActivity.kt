@@ -24,7 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.core.content.IntentCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -127,22 +127,22 @@ class MainActivity : AppCompatActivity() {
                     screen = LibraryScreen,
                     title = R.string.library_screen,
                     tooltip = R.string.library_content_desc,
-                    selectedIcon = R.drawable.library_screen_filled,
-                    unselectedIcon = R.drawable.library_screen_outlined
+                    selectedIcon = R.drawable.ic_menu_book_rounded_24px,
+                    unselectedIcon = R.drawable.ic_menu_book_rounded_24px
                 ),
                 NavigatorItem(
                     screen = HistoryScreen,
                     title = R.string.history_screen,
                     tooltip = R.string.history_content_desc,
-                    selectedIcon = R.drawable.history_screen_filled,
-                    unselectedIcon = R.drawable.history_screen_outlined
+                    selectedIcon = R.drawable.ic_history_rounded_24px,
+                    unselectedIcon = R.drawable.ic_history_rounded_24px
                 ),
                 NavigatorItem(
                     screen = BrowseScreen,
                     title = R.string.browse_screen,
                     tooltip = R.string.browse_content_desc,
-                    selectedIcon = R.drawable.browse_screen_filled,
-                    unselectedIcon = R.drawable.browse_screen_outlined
+                    selectedIcon = R.drawable.ic_explore_rounded_24px,
+                    unselectedIcon = R.drawable.ic_explore_rounded_24px
                 )
             )
 

@@ -86,6 +86,7 @@
     <string name="close">Close</string>
     <string name="retry">Retry</string>
     <string name="translation_translating">Translating…</string>
+    <string name="translation_downloading_model">Downloading language model… This may take a while.</string>
     <string name="translation_open_external">External</string>
     <string name="translation_show_original">Show original</string>
     <string name="translation_show_translation">Show translation</string>
@@ -115,6 +116,9 @@
     <string name="translation_collapse_languages_content_desc">Collapse languages</string>
     <string name="translation_wifi_only_option">Download models on Wi-Fi only</string>
     <string name="translation_wifi_only_option_desc">Offline language models are downloaded before local translation</string>
+    <string name="translation_wifi_required_title">Wi-Fi is required</string>
+    <string name="translation_wifi_required_message">Model downloads are limited to Wi-Fi, but no working Wi-Fi connection is available. Turn off the option below to download using the current network.</string>
+    <string name="translation_download">Download</string>
     <string name="translation_offline_models_option">Offline models</string>
     <string name="translation_offline_models_entry_desc">Manage downloaded languages for in-app offline translation</string>
     <string name="translation_offline_models_unavailable">Offline model management is available only in the Play Store build, because ML Kit model downloads depend on Google services.</string>
@@ -135,7 +139,9 @@
     <string name="translation_model_notification_download_text">Downloading %1$s for ML Kit translation</string>
     <string name="translation_model_notification_delete_title">Updating offline models</string>
     <string name="translation_model_notification_delete_text">Removing %1$s ML Kit model</string>
-    <string name="translation_model_error_timeout">Model download timed out. Try clearing Google Play Services cache (Settings → Apps → Google Play Services → Clear cache), then retry.</string>
+    <string name="translation_model_download_help">Downloads are provided by Google Play services. If a model stays on “Working” for a long time, update Google Play services, then clear its cache (Settings → Apps → Google Play services → Storage → Clear cache) and retry.</string>
+    <string name="translation_model_error_stalled">The model download did not start. EverBook retried it automatically, but it is still stuck. Update Google Play services, then clear its cache (Settings → Apps → Google Play services → Storage → Clear cache) and retry.</string>
+    <string name="translation_model_error_timeout">Model download timed out. Update Google Play services, then try clearing its cache (Settings → Apps → Google Play services → Storage → Clear cache) and retry.</string>
     <string name="translation_selection_title">Selected text translation</string>
     <string name="book_translation_title">Book translation</string>
     <string name="book_translation_start">Translate book</string>
@@ -278,6 +284,8 @@
 
     <!-- Reader -->
     <string name="font_family_option">Font family</string>
+    <string name="import_font">Import font</string>
+    <string name="remove_font">Remove font</string>
     <string name="font_thickness_option">Font thickness</string>
     <string name="font_style_option">Font style</string>
     <string name="font_size_option">Font size</string>
@@ -319,6 +327,19 @@
     <string name="horizontal_gesture_pull_anim_option">Pull animation</string>
     <string name="horizontal_gesture_pull_anim_option_desc">Enable pull animation when using horizontal gesture</string>
     <string name="bottom_bar_padding_option">Bottom bar margin</string>
+    <string name="auto_scroll_button">Auto-scroll</string>
+    <string name="auto_scroll_tap_to_stop">Tap anywhere to stop</string>
+    <string name="auto_scroll_speed_option">Auto-scroll speed</string>
+    <string name="auto_scroll_reader_settings">Auto-scroll</string>
+    <string name="auto_scroll_chip_alignment_option">Chip position</string>
+    <string name="alignment_bottom_right">Bottom right</string>
+    <string name="alignment_bottom_center">Bottom center</string>
+    <string name="alignment_bottom_left">Bottom left</string>
+    <string name="auto_scroll_chip_opacity_enabled_option">Chip opacity</string>
+    <string name="auto_scroll_chip_opacity_enabled_option_desc">Enable transparency for the compact corner chip</string>
+    <string name="auto_scroll_chip_opacity_option">Opacity value</string>
+    <string name="auto_scroll_chip_play_pause_option">Play/Pause button in chip</string>
+    <string name="auto_scroll_chip_play_pause_option_desc">Show a quick play/pause toggle inside the compact chip</string>
     <string name="highlighted_reading_option">Highlight words</string>
     <string name="highlighted_reading_option_desc">Highlight the beginning of each word</string>
     <string name="highlighted_reading_thickness_option">Highlight thickness</string>
@@ -495,6 +516,35 @@
     <!-- Reader -->
     <string name="no_chapters">No chapters</string>
     <string name="chapters">Chapters</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="annotations">Annotations</string>
+    <string name="annotation">Annotation</string>
+    <string name="annotation_style">Style</string>
+    <string name="annotation_note">Note (optional)</string>
+    <string name="add_annotation_note">Add note</string>
+    <string name="annotation_no_color">Bookmark without color</string>
+    <string name="edit_annotation">Edit annotation</string>
+    <string name="annotations_empty">No annotations yet</string>
+    <string name="annotations_filter_all">All</string>
+    <string name="annotations_filter_bookmarks">Bookmarks</string>
+    <string name="annotations_filter_highlights">Highlights</string>
+    <string name="annotations_filter_notes">Notes</string>
+    <string name="bookmarks_content_desc">Bookmarks</string>
+    <string name="bookmark_add_here">Add bookmark here</string>
+    <string name="bookmark_remove_here">Remove bookmark here</string>
+    <string name="bookmarks_empty">No bookmarks yet</string>
+    <string name="highlight">Highlight</string>
+    <string name="add_to_bookmarks">Add to bookmarks</string>
+    <string name="highlight_color">Highlight color</string>
+    <string name="highlight_not_found">Couldn\'t locate the selected text</string>
+    <string name="highlight_multi_paragraph_not_supported">Select text inside one paragraph</string>
+    <string name="highlight_ambiguous_selection">Select a longer unique fragment</string>
+    <string name="reader_annotations_original_only">Bookmarks, highlights and notes are available only in the original text</string>
+    <string name="note">Note</string>
+    <string name="note_hint">Write a note…</string>
+    <string name="add_note">Note</string>
+    <string name="edit_note">Edit note</string>
     <string name="open_original_pdf">Open original PDF</string>
     <string name="open_parsed_text">Open text version</string>
 
@@ -586,6 +636,21 @@
     <string name="help_desc_how_to_customize_reader_2">Settings</string>
     <string name="help_desc_how_to_customize_reader_3">and select Reader category to customize General settings,\nor Appearance category to customize Colors settings.</string>
 
+    <string name="help_title_how_to_use_auto_scroll">How do I use auto-scroll?</string>
+    <string name="help_desc_how_to_use_auto_scroll">While reading, tap the screen to show the controls, then start auto-scroll from the bottom bar. Use the panel at the bottom to set a speed from 1× to 10×, pause reading or resume it. The panel collapses after a few seconds; tap it to open the controls again. You can choose its position and appearance in Reader settings.</string>
+
+    <string name="help_title_how_to_adjust_brightness">How do I adjust brightness with a gesture?</string>
+    <string name="help_desc_how_to_adjust_brightness">First enable Custom screen brightness in Reader settings. Then swipe up or down along either edge of the reading screen: swipe up to make it brighter and down to dim it. The middle of the screen remains available for regular reading and scrolling.</string>
+
+    <string name="help_title_how_to_use_translation">How do I translate text or a book?</string>
+    <string name="help_desc_how_to_use_translation">Select text in the original book and choose Translate to see it in the reader. From the translation panel, you can copy the result, switch between the original and translation, or open it in another translator. To translate a whole book, open the book translation panel from the reader, choose the languages and start translation. You can pause it, resume it later, and switch between the original and translated text when it is ready.</string>
+
+    <string name="help_title_how_to_use_annotations">How do I create and manage annotations?</string>
+    <string name="help_desc_how_to_use_annotations">Select a passage in the original text, then choose a highlight color, add a bookmark, or write a note. Open Annotations from the reader to browse all bookmarks, highlights and notes, filter them by type, edit them, or jump back to the saved passage.</string>
+
+    <string name="help_title_how_to_use_custom_fonts">How do I use my own fonts?</string>
+    <string name="help_desc_how_to_use_custom_fonts">Open Reader settings, go to the Font section and choose Import font. Select one or more TTF or OTF files, then choose the imported font from the font list. You can remove an imported font from the same list when it is no longer needed.</string>
+
     <string name="help_title_how_to_manage_history">How do I manage history?</string>
     <string name="help_desc_how_to_manage_history_1">Go to the</string>
     <string name="help_desc_how_to_manage_history_2">History</string>
@@ -615,13 +680,13 @@
     <string name="start_language_preferences">Language preferences</string>
     <string name="start_theme_preferences">Theme preferences</string>
     <string name="start_scan_preferences">Scan preferences</string>
-    <string name="start_permissions_notifications">Notifications permission</string>
-    <string name="start_permissions_notifications_desc">Notifications are used for:</string>
-    <string name="start_notifications_item_updates">App update availability</string>
+    <string name="start_permissions_notifications">Notification permission</string>
+    <string name="start_permissions_notifications_desc">Notifications help you keep track of:</string>
+    <string name="start_notifications_item_updates">New app updates</string>
     <string name="start_notifications_item_translation">Book translation progress</string>
-    <string name="start_notifications_item_models">ML model download status</string>
+    <string name="start_notifications_item_models">Offline translation model downloads</string>
     <string name="start_notifications_grant">Allow notifications</string>
-    <string name="start_notifications_granted">Notifications allowed</string>
+    <string name="start_notifications_granted">Notifications are enabled</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">This app is based on a fork of the Acclorite/book-story project. The original project is available under the GPL-3.0 license.</string>
     <string name="start_source_code">Source code</string>
@@ -855,4 +920,15 @@
     <string name="statistics_empty">No reading statistics yet. Read a book to start tracking your time.</string>
     <string name="time_hours_minutes">%1$dh %2$dm</string>
     <string name="time_minutes">%1$dm</string>
+    <string name="highlight_palette_title">Highlight palette</string>
+    <string name="highlight_palette_color">Selected color</string>
+    <string name="highlight_palette_manage">Customize colors</string>
+    <string name="highlight_palette_add">Add color</string>
+    <string name="highlight_palette_reset">Reset palette</string>
+    <string name="highlight_palette_move_left">Move color left</string>
+    <string name="highlight_palette_move_right">Move color right</string>
+    <string name="highlight_palette_preview">Color preview</string>
+    <string name="highlight_palette_apply">Apply to selected color</string>
+    <string name="highlight_palette_customize_color">Adjust color</string>
+    <string name="highlight_palette_drag">Move color toolbar</string>
 </resources>

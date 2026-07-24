@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import com.byteflipper.everbook.domain.reader.Bookmark
 import com.byteflipper.everbook.domain.reader.FontWithName
 import com.byteflipper.everbook.domain.reader.ReaderFontThickness
 import com.byteflipper.everbook.domain.reader.ReaderText
@@ -30,6 +31,11 @@ fun LazyItemScope.ReaderLayoutText(
     activity: ComponentActivity,
     showMenu: Boolean,
     readerIndex: Int,
+    highlights: List<Bookmark>,
+    focusedBookmarkId: Int?,
+    onAnnotationTextLayout: (bookmarkId: Int, topOffsetPx: Float) -> Unit,
+    showHighlightPalette: (ReaderEvent.OnShowHighlightPalette) -> Unit,
+    editAnnotation: (ReaderEvent.OnEditAnnotation) -> Unit,
     entry: ReaderText,
     imagesCornersRoundness: Dp,
     imagesAlignment: HorizontalAlignment,
@@ -101,6 +107,11 @@ fun LazyItemScope.ReaderLayoutText(
                 activity = activity,
                 showMenu = showMenu,
                 readerIndex = readerIndex,
+                highlights = highlights,
+                focusedBookmarkId = focusedBookmarkId,
+                onAnnotationTextLayout = onAnnotationTextLayout,
+                showHighlightPalette = showHighlightPalette,
+                editAnnotation = editAnnotation,
                 fontFamily = fontFamily,
                 fontColor = fontColor,
                 lineHeight = lineHeight,

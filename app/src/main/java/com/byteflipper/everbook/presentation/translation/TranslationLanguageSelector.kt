@@ -8,6 +8,7 @@
 @file:OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 
 package com.byteflipper.everbook.presentation.translation
+import androidx.compose.ui.res.painterResource
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,8 +19,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -124,7 +123,7 @@ fun TranslationLanguageSelector(
                     colors = IconButtonDefaults.filledTonalIconButtonColors()
                 ) {
                     Icon(
-                        imageVector = Icons.Default.SwapHoriz,
+                        painter = painterResource(R.drawable.ic_swap_horiz_rounded_24px),
                         contentDescription = stringResource(
                             id = R.string.translation_swap_languages_content_desc
                         )

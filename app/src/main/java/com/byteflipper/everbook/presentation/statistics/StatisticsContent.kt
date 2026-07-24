@@ -6,6 +6,7 @@
  */
 
 package com.byteflipper.everbook.presentation.statistics
+import androidx.compose.ui.res.painterResource
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
@@ -26,11 +27,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Done
-import androidx.compose.material.icons.outlined.Insights
-import androidx.compose.material.icons.outlined.RestartAlt
-import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -216,7 +212,7 @@ fun StatisticsContent(
                                 onClick = { showResetLayoutDialog = true }
                             ) {
                                 Icon(
-                                    imageVector = Icons.Outlined.RestartAlt,
+                                    painter = painterResource(R.drawable.ic_restart_alt_rounded_24px),
                                     contentDescription = stringResource(
                                         id = R.string.statistics_reset_layout_content_desc
                                     )
@@ -226,8 +222,8 @@ fun StatisticsContent(
                         IconButton(onClick = { editMode = !editMode }) {
                             Crossfade(targetState = editMode, label = "editIcon") { editing ->
                                 Icon(
-                                    imageVector = if (editing) Icons.Outlined.Done
-                                    else Icons.Outlined.Tune,
+                                    painter = if (editing) painterResource(R.drawable.ic_done_rounded_24px)
+                                    else painterResource(R.drawable.ic_tune_rounded_24px),
                                     contentDescription = stringResource(
                                         id = R.string.statistics_customize_content_desc
                                     ),
@@ -268,7 +264,7 @@ fun StatisticsContent(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.Insights,
+                        painter = painterResource(R.drawable.ic_insights_rounded_24px),
                         contentDescription = null,
                         modifier = Modifier.size(64.dp),
                         tint = MaterialTheme.colorScheme.surfaceContainerHighest

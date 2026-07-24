@@ -10,6 +10,8 @@ package com.byteflipper.everbook.ui.theme
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.expandVertically
@@ -116,12 +118,44 @@ fun HorizontalExpandingTransition(
     content: @Composable () -> Unit,
 ) {
     val enterAnimation = remember(startDirection) {
-        if (startDirection) expandHorizontally(expandFrom = Alignment.Start) + fadeIn() + slideInHorizontally { -it }
-        else expandHorizontally() + fadeIn() + slideInHorizontally { it }
+        val springSpec = spring<androidx.compose.ui.unit.IntSize>(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+        val fadeSpec = tween<Float>(durationMillis = 300)
+        val slideSpec = spring<androidx.compose.ui.unit.IntOffset>(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+        if (startDirection) {
+            expandHorizontally(animationSpec = springSpec, expandFrom = Alignment.Start) +
+                    fadeIn(animationSpec = fadeSpec) +
+                    slideInHorizontally(animationSpec = slideSpec) { -it }
+        } else {
+            expandHorizontally(animationSpec = springSpec) +
+                    fadeIn(animationSpec = fadeSpec) +
+                    slideInHorizontally(animationSpec = slideSpec) { it }
+        }
     }
     val exitAnimation = remember(startDirection) {
-        if (startDirection) shrinkHorizontally(shrinkTowards = Alignment.Start) + fadeOut() + slideOutHorizontally { -it }
-        else shrinkHorizontally() + fadeOut() + slideOutHorizontally { it }
+        val springSpec = spring<androidx.compose.ui.unit.IntSize>(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+        val fadeSpec = tween<Float>(durationMillis = 200)
+        val slideSpec = spring<androidx.compose.ui.unit.IntOffset>(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+        if (startDirection) {
+            shrinkHorizontally(animationSpec = springSpec, shrinkTowards = Alignment.Start) +
+                    fadeOut(animationSpec = fadeSpec) +
+                    slideOutHorizontally(animationSpec = slideSpec) { -it }
+        } else {
+            shrinkHorizontally(animationSpec = springSpec) +
+                    fadeOut(animationSpec = fadeSpec) +
+                    slideOutHorizontally(animationSpec = slideSpec) { it }
+        }
     }
 
     AnimatedVisibility(

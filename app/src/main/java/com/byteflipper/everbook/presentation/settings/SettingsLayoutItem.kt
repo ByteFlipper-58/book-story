@@ -6,6 +6,8 @@
  */
 
 package com.byteflipper.everbook.presentation.settings
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,7 +34,7 @@ import com.byteflipper.everbook.ui.theme.dynamicListItemColor
 @Composable
 fun SettingsLayoutItem(
     index: Int,
-    icon: ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     title: String,
     description: String,
     onClick: () -> Unit
@@ -47,7 +49,7 @@ fun SettingsLayoutItem(
         horizontalArrangement = Arrangement.spacedBy(18.dp)
     ) {
         Icon(
-            imageVector = icon,
+            painter = androidx.compose.ui.res.painterResource(id = icon),
             contentDescription = null,
             modifier = Modifier
                 .clip(CircleShape)

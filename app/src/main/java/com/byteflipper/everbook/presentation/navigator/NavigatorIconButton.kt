@@ -7,8 +7,6 @@
 
 package com.byteflipper.everbook.presentation.navigator
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import com.byteflipper.everbook.R
 import com.byteflipper.everbook.presentation.core.components.common.IconButton
@@ -18,7 +16,7 @@ fun NavigatorIconButton(
     onClick: () -> Unit = { navigatorBottomSheetChannel.trySend(true) }
 ) {
     IconButton(
-        icon = Icons.Default.MoreVert,
+        icon = R.drawable.ic_more_vert_rounded_24px,
         contentDescription = R.string.more_content_desc,
         disableOnClick = false
     ) {

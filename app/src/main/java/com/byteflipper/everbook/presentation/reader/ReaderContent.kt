@@ -9,12 +9,19 @@ package com.byteflipper.everbook.presentation.reader
 
 import android.view.View
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -35,9 +42,21 @@ import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.ui.reader.ReaderEvent
 import com.byteflipper.everbook.ui.reader.ReaderBookTranslationState
 import com.byteflipper.everbook.ui.settings.SettingsEvent
+import kotlinx.coroutines.delay
+import kotlin.math.abs
 
 @Composable
 fun ReaderContent(
+    isAutoScrolling: Boolean,
+    autoScrollSpeed: Float,
+    isAutoScrollPaused: Boolean,
+    autoScrollChipAlignment: String,
+    autoScrollChipOpacity: Int,
+    autoScrollChipOpacityEnabled: Boolean,
+    autoScrollChipPlayPause: Boolean,
+    onSetAutoScrolling: (ReaderEvent.OnSetAutoScrolling) -> Unit,
+    onSetAutoScrollPaused: (ReaderEvent.OnSetAutoScrollPaused) -> Unit,
+    onChangeAutoScrollSpeed: (Float) -> Unit,
     book: Book,
     text: List<ReaderText>,
     displayContent: ReaderDisplayContent,
@@ -46,6 +65,20 @@ fun ReaderContent(
     translation: com.byteflipper.everbook.ui.reader.ReaderTranslationState,
     bookTranslation: ReaderBookTranslationState,
     drawer: Drawer?,
+    bookmarks: List<com.byteflipper.everbook.domain.reader.Bookmark>,
+    highlightsByParagraph: Map<Int, List<com.byteflipper.everbook.domain.reader.Bookmark>>,
+    editingAnnotation: com.byteflipper.everbook.domain.reader.Bookmark?,
+    pendingAnnotationText: String?,
+    pendingAnnotationColorArgb: Int?,
+    highlightPaletteText: String?,
+    highlightPaletteAnnotation: com.byteflipper.everbook.domain.reader.Bookmark?,
+    highlightPaletteAnchorX: Int,
+    highlightPaletteAnchorY: Int,
+    highlightColors: List<Int>,
+    showHighlightPaletteEditor: Boolean,
+    focusedBookmarkId: Int?,
+    pendingBookmarkNavigation: com.byteflipper.everbook.domain.reader.Bookmark?,
+    pendingBookmarkDisplayIndex: Int?,
     listState: LazyListState,
     currentChapter: Chapter?,
     nestedScrollConnection: NestedScrollConnection,
@@ -101,6 +134,9 @@ fun ReaderContent(
     translationTargetLanguage: String,
     translationWifiOnly: Boolean,
     fullscreenMode: Boolean,
+    customScreenBrightness: Boolean,
+    screenBrightness: Float,
+    changeScreenBrightness: (Float) -> Unit,
     createInlineContentView: (Long) -> View?,
     selectPreviousPreset: (SettingsEvent.OnSelectPreviousPreset) -> Unit,
     selectNextPreset: (SettingsEvent.OnSelectNextPreset) -> Unit,
@@ -138,12 +174,76 @@ fun ReaderContent(
     changeBookTranslationWifiOnly: (ReaderEvent.OnChangeBookTranslationWifiOnly) -> Unit,
     dismissBookTranslationError: (ReaderEvent.OnDismissBookTranslationError) -> Unit,
     showChaptersDrawer: (ReaderEvent.OnShowChaptersDrawer) -> Unit,
+    showBookmarksDrawer: (ReaderEvent.OnShowBookmarksDrawer) -> Unit,
+    scrollToBookmark: (ReaderEvent.OnScrollToBookmark) -> Unit,
+    bookmarkScrollFinished: (ReaderEvent.OnBookmarkScrollFinished) -> Unit,
+    deleteBookmark: (ReaderEvent.OnDeleteBookmark) -> Unit,
+    createBookmark: (ReaderEvent.OnCreateBookmark) -> Unit,
+    showHighlightPalette: (ReaderEvent.OnShowHighlightPalette) -> Unit,
+    createHighlight: (ReaderEvent.OnCreateHighlight) -> Unit,
+    applyHighlightPaletteColor: (ReaderEvent.OnApplyHighlightPaletteColor) -> Unit,
+    requestAnnotationEditor: (ReaderEvent.OnRequestAnnotationEditor) -> Unit,
+    changeHighlightColor: (ReaderEvent.OnChangeHighlightColor) -> Unit,
+    clearHighlightColor: (ReaderEvent.OnClearHighlightColor) -> Unit,
+    editAnnotation: (ReaderEvent.OnEditAnnotation) -> Unit,
+    saveAnnotation: (ReaderEvent.OnSaveAnnotation) -> Unit,
+    dismissAnnotationEditor: (ReaderEvent.OnDismissAnnotationEditor) -> Unit,
+    dismissHighlightPalette: (ReaderEvent.OnDismissHighlightPalette) -> Unit,
+    showPaletteEditor: (ReaderEvent.OnShowHighlightPaletteEditor) -> Unit,
+    dismissPaletteEditor: (ReaderEvent.OnDismissHighlightPaletteEditor) -> Unit,
+    updateHighlightPalette: (ReaderEvent.OnUpdateHighlightPalette) -> Unit,
     dismissDrawer: (ReaderEvent.OnDismissDrawer) -> Unit,
     changePdfReadingMode: (ReaderEvent.OnChangePdfReadingMode) -> Unit,
     changePdfDefaultReadingMode: (PdfReadingMode) -> Unit,
     navigateToBookInfo: (changePath: Boolean) -> Unit,
     navigateBack: () -> Unit
 ) {
+    val annotationTopOffsets = remember { mutableStateMapOf<Int, Float>() }
+    val paragraphSpacingPx = with(LocalDensity.current) { paragraphHeight.toPx() }
+
+    LaunchedEffect(pendingBookmarkNavigation?.id, pendingBookmarkDisplayIndex) {
+        val bookmark = pendingBookmarkNavigation ?: return@LaunchedEffect
+        val displayIndex = pendingBookmarkDisplayIndex ?: return@LaunchedEffect
+        val currentIndex = listState.firstVisibleItemIndex
+        val distance = abs(displayIndex - currentIndex)
+        if (distance > 12) {
+            val direction = if (displayIndex > currentIndex) 1 else -1
+            val approachIndex = (displayIndex - direction * 8).coerceAtLeast(0)
+            listState.animateScrollToItem(approachIndex)
+        }
+        dismissDrawer(ReaderEvent.OnDismissDrawer)
+        delay(220)
+        listState.animateScrollToItem(displayIndex)
+
+        // Wait for the target paragraph's text layout so a long paragraph can be positioned by
+        // the annotation range, not merely by the paragraph's first line.
+        delay(32)
+        var item = listState.layoutInfo.visibleItemsInfo
+            .firstOrNull { it.index == displayIndex }
+        if (item == null) {
+            repeat(3) {
+                delay(16)
+                item = listState.layoutInfo.visibleItemsInfo
+                    .firstOrNull { it.index == displayIndex }
+            }
+        }
+        item?.let { targetItem ->
+            val viewportCenter = (
+                listState.layoutInfo.viewportStartOffset +
+                        listState.layoutInfo.viewportEndOffset
+                ) / 2f
+            val annotationTop = annotationTopOffsets[bookmark.id]
+            val targetOffset = annotationTop?.let { top ->
+                targetItem.offset + if (displayIndex == 0) 0f else paragraphSpacingPx + top
+            } ?: (targetItem.offset + targetItem.size / 2f)
+            listState.animateScrollBy(
+                value = targetOffset - viewportCenter,
+                animationSpec = tween(durationMillis = 420, easing = FastOutSlowInEasing)
+            )
+        }
+        bookmarkScrollFinished(ReaderEvent.OnBookmarkScrollFinished(bookmark))
+    }
+
     ReaderBottomSheet(
         book = book,
         bottomSheet = bottomSheet,
@@ -177,9 +277,25 @@ fun ReaderContent(
 
     if (isLoading || errorMessage == null) {
         ReaderScaffold(
+            isAutoScrolling = isAutoScrolling,
+            autoScrollSpeed = autoScrollSpeed,
+            isAutoScrollPaused = isAutoScrollPaused,
+            autoScrollChipAlignment = autoScrollChipAlignment,
+            autoScrollChipOpacity = autoScrollChipOpacity,
+            autoScrollChipOpacityEnabled = autoScrollChipOpacityEnabled,
+            autoScrollChipPlayPause = autoScrollChipPlayPause,
+            onSetAutoScrolling = onSetAutoScrolling,
+            onSetAutoScrollPaused = onSetAutoScrollPaused,
+            onChangeAutoScrollSpeed = onChangeAutoScrollSpeed,
             book = book,
             text = text,
             displayContent = displayContent,
+            highlightsByParagraph = highlightsByParagraph,
+            focusedBookmarkId = focusedBookmarkId,
+            onAnnotationTextLayout = { bookmarkId, topOffsetPx ->
+                annotationTopOffsets[bookmarkId] = topOffsetPx
+            },
+            editAnnotation = editAnnotation,
             listState = listState,
             currentChapter = currentChapter,
             translation = translation,
@@ -235,6 +351,9 @@ fun ReaderContent(
             translationTargetLanguage = translationTargetLanguage,
             translationWifiOnly = translationWifiOnly,
             fullscreenMode = fullscreenMode,
+            customScreenBrightness = customScreenBrightness,
+            screenBrightness = screenBrightness,
+            changeScreenBrightness = changeScreenBrightness,
             createInlineContentView = createInlineContentView,
             selectPreviousPreset = selectPreviousPreset,
             selectNextPreset = selectNextPreset,
@@ -251,10 +370,17 @@ fun ReaderContent(
             dismissTranslation = dismissTranslation,
             toggleTranslationOriginal = toggleTranslationOriginal,
             openDictionary = openDictionary,
+            createBookmark = createBookmark,
+            createHighlight = createHighlight,
+            showHighlightPalette = showHighlightPalette,
+            highlightColors = highlightColors,
+            showPaletteEditor = showPaletteEditor,
+            requestAnnotationEditor = requestAnnotationEditor,
             showPdfReadingModeBottomSheet = showPdfReadingModeBottomSheet,
             showBookTranslationBottomSheet = showBookTranslationBottomSheet,
             showSettingsBottomSheet = showSettingsBottomSheet,
             showChaptersDrawer = showChaptersDrawer,
+            showBookmarksDrawer = showBookmarksDrawer,
             showTranslatedBook = showTranslatedBook,
             showOriginalBook = showOriginalBook,
             changePdfReadingMode = changePdfReadingMode,
@@ -275,8 +401,54 @@ fun ReaderContent(
         chapters = chapters,
         currentChapter = currentChapter,
         currentChapterProgress = currentChapterProgress,
+        bookmarks = bookmarks,
+        highlightColors = highlightColors,
         scrollToChapter = scrollToChapter,
+        scrollToBookmark = scrollToBookmark,
+        deleteBookmark = deleteBookmark,
+        changeHighlightColor = changeHighlightColor,
+        editAnnotation = editAnnotation,
         dismissDrawer = dismissDrawer
+    )
+
+    ReaderAnnotationDialog(
+        selectedText = pendingAnnotationText,
+        editingAnnotation = editingAnnotation,
+        initialColorArgb = pendingAnnotationColorArgb,
+        colors = highlightColors,
+        saveAnnotation = saveAnnotation,
+        managePalette = {
+            dismissAnnotationEditor(ReaderEvent.OnDismissAnnotationEditor)
+            showPaletteEditor(ReaderEvent.OnShowHighlightPaletteEditor())
+        },
+        dismiss = dismissAnnotationEditor
+    )
+
+    ReaderHighlightPalette(
+        selectedText = highlightPaletteText,
+        annotation = highlightPaletteAnnotation,
+        anchorX = highlightPaletteAnchorX,
+        anchorY = highlightPaletteAnchorY,
+        colors = highlightColors,
+        createHighlight = createHighlight,
+        createBookmark = createBookmark,
+        changeHighlightColor = changeHighlightColor,
+        clearHighlightColor = clearHighlightColor,
+        openNoteEditor = requestAnnotationEditor,
+        editAnnotation = editAnnotation,
+        deleteBookmark = deleteBookmark,
+        managePalette = showPaletteEditor,
+        dismiss = dismissHighlightPalette
+    )
+
+    ReaderHighlightPaletteEditor(
+        visible = showHighlightPaletteEditor,
+        colors = highlightColors,
+        updateColors = { updateHighlightPalette(ReaderEvent.OnUpdateHighlightPalette(it)) },
+        dismiss = { colorArgb ->
+            applyHighlightPaletteColor(ReaderEvent.OnApplyHighlightPaletteColor(colorArgb))
+            dismissPaletteEditor(ReaderEvent.OnDismissHighlightPaletteEditor)
+        }
     )
 
     ReaderBackHandler(

@@ -9,7 +9,7 @@
     <string name="updates_notification_title">Nouvelle mise à jour d\'EverBook !</string>
     <string name="updates_notification_desc">La mise à jour %1$s vient de sortir !\nCliquez pour accéder à la page de publication.</string>
     <string name="updates_notification_action">Télécharger</string>
-    <string name="updates_notification_version_build">build %1$s</string>
+    <string name="updates_notification_version_build">construire %1$s</string>
 
     <!-- Screens -->
     <string name="library_screen">Bibliothèque</string>
@@ -227,7 +227,7 @@
 
     <!-- Font Style properties -->
     <string name="font_style_italic">Italique</string>
-    <string name="font_style_normal">Normal</string>
+    <string name="font_style_normal">Normale</string>
 
     <!-- Files Structure properties -->
     <string name="files_structure_all">Tous les fichiers</string>
@@ -401,7 +401,7 @@
     <string name="start_language_preferences">Préférences linguistiques</string>
     <string name="start_theme_preferences">Préférences de thème</string>
   <string name="start_permissions_notifications">Autorisation des notifications</string>
-    <string name="start_permissions_notifications_desc">Les notifications sont utilisées pour :</string>
+    <string name="start_permissions_notifications_desc">Les notifications vous permettent de suivre :</string>
     <string name="start_fork_info_title" translatable="false">Acclorite/book-story</string>
     <string name="start_fork_info_desc">Cette application est basée sur un fork du projet Acclorite/book-story. Le projet d’origine est disponible sous la licence GPL-3.0.</string>
     <string name="start_source_code">Code source</string>
@@ -468,7 +468,7 @@
     <!-- Распределить позже -->
     <string name="edit">Modifier</string>
     <string name="error_no_file">Le fichier n\'existe pas</string>
-    <string name="ok">OK</string>
+    <string name="ok">D\'ACCORD</string>
     <string name="change_path">Changer le chemin</string>
     <string name="progress_reader_settings">Progression</string>
     <string name="font_thickness_option">Épaisseur de la police</string>
@@ -490,7 +490,7 @@
     <string name="font_thickness_thin">Fin</string>
     <string name="font_thickness_extra_light">Extra léger</string>
     <string name="font_thickness_light">Léger</string>
-    <string name="font_thickness_normal">Normal</string>
+    <string name="font_thickness_normal">Normale</string>
     <string name="font_thickness_medium">Moyen</string>
 
     <!-- Propriétés du compteur de progression -->
@@ -576,7 +576,7 @@
     <string name="library_title_position_below">En-dessous</string>
     <string name="library_title_position_inside">À l\'intérieur</string>
     <string name="library_grid_size_option">Taille de la grille</string>
-    <string name="library_grid_size_auto">Auto</string>
+    <string name="library_grid_size_auto">Automatique</string>
     <string name="library_grid_size_per_row">par ligne</string>
     <string name="read_button_option">Montrer le bouton «Lire»</string>
     <string name="show_progress_option">Montrer la progression</string>
@@ -656,7 +656,7 @@
     <string name="translation_provider_ml_kit_desc">Utilise la traduction sur l\'appareil de Google ML Kit. Les modèles linguistiques sont téléchargés une fois, puis la traduction fonctionne hors ligne et conserve le texte sur l\'appareil. La qualité est bonne pour les expressions courantes, mais moins fluide que la traduction en ligne pour le style littéraire et les expressions idiomatiques.</string>
     <string name="translation_provider_google_translate_desc">Utilise Google Translate en ligne depuis EverBook. Il nécessite Internet et envoie le texte sélectionné à Google. Il s\'agit généralement de l\'option la plus précise et la plus fluide, en particulier pour le contexte, les expressions idiomatiques et les passages plus longs.</string>
     <string name="translation_provider_external_desc">Ouvre une application de traduction installée ou une recherche sur le Web si aucune application de traduction n\'est disponible. La précision, la confidentialité et la prise en charge hors ligne dépendent de l\'application externe que vous choisissez.</string>
-    <string name="translation_language_auto">Auto</string>
+    <string name="translation_language_auto">Automatique</string>
     <string name="translation_language_device">Langue de l\'appareil</string>
     <string name="translation_language_choose">Choisir la langue</string>
     <string name="translation_language_selected">Choisi</string>
@@ -709,7 +709,7 @@
     <string name="book_translation_cancel_rate_limited_desc">Arrêtez la traduction en cours et effacez cet état.</string>
     <string name="book_translation_failed">La traduction a échoué</string>
     <string name="book_translation_retry">Réessayer</string>
-    <string name="book_translation_pause">Pause</string>
+    <string name="book_translation_pause">Mettre en pause</string>
     <string name="book_translation_resume">CV</string>
     <string name="book_translation_error_no_text_available">Aucun texte traduit n\'est encore disponible.</string>
     <string name="book_translation_error_no_parsed_text">Ce livre n\'a aucun texte analysé à montrer.</string>
@@ -753,11 +753,11 @@
     <string name="later">Plus tard</string>
     <string name="leave_review_option">Laisser un avis</string>
     <string name="leave_review_option_desc">Notez l\'application et partagez vos commentaires dans la boutique</string>
-    <string name="start_notifications_item_updates">Disponibilité des mises à jour de l\'application</string>
+    <string name="start_notifications_item_updates">Les nouvelles mises à jour de l\'application</string>
     <string name="start_notifications_item_translation">Progression de la traduction du livre</string>
-    <string name="start_notifications_item_models">État du téléchargement du modèle ML</string>
+    <string name="start_notifications_item_models">Les téléchargements de modèles de traduction hors ligne</string>
     <string name="start_notifications_grant">Autoriser les notifications</string>
-    <string name="start_notifications_granted">Notifications autorisées</string>
+    <string name="start_notifications_granted">Les notifications sont activées</string>
     <string name="book_translation_content_desc">Traduction de livres</string>
     <string name="statistics_total_time">Durée totale</string>
     <string name="statistics_streak">Séquence d\'une journée</string>
@@ -769,7 +769,7 @@
     <string name="statistics_calendar">Calendrier</string>
     <string name="statistics_daily_goal">Objectif quotidien</string>
     <string name="statistics_goal_progress">%1$d / %2$d min aujourd\'hui</string>
-    <string name="statistics_max">Max %1$s</string>
+    <string name="statistics_max">Maximum : %1$s</string>
     <string name="statistics_less">Moins</string>
     <string name="statistics_more">Plus</string>
     <string name="statistics_sessions_count">Séances : %1$d</string>
@@ -831,7 +831,7 @@
     <string name="activity_no_books_period">Aucun livre lu pendant cette période</string>
     <string name="activity_range_day">Jour</string>
     <string name="activity_range_week">Semaine</string>
-    <string name="activity_range_month">Mo.</string>
+    <string name="activity_range_month">Mois</string>
     <string name="activity_range_3months">3 mois.</string>
     <string name="activity_range_year">Année</string>
     <string name="activity_this_week">Cette semaine</string>
@@ -843,4 +843,84 @@
     <string name="statistics_empty">Pas encore de statistiques de lecture. Lisez un livre pour commencer à suivre votre temps.</string>
     <string name="time_hours_minutes">%1$dh %2$dm</string>
     <string name="time_minutes">%1$dm</string>
+    <string name="translation_downloading_model">Téléchargement du modèle linguistique… Cela peut prendre un certain temps.</string>
+    <string name="translation_powered_by_google">Propulsé par Google Traduction</string>
+    <string name="translation_wifi_required_title">Le Wi‑Fi est requis</string>
+    <string name="translation_wifi_required_message">Le téléchargement des modèles est limité au Wi‑Fi, mais aucune connexion Wi‑Fi fonctionnelle n’est disponible. Désactivez l’option ci-dessous pour utiliser le réseau actuel.</string>
+    <string name="translation_download">Télécharger</string>
+    <string name="translation_model_download_help">Les téléchargements sont fournis par les services Google Play. Si un modèle reste longtemps sur « En cours d\'exécution », mettez à jour les services Google Play, puis videz son cache (Paramètres → Applications → Services Google Play → Stockage → Vider le cache) et réessayez.</string>
+    <string name="translation_model_error_stalled">Le téléchargement du modèle n\'a pas démarré. EverBook a réessayé automatiquement, mais il est toujours bloqué. Mettez à jour les services Google Play, puis videz son cache (Paramètres → Applications → Services Google Play → Stockage → Vider le cache) et réessayez.</string>
+    <string name="import_font">Importer une police</string>
+    <string name="remove_font">Supprimer la police</string>
+    <string name="auto_scroll_button">Défilement automatique</string>
+    <string name="auto_scroll_tap_to_stop">Appuyez n’importe où pour arrêter</string>
+    <string name="auto_scroll_speed_option">Vitesse du défilement automatique</string>
+    <string name="auto_scroll_reader_settings">Défilement automatique</string>
+    <string name="auto_scroll_chip_alignment_option">Position de la pastille</string>
+    <string name="alignment_bottom_right">En bas à droite</string>
+    <string name="alignment_bottom_center">En bas au centre</string>
+    <string name="alignment_bottom_left">En bas à gauche</string>
+    <string name="auto_scroll_chip_opacity_enabled_option">Opacité de la pastille</string>
+    <string name="auto_scroll_chip_opacity_enabled_option_desc">Activer la transparence de la pastille compacte dans un coin</string>
+    <string name="auto_scroll_chip_opacity_option">Valeur d’opacité</string>
+    <string name="auto_scroll_chip_play_pause_option">Bouton lecture/pause dans la pastille</string>
+    <string name="auto_scroll_chip_play_pause_option_desc">Afficher un bouton rapide lecture/pause dans la pastille compacte</string>
+    <string name="pdf_too_large_native_only">Le PDF est trop volumineux pour l’extraction du texte. Seul le mode page est disponible.</string>
+    <string name="bookmark">Signet</string>
+    <string name="bookmarks">Signets</string>
+    <string name="annotations">Annotations</string>
+    <string name="annotation">Annotation</string>
+    <string name="annotation_style">Style</string>
+    <string name="annotation_note">Note (facultative)</string>
+    <string name="add_annotation_note">Ajouter une note</string>
+    <string name="annotation_no_color">Signet sans couleur</string>
+    <string name="edit_annotation">Modifier l\'annotation</string>
+    <string name="annotations_empty">Aucune annotation pour le moment</string>
+    <string name="annotations_filter_all">Toutes</string>
+    <string name="annotations_filter_bookmarks">Signets</string>
+    <string name="annotations_filter_highlights">Surlignages</string>
+    <string name="annotations_filter_notes">Remarques</string>
+    <string name="bookmarks_content_desc">Signets</string>
+    <string name="bookmark_add_here">Ajouter un favori ici</string>
+    <string name="bookmark_remove_here">Supprimer le favori ici</string>
+    <string name="bookmarks_empty">Pas encore de favoris</string>
+    <string name="highlight">Surlignage</string>
+    <string name="add_to_bookmarks">Ajouter aux signets</string>
+    <string name="highlight_color">Couleur du surlignage</string>
+    <string name="highlight_not_found">Impossible de trouver le texte sélectionné</string>
+    <string name="highlight_multi_paragraph_not_supported">Sélectionner du texte à l\'intérieur d\'un paragraphe</string>
+    <string name="highlight_ambiguous_selection">Sélectionnez un fragment unique plus long</string>
+    <string name="reader_annotations_original_only">Les signets, surlignages et notes sont disponibles uniquement dans le texte original</string>
+    <string name="note">Note</string>
+    <string name="note_hint">Écrire une note…</string>
+    <string name="add_note">Note</string>
+    <string name="edit_note">Modifier la note</string>
+    <string name="reddit_badge">Reddit</string>
+    <string name="github_badge">GitHub</string>
+    <string name="gitlab_badge">GitLab</string>
+    <string name="codeberg_badge">Codeberg</string>
+    <string name="vk_content_desc">VK</string>
+    <string name="telegram_chennel_content_desc">Chaîne de télégramme</string>
+    <string name="byteflipper_site_content_desc">Site ByteFlipper</string>
+    <string name="highlight_palette_title">Palette de surbrillance</string>
+    <string name="highlight_palette_color">Couleur sélectionnée</string>
+    <string name="highlight_palette_manage">Personnaliser les couleurs</string>
+    <string name="highlight_palette_add">Ajouter de la couleur</string>
+    <string name="highlight_palette_reset">Réinitialiser la palette</string>
+    <string name="highlight_palette_move_left">Déplacer la couleur vers la gauche</string>
+    <string name="highlight_palette_move_right">Déplacer la couleur vers la droite</string>
+    <string name="highlight_palette_preview">Aperçu des couleurs</string>
+    <string name="highlight_palette_apply">Appliquer à la couleur sélectionnée</string>
+    <string name="highlight_palette_customize_color">Ajuster la couleur</string>
+    <string name="highlight_palette_drag">Déplacer la barre d\'outils des couleurs</string>
+    <string name="help_title_how_to_use_auto_scroll">Défilement automatique</string>
+    <string name="help_desc_how_to_use_auto_scroll">Ouvrez la barre inférieure du lecteur et touchez le défilement automatique. Réglez la vitesse, mettez la lecture en pause ou reprenez-la, puis modifiez l\'apparence et la position du panneau dans les réglages.</string>
+    <string name="help_title_how_to_adjust_brightness">Régler la luminosité par geste</string>
+    <string name="help_desc_how_to_adjust_brightness">Activez la luminosité personnalisée dans les réglages du lecteur. Faites glisser verticalement près du bord gauche ou droit : vers le haut pour éclaircir, vers le bas pour assombrir.</string>
+    <string name="help_title_how_to_use_annotations">Surlignages, signets et notes</string>
+    <string name="help_desc_how_to_use_annotations">Sélectionnez le texte original, puis choisissez un surlignage, un signet ou une note. Ouvrez la liste des annotations pour filtrer, modifier ou rejoindre leur emplacement dans le livre.</string>
+    <string name="help_title_how_to_use_custom_fonts">Importer des polices personnalisées</string>
+    <string name="help_desc_how_to_use_custom_fonts">Dans les réglages du lecteur, ouvrez la section des polices et touchez Importer une police. Ajoutez des fichiers TTF ou OTF, puis choisissez ou supprimez les polices importées dans la liste.</string>
+    <string name="help_title_how_to_use_translation">Traduire du texte ou un livre</string>
+    <string name="help_desc_how_to_use_translation">Sélectionnez du texte dans l\'original et choisissez Traduire pour l\'afficher dans le lecteur. Depuis le panneau de traduction, copiez le résultat, basculez entre l\'original et la traduction ou ouvrez-le dans un autre traducteur. Pour traduire un livre entier, ouvrez le panneau de traduction du livre dans le lecteur, choisissez les langues et démarrez la traduction. Vous pouvez la mettre en pause, la reprendre plus tard et basculer entre l\'original et la traduction prête.</string>
 </resources>

@@ -913,4 +913,14 @@
     <string name="highlight_palette_apply">应用到选定的颜色</string>
     <string name="highlight_palette_customize_color">调整颜色</string>
     <string name="highlight_palette_drag">移动颜色工具栏</string>
+    <string name="help_title_how_to_use_auto_scroll">自动滚动</string>
+    <string name="help_desc_how_to_use_auto_scroll">打开阅读器底部栏并点按自动滚动。您可以调整速度、暂停或继续阅读，并在设置中更改面板的外观和位置。</string>
+    <string name="help_title_how_to_adjust_brightness">通过手势调节亮度</string>
+    <string name="help_desc_how_to_adjust_brightness">在阅读器设置中启用自定义亮度。在屏幕左侧或右侧边缘附近垂直滑动：向上增加亮度，向下降低亮度。</string>
+    <string name="help_title_how_to_use_annotations">高亮、书签和笔记</string>
+    <string name="help_desc_how_to_use_annotations">选择原文，然后选择高亮、书签或笔记。打开注释列表可筛选、编辑条目，或跳转到它们在书中的位置。</string>
+    <string name="help_title_how_to_use_custom_fonts">导入自定义字体</string>
+    <string name="help_desc_how_to_use_custom_fonts">在阅读器设置中打开字体部分，然后点按导入字体。添加 TTF 或 OTF 文件，再从列表中选择或删除已导入的字体。</string>
+    <string name="help_title_how_to_use_translation">翻译文本或整本书</string>
+    <string name="help_desc_how_to_use_translation">在原文中选择文本并点按翻译，即可在阅读器中查看译文。在翻译面板中，您可以复制结果、切换原文和译文，或在其他翻译器中打开。要翻译整本书，请在阅读器中打开图书翻译面板，选择语言并开始翻译。您可以暂停并稍后继续，还可在完成后切换原文和译文。</string>
 </resources>

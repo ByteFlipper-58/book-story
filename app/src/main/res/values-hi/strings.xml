@@ -912,4 +912,14 @@
     <string name="highlight_palette_apply">चयनित रंग पर लागू करें</string>
     <string name="highlight_palette_customize_color">रंग समायोजित करें</string>
     <string name="highlight_palette_drag">रंग टूलबार ले जाएँ</string>
+    <string name="help_title_how_to_use_auto_scroll">ऑटो-स्क्रॉल</string>
+    <string name="help_desc_how_to_use_auto_scroll">रीडर की निचली पट्टी खोलें और ऑटो-स्क्रॉल पर टैप करें। गति समायोजित करें, पढ़ना रोकें या फिर शुरू करें, और सेटिंग्स में पैनल का रूप व स्थान बदलें।</string>
+    <string name="help_title_how_to_adjust_brightness">जेस्चर से चमक समायोजित करें</string>
+    <string name="help_desc_how_to_adjust_brightness">रीडर सेटिंग्स में कस्टम चमक चालू करें। स्क्रीन के बाएँ या दाएँ किनारे के पास लंबवत स्वाइप करें: ऊपर से चमक बढ़ेगी, नीचे से घटेगी।</string>
+    <string name="help_title_how_to_use_annotations">हाइलाइट, बुकमार्क और नोट्स</string>
+    <string name="help_desc_how_to_use_annotations">मूल पाठ चुनें, फिर हाइलाइट, बुकमार्क या नोट चुनें। आइटम फ़िल्टर करने, संपादित करने या पुस्तक में उनके स्थान पर जाने के लिए एनोटेशन सूची खोलें।</string>
+    <string name="help_title_how_to_use_custom_fonts">कस्टम फ़ॉन्ट आयात करें</string>
+    <string name="help_desc_how_to_use_custom_fonts">रीडर सेटिंग्स में फ़ॉन्ट अनुभाग खोलें और फ़ॉन्ट आयात करें पर टैप करें। TTF या OTF फ़ाइलें जोड़ें, फिर सूची से आयातित फ़ॉन्ट चुनें या हटाएँ।</string>
+    <string name="help_title_how_to_use_translation">पाठ या पुस्तक का अनुवाद</string>
+    <string name="help_desc_how_to_use_translation">मूल पुस्तक में पाठ चुनें और रीडर में अनुवाद देखने के लिए अनुवाद चुनें। अनुवाद पैनल से परिणाम कॉपी करें, मूल और अनुवाद के बीच बदलें या उसे दूसरे अनुवादक में खोलें। पूरी पुस्तक के लिए रीडर में पुस्तक अनुवाद पैनल खोलें, भाषाएँ चुनें और अनुवाद शुरू करें। आप इसे रोक सकते हैं, बाद में फिर शुरू कर सकते हैं और तैयार होने पर मूल व अनुवाद के बीच बदल सकते हैं।</string>
 </resources>

@@ -144,6 +144,41 @@ fun provideHelpTips() = listOf(
     ),
 
     HelpTip(
+        title = R.string.help_title_how_to_use_auto_scroll,
+        description = {
+            append(stringResource(id = R.string.help_desc_how_to_use_auto_scroll))
+        }
+    ),
+
+    HelpTip(
+        title = R.string.help_title_how_to_adjust_brightness,
+        description = {
+            append(stringResource(id = R.string.help_desc_how_to_adjust_brightness))
+        }
+    ),
+
+    HelpTip(
+        title = R.string.help_title_how_to_use_translation,
+        description = {
+            append(stringResource(id = R.string.help_desc_how_to_use_translation))
+        }
+    ),
+
+    HelpTip(
+        title = R.string.help_title_how_to_use_annotations,
+        description = {
+            append(stringResource(id = R.string.help_desc_how_to_use_annotations))
+        }
+    ),
+
+    HelpTip(
+        title = R.string.help_title_how_to_use_custom_fonts,
+        description = {
+            append(stringResource(id = R.string.help_desc_how_to_use_custom_fonts))
+        }
+    ),
+
+    HelpTip(
         title = R.string.help_title_how_to_manage_history,
         description = {
             append(stringResource(id = R.string.help_desc_how_to_manage_history_1) + " ")

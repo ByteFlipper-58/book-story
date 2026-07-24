@@ -913,4 +913,14 @@
     <string name="highlight_palette_apply">Seçilen renge uygula</string>
     <string name="highlight_palette_customize_color">Rengi ayarla</string>
     <string name="highlight_palette_drag">Renk araç çubuğunu taşı</string>
+    <string name="help_title_how_to_use_auto_scroll">Otomatik kaydırma</string>
+    <string name="help_desc_how_to_use_auto_scroll">Okuyucunun alt çubuğunu açın ve otomatik kaydırmaya dokunun. Hızı ayarlayın, okumayı duraklatın veya sürdürün; panelin görünümünü ve konumunu ayarlardan değiştirin.</string>
+    <string name="help_title_how_to_adjust_brightness">Parlaklığı hareketle ayarlama</string>
+    <string name="help_desc_how_to_adjust_brightness">Okuyucu ayarlarında özel parlaklığı etkinleştirin. Sol veya sağ ekran kenarına yakın dikey kaydırın: yukarı daha parlak, aşağı daha loş olur.</string>
+    <string name="help_title_how_to_use_annotations">Vurgular, yer imleri ve notlar</string>
+    <string name="help_desc_how_to_use_annotations">Özgün metni seçin ve vurgu, yer imi veya not seçin. Öğeleri filtrelemek, düzenlemek veya kitaptaki konumlarına gitmek için ek açıklama listesini açın.</string>
+    <string name="help_title_how_to_use_custom_fonts">Özel yazı tiplerini içe aktarma</string>
+    <string name="help_desc_how_to_use_custom_fonts">Okuyucu ayarlarında yazı tipleri bölümünü açın ve Yazı tipi içe aktar seçeneğine dokunun. TTF veya OTF dosyaları ekleyin, ardından içe aktarılan yazı tiplerini listeden seçin veya kaldırın.</string>
+    <string name="help_title_how_to_use_translation">Metin veya kitap çevirme</string>
+    <string name="help_desc_how_to_use_translation">Özgün kitaptaki metni seçin ve okuyucuda görmek için Çevir seçeneğine dokunun. Çeviri panelinden sonucu kopyalayabilir, özgün metin ile çeviri arasında geçiş yapabilir veya başka bir çeviricide açabilirsiniz. Kitabın tamamını çevirmek için okuyucudaki kitap çevirisi panelini açın, dilleri seçin ve çeviriyi başlatın. Çeviriyi duraklatabilir, daha sonra sürdürebilir ve hazır olduğunda özgün ile çevrilmiş metin arasında geçiş yapabilirsiniz.</string>
 </resources>

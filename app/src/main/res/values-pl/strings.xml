@@ -915,4 +915,14 @@
     <string name="highlight_palette_apply">Zastosuj do wybranego koloru</string>
     <string name="highlight_palette_customize_color">Dostosuj kolor</string>
     <string name="highlight_palette_drag">Przesuń pasek narzędzi koloru</string>
+    <string name="help_title_how_to_use_auto_scroll">Automatyczne przewijanie</string>
+    <string name="help_desc_how_to_use_auto_scroll">Otwórz dolny pasek w czytniku i stuknij automatyczne przewijanie. Ustaw prędkość, wstrzymaj lub wznów czytanie oraz zmień wygląd i położenie panelu w ustawieniach.</string>
+    <string name="help_title_how_to_adjust_brightness">Regulacja jasności gestem</string>
+    <string name="help_desc_how_to_adjust_brightness">Włącz własną jasność w ustawieniach czytnika. Przesuwaj pionowo przy lewej lub prawej krawędzi ekranu: w górę, aby rozjaśnić, w dół, aby przyciemnić.</string>
+    <string name="help_title_how_to_use_annotations">Wyróżnienia, zakładki i notatki</string>
+    <string name="help_desc_how_to_use_annotations">Zaznacz oryginalny tekst, a następnie wybierz wyróżnienie, zakładkę lub notatkę. Otwórz listę adnotacji, aby filtrować, edytować lub przejść do ich miejsca w książce.</string>
+    <string name="help_title_how_to_use_custom_fonts">Importowanie własnych czcionek</string>
+    <string name="help_desc_how_to_use_custom_fonts">W ustawieniach czytnika otwórz sekcję czcionek i stuknij Importuj czcionkę. Dodaj pliki TTF lub OTF, a następnie wybierz lub usuń zaimportowane czcionki z listy.</string>
+    <string name="help_title_how_to_use_translation">Tłumaczenie tekstu lub książki</string>
+    <string name="help_desc_how_to_use_translation">Zaznacz tekst w oryginale i wybierz Tłumacz, aby zobaczyć go w czytniku. Z panelu tłumaczenia możesz skopiować wynik, przełączać się między oryginałem a tłumaczeniem lub otworzyć go w innym tłumaczu. Aby przetłumaczyć całą książkę, otwórz panel tłumaczenia książki w czytniku, wybierz języki i rozpocznij tłumaczenie. Możesz je wstrzymać, wznowić później i przełączać się między oryginałem a gotowym tłumaczeniem.</string>
 </resources>

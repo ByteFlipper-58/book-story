@@ -914,4 +914,14 @@
     <string name="highlight_palette_apply">Aplicar na cor selecionada</string>
     <string name="highlight_palette_customize_color">Ajustar cor</string>
     <string name="highlight_palette_drag">Barra de ferramentas Mover cores</string>
+    <string name="help_title_how_to_use_auto_scroll">Rolagem automática</string>
+    <string name="help_desc_how_to_use_auto_scroll">Abra a barra inferior do leitor e toque em rolagem automática. Ajuste a velocidade, pause ou retome a leitura e altere a aparência e a posição do painel nas configurações.</string>
+    <string name="help_title_how_to_adjust_brightness">Ajustar o brilho com gesto</string>
+    <string name="help_desc_how_to_adjust_brightness">Ative o brilho personalizado nas configurações do leitor. Deslize verticalmente perto da borda esquerda ou direita: para cima aumenta o brilho e para baixo diminui.</string>
+    <string name="help_title_how_to_use_annotations">Destaques, marcadores e notas</string>
+    <string name="help_desc_how_to_use_annotations">Selecione o texto original e escolha um destaque, marcador ou nota. Abra a lista de anotações para filtrar, editar ou ir até a posição delas no livro.</string>
+    <string name="help_title_how_to_use_custom_fonts">Importar fontes personalizadas</string>
+    <string name="help_desc_how_to_use_custom_fonts">Nas configurações do leitor, abra a seção de fontes e toque em Importar fonte. Adicione arquivos TTF ou OTF e escolha ou remova as fontes importadas na lista.</string>
+    <string name="help_title_how_to_use_translation">Traduzir texto ou um livro</string>
+    <string name="help_desc_how_to_use_translation">Selecione um texto no original e escolha Traduzir para vê-lo no leitor. No painel de tradução, copie o resultado, alterne entre original e tradução ou abra-o em outro tradutor. Para traduzir um livro inteiro, abra o painel de tradução de livro no leitor, escolha os idiomas e inicie a tradução. Você pode pausá-la, retomá-la depois e alternar entre o original e a tradução pronta.</string>
 </resources>

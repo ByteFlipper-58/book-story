@@ -914,4 +914,14 @@
     <string name="highlight_palette_apply">Aplicar al color seleccionado</string>
     <string name="highlight_palette_customize_color">Ajustar color</string>
     <string name="highlight_palette_drag">Mover barra de herramientas de color</string>
+    <string name="help_title_how_to_use_auto_scroll">Desplazamiento automático</string>
+    <string name="help_desc_how_to_use_auto_scroll">Abre la barra inferior del lector y toca el desplazamiento automático. Ajusta la velocidad, pausa o reanuda la lectura y cambia el aspecto y la posición del panel en ajustes.</string>
+    <string name="help_title_how_to_adjust_brightness">Ajustar el brillo con un gesto</string>
+    <string name="help_desc_how_to_adjust_brightness">Activa el brillo personalizado en los ajustes del lector. Desliza verticalmente cerca del borde izquierdo o derecho: hacia arriba para más brillo y hacia abajo para menos.</string>
+    <string name="help_title_how_to_use_annotations">Resaltados, marcadores y notas</string>
+    <string name="help_desc_how_to_use_annotations">Selecciona el texto original y elige un resaltado, marcador o nota. Abre la lista de anotaciones para filtrar, editar o ir a su ubicación en el libro.</string>
+    <string name="help_title_how_to_use_custom_fonts">Importar fuentes personalizadas</string>
+    <string name="help_desc_how_to_use_custom_fonts">En los ajustes del lector, abre la sección de fuentes y toca Importar fuente. Añade archivos TTF u OTF y elige o elimina las fuentes importadas de la lista.</string>
+    <string name="help_title_how_to_use_translation">Traducir texto o un libro</string>
+    <string name="help_desc_how_to_use_translation">Selecciona texto en el original y elige Traducir para verlo en el lector. Desde el panel puedes copiar el resultado, alternar entre original y traducción o abrirlo en otro traductor. Para traducir todo un libro, abre el panel de traducción del libro en el lector, elige los idiomas e inicia la traducción. Puedes pausarla, reanudarla después y alternar entre el original y la traducción lista.</string>
 </resources>

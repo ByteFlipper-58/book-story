@@ -914,4 +914,14 @@
     <string name="highlight_palette_apply">Applica al colore selezionato</string>
     <string name="highlight_palette_customize_color">Regola il colore</string>
     <string name="highlight_palette_drag">Sposta la barra degli strumenti del colore</string>
+    <string name="help_title_how_to_use_auto_scroll">Scorrimento automatico</string>
+    <string name="help_desc_how_to_use_auto_scroll">Apri la barra inferiore del lettore e tocca lo scorrimento automatico. Regola la velocità, metti in pausa o riprendi la lettura e modifica aspetto e posizione del pannello nelle impostazioni.</string>
+    <string name="help_title_how_to_adjust_brightness">Regolare la luminosità con un gesto</string>
+    <string name="help_desc_how_to_adjust_brightness">Attiva la luminosità personalizzata nelle impostazioni del lettore. Scorri verticalmente vicino al bordo sinistro o destro: verso l\'alto per aumentare la luminosità, verso il basso per ridurla.</string>
+    <string name="help_title_how_to_use_annotations">Evidenziazioni, segnalibri e note</string>
+    <string name="help_desc_how_to_use_annotations">Seleziona il testo originale e scegli evidenziazione, segnalibro o nota. Apri l\'elenco delle annotazioni per filtrare, modificare o raggiungere la loro posizione nel libro.</string>
+    <string name="help_title_how_to_use_custom_fonts">Importare caratteri personalizzati</string>
+    <string name="help_desc_how_to_use_custom_fonts">Nelle impostazioni del lettore, apri la sezione dei caratteri e tocca Importa carattere. Aggiungi file TTF o OTF, quindi scegli o rimuovi i caratteri importati dall\'elenco.</string>
+    <string name="help_title_how_to_use_translation">Tradurre testo o un libro</string>
+    <string name="help_desc_how_to_use_translation">Seleziona il testo nell\'originale e scegli Traduci per visualizzarlo nel lettore. Dal pannello di traduzione puoi copiare il risultato, passare da originale a traduzione o aprirlo in un altro traduttore. Per tradurre un libro intero, apri il pannello di traduzione del libro nel lettore, scegli le lingue e avvia la traduzione. Puoi sospenderla, riprenderla più tardi e passare tra originale e traduzione pronta.</string>
 </resources>

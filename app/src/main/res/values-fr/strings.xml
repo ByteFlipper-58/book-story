@@ -913,4 +913,14 @@
     <string name="highlight_palette_apply">Appliquer à la couleur sélectionnée</string>
     <string name="highlight_palette_customize_color">Ajuster la couleur</string>
     <string name="highlight_palette_drag">Déplacer la barre d\'outils des couleurs</string>
+    <string name="help_title_how_to_use_auto_scroll">Défilement automatique</string>
+    <string name="help_desc_how_to_use_auto_scroll">Ouvrez la barre inférieure du lecteur et touchez le défilement automatique. Réglez la vitesse, mettez la lecture en pause ou reprenez-la, puis modifiez l\'apparence et la position du panneau dans les réglages.</string>
+    <string name="help_title_how_to_adjust_brightness">Régler la luminosité par geste</string>
+    <string name="help_desc_how_to_adjust_brightness">Activez la luminosité personnalisée dans les réglages du lecteur. Faites glisser verticalement près du bord gauche ou droit : vers le haut pour éclaircir, vers le bas pour assombrir.</string>
+    <string name="help_title_how_to_use_annotations">Surlignages, signets et notes</string>
+    <string name="help_desc_how_to_use_annotations">Sélectionnez le texte original, puis choisissez un surlignage, un signet ou une note. Ouvrez la liste des annotations pour filtrer, modifier ou rejoindre leur emplacement dans le livre.</string>
+    <string name="help_title_how_to_use_custom_fonts">Importer des polices personnalisées</string>
+    <string name="help_desc_how_to_use_custom_fonts">Dans les réglages du lecteur, ouvrez la section des polices et touchez Importer une police. Ajoutez des fichiers TTF ou OTF, puis choisissez ou supprimez les polices importées dans la liste.</string>
+    <string name="help_title_how_to_use_translation">Traduire du texte ou un livre</string>
+    <string name="help_desc_how_to_use_translation">Sélectionnez du texte dans l\'original et choisissez Traduire pour l\'afficher dans le lecteur. Depuis le panneau de traduction, copiez le résultat, basculez entre l\'original et la traduction ou ouvrez-le dans un autre traducteur. Pour traduire un livre entier, ouvrez le panneau de traduction du livre dans le lecteur, choisissez les langues et démarrez la traduction. Vous pouvez la mettre en pause, la reprendre plus tard et basculer entre l\'original et la traduction prête.</string>
 </resources>

@@ -917,4 +917,14 @@
     <string name="highlight_palette_apply">Застосувати до обраного кольору</string>
     <string name="highlight_palette_customize_color">Відрегулюйте колір</string>
     <string name="highlight_palette_drag">Перемістити кольорову панель інструментів</string>
+    <string name="help_title_how_to_use_auto_scroll">Автопрокрутка</string>
+    <string name="help_desc_how_to_use_auto_scroll">Відкрийте нижню панель у читалці та натисніть автопрокрутку. Налаштуйте швидкість, призупиніть або продовжте читання, а вигляд і положення панелі змініть у налаштуваннях.</string>
+    <string name="help_title_how_to_adjust_brightness">Налаштування яскравості жестом</string>
+    <string name="help_desc_how_to_adjust_brightness">Увімкніть власну яскравість у налаштуваннях читалки. Проведіть вертикально біля лівого або правого краю екрана: угору, щоб підвищити яскравість, униз, щоб зменшити.</string>
+    <string name="help_title_how_to_use_annotations">Виділення, закладки й нотатки</string>
+    <string name="help_desc_how_to_use_annotations">Виділіть оригінальний текст і виберіть виділення, закладку або нотатку. Відкрийте список анотацій, щоб фільтрувати, редагувати елементи або перейти до їхнього місця в книзі.</string>
+    <string name="help_title_how_to_use_custom_fonts">Імпорт власних шрифтів</string>
+    <string name="help_desc_how_to_use_custom_fonts">У налаштуваннях читалки відкрийте розділ шрифтів і натисніть Імпортувати шрифт. Додайте файли TTF або OTF, а потім виберіть або видаліть імпортовані шрифти зі списку.</string>
+    <string name="help_title_how_to_use_translation">Переклад тексту або книги</string>
+    <string name="help_desc_how_to_use_translation">Виділіть текст в оригіналі книги й виберіть «Перекласти», щоб побачити його в читалці. На панелі перекладу можна скопіювати результат, перемикатися між оригіналом і перекладом або відкрити його в іншому перекладачі. Щоб перекласти всю книгу, відкрийте панель перекладу книги в читалці, виберіть мови й запустіть переклад. Його можна призупинити, продовжити пізніше та перемикатися між оригіналом і готовим перекладом.</string>
 </resources>

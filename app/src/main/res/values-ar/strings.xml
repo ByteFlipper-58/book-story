@@ -914,4 +914,14 @@
     <string name="highlight_palette_apply">تطبيق على اللون المحدد</string>
     <string name="highlight_palette_customize_color">ضبط اللون</string>
     <string name="highlight_palette_drag">نقل شريط الألوان</string>
+    <string name="help_title_how_to_use_auto_scroll">التمرير التلقائي</string>
+    <string name="help_desc_how_to_use_auto_scroll">افتح الشريط السفلي في القارئ واضغط التمرير التلقائي. اضبط السرعة، وأوقف القراءة أو استأنفها، واختر مظهر اللوحة وموضعها من الإعدادات.</string>
+    <string name="help_title_how_to_adjust_brightness">ضبط السطوع بالإيماءة</string>
+    <string name="help_desc_how_to_adjust_brightness">فعّل السطوع المخصص في إعدادات القارئ. اسحب عموديًا قرب الحافة اليمنى أو اليسرى للشاشة: للأعلى لزيادة السطوع وللأسفل لتقليله.</string>
+    <string name="help_title_how_to_use_annotations">التمييز والإشارات المرجعية والملاحظات</string>
+    <string name="help_desc_how_to_use_annotations">حدّد النص الأصلي ثم اختر تمييزًا أو إشارة مرجعية أو ملاحظة. افتح قائمة التعليقات التوضيحية لتصفية العناصر وتعديلها والانتقال إلى موضعها في الكتاب.</string>
+    <string name="help_title_how_to_use_custom_fonts">استيراد الخطوط الخاصة</string>
+    <string name="help_desc_how_to_use_custom_fonts">في إعدادات القارئ، افتح قسم الخطوط واضغط استيراد خط. أضف ملفات TTF أو OTF، ثم اختر الخط من القائمة أو احذف الخطوط المستوردة عند الحاجة.</string>
+    <string name="help_title_how_to_use_translation">ترجمة النص أو الكتاب</string>
+    <string name="help_desc_how_to_use_translation">حدّد نصًا في أصل الكتاب واختر «ترجمة» لعرضه في القارئ. من لوحة الترجمة يمكنك نسخ النتيجة أو التبديل بين الأصل والترجمة أو فتحها في مترجم آخر. لترجمة كتاب كامل، افتح لوحة ترجمة الكتاب في القارئ واختر اللغات وابدأ الترجمة. يمكنك إيقافها مؤقتًا واستئنافها لاحقًا والتبديل بين النص الأصلي والمترجم عند جاهزيته.</string>
 </resources>

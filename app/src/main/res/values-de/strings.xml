@@ -911,4 +911,14 @@
     <string name="highlight_palette_apply">Auf die ausgewählte Farbe anwenden</string>
     <string name="highlight_palette_customize_color">Farbe anpassen</string>
     <string name="highlight_palette_drag">Farbsymbolleiste verschieben</string>
+    <string name="help_title_how_to_use_auto_scroll">Automatisches Scrollen</string>
+    <string name="help_desc_how_to_use_auto_scroll">Öffne die untere Leiste im Leser und tippe auf automatisches Scrollen. Stelle die Geschwindigkeit ein, pausiere oder setze fort und ändere Aussehen und Position des Bedienfelds in den Einstellungen.</string>
+    <string name="help_title_how_to_adjust_brightness">Helligkeit per Geste anpassen</string>
+    <string name="help_desc_how_to_adjust_brightness">Aktiviere die benutzerdefinierte Helligkeit in den Lesereinstellungen. Wische nahe dem linken oder rechten Bildschirmrand vertikal: nach oben für heller, nach unten für dunkler.</string>
+    <string name="help_title_how_to_use_annotations">Markierungen, Lesezeichen und Notizen</string>
+    <string name="help_desc_how_to_use_annotations">Markiere den Originaltext und wähle Hervorhebung, Lesezeichen oder Notiz. Öffne die Annotationsliste, um Einträge zu filtern, zu bearbeiten oder zur jeweiligen Stelle im Buch zu springen.</string>
+    <string name="help_title_how_to_use_custom_fonts">Eigene Schriftarten importieren</string>
+    <string name="help_desc_how_to_use_custom_fonts">Öffne in den Lesereinstellungen den Schriftartenbereich und tippe auf Schriftart importieren. Füge TTF- oder OTF-Dateien hinzu und wähle oder entferne importierte Schriftarten in der Liste.</string>
+    <string name="help_title_how_to_use_translation">Text oder Buch übersetzen</string>
+    <string name="help_desc_how_to_use_translation">Markiere Text im Originalbuch und wähle Übersetzen, um ihn im Leser anzuzeigen. Im Übersetzungsfenster kannst du das Ergebnis kopieren, zwischen Original und Übersetzung wechseln oder es in einem anderen Übersetzer öffnen. Öffne für ein ganzes Buch die Buchübersetzung im Leser, wähle die Sprachen und starte die Übersetzung. Du kannst sie pausieren, später fortsetzen und zwischen Original und fertiger Übersetzung wechseln.</string>
 </resources>

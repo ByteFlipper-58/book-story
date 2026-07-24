@@ -636,6 +636,21 @@
     <string name="help_desc_how_to_customize_reader_2">Settings</string>
     <string name="help_desc_how_to_customize_reader_3">and select Reader category to customize General settings,\nor Appearance category to customize Colors settings.</string>
 
+    <string name="help_title_how_to_use_auto_scroll">How do I use auto-scroll?</string>
+    <string name="help_desc_how_to_use_auto_scroll">While reading, tap the screen to show the controls, then start auto-scroll from the bottom bar. Use the panel at the bottom to set a speed from 1× to 10×, pause reading or resume it. The panel collapses after a few seconds; tap it to open the controls again. You can choose its position and appearance in Reader settings.</string>
+
+    <string name="help_title_how_to_adjust_brightness">How do I adjust brightness with a gesture?</string>
+    <string name="help_desc_how_to_adjust_brightness">First enable Custom screen brightness in Reader settings. Then swipe up or down along either edge of the reading screen: swipe up to make it brighter and down to dim it. The middle of the screen remains available for regular reading and scrolling.</string>
+
+    <string name="help_title_how_to_use_translation">How do I translate text or a book?</string>
+    <string name="help_desc_how_to_use_translation">Select text in the original book and choose Translate to see it in the reader. From the translation panel, you can copy the result, switch between the original and translation, or open it in another translator. To translate a whole book, open the book translation panel from the reader, choose the languages and start translation. You can pause it, resume it later, and switch between the original and translated text when it is ready.</string>
+
+    <string name="help_title_how_to_use_annotations">How do I create and manage annotations?</string>
+    <string name="help_desc_how_to_use_annotations">Select a passage in the original text, then choose a highlight color, add a bookmark, or write a note. Open Annotations from the reader to browse all bookmarks, highlights and notes, filter them by type, edit them, or jump back to the saved passage.</string>
+
+    <string name="help_title_how_to_use_custom_fonts">How do I use my own fonts?</string>
+    <string name="help_desc_how_to_use_custom_fonts">Open Reader settings, go to the Font section and choose Import font. Select one or more TTF or OTF files, then choose the imported font from the font list. You can remove an imported font from the same list when it is no longer needed.</string>
+
     <string name="help_title_how_to_manage_history">How do I manage history?</string>
     <string name="help_desc_how_to_manage_history_1">Go to the</string>
     <string name="help_desc_how_to_manage_history_2">History</string>

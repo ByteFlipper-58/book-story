@@ -54,6 +54,11 @@
 -keepnames class kotlin.reflect.jvm.internal.impl.builtins.PrimitiveType { values(); }
 -keepnames class * implements android.os.Parcelable { ** CREATOR; }
 
+# Changelog JSON is deserialized reflectively by Gson in release builds.
+# Keep these DTO classes and their field names so R8 cannot turn a valid index into an empty list.
+-keep class com.byteflipper.everbook.data.repository.ChangelogRepositoryImpl$ChangelogIndexDto { *; }
+-keep class com.byteflipper.everbook.data.repository.ChangelogRepositoryImpl$ChangelogReleaseDto { *; }
+
 # Firebase
 -keep class com.google.firebase.** { *; }
 -dontwarn com.google.firebase.**

@@ -53,6 +53,7 @@ sealed class MainEvent {
     data class OnChangeLibraryLastTabId(val value: Int) : MainEvent()
     data class OnChangeTextAlignment(val value: String) : MainEvent()
     data class OnChangeDoublePressExit(val value: Boolean) : MainEvent()
+    data class OnChangeAssistantReadingContext(val value: Boolean) : MainEvent()
     data class OnChangeLetterSpacing(val value: Int) : MainEvent()
     data class OnChangeAbsoluteDark(val value: Boolean) : MainEvent()
     data class OnChangeCutoutPadding(val value: Boolean) : MainEvent()

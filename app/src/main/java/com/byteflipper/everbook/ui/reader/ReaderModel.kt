@@ -42,6 +42,8 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.domain.assist.OpenReadingContext
+import com.byteflipper.everbook.domain.assist.ReadingContextTracker
 import com.byteflipper.everbook.domain.reader.Bookmark
 import com.byteflipper.everbook.domain.reader.BookmarkKind
 import com.byteflipper.everbook.domain.reader.PdfReadingMode
@@ -168,6 +170,7 @@ class ReaderModel @Inject constructor(
     private val cancelBookTranslation: CancelBookTranslation,
     private val deleteBookTranslation: DeleteBookTranslation,
     private val recordReadingSession: RecordReadingSession,
+    private val readingContextTracker: ReadingContextTracker,
     private val observeBookmarks: ObserveBookmarks,
     private val upsertBookmark: UpsertBookmark,
     private val deleteBookmark: DeleteBookmark
@@ -1605,6 +1608,8 @@ class ReaderModel @Inject constructor(
                     )
                 )
             }
+            // Publish before the text is parsed: native-PDF books never reach updateChapter.
+            publishReadingContext()
 
             if (
                 book.filePath.endsWith(".pdf", ignoreCase = true) &&
@@ -1690,6 +1695,7 @@ class ReaderModel @Inject constructor(
 
                 applyAutoStatusOnSave()
                 updateBook.execute(_state.value.book)
+                publishReadingContext()
 
                 // No library/history ping here. This runs on every debounced scroll settle while
                 // reading; pinging fired an immediate background getBooksFromDatabase reload each
@@ -1726,7 +1732,50 @@ class ReaderModel @Inject constructor(
                     currentChapterProgress = currentChapterProgress
                 )
             }
+            publishReadingContext()
         }
+    }
+
+    /**
+     * Publishes the open book to [readingContextTracker], so the system assistant
+     * ([com.byteflipper.everbook.ui.main.MainActivity.onProvideAssistContent]) and the
+     * getCurrentReadingContext App Function can see what is being read.
+     */
+    private fun publishReadingContext() {
+        val state = _state.value
+        val book = state.book
+        if (book.id == 0 || book.title.isBlank()) return
+
+        readingContextTracker.publish(
+            OpenReadingContext(
+                bookId = book.id,
+                title = book.title,
+                author = book.author.getAsString(),
+                progress = book.progress,
+                chapterTitle = state.currentChapter?.title,
+                chapterProgress = state.currentChapterProgress,
+                excerpt = currentExcerpt(state)
+            )
+        )
+    }
+
+    /** Plain text from the reading position onwards, capped at [OpenReadingContext.EXCERPT_MAX_CHARS]. */
+    private fun currentExcerpt(state: ReaderState): String? {
+        if (state.text.isEmpty()) return null
+
+        val start = state.book.scrollIndex.coerceIn(0, state.text.lastIndex)
+        val excerpt = StringBuilder()
+        for (index in start..state.text.lastIndex) {
+            val line = (state.text[index] as? ReaderText.Text)?.source?.trim().orEmpty()
+            if (line.isEmpty()) continue
+            if (excerpt.isNotEmpty()) excerpt.append(' ')
+            excerpt.append(line)
+            if (excerpt.length >= OpenReadingContext.EXCERPT_MAX_CHARS) break
+        }
+
+        return excerpt.take(OpenReadingContext.EXCERPT_MAX_CHARS)
+            .toString()
+            .ifBlank { null }
     }
 
     private fun calculateCurrentChapter(index: Int): Pair<Chapter?, Float> {
@@ -1800,6 +1849,7 @@ class ReaderModel @Inject constructor(
     }
 
     fun resetScreen() {
+        readingContextTracker.clear()
         resetJob = viewModelScope.launch(Dispatchers.Main) {
             eventJob.cancel()
             progressJob?.cancel()

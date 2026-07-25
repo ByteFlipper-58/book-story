@@ -84,3 +84,11 @@
 #-keepclassmembers class * {
 #    @io.reactivex.annotations.NonNull *;
 #}
+
+# App Functions
+# The AppFunctions extensions SDK (com.android.extensions.appfunctions) is an optional
+# uses-library that is not on the compile classpath, so R8 can only see the references to it.
+-dontwarn com.android.extensions.appfunctions.**
+# The AppFunctions service instantiates the functions holder and the KSP generated
+# serializable factories reflectively.
+-keep class com.byteflipper.everbook.appfunctions.** { *; }

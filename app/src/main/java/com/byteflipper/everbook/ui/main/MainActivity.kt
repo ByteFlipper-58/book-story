@@ -10,6 +10,7 @@
 package com.byteflipper.everbook.ui.main
 
 import android.annotation.SuppressLint
+import android.app.assist.AssistContent
 import android.content.Intent
 import android.database.CursorWindow
 import android.net.Uri
@@ -27,10 +28,12 @@ import androidx.core.view.WindowCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import okhttp3.internal.immutableListOf
 import com.byteflipper.everbook.R
+import com.byteflipper.everbook.domain.assist.ReadingContextTracker
 import com.byteflipper.everbook.domain.distribution.ReaderEntryActionController
 import com.byteflipper.everbook.domain.distribution.StoreUpdateController
 import com.byteflipper.everbook.domain.navigator.NavigatorItem
@@ -60,8 +63,10 @@ import com.byteflipper.everbook.ui.theme.Transitions
 import com.byteflipper.everbook.ui.changelog.ChangelogScreen
 import com.byteflipper.everbook.domain.ui.isDark
 import com.byteflipper.everbook.domain.ui.isPureDark
+import org.json.JSONObject
 import java.lang.reflect.Field
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 
 @SuppressLint("DiscouragedPrivateApi")
@@ -73,11 +78,18 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var storeUpdateController: StoreUpdateController
 
+    @Inject
+    lateinit var readingContextTracker: ReadingContextTracker
+
     // Creating an instance of Models
     private val mainModel: MainModel by viewModels()
     private val settingsModel: SettingsModel by viewModels()
     private val categoriesModel: CategoriesModel by viewModels()
     private val externalImportModel: ExternalImportModel by viewModels()
+
+    // Book ids requested from outside the app (App Functions, shortcuts). Buffered, because the
+    // intent is handled before the Navigator that consumes it enters composition.
+    private val openBookChannel = Channel<Int>(Channel.BUFFERED)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Splash screen
@@ -186,6 +198,12 @@ class MainActivity : AppCompatActivity() {
                         LaunchedEffect(navigator) {
                             externalImportModel.openBookChannel.receiveAsFlow().collectLatest { bookId ->
                                 libraryModel.refresh()
+                                navigator.push(ReaderScreen(bookId))
+                            }
+                        }
+
+                        LaunchedEffect(navigator) {
+                            openBookChannel.receiveAsFlow().collectLatest { bookId ->
                                 navigator.push(ReaderScreen(bookId))
                             }
                         }
@@ -342,7 +360,44 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    /**
+     * Tells the system assistant what the user is reading right now, so a question asked over the
+     * reader ("who is this character?", "translate this") arrives with the book in context.
+     *
+     * Only sent while the reader is open, and only as much as needed: title, author, position and a
+     * short excerpt around the reading position (see [ReadingContextTracker]). Nothing is sent when
+     * the user turned the assistant reading context off in the settings.
+     */
+    override fun onProvideAssistContent(outContent: AssistContent?) {
+        super.onProvideAssistContent(outContent)
+        if (outContent == null) return
+
+        if (!mainModel.state.value.assistantReadingContext) return
+        val reading = readingContextTracker.current.value ?: return
+
+        outContent.structuredData = JSONObject().apply {
+            put("@context", "https://schema.org")
+            put("@type", "Book")
+            put("name", reading.title)
+            reading.author?.let { put("author", it) }
+            put("readingProgressPercent", (reading.progress * 100).roundToInt().coerceIn(0, 100))
+            reading.chapterTitle?.let { put("currentChapter", it) }
+            reading.excerpt?.let { put("currentText", it) }
+        }.toString()
+
+        outContent.intent = Intent(this, MainActivity::class.java).apply {
+            action = ACTION_OPEN_BOOK
+            putExtra(EXTRA_BOOK_ID, reading.bookId)
+        }
+    }
+
     private fun handleIncomingIntent(intent: Intent?) {
+        val bookId = intent?.getIntExtra(EXTRA_BOOK_ID, NO_BOOK_ID) ?: NO_BOOK_ID
+        if (bookId != NO_BOOK_ID) {
+            openBookChannel.trySend(bookId)
+            return
+        }
+
         val uris = intent.extractBookUris()
         if (uris.isEmpty()) return
 
@@ -387,5 +442,15 @@ class MainActivity : AppCompatActivity() {
                 hideSearch = false
             )
         )
+    }
+
+    companion object {
+        /** Opens [EXTRA_BOOK_ID] straight in the reader. Used by App Functions. */
+        const val ACTION_OPEN_BOOK = "com.byteflipper.everbook.action.OPEN_BOOK"
+
+        /** Id of the book to open in the reader, see [ACTION_OPEN_BOOK]. */
+        const val EXTRA_BOOK_ID = "com.byteflipper.everbook.extra.BOOK_ID"
+
+        private const val NO_BOOK_ID = -1
     }
 }

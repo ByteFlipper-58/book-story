@@ -413,6 +413,14 @@ class MainModel @Inject constructor(
                 }
             )
 
+            is MainEvent.OnChangeAssistantReadingContext -> handleDatastoreUpdate(
+                key = DataStoreConstants.ASSISTANT_READING_CONTEXT,
+                value = event.value,
+                updateState = {
+                    it.copy(assistantReadingContext = this)
+                }
+            )
+
             is MainEvent.OnChangeLetterSpacing -> handleDatastoreUpdate(
                 key = DataStoreConstants.LETTER_SPACING,
                 value = event.value,

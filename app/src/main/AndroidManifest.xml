@@ -68,6 +68,14 @@
             </intent-filter>
         </activity>
 
+        <!-- App Functions: describes to on-device AI agents what EverBook can do for the user.
+             The bound service itself comes from androidx.appfunctions:appfunctions-service via
+             manifest merging (system-only, guarded by BIND_APP_FUNCTION_SERVICE). -->
+        <property
+            android:name="android.app.appfunctions.app_metadata"
+            android:resource="@xml/app_metadata"
+            tools:targetApi="31" />
+
         <!-- Save app locales -->
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

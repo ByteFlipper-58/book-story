@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.byteflipper.everbook.presentation.settings.general.components.AppLanguageOption
+import com.byteflipper.everbook.presentation.settings.general.components.AssistantReadingContextOption
 import com.byteflipper.everbook.presentation.settings.general.components.DoublePressExitOption
 
 fun LazyListScope.GeneralSettingsCategory(
@@ -37,6 +38,10 @@ fun LazyListScope.GeneralSettingsCategory(
 
     item {
         DoublePressExitOption()
+    }
+
+    item {
+        AssistantReadingContextOption()
     }
 
     item {

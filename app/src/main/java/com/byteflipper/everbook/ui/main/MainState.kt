@@ -85,6 +85,7 @@ data class MainState(
     val showStartScreen: Boolean = provideDefaultValue { true },
     val doublePressExit: Boolean = provideDefaultValue { false },
     val changelogLastSeenVersionCode: Int = provideDefaultValue { 0 },
+    val assistantReadingContext: Boolean = provideDefaultValue { true },
 
     // Reader Settings
     val fontFamily: String = provideDefaultValue { provideFonts()[0].id },
@@ -231,6 +232,10 @@ data class MainState(
                     changelogLastSeenVersionCode = provideValue(
                         CHANGELOG_LAST_SEEN_VERSION_CODE
                     ) { changelogLastSeenVersionCode },
+
+                    assistantReadingContext = provideValue(
+                        ASSISTANT_READING_CONTEXT
+                    ) { assistantReadingContext },
 
                     fontFamily = provideValue(
                         FONT

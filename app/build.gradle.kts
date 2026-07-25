@@ -149,6 +149,11 @@ android {
     }
 }
 
+ksp {
+    // Collect the @AppFunction declarations of the whole build into one generated schema.
+    arg("appfunctions:aggregateAppFunctions", "true")
+}
+
 aboutLibraries {
     registerAndroidTasks = false
     prettyPrint = true
@@ -214,6 +219,14 @@ dependencies {
     ksp("androidx.hilt:hilt-compiler:1.3.0")
     implementation("androidx.hilt:hilt-work:1.3.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
+
+    // App Functions — exposes reader actions to on-device AI agents (Android 16+).
+    // The KSP compiler turns the @AppFunction methods into the schema the system indexes;
+    // appfunctions-service contributes the bound service through manifest merging.
+    // Pinned to alpha08: alpha09+ require AGP 9.1 and compileSdk 37.
+    implementation("androidx.appfunctions:appfunctions:1.0.0-alpha08")
+    implementation("androidx.appfunctions:appfunctions-service:1.0.0-alpha08")
+    ksp("androidx.appfunctions:appfunctions-compiler:1.0.0-alpha08")
 
     // ── playStore flavor: Google services ───────────────────────────────────────
     add("playStoreImplementation", platform("com.google.firebase:firebase-bom:34.11.0"))

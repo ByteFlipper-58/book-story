@@ -10,6 +10,7 @@ package com.byteflipper.everbook
 import android.app.Application
 import android.util.Log
 import androidx.compose.foundation.ComposeFoundationFlags
+import androidx.appfunctions.service.AppFunctionConfiguration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
@@ -18,6 +19,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.byteflipper.everbook.appfunctions.EverBookAppFunctions
 import com.byteflipper.everbook.data.work.AutoCategoryWorker
 import com.byteflipper.everbook.data.work.UpdateCheckWorker
 import com.byteflipper.everbook.domain.distribution.DistributionStartup
@@ -29,9 +31,10 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Provider
 
 @HiltAndroidApp
-class Application : Application(), Configuration.Provider {
+class Application : Application(), Configuration.Provider, AppFunctionConfiguration.Provider {
     @Inject
     lateinit var distributionStartup: DistributionStartup
 
@@ -41,11 +44,23 @@ class Application : Application(), Configuration.Provider {
     @Inject
     lateinit var reconcileBookTranslations: ReconcileBookTranslations
 
+    // Lazy: the AppFunctions service resolves this without going through onCreate ordering.
+    @Inject
+    lateinit var everBookAppFunctions: Provider<EverBookAppFunctions>
+
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
+            .build()
+
+    /** Lets the AppFunctions service instantiate [EverBookAppFunctions] from the Hilt graph. */
+    override val appFunctionConfiguration: AppFunctionConfiguration
+        get() = AppFunctionConfiguration.Builder()
+            .addEnclosingClassFactory(EverBookAppFunctions::class.java) {
+                everBookAppFunctions.get()
+            }
             .build()
 
     @OptIn(ExperimentalFoundationApi::class)

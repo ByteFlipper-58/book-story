@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AppFunctionAppMetadata xmlns:appfn="http://schemas.android.com/apk/androidx.appfunctions"
+    appfn:description="EverBook is an offline eBook reader. It holds the books the user imported (EPUB, PDF, FB2, TXT, HTML, MD), their reading progress and their reading statistics.
+    Operational patterns:
+    - Call 'searchBooks' to turn a title the user mentions into a book id; pass an empty query to list the whole library, ordered by most recently opened.
+    - Call 'getContinueReadingBook' when the user wants to resume reading without naming a book.
+    - Call 'getCurrentReadingContext' for questions about the book at hand ('what am I reading', 'which chapter', 'what happens here'): it reports the live position and a short excerpt while the reader is open, and the last saved position otherwise.
+    - Call 'openBook' with a book id from the previous functions and send the returned intent to show the reader at the last saved position.
+    - Call 'getReadingStatsSummary' for questions about reading time, streaks or how many books are finished.
+    Constraints:
+    - Only books already imported into the library are visible; the app cannot download or buy books.
+    - Book ids are local to this device and only valid as returned by 'searchBooks' or 'getContinueReadingBook'.
+    - Nothing here changes or deletes library data."
+    appfn:displayDescription="@string/app_functions_display_description" />

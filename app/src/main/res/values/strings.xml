@@ -340,6 +340,46 @@
     <string name="auto_scroll_chip_opacity_option">Opacity value</string>
     <string name="auto_scroll_chip_play_pause_option">Play/Pause button in chip</string>
     <string name="auto_scroll_chip_play_pause_option_desc">Show a quick play/pause toggle inside the compact chip</string>
+
+    <!-- Read aloud (text-to-speech) -->
+    <string name="tts_button">Read aloud</string>
+    <string name="tts_reader_settings">Read aloud</string>
+    <string name="tts_panel_title">Read aloud</string>
+    <string name="tts_play">Play</string>
+    <string name="tts_pause">Pause</string>
+    <string name="tts_stop">Stop</string>
+    <string name="tts_next_paragraph">Next paragraph</string>
+    <string name="tts_previous_paragraph">Previous paragraph</string>
+    <string name="tts_next_sentence">Next sentence</string>
+    <string name="tts_previous_sentence">Previous sentence</string>
+    <string name="tts_open_settings">Voice settings</string>
+    <string name="tts_preparing">Preparing…</string>
+    <string name="tts_notification_channel">Read aloud</string>
+    <string name="tts_notification_title">Read aloud</string>
+    <string name="tts_notification_text">Reading the book aloud</string>
+    <string name="tts_speech_rate_option">Speech rate</string>
+    <string name="tts_pitch_option">Pitch</string>
+    <string name="tts_voice_option">Voice</string>
+    <string name="tts_voice_system_default">System default</string>
+    <string name="tts_voice_network_required">Requires a network connection</string>
+    <string name="tts_voices_empty">No voices installed. Install voice data in the system text-to-speech settings.</string>
+    <string name="tts_open_system_settings">Open system speech settings</string>
+    <string name="tts_background_playback_option">Keep reading with screen off</string>
+    <string name="tts_background_playback_option_desc">Continue reading aloud when the screen turns off or the app goes to the background</string>
+    <string name="tts_stop_at_chapter_end_option">Stop at chapter end</string>
+    <string name="tts_stop_at_chapter_end_option_desc">Stop reading when the current chapter is finished</string>
+    <string name="tts_paragraph_delay_option">Pause between paragraphs</string>
+    <string name="tts_auto_scroll_option">Follow the spoken text</string>
+    <string name="tts_auto_scroll_option_desc">Scroll the page to the paragraph being read</string>
+    <string name="tts_highlight_option">Highlight the spoken sentence</string>
+    <string name="tts_highlight_option_desc">Mark the sentence that is currently being read</string>
+    <string name="tts_speak_chapter_titles_option">Read chapter titles</string>
+    <string name="tts_speak_chapter_titles_option_desc">Announce a chapter title before its text</string>
+    <string name="tts_error_engine_unavailable">No text-to-speech engine is available on this device</string>
+    <string name="tts_error_language_missing_data">Voice data for this language is not installed</string>
+    <string name="tts_error_language_not_supported">This language is not supported by the installed engine</string>
+    <string name="tts_error_synthesis_failed">Reading aloud failed. Try again.</string>
+
     <string name="highlighted_reading_option">Highlight words</string>
     <string name="highlighted_reading_option_desc">Highlight the beginning of each word</string>
     <string name="highlighted_reading_thickness_option">Highlight thickness</string>

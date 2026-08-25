@@ -37,5 +37,10 @@ enum class NotificationChannelType(
         channelId = "app_updates",
         nameRes = R.string.updates_notification_channel,
         importance = NotificationManager.IMPORTANCE_DEFAULT
+    ),
+    TtsPlayback(
+        channelId = "tts_playback",
+        nameRes = R.string.tts_notification_channel,
+        importance = NotificationManager.IMPORTANCE_LOW
     )
 }

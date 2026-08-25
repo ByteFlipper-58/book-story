@@ -221,8 +221,23 @@ class ReaderModel @Inject constructor(
             ReaderTtsState(speechRate = session.preferences.speechRate)
         }
 
-        if (current.tts != tts) {
-            _state.update { it.copy(tts = tts) }
+        if (current.tts == tts) return
+        _state.update { it.copy(tts = tts) }
+
+        // With follow-along scrolling on, the list moves and the scroll observer stores the
+        // position; otherwise the spoken paragraph is the only thing advancing.
+        val movedToNewParagraph = tts.textIndex >= 0 && tts.textIndex != current.tts.textIndex
+        if (belongsToCurrentBook && !session.preferences.autoScroll && movedToNewParagraph) {
+            _state.update {
+                it.copy(
+                    book = it.book.copy(
+                        progress = calculateProgress(tts.textIndex),
+                        scrollIndex = tts.textIndex,
+                        scrollOffset = 0
+                    )
+                )
+            }
+            updateBook.execute(_state.value.book)
         }
     }
 

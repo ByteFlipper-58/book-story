@@ -15,6 +15,9 @@ import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.HighlightPalette
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
+import com.byteflipper.everbook.domain.reader.tts.TtsFailure
+import com.byteflipper.everbook.domain.reader.tts.TtsPlaybackState
+import com.byteflipper.everbook.domain.reader.tts.TtsPreferences
 import com.byteflipper.everbook.domain.ui.UIText
 import com.byteflipper.everbook.domain.util.BottomSheet
 import com.byteflipper.everbook.domain.util.Drawer
@@ -64,8 +67,25 @@ data class ReaderState(
     val translation: ReaderTranslationState = ReaderTranslationState(),
     val bookTranslation: ReaderBookTranslationState = ReaderBookTranslationState(),
     val isAutoScrolling: Boolean = false,
-    val isAutoScrollPaused: Boolean = false
+    val isAutoScrollPaused: Boolean = false,
+    val tts: ReaderTtsState = ReaderTtsState()
 )
+
+/**
+ * Read-aloud session as the reader sees it. Mirrors the app-scoped session, narrowed to the book
+ * currently open: [textIndex] addresses [ReaderState.text], [sentenceRange] the paragraph itself.
+ */
+@Immutable
+data class ReaderTtsState(
+    val playbackState: TtsPlaybackState = TtsPlaybackState.IDLE,
+    val textIndex: Int = -1,
+    val sentenceRange: IntRange? = null,
+    val speechRate: Float = TtsPreferences.DEFAULT_SPEECH_RATE,
+    val failure: TtsFailure? = null
+) {
+    val isActive: Boolean get() = playbackState.isActive
+    val isPlaying: Boolean get() = playbackState.isPlaying
+}
 
 data class HighlightPaletteTarget(
     val selectedText: String,

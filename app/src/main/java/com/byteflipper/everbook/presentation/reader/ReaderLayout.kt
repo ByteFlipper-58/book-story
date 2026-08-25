@@ -74,6 +74,9 @@ fun ReaderLayout(
     isAutoScrollPaused: Boolean,
     onSetAutoScrolling: (ReaderEvent.OnSetAutoScrolling) -> Unit,
     displayContent: ReaderDisplayContent,
+    ttsTextIndex: Int,
+    ttsSentenceRange: IntRange?,
+    ttsFollowsText: Boolean,
     highlightsByParagraph: Map<Int, List<Bookmark>>,
     focusedBookmarkId: Int?,
     onAnnotationTextLayout: (bookmarkId: Int, topOffsetPx: Float) -> Unit,
@@ -229,6 +232,22 @@ fun ReaderLayout(
             }
 
             onSetAutoScrolling(ReaderEvent.OnSetAutoScrolling(false))
+        }
+    }
+
+    LaunchedEffect(ttsTextIndex, ttsFollowsText) {
+        if (!ttsFollowsText || ttsTextIndex < 0 || isUserTouching) return@LaunchedEffect
+
+        val displayIndex = displayContent.textIndexToDisplayIndex(ttsTextIndex)
+        val layoutInfo = listState.layoutInfo
+        val item = layoutInfo.visibleItemsInfo.firstOrNull { it.index == displayIndex }
+        // Only chase the spoken paragraph once it leaves the viewport, so reading ahead by hand
+        // is not fought by the follow-along scrolling.
+        val isFullyVisible = item != null &&
+                item.offset >= layoutInfo.viewportStartOffset &&
+                item.offset + item.size <= layoutInfo.viewportEndOffset
+        if (!isFullyVisible) {
+            listState.animateScrollToItem(displayIndex)
         }
     }
 
@@ -411,6 +430,9 @@ fun ReaderLayout(
                                     showMenu = showMenu,
                                     readerIndex = row.readerIndex,
                                     highlights = highlightsByParagraph[row.readerIndex].orEmpty(),
+                                    spokenSentence = ttsSentenceRange.takeIf {
+                                        row.readerIndex == ttsTextIndex
+                                    },
                                     focusedBookmarkId = focusedBookmarkId,
                                     onAnnotationTextLayout = onAnnotationTextLayout,
                                     showHighlightPalette = showHighlightPalette,

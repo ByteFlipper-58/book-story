@@ -51,6 +51,7 @@ import com.byteflipper.everbook.ui.theme.HorizontalExpandingTransition
 @Composable
 fun ReaderBottomBar(
     onSetAutoScrolling: (ReaderEvent.OnSetAutoScrolling) -> Unit,
+    startTts: () -> Unit,
     menuVisibility: (ReaderEvent.OnMenuVisibility) -> Unit,
     fullscreenMode: Boolean,
     book: Book,
@@ -190,37 +191,70 @@ fun ReaderBottomBar(
 
         Spacer(Modifier.height(8.dp))
 
-        TextButton(
-            onClick = {
-                onSetAutoScrolling(ReaderEvent.OnSetAutoScrolling(true))
-                menuVisibility(
-                    ReaderEvent.OnMenuVisibility(
-                        show = false,
-                        fullscreenMode = fullscreenMode,
-                        saveCheckpoint = false,
-                        activity = activity
-                    )
+        val hideMenu = {
+            menuVisibility(
+                ReaderEvent.OnMenuVisibility(
+                    show = false,
+                    fullscreenMode = fullscreenMode,
+                    saveCheckpoint = false,
+                    activity = activity
                 )
-            },
-            modifier = Modifier
-                .padding(bottom = 4.dp)
-                .height(32.dp),
-            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_block),
-                contentDescription = null,
-                modifier = Modifier.size(12.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            Spacer(Modifier.width(4.dp))
-            Text(
-                text = stringResource(id = R.string.auto_scroll_button),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ReaderSessionButton(
+                icon = R.drawable.ic_block,
+                label = R.string.auto_scroll_button,
+                onClick = {
+                    onSetAutoScrolling(ReaderEvent.OnSetAutoScrolling(true))
+                    hideMenu()
+                }
+            )
+
+            ReaderSessionButton(
+                icon = R.drawable.ic_volume_up_24px,
+                label = R.string.tts_button,
+                onClick = {
+                    startTts()
+                    hideMenu()
+                }
             )
         }
 
         Spacer(Modifier.height(6.dp + bottomBarPadding))
+    }
+}
+
+@Composable
+private fun ReaderSessionButton(
+    icon: Int,
+    label: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TextButton(
+        onClick = onClick,
+        modifier = modifier
+            .padding(bottom = 4.dp)
+            .height(32.dp),
+        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
+    ) {
+        Icon(
+            painter = painterResource(id = icon),
+            contentDescription = null,
+            modifier = Modifier.size(12.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.width(4.dp))
+        Text(
+            text = stringResource(id = label),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }

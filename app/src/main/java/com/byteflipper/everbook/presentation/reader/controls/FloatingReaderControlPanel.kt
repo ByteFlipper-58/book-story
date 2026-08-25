@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.presentation.reader.controls
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -16,6 +17,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -65,19 +67,25 @@ const val READER_PANEL_BOTTOM_CENTER = "BOTTOM_CENTER"
 const val READER_PANEL_BOTTOM_RIGHT = "BOTTOM_RIGHT"
 
 private const val COLLAPSE_DELAY_MS = 3000L
+private const val SETTINGS_HEIGHT_FRACTION = 0.45f
+private val SETTINGS_MAX_HEIGHT = 360.dp
+private val COLLAPSED_HEIGHT = 40.dp
 private val TRACK_HEIGHT = 28.dp
 private val TRACK_INSET = 14.dp
 
 /**
- * Auto-collapse timer of a floating reader panel. The panel shrinks to a chip once the user stops
- * interacting with it, and every interaction restarts the countdown.
+ * State of a floating reader panel: whether it is shrunk to a chip, whether it shows its settings
+ * instead of the session controls, and the auto-collapse countdown that ties them together.
  */
 @Stable
 class ReaderPanelCollapseState internal constructor(
     private val collapsed: MutableState<Boolean>,
+    private val settingsShown: MutableState<Boolean>,
     private val lastInteractionAt: MutableState<Long>
 ) {
     val isCollapsed: Boolean get() = collapsed.value
+
+    val isSettingsShown: Boolean get() = settingsShown.value
 
     internal val interactionMark: Long get() = lastInteractionAt.value
 
@@ -95,6 +103,17 @@ class ReaderPanelCollapseState internal constructor(
     fun touch() {
         lastInteractionAt.value = System.currentTimeMillis()
     }
+
+    /** Switches the panel between its session controls and its settings. */
+    fun toggleSettings() {
+        settingsShown.value = !settingsShown.value
+        expand()
+    }
+
+    internal fun reset() {
+        settingsShown.value = false
+        expand()
+    }
 }
 
 /**
@@ -108,20 +127,23 @@ fun rememberReaderPanelCollapseState(
     collapseDelayMillis: Long = COLLAPSE_DELAY_MS
 ): ReaderPanelCollapseState {
     val collapsed = rememberSaveable(resetKey) { mutableStateOf(false) }
+    val settingsShown = rememberSaveable(resetKey) { mutableStateOf(false) }
     val lastInteractionAt = remember(resetKey) { mutableLongStateOf(System.currentTimeMillis()) }
-    val state = remember(collapsed, lastInteractionAt) {
-        ReaderPanelCollapseState(collapsed, lastInteractionAt)
+    val state = remember(collapsed, settingsShown, lastInteractionAt) {
+        ReaderPanelCollapseState(collapsed, settingsShown, lastInteractionAt)
     }
 
-    LaunchedEffect(active, state.isCollapsed, state.interactionMark) {
-        if (active && !state.isCollapsed) {
+    // The settings hold the panel open: shrinking into a chip would take away the very control the
+    // user is adjusting, and adjusting a setting is not necessarily a touch on the panel.
+    LaunchedEffect(active, state.isCollapsed, state.isSettingsShown, state.interactionMark) {
+        if (active && !state.isCollapsed && !state.isSettingsShown) {
             delay(collapseDelayMillis)
             state.collapse()
         }
     }
 
     LaunchedEffect(active) {
-        if (!active) state.expand()
+        if (!active) state.reset()
     }
 
     return state
@@ -131,6 +153,10 @@ fun rememberReaderPanelCollapseState(
  * Card floating above the reader that holds the controls of a running session (auto-scroll or
  * read aloud). It shows [expandedContent] until the auto-collapse timer fires, then shrinks into a
  * chip showing [collapsedContent]; tapping the chip expands it again.
+ *
+ * When [settingsContent] is supplied, the panel gains a third size: `collapseState.toggleSettings()`
+ * grows the card and cross-fades the controls into those settings. Unlike [expandedContent], the
+ * settings get the whole card and lay out their own padding.
  *
  * Place it inside a `Box` and pass the alignment/insets through [modifier].
  */
@@ -143,6 +169,7 @@ fun FloatingReaderControlPanel(
     expandedHeight: Dp,
     collapsedAlpha: Float,
     modifier: Modifier = Modifier,
+    settingsContent: (@Composable ColumnScope.() -> Unit)? = null,
     collapsedContent: @Composable RowScope.() -> Unit,
     expandedContent: @Composable ColumnScope.() -> Unit
 ) {
@@ -153,6 +180,7 @@ fun FloatingReaderControlPanel(
         modifier = modifier
     ) {
         val isCollapsed = collapseState.isCollapsed
+        val showSettings = settingsContent != null && collapseState.isSettingsShown
         val sizeSpec = spring<Dp>(
             dampingRatio = Spring.DampingRatioLowBouncy,
             stiffness = Spring.StiffnessMedium
@@ -162,30 +190,7 @@ fun FloatingReaderControlPanel(
             stiffness = Spring.StiffnessMedium
         )
 
-        val panelHeight by animateDpAsState(
-            targetValue = if (isCollapsed) 40.dp else expandedHeight,
-            animationSpec = sizeSpec
-        )
-        val panelWidthFraction by animateFloatAsState(
-            targetValue = if (isCollapsed) collapsedWidthFraction else 1f,
-            animationSpec = fractionSpec
-        )
-        val panelCorner by animateDpAsState(
-            targetValue = if (isCollapsed) 20.dp else 28.dp,
-            animationSpec = sizeSpec
-        )
-        // Fading in the chip is delayed until the shrink animation is over, otherwise the panel
-        // turns translucent while it is still wide.
-        val panelAlpha by animateFloatAsState(
-            targetValue = if (isCollapsed) collapsedAlpha else 1f,
-            animationSpec = if (isCollapsed) {
-                tween(durationMillis = 300, delayMillis = 300)
-            } else {
-                tween(durationMillis = 150)
-            }
-        )
-
-        Box(
+        BoxWithConstraints(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
@@ -195,6 +200,40 @@ fun FloatingReaderControlPanel(
                 else -> Alignment.BottomEnd
             }
         ) {
+            // The settings take a share of what the reader leaves free instead of a fixed height,
+            // so the card never grows past the space between the insets.
+            val settingsHeight = minOf(
+                maxHeight * SETTINGS_HEIGHT_FRACTION,
+                SETTINGS_MAX_HEIGHT
+            ).coerceAtLeast(expandedHeight).coerceAtMost(maxHeight)
+
+            val panelHeight by animateDpAsState(
+                targetValue = when {
+                    isCollapsed -> COLLAPSED_HEIGHT
+                    showSettings -> settingsHeight
+                    else -> expandedHeight
+                },
+                animationSpec = sizeSpec
+            )
+            val panelWidthFraction by animateFloatAsState(
+                targetValue = if (isCollapsed) collapsedWidthFraction else 1f,
+                animationSpec = fractionSpec
+            )
+            val panelCorner by animateDpAsState(
+                targetValue = if (isCollapsed) 20.dp else 28.dp,
+                animationSpec = sizeSpec
+            )
+            // Fading in the chip is delayed until the shrink animation is over, otherwise the panel
+            // turns translucent while it is still wide.
+            val panelAlpha by animateFloatAsState(
+                targetValue = if (isCollapsed) collapsedAlpha else 1f,
+                animationSpec = if (isCollapsed) {
+                    tween(durationMillis = 300, delayMillis = 300)
+                } else {
+                    tween(durationMillis = 150)
+                }
+            )
+
             Card(
                 modifier = Modifier
                     .graphicsLayer { alpha = panelAlpha }
@@ -217,14 +256,43 @@ fun FloatingReaderControlPanel(
                         content = collapsedContent
                     )
                 } else {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 16.dp, vertical = 12.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween,
-                        content = expandedContent
-                    )
+                    AnimatedContent(
+                        targetState = showSettings,
+                        modifier = Modifier.fillMaxSize(),
+                        // The card animates its own height, so the content transform must not.
+                        transitionSpec = {
+                            val direction = if (targetState) 1 else -1
+                            (
+                                fadeIn(animationSpec = tween(220, delayMillis = 90)) +
+                                    slideInVertically(animationSpec = tween(280)) {
+                                        direction * it / 8
+                                    }
+                                ).togetherWith(
+                                    fadeOut(animationSpec = tween(150)) +
+                                        slideOutVertically(animationSpec = tween(280)) {
+                                            -direction * it / 8
+                                        }
+                                ) using null
+                        }
+                    ) { settingsVisible ->
+                        if (settingsVisible && settingsContent != null) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(vertical = 12.dp),
+                                content = settingsContent
+                            )
+                        } else {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.SpaceBetween,
+                                content = expandedContent
+                            )
+                        }
+                    }
                 }
             }
         }

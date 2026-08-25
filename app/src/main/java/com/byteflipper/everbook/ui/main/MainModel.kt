@@ -763,6 +763,86 @@ class MainModel @Inject constructor(
                     it.copy(autoScrollChipPlayPause = this)
                 }
             )
+
+            is MainEvent.OnChangeTtsSpeechRate -> handleDatastoreUpdate(
+                key = DataStoreConstants.TTS_SPEECH_RATE,
+                value = event.value.toDouble(),
+                updateState = {
+                    it.copy(ttsSpeechRate = this.toFloat())
+                }
+            )
+
+            is MainEvent.OnChangeTtsPitch -> handleDatastoreUpdate(
+                key = DataStoreConstants.TTS_PITCH,
+                value = event.value.toDouble(),
+                updateState = {
+                    it.copy(ttsPitch = this.toFloat())
+                }
+            )
+
+            is MainEvent.OnChangeTtsVoice -> handleDatastoreUpdate(
+                key = DataStoreConstants.TTS_VOICE,
+                value = event.value,
+                updateState = {
+                    it.copy(ttsVoice = this)
+                }
+            )
+
+            is MainEvent.OnChangeTtsLanguage -> handleDatastoreUpdate(
+                key = DataStoreConstants.TTS_LANGUAGE,
+                value = event.value,
+                updateState = {
+                    it.copy(ttsLanguage = this)
+                }
+            )
+
+            is MainEvent.OnChangeTtsBackgroundPlayback -> handleDatastoreUpdate(
+                key = DataStoreConstants.TTS_BACKGROUND_PLAYBACK,
+                value = event.value,
+                updateState = {
+                    it.copy(ttsBackgroundPlayback = this)
+                }
+            )
+
+            is MainEvent.OnChangeTtsStopAtChapterEnd -> handleDatastoreUpdate(
+                key = DataStoreConstants.TTS_STOP_AT_CHAPTER_END,
+                value = event.value,
+                updateState = {
+                    it.copy(ttsStopAtChapterEnd = this)
+                }
+            )
+
+            is MainEvent.OnChangeTtsParagraphDelay -> handleDatastoreUpdate(
+                key = DataStoreConstants.TTS_PARAGRAPH_DELAY,
+                value = event.value,
+                updateState = {
+                    it.copy(ttsParagraphDelay = this)
+                }
+            )
+
+            is MainEvent.OnChangeTtsAutoScroll -> handleDatastoreUpdate(
+                key = DataStoreConstants.TTS_AUTO_SCROLL,
+                value = event.value,
+                updateState = {
+                    it.copy(ttsAutoScroll = this)
+                }
+            )
+
+            is MainEvent.OnChangeTtsHighlightSentence -> handleDatastoreUpdate(
+                key = DataStoreConstants.TTS_HIGHLIGHT_SENTENCE,
+                value = event.value,
+                updateState = {
+                    it.copy(ttsHighlightSentence = this)
+                }
+            )
+
+            is MainEvent.OnChangeTtsSpeakChapterTitles -> handleDatastoreUpdate(
+                key = DataStoreConstants.TTS_SPEAK_CHAPTER_TITLES,
+                value = event.value,
+                updateState = {
+                    it.copy(ttsSpeakChapterTitles = this)
+                }
+            )
         }
     }
 

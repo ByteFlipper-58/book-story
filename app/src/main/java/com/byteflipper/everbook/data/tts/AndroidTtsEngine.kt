@@ -25,6 +25,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -47,6 +49,8 @@ class AndroidTtsEngine @Inject constructor(
         extraBufferCapacity = 64
     )
     override val events: Flow<TtsEngineEvent> = _events.asSharedFlow()
+
+    private val initializationMutex = Mutex()
 
     private var tts: TextToSpeech? = null
 
@@ -85,8 +89,8 @@ class AndroidTtsEngine @Inject constructor(
         }
     }
 
-    override suspend fun initialize(): Boolean {
-        if (initialized) return true
+    override suspend fun initialize(): Boolean = initializationMutex.withLock {
+        if (initialized) return@withLock true
 
         val ready = suspendCancellableCoroutine { continuation ->
             val instance = TextToSpeech(context) { status ->
@@ -103,9 +107,9 @@ class AndroidTtsEngine @Inject constructor(
 
         if (!ready) {
             Log.w(TTS_LOG, "No usable text-to-speech engine")
-            release()
+            releaseInternal()
             emit(TtsEngineEvent.Failed(null, TtsFailure.ENGINE_UNAVAILABLE))
-            return false
+            return@withLock false
         }
 
         tts?.apply {
@@ -119,7 +123,7 @@ class AndroidTtsEngine @Inject constructor(
         }
         initialized = true
         emit(TtsEngineEvent.Initialized)
-        return true
+        return@withLock true
     }
 
     override suspend fun voices(): List<TtsVoice> {
@@ -194,7 +198,9 @@ class AndroidTtsEngine @Inject constructor(
         // utterances shorter also makes pause/resume land closer to where the user stopped.
         .coerceAtMost(FALLBACK_MAX_INPUT_LENGTH)
 
-    override fun release() {
+    override fun release() = releaseInternal()
+
+    private fun releaseInternal() {
         initialized = false
         runCatching {
             tts?.stop()

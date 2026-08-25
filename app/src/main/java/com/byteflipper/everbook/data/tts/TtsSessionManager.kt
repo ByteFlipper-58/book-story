@@ -19,6 +19,7 @@ import com.byteflipper.everbook.domain.reader.tts.TtsPosition
 import com.byteflipper.everbook.domain.reader.tts.TtsPreferences
 import com.byteflipper.everbook.domain.reader.tts.TtsSessionState
 import com.byteflipper.everbook.domain.reader.tts.TtsUtterance
+import com.byteflipper.everbook.domain.reader.tts.TtsVoice
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -162,6 +163,17 @@ class TtsSessionManager @Inject constructor(
 
     /** Moves playback to the paragraph the user scrolled to or tapped. */
     fun seekToTextIndex(textIndex: Int) = seek { bookQueue, _ -> bookQueue.firstFrom(textIndex) }
+
+    /**
+     * Voices installed on the device, booting the engine if it is not running yet. Empty when no
+     * synthesizer is available.
+     */
+    suspend fun loadVoices(): List<TtsVoice> {
+        if (!ensureEngine()) return emptyList()
+        val voices = engine.voices()
+        _state.value = _state.value.copy(voices = voices)
+        return voices
+    }
 
     /**
      * Pushes new synthesis options. Rate/pitch/voice apply to utterances queued from now on, so

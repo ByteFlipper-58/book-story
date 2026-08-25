@@ -46,7 +46,8 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
-          name: everbook-debug-apk-${{ github.sha }}
+          # github.sha points at the throwaway merge commit on pull_request events.
+          name: everbook-debug-apk-${{ github.event.pull_request.head.sha || github.sha }}
           path: app/build/outputs/apk/everbook/debug/*.apk
           if-no-files-found: error
           retention-days: 30

@@ -113,6 +113,21 @@ private fun AnnotatedString.withAnnotations(
     }
 }
 
+/** Marks the sentence the read-aloud session is speaking right now. */
+private fun AnnotatedString.withSpokenSentence(
+    range: IntRange?,
+    color: Color
+): AnnotatedString {
+    if (range == null) return this
+    val start = range.first.coerceIn(0, length)
+    val end = (range.last + 1).coerceIn(start, length)
+    if (end <= start) return this
+    return buildAnnotatedString {
+        append(this@withSpokenSentence)
+        addStyle(SpanStyle(background = color), start, end)
+    }
+}
+
 @Composable
 fun LazyItemScope.ReaderLayoutTextParagraph(
     paragraph: Text,
@@ -120,6 +135,7 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
     showMenu: Boolean,
     readerIndex: Int,
     highlights: List<Bookmark>,
+    spokenSentence: IntRange?,
     focusedBookmarkId: Int?,
     onAnnotationTextLayout: (bookmarkId: Int, topOffsetPx: Float) -> Unit,
     showHighlightPalette: (ReaderEvent.OnShowHighlightPalette) -> Unit,
@@ -235,13 +251,16 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
         ) {
             val noteColor = MaterialTheme.colorScheme.primary
             val focusColor = MaterialTheme.colorScheme.tertiary
+            val spokenColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.22f)
             val displayedLine = remember(
                 paragraph.line,
                 highlights,
                 focusedBookmarkId,
                     noteColor,
                     focusColor,
-                    focusIntensity.value
+                    focusIntensity.value,
+                    spokenSentence,
+                    spokenColor
                 ) {
                 paragraph.line.withAnnotations(
                     annotations = highlights,
@@ -249,6 +268,9 @@ fun LazyItemScope.ReaderLayoutTextParagraph(
                     noteColor = noteColor,
                     focusColor = focusColor,
                     focusIntensity = focusIntensity.value
+                ).withSpokenSentence(
+                    range = spokenSentence,
+                    color = spokenColor
                 )
             }
             StyledText(

@@ -41,6 +41,7 @@ import com.byteflipper.everbook.presentation.settings.reader.system.SystemSubcat
 import com.byteflipper.everbook.presentation.settings.reader.text.TextSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.translator.TranslatorSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.auto_scroll.AutoScrollSubcategory
+import com.byteflipper.everbook.presentation.settings.reader.tts.TtsSubcategory
 
 private var initialPage = 0
 
@@ -112,6 +113,9 @@ fun ReaderSettingsBottomSheet(
                             titleColor = { MaterialTheme.colorScheme.onSurface }
                         )
                         AutoScrollSubcategory(
+                            titleColor = { MaterialTheme.colorScheme.onSurface }
+                        )
+                        TtsSubcategory(
                             titleColor = { MaterialTheme.colorScheme.onSurface }
                         )
                         MiscSubcategory(

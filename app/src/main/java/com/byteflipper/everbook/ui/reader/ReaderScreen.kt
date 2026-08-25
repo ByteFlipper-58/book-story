@@ -65,6 +65,7 @@ import com.byteflipper.everbook.presentation.reader.ReaderContent
 import com.byteflipper.everbook.ui.main.MainEvent
 import com.byteflipper.everbook.ui.book_info.BookInfoScreen
 import com.byteflipper.everbook.ui.main.MainModel
+import com.byteflipper.everbook.ui.main.toTtsPreferences
 import com.byteflipper.everbook.ui.pdf_reader.PdfReaderEvent
 import com.byteflipper.everbook.ui.pdf_reader.PdfReaderModel
 import com.byteflipper.everbook.ui.settings.SettingsModel
@@ -105,6 +106,11 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                     mainState.value.translationWifiOnly
                 )
             )
+        }
+
+        val ttsPreferences = remember(mainState.value) { mainState.value.toTtsPreferences() }
+        LaunchedEffect(ttsPreferences) {
+            screenModel.onEvent(ReaderEvent.OnApplyTtsPreferences(ttsPreferences))
         }
 
         val activity = LocalActivity.current
@@ -783,6 +789,15 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 onSetAutoScrollPaused = screenModel::onEvent,
                 onChangeAutoScrollSpeed = {
                     mainModel.onEvent(MainEvent.OnChangeAutoScrollSpeed(it))
+                },
+                tts = state.value.tts,
+                ttsFollowsText = mainState.value.ttsAutoScroll,
+                startTts = {
+                    screenModel.onEvent(ReaderEvent.OnStartTts(ttsPreferences))
+                },
+                onTtsEvent = screenModel::onEvent,
+                onChangeTtsSpeechRate = {
+                    mainModel.onEvent(MainEvent.OnChangeTtsSpeechRate(it))
                 },
                 selectPreviousPreset = settingsModel::onEvent,
                 selectNextPreset = settingsModel::onEvent,

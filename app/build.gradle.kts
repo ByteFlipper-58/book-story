@@ -206,6 +206,11 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
     implementation("androidx.work:work-runtime-ktx:2.11.2")
+
+    // MediaSessionCompat + MediaStyle notification for the text-to-speech service.
+    // media3-session is not a fit: it is built around a Player implementation, while read-aloud
+    // is driven by android.speech.tts, which exposes no playback timeline to wrap.
+    implementation("androidx.media:media:1.7.0")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
 
     // Dagger - Hilt

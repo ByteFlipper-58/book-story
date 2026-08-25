@@ -30,6 +30,7 @@ import com.byteflipper.everbook.presentation.settings.reader.auto_scroll.AutoScr
 import com.byteflipper.everbook.presentation.settings.reader.system.SystemSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.text.TextSubcategory
 import com.byteflipper.everbook.presentation.settings.reader.translator.TranslatorSubcategory
+import com.byteflipper.everbook.presentation.settings.reader.tts.TtsSubcategory
 
 fun LazyListScope.ReaderSettingsCategory(
     titleColor: @Composable () -> Color = { MaterialTheme.colorScheme.primary }
@@ -71,6 +72,9 @@ fun LazyListScope.ReaderSettingsCategory(
         titleColor = titleColor
     )
     AutoScrollSubcategory(
+        titleColor = titleColor
+    )
+    TtsSubcategory(
         titleColor = titleColor
     )
     ProgressSubcategory(

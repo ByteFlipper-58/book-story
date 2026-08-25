@@ -41,6 +41,7 @@ import com.byteflipper.everbook.domain.util.Drawer
 import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.ui.reader.ReaderEvent
 import com.byteflipper.everbook.ui.reader.ReaderBookTranslationState
+import com.byteflipper.everbook.ui.reader.ReaderTtsState
 import com.byteflipper.everbook.ui.settings.SettingsEvent
 import kotlinx.coroutines.delay
 import kotlin.math.abs
@@ -57,6 +58,11 @@ fun ReaderContent(
     onSetAutoScrolling: (ReaderEvent.OnSetAutoScrolling) -> Unit,
     onSetAutoScrollPaused: (ReaderEvent.OnSetAutoScrollPaused) -> Unit,
     onChangeAutoScrollSpeed: (Float) -> Unit,
+    tts: ReaderTtsState,
+    ttsFollowsText: Boolean,
+    startTts: () -> Unit,
+    onTtsEvent: (ReaderEvent) -> Unit,
+    onChangeTtsSpeechRate: (Float) -> Unit,
     book: Book,
     text: List<ReaderText>,
     displayContent: ReaderDisplayContent,
@@ -287,6 +293,11 @@ fun ReaderContent(
             onSetAutoScrolling = onSetAutoScrolling,
             onSetAutoScrollPaused = onSetAutoScrollPaused,
             onChangeAutoScrollSpeed = onChangeAutoScrollSpeed,
+            tts = tts,
+            ttsFollowsText = ttsFollowsText,
+            startTts = startTts,
+            onTtsEvent = onTtsEvent,
+            onChangeTtsSpeechRate = onChangeTtsSpeechRate,
             book = book,
             text = text,
             displayContent = displayContent,

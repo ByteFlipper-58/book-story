@@ -32,6 +32,7 @@ import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.ReaderProgressCount
 import com.byteflipper.everbook.domain.reader.ReaderScreenOrientation
 import com.byteflipper.everbook.domain.reader.ReaderTextAlignment
+import com.byteflipper.everbook.domain.reader.tts.TtsPreferences
 import com.byteflipper.everbook.domain.reader.toColorEffects
 import com.byteflipper.everbook.domain.reader.toFontThickness
 import com.byteflipper.everbook.domain.reader.toHorizontalGesture
@@ -111,6 +112,16 @@ data class MainState(
     val autoScrollChipOpacity: Int = provideDefaultValue { 100 },
     val autoScrollChipOpacityEnabled: Boolean = provideDefaultValue { false },
     val autoScrollChipPlayPause: Boolean = provideDefaultValue { false },
+    val ttsSpeechRate: Float = provideDefaultValue { TtsPreferences.DEFAULT_SPEECH_RATE },
+    val ttsPitch: Float = provideDefaultValue { TtsPreferences.DEFAULT_PITCH },
+    val ttsVoice: String = provideDefaultValue { "" },
+    val ttsLanguage: String = provideDefaultValue { "" },
+    val ttsBackgroundPlayback: Boolean = provideDefaultValue { true },
+    val ttsStopAtChapterEnd: Boolean = provideDefaultValue { false },
+    val ttsParagraphDelay: Int = provideDefaultValue { 0 },
+    val ttsAutoScroll: Boolean = provideDefaultValue { true },
+    val ttsHighlightSentence: Boolean = provideDefaultValue { true },
+    val ttsSpeakChapterTitles: Boolean = provideDefaultValue { true },
     val textAlignment: ReaderTextAlignment = provideDefaultValue { ReaderTextAlignment.JUSTIFY },
     val letterSpacing: Int = provideDefaultValue { 0 },
     val cutoutPadding: Boolean = provideDefaultValue { false },
@@ -306,6 +317,46 @@ data class MainState(
                     autoScrollChipPlayPause = provideValue(
                         AUTO_SCROLL_CHIP_PLAY_PAUSE
                     ) { autoScrollChipPlayPause },
+
+                    ttsSpeechRate = provideValue(
+                        TTS_SPEECH_RATE, convert = { this.toFloat() }
+                    ) { ttsSpeechRate },
+
+                    ttsPitch = provideValue(
+                        TTS_PITCH, convert = { this.toFloat() }
+                    ) { ttsPitch },
+
+                    ttsVoice = provideValue(
+                        TTS_VOICE
+                    ) { ttsVoice },
+
+                    ttsLanguage = provideValue(
+                        TTS_LANGUAGE
+                    ) { ttsLanguage },
+
+                    ttsBackgroundPlayback = provideValue(
+                        TTS_BACKGROUND_PLAYBACK
+                    ) { ttsBackgroundPlayback },
+
+                    ttsStopAtChapterEnd = provideValue(
+                        TTS_STOP_AT_CHAPTER_END
+                    ) { ttsStopAtChapterEnd },
+
+                    ttsParagraphDelay = provideValue(
+                        TTS_PARAGRAPH_DELAY
+                    ) { ttsParagraphDelay },
+
+                    ttsAutoScroll = provideValue(
+                        TTS_AUTO_SCROLL
+                    ) { ttsAutoScroll },
+
+                    ttsHighlightSentence = provideValue(
+                        TTS_HIGHLIGHT_SENTENCE
+                    ) { ttsHighlightSentence },
+
+                    ttsSpeakChapterTitles = provideValue(
+                        TTS_SPEAK_CHAPTER_TITLES
+                    ) { ttsSpeakChapterTitles },
 
                     browseLayout = provideValue(
                         BROWSE_LAYOUT, convert = { toBrowseLayout() }
@@ -551,3 +602,17 @@ data class MainState(
         }
     }
 }
+
+/** The read-aloud slice of the settings, in the shape the TTS session consumes. */
+fun MainState.toTtsPreferences(): TtsPreferences = TtsPreferences(
+    speechRate = ttsSpeechRate,
+    pitch = ttsPitch,
+    voiceId = ttsVoice,
+    languageTag = ttsLanguage,
+    backgroundPlayback = ttsBackgroundPlayback,
+    stopAtChapterEnd = ttsStopAtChapterEnd,
+    paragraphDelayMs = ttsParagraphDelay,
+    autoScroll = ttsAutoScroll,
+    highlightSentence = ttsHighlightSentence,
+    speakChapterTitles = ttsSpeakChapterTitles
+)

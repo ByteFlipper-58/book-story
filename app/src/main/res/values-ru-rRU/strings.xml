@@ -318,6 +318,47 @@
     <string name="auto_scroll_chip_opacity_option">Прозрачность</string>
     <string name="auto_scroll_chip_play_pause_option">Кнопка паузы в чипе</string>
     <string name="auto_scroll_chip_play_pause_option_desc">Показывать кнопку воспроизведения/паузы внутри свернутого чипа</string>
+
+    <!-- Озвучивание книги -->
+    <string name="tts_button">Озвучивание</string>
+    <string name="tts_reader_settings">Озвучивание</string>
+    <string name="tts_panel_title">Озвучивание</string>
+    <string name="tts_play">Воспроизвести</string>
+    <string name="tts_pause">Пауза</string>
+    <string name="tts_stop">Остановить</string>
+    <string name="tts_next_paragraph">Следующий абзац</string>
+    <string name="tts_previous_paragraph">Предыдущий абзац</string>
+    <string name="tts_next_sentence">Следующее предложение</string>
+    <string name="tts_previous_sentence">Предыдущее предложение</string>
+    <string name="tts_open_settings">Настройки голоса</string>
+    <string name="tts_close_settings">Назад к управлению озвучкой</string>
+    <string name="tts_preparing">Подготовка…</string>
+    <string name="tts_notification_channel">Озвучивание</string>
+    <string name="tts_notification_title">Озвучивание</string>
+    <string name="tts_notification_text">Книга читается вслух</string>
+    <string name="tts_speech_rate_option">Скорость речи</string>
+    <string name="tts_pitch_option">Тон голоса</string>
+    <string name="tts_voice_option">Голос</string>
+    <string name="tts_voice_system_default">Системный по умолчанию</string>
+    <string name="tts_voice_network_required">Требуется подключение к сети</string>
+    <string name="tts_voices_empty">Голоса не установлены. Установите голосовые данные в системных настройках синтеза речи.</string>
+    <string name="tts_open_system_settings">Открыть системные настройки синтеза речи</string>
+    <string name="tts_background_playback_option">Читать при выключенном экране</string>
+    <string name="tts_background_playback_option_desc">Продолжать озвучивание, когда экран выключен или приложение свернуто</string>
+    <string name="tts_stop_at_chapter_end_option">Останавливать в конце главы</string>
+    <string name="tts_stop_at_chapter_end_option_desc">Прекращать чтение по завершении текущей главы</string>
+    <string name="tts_paragraph_delay_option">Пауза между абзацами</string>
+    <string name="tts_auto_scroll_option">Следовать за озвучиваемым текстом</string>
+    <string name="tts_auto_scroll_option_desc">Прокручивать страницу к читаемому абзацу</string>
+    <string name="tts_highlight_option">Подсвечивать предложение</string>
+    <string name="tts_highlight_option_desc">Выделять предложение, которое читается сейчас</string>
+    <string name="tts_speak_chapter_titles_option">Читать названия глав</string>
+    <string name="tts_speak_chapter_titles_option_desc">Объявлять название главы перед её текстом</string>
+    <string name="tts_error_engine_unavailable">На устройстве нет доступного движка синтеза речи</string>
+    <string name="tts_error_language_missing_data">Голосовые данные для этого языка не установлены</string>
+    <string name="tts_error_language_not_supported">Установленный движок не поддерживает этот язык</string>
+    <string name="tts_error_synthesis_failed">Не удалось озвучить текст. Попробуйте ещё раз.</string>
+
     <string name="highlighted_reading_option">Выделение слов</string>
     <string name="highlighted_reading_option_desc">Выделить начало каждого слова</string>
     <string name="highlighted_reading_thickness_option">Толщина выделения</string>

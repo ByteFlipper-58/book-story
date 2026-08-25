@@ -12,6 +12,7 @@ import androidx.compose.runtime.Immutable
 import com.byteflipper.everbook.domain.reader.Bookmark
 import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
+import com.byteflipper.everbook.domain.reader.tts.TtsPreferences
 
 @Immutable
 sealed class ReaderEvent {
@@ -215,4 +216,14 @@ sealed class ReaderEvent {
     data class OnEditAnnotation(val bookmark: Bookmark) : ReaderEvent()
     data class OnSetAutoScrolling(val active: Boolean) : ReaderEvent()
     data class OnSetAutoScrollPaused(val paused: Boolean) : ReaderEvent()
+
+    /** Starts reading aloud from the paragraph the reader is currently showing. */
+    data class OnStartTts(val preferences: TtsPreferences) : ReaderEvent()
+    data object OnStopTts : ReaderEvent()
+    data object OnToggleTtsPlayback : ReaderEvent()
+    data object OnTtsNextParagraph : ReaderEvent()
+    data object OnTtsPreviousParagraph : ReaderEvent()
+    data object OnTtsNextSentence : ReaderEvent()
+    data object OnTtsPreviousSentence : ReaderEvent()
+    data class OnApplyTtsPreferences(val preferences: TtsPreferences) : ReaderEvent()
 }

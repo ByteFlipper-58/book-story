@@ -6,44 +6,23 @@
  */
 
 package com.byteflipper.everbook.presentation.reader
-import androidx.compose.ui.res.painterResource
 
 import android.annotation.SuppressLint
 import android.view.View
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.unit.sp
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.runtime.remember
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -66,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -87,12 +67,14 @@ import com.byteflipper.everbook.domain.util.HorizontalAlignment
 import com.byteflipper.everbook.presentation.core.components.common.AnimatedVisibility
 import com.byteflipper.everbook.presentation.core.components.common.StyledText
 import com.byteflipper.everbook.presentation.core.util.noRippleClickable
+import com.byteflipper.everbook.presentation.reader.controls.AutoScrollControlPanel
+import com.byteflipper.everbook.presentation.reader.controls.TtsControlPanel
 import com.byteflipper.everbook.ui.reader.ReaderBookTranslationState
 import com.byteflipper.everbook.ui.reader.ReaderEvent
 import com.byteflipper.everbook.ui.reader.ReaderTranslationState
+import com.byteflipper.everbook.ui.reader.ReaderTtsState
 import com.byteflipper.everbook.ui.settings.SettingsEvent
 import com.byteflipper.everbook.ui.theme.readerBarsColor
-import kotlinx.coroutines.delay
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -107,6 +89,11 @@ fun ReaderScaffold(
     onSetAutoScrolling: (ReaderEvent.OnSetAutoScrolling) -> Unit,
     onSetAutoScrollPaused: (ReaderEvent.OnSetAutoScrollPaused) -> Unit,
     onChangeAutoScrollSpeed: (Float) -> Unit,
+    tts: ReaderTtsState,
+    ttsFollowsText: Boolean,
+    startTts: () -> Unit,
+    onTtsEvent: (ReaderEvent) -> Unit,
+    onChangeTtsSpeechRate: (Float) -> Unit,
     book: Book,
     text: List<ReaderText>,
     displayContent: ReaderDisplayContent,
@@ -236,7 +223,7 @@ fun ReaderScaffold(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             AnimatedVisibility(
-                visible = showMenu && !isAutoScrolling,
+                visible = showMenu && !isAutoScrolling && !tts.isActive,
                 enter = slideInVertically { -it },
                 exit = slideOutVertically { -it }
             ) {
@@ -263,7 +250,7 @@ fun ReaderScaffold(
         bottomBar = {
             AnimatedVisibility(
                 modifier = Modifier.fillMaxWidth(),
-                visible = showMenu && !isAutoScrolling,
+                visible = showMenu && !isAutoScrolling && !tts.isActive,
                 enter = slideInVertically { it },
                 exit = slideOutVertically { it }
             ) {
@@ -286,6 +273,7 @@ fun ReaderScaffold(
 
                     ReaderBottomBar(
                         onSetAutoScrolling = onSetAutoScrolling,
+                        startTts = startTts,
                         menuVisibility = menuVisibility,
                         fullscreenMode = fullscreenMode,
                         book = book,
@@ -312,6 +300,9 @@ fun ReaderScaffold(
                 isAutoScrollPaused = isAutoScrollPaused,
                 onSetAutoScrolling = onSetAutoScrolling,
                 displayContent = displayContent,
+                ttsTextIndex = tts.textIndex,
+                ttsSentenceRange = tts.sentenceRange,
+                ttsFollowsText = ttsFollowsText,
                 highlightsByParagraph = highlightsByParagraph,
                 focusedBookmarkId = focusedBookmarkId,
                 onAnnotationTextLayout = onAnnotationTextLayout,
@@ -418,268 +409,34 @@ fun ReaderScaffold(
                 )
             }
 
-            // FLOATING AUTO-SCROLL CONTROLS
-            var isPanelCollapsed by rememberSaveable(book.id) { mutableStateOf(false) }
-            var lastInteractionTime by remember { mutableStateOf(System.currentTimeMillis()) }
-
-            LaunchedEffect(isAutoScrolling, isPanelCollapsed, lastInteractionTime) {
-                if (isAutoScrolling && !isPanelCollapsed) {
-                    delay(3000)
-                    isPanelCollapsed = true
-                }
-            }
-
-            LaunchedEffect(isAutoScrolling) {
-                if (!isAutoScrolling) {
-                    isPanelCollapsed = false
-                }
-            }
-
-            AnimatedVisibility(
-                visible = isAutoScrolling,
-                enter = fadeIn() + slideInVertically { it },
-                exit = fadeOut() + slideOutVertically { it },
+            AutoScrollControlPanel(
+                isAutoScrolling = isAutoScrolling,
+                autoScrollSpeed = autoScrollSpeed,
+                isAutoScrollPaused = isAutoScrollPaused,
+                chipAlignment = autoScrollChipAlignment,
+                chipOpacity = autoScrollChipOpacity,
+                chipOpacityEnabled = autoScrollChipOpacityEnabled,
+                chipPlayPause = autoScrollChipPlayPause,
+                bookId = book.id,
+                onSetAutoScrollPaused = onSetAutoScrollPaused,
+                onChangeAutoScrollSpeed = onChangeAutoScrollSpeed,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .navigationBarsPadding()
-            ) {
-                val springSpec = spring<Dp>(
-                    dampingRatio = Spring.DampingRatioLowBouncy,
-                    stiffness = Spring.StiffnessMedium
-                )
-                val springFloatSpec = spring<Float>(
-                    dampingRatio = Spring.DampingRatioLowBouncy,
-                    stiffness = Spring.StiffnessMedium
-                )
+            )
 
-                val panelHeight by animateDpAsState(
-                    targetValue = if (isPanelCollapsed) 40.dp else 120.dp,
-                    animationSpec = springSpec
-                )
-                val panelWidthFraction by animateFloatAsState(
-                    targetValue = if (isPanelCollapsed) {
-                        if (autoScrollChipPlayPause) 0.32f else 0.22f
-                    } else 1f,
-                    animationSpec = springFloatSpec
-                )
-                val panelAlignment = when (autoScrollChipAlignment) {
-                    "BOTTOM_LEFT" -> Alignment.BottomStart
-                    "BOTTOM_CENTER" -> Alignment.BottomCenter
-                    else -> Alignment.BottomEnd
-                }
-                val panelCorner by animateDpAsState(
-                    targetValue = if (isPanelCollapsed) 20.dp else 28.dp,
-                    animationSpec = springSpec
-                )
-
-                val targetAlpha = if (isPanelCollapsed && autoScrollChipOpacityEnabled) {
-                    autoScrollChipOpacity / 100f
-                } else {
-                    1f
-                }
-                val chipAlpha by animateFloatAsState(
-                    targetValue = targetAlpha,
-                    animationSpec = if (isPanelCollapsed) {
-                        tween(durationMillis = 300, delayMillis = 300)
-                    } else {
-                        tween(durationMillis = 150)
-                    }
-                )
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                    contentAlignment = panelAlignment
-                ) {
-                    Card(
-                        modifier = Modifier
-                            .graphicsLayer { alpha = chipAlpha }
-                            .fillMaxWidth(panelWidthFraction)
-                            .height(panelHeight)
-                            .noRippleClickable {
-                                if (isPanelCollapsed) {
-                                    isPanelCollapsed = false
-                                }
-                                lastInteractionTime = System.currentTimeMillis()
-                            },
-                        shape = RoundedCornerShape(panelCorner),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainer
-                        ),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
-                    ) {
-                        if (!isPanelCollapsed) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.ic_speed),
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.primary,
-                                            modifier = Modifier.size(24.dp)
-                                        )
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        Text(
-                                            text = stringResource(id = R.string.auto_scroll_reader_settings),
-                                            style = MaterialTheme.typography.titleMedium,
-                                            color = MaterialTheme.colorScheme.onSurface
-                                        )
-                                    }
-                                    Box(
-                                        modifier = Modifier
-                                            .background(
-                                                color = MaterialTheme.colorScheme.secondaryContainer,
-                                                shape = RoundedCornerShape(8.dp)
-                                            )
-                                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                                    ) {
-                                        Text(
-                                            text = "${String.format(java.util.Locale.US, "%.1f", autoScrollSpeed)}x",
-                                            style = MaterialTheme.typography.labelMedium,
-                                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                                        )
-                                    }
-                                }
-
-                                BoxWithConstraints(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(28.dp)
-                                        .clip(RoundedCornerShape(14.dp))
-                                        .background(MaterialTheme.colorScheme.surfaceVariant)
-                                        .pointerInput(Unit) {
-                                            detectTapGestures { offset ->
-                                                lastInteractionTime = System.currentTimeMillis()
-                                                val insetPx = 14.dp.toPx()
-                                                val activeWidthPx = (size.width.toFloat() - insetPx * 2).coerceAtLeast(1f)
-                                                val fraction = ((offset.x - insetPx) / activeWidthPx).coerceIn(0f, 1f)
-                                                val rawSpeed = 1.0f + fraction * 9.0f
-                                                val roundedSpeed = (Math.round(rawSpeed * 2.0) / 2.0).toFloat()
-                                                onChangeAutoScrollSpeed(roundedSpeed)
-                                            }
-                                        }
-                                        .pointerInput(Unit) {
-                                            detectHorizontalDragGestures { change, _ ->
-                                                lastInteractionTime = System.currentTimeMillis()
-                                                change.consume()
-                                                val insetPx = 14.dp.toPx()
-                                                val activeWidthPx = (size.width.toFloat() - insetPx * 2).coerceAtLeast(1f)
-                                                val fraction = ((change.position.x - insetPx) / activeWidthPx).coerceIn(0f, 1f)
-                                                val rawSpeed = 1.0f + fraction * 9.0f
-                                                val roundedSpeed = (Math.round(rawSpeed * 2.0) / 2.0).toFloat()
-                                                onChangeAutoScrollSpeed(roundedSpeed)
-                                            }
-                                        },
-                                    contentAlignment = Alignment.CenterStart
-                                ) {
-                                    val fraction = (autoScrollSpeed - 1.0f) / 9.0f
-                                    val activeWidth = when {
-                                        autoScrollSpeed <= 1.0f -> 0.dp
-                                        autoScrollSpeed >= 10.0f -> maxWidth
-                                        else -> (14.dp + ((maxWidth - 28.dp) * fraction))
-                                            .coerceAtLeast(0.dp)
-                                    }
-
-                                    if (activeWidth > 0.dp) {
-                                        Box(
-                                            modifier = Modifier
-                                                .width(activeWidth)
-                                                .fillMaxHeight()
-                                                .background(MaterialTheme.colorScheme.primary)
-                                        )
-                                    }
-
-                                    for (i in 0..18) {
-                                        val dotFraction = i / 18f
-                                        val xOffset = (14.dp + ((maxWidth - 28.dp) * dotFraction) - 1.5.dp).coerceAtLeast(0.dp)
-                                        val isCovered = (i * 0.5f + 1.0f) <= autoScrollSpeed && autoScrollSpeed > 1.0f
-                                        val isSelected = (i * 0.5f + 1.0f) <= autoScrollSpeed
-                                        val dotColor = if (isCovered) {
-                                            MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
-                                        } else {
-                                            if (isSelected) {
-                                                MaterialTheme.colorScheme.primary
-                                            } else {
-                                                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
-                                            }
-                                        }
-
-                                        Box(
-                                            modifier = Modifier
-                                                .offset(x = xOffset, y = 0.dp)
-                                                .size(3.dp)
-                                                .clip(androidx.compose.foundation.shape.CircleShape)
-                                                .background(dotColor)
-                                                .align(Alignment.CenterStart)
-                                        )
-                                    }
-                                }
-
-                                Text(
-                                    text = stringResource(id = R.string.auto_scroll_tap_to_stop),
-                                    style = MaterialTheme.typography.labelSmall.copy(
-                                        fontSize = 9.sp,
-                                        lineHeight = 11.sp
-                                    ),
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        } else {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(horizontal = 8.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                if (autoScrollChipPlayPause) {
-                                    IconButton(
-                                        onClick = {
-                                            onSetAutoScrollPaused(ReaderEvent.OnSetAutoScrollPaused(!isAutoScrollPaused))
-                                        },
-                                        modifier = Modifier.size(24.dp)
-                                    ) {
-                                        Icon(
-                                            painter = painterResource(
-                                                id = if (isAutoScrollPaused) R.drawable.ic_play_arrow_rounded_24px
-                                                     else R.drawable.ic_pause_rounded_24px
-                                            ),
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.primary,
-                                            modifier = Modifier.size(16.dp)
-                                        )
-                                    }
-                                    Spacer(modifier = Modifier.width(4.dp))
-                                }
-
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_speed),
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.size(16.dp)
-                                )
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(
-                                    text = "${String.format(java.util.Locale.US, "%.1f", autoScrollSpeed)}x",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-                        }
-                    }
-                }
-            }
+            TtsControlPanel(
+                tts = tts,
+                chipAlignment = autoScrollChipAlignment,
+                chipOpacity = autoScrollChipOpacity,
+                chipOpacityEnabled = autoScrollChipOpacityEnabled,
+                bookId = book.id,
+                onTtsEvent = onTtsEvent,
+                onChangeSpeechRate = onChangeTtsSpeechRate,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .navigationBarsPadding()
+            )
         }
     }
 }

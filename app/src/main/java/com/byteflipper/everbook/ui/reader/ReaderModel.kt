@@ -47,8 +47,12 @@ import com.byteflipper.everbook.domain.reader.BookmarkKind
 import com.byteflipper.everbook.domain.reader.PdfReadingMode
 import com.byteflipper.everbook.domain.reader.Checkpoint
 import com.byteflipper.everbook.domain.reader.HighlightPalette
+import com.byteflipper.everbook.data.tts.TtsPlaybackService
+import com.byteflipper.everbook.data.tts.TtsSessionManager
 import com.byteflipper.everbook.domain.reader.ReaderText
 import com.byteflipper.everbook.domain.reader.ReaderText.Chapter
+import com.byteflipper.everbook.domain.reader.tts.TtsPreferences
+import com.byteflipper.everbook.domain.reader.tts.TtsSessionState
 import com.byteflipper.everbook.domain.translation.AUTO_TRANSLATION_LANGUAGE
 import com.byteflipper.everbook.domain.translation.BookTranslation
 import com.byteflipper.everbook.domain.translation.BookTranslationStatus
@@ -170,7 +174,8 @@ class ReaderModel @Inject constructor(
     private val recordReadingSession: RecordReadingSession,
     private val observeBookmarks: ObserveBookmarks,
     private val upsertBookmark: UpsertBookmark,
-    private val deleteBookmark: DeleteBookmark
+    private val deleteBookmark: DeleteBookmark,
+    private val ttsSessionManager: TtsSessionManager
 ) : ViewModel() {
 
     private val mutex = Mutex()
@@ -193,6 +198,71 @@ class ReaderModel @Inject constructor(
                 }
             }
         }
+        viewModelScope.launch {
+            ttsSessionManager.state.collect(::onTtsSessionChanged)
+        }
+    }
+
+    private suspend fun onTtsSessionChanged(session: TtsSessionState) {
+        val current = _state.value
+        // The session outlives the reader screen, so a state belonging to another book must not
+        // paint highlights over the one being displayed.
+        val belongsToCurrentBook = session.isActive && session.bookId == current.book.id
+        val tts = if (belongsToCurrentBook) {
+            ReaderTtsState(
+                playbackState = session.playbackState,
+                textIndex = session.textIndex,
+                sentenceRange = session.sentenceRange
+                    .takeIf { session.preferences.highlightSentence },
+                speechRate = session.preferences.speechRate,
+                failure = session.failure
+            )
+        } else {
+            ReaderTtsState(speechRate = session.preferences.speechRate)
+        }
+
+        if (current.tts == tts) return
+        _state.update { it.copy(tts = tts) }
+
+        // With follow-along scrolling on, the list moves and the scroll observer stores the
+        // position; otherwise the spoken paragraph is the only thing advancing.
+        val movedToNewParagraph = tts.textIndex >= 0 && tts.textIndex != current.tts.textIndex
+        if (belongsToCurrentBook && !session.preferences.autoScroll && movedToNewParagraph) {
+            _state.update {
+                it.copy(
+                    book = it.book.copy(
+                        progress = calculateProgress(tts.textIndex),
+                        scrollIndex = tts.textIndex,
+                        scrollOffset = 0
+                    )
+                )
+            }
+            updateBook.execute(_state.value.book)
+        }
+    }
+
+    private suspend fun startTts(preferences: TtsPreferences) {
+        val current = _state.value
+        if (current.text.isEmpty()) return
+
+        val startIndex = displayIndexToTextIndex(current.listState.firstVisibleItemIndex)
+        _state.update { it.copy(isAutoScrolling = false, isAutoScrollPaused = false) }
+
+        val started = ttsSessionManager.start(
+            bookId = current.book.id,
+            bookTitle = current.book.title,
+            entries = current.text,
+            startTextIndex = startIndex,
+            preferences = preferences
+        )
+        if (started) {
+            TtsPlaybackService.start(application)
+        }
+    }
+
+    private fun stopTts() {
+        ttsSessionManager.stop()
+        TtsPlaybackService.stop(application)
     }
 
     private fun newEventJob(): Job = SupervisorJob(viewModelScope.coroutineContext[Job])
@@ -625,6 +695,7 @@ class ReaderModel @Inject constructor(
                     launch {
                         yield()
 
+                        stopTts()
                         _state.update {
                             it.copy(
                                 lockMenu = true,
@@ -1515,6 +1586,37 @@ class ReaderModel @Inject constructor(
                     }
                 }
 
+                is ReaderEvent.OnStartTts -> {
+                    startTts(event.preferences)
+                }
+
+                is ReaderEvent.OnStopTts -> {
+                    stopTts()
+                }
+
+                is ReaderEvent.OnToggleTtsPlayback -> {
+                    ttsSessionManager.togglePlayPause()
+                }
+
+                is ReaderEvent.OnTtsNextParagraph -> {
+                    ttsSessionManager.nextParagraph()
+                }
+
+                is ReaderEvent.OnTtsPreviousParagraph -> {
+                    ttsSessionManager.previousParagraph()
+                }
+
+                is ReaderEvent.OnTtsNextSentence -> {
+                    ttsSessionManager.nextSentence()
+                }
+
+                is ReaderEvent.OnTtsPreviousSentence -> {
+                    ttsSessionManager.previousSentence()
+                }
+
+                is ReaderEvent.OnApplyTtsPreferences -> {
+                    ttsSessionManager.applyPreferences(event.preferences)
+                }
             }
         }
     }

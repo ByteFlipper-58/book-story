@@ -353,6 +353,7 @@
     <string name="tts_next_sentence">Next sentence</string>
     <string name="tts_previous_sentence">Previous sentence</string>
     <string name="tts_open_settings">Voice settings</string>
+    <string name="tts_close_settings">Back to read aloud controls</string>
     <string name="tts_preparing">Preparing…</string>
     <string name="tts_notification_channel">Read aloud</string>
     <string name="tts_notification_title">Read aloud</string>

@@ -7,6 +7,7 @@
 
 package com.byteflipper.everbook.presentation.reader.controls
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,13 +49,16 @@ fun TtsControlPanel(
     bookId: Int,
     onTtsEvent: (ReaderEvent) -> Unit,
     onChangeSpeechRate: (Float) -> Unit,
-    openTtsSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val collapseState = rememberReaderPanelCollapseState(
         active = tts.isActive,
         resetKey = bookId
     )
+
+    BackHandler(enabled = tts.isActive && collapseState.isSettingsShown) {
+        collapseState.toggleSettings()
+    }
 
     FloatingReaderControlPanel(
         visible = tts.isActive,
@@ -64,6 +68,9 @@ fun TtsControlPanel(
         expandedHeight = 148.dp,
         collapsedAlpha = if (chipOpacityEnabled) chipOpacity / 100f else 1f,
         modifier = modifier,
+        settingsContent = {
+            TtsPanelSettings(onBack = collapseState::toggleSettings)
+        },
         collapsedContent = {
             IconButton(
                 onClick = { onTtsEvent(ReaderEvent.OnToggleTtsPlayback) },
@@ -194,10 +201,7 @@ fun TtsControlPanel(
                 TtsAction(
                     icon = R.drawable.ic_settings_rounded_24px,
                     label = R.string.tts_open_settings,
-                    onClick = {
-                        collapseState.touch()
-                        openTtsSettings()
-                    }
+                    onClick = collapseState::toggleSettings
                 )
                 TtsAction(
                     icon = R.drawable.ic_stop_24px,

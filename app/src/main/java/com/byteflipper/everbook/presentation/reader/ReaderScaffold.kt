@@ -94,7 +94,6 @@ fun ReaderScaffold(
     startTts: () -> Unit,
     onTtsEvent: (ReaderEvent) -> Unit,
     onChangeTtsSpeechRate: (Float) -> Unit,
-    openTtsSettings: () -> Unit,
     book: Book,
     text: List<ReaderText>,
     displayContent: ReaderDisplayContent,
@@ -434,7 +433,6 @@ fun ReaderScaffold(
                 bookId = book.id,
                 onTtsEvent = onTtsEvent,
                 onChangeSpeechRate = onChangeTtsSpeechRate,
-                openTtsSettings = openTtsSettings,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .navigationBarsPadding()

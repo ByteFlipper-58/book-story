@@ -331,6 +331,7 @@
     <string name="tts_next_sentence">Следующее предложение</string>
     <string name="tts_previous_sentence">Предыдущее предложение</string>
     <string name="tts_open_settings">Настройки голоса</string>
+    <string name="tts_close_settings">Назад к управлению озвучкой</string>
     <string name="tts_preparing">Подготовка…</string>
     <string name="tts_notification_channel">Озвучивание</string>
     <string name="tts_notification_title">Озвучивание</string>

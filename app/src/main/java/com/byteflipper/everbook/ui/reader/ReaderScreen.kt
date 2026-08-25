@@ -799,9 +799,6 @@ data class ReaderScreen(val bookId: Int) : Screen, Parcelable {
                 onChangeTtsSpeechRate = {
                     mainModel.onEvent(MainEvent.OnChangeTtsSpeechRate(it))
                 },
-                openTtsSettings = {
-                    screenModel.onEvent(ReaderEvent.OnShowSettingsBottomSheet)
-                },
                 selectPreviousPreset = settingsModel::onEvent,
                 selectNextPreset = settingsModel::onEvent,
                 leave = screenModel::onEvent,

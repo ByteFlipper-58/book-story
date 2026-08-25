@@ -73,8 +73,8 @@ const val READER_PANEL_BOTTOM_CENTER = "BOTTOM_CENTER"
 const val READER_PANEL_BOTTOM_RIGHT = "BOTTOM_RIGHT"
 
 private const val COLLAPSE_DELAY_MS = 3000L
-private const val SETTINGS_HEIGHT_FRACTION = 0.45f
-private val SETTINGS_MAX_HEIGHT = 360.dp
+private const val SETTINGS_HEIGHT_FRACTION = 0.55f
+private val SETTINGS_MAX_HEIGHT = 480.dp
 private val COLLAPSED_HEIGHT = 40.dp
 private val COLLAPSED_CORNER = 20.dp
 private val EXPANDED_CORNER = 28.dp

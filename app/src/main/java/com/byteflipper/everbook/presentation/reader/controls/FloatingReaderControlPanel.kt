@@ -8,16 +8,19 @@
 package com.byteflipper.everbook.presentation.reader.controls
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.Transition
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -34,6 +37,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -45,6 +50,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -70,8 +76,51 @@ private const val COLLAPSE_DELAY_MS = 3000L
 private const val SETTINGS_HEIGHT_FRACTION = 0.45f
 private val SETTINGS_MAX_HEIGHT = 360.dp
 private val COLLAPSED_HEIGHT = 40.dp
+private val COLLAPSED_CORNER = 20.dp
+private val EXPANDED_CORNER = 28.dp
 private val TRACK_HEIGHT = 28.dp
 private val TRACK_INSET = 14.dp
+
+/** Sizes a floating panel can take, ordered from the smallest to the largest. */
+private enum class ReaderPanelPhase { Chip, Controls, Settings }
+
+/**
+ * Spring shared by every animated dimension of the panel, so height, width and corners always
+ * travel together. Growing into the settings covers the longest distance and gets the softest
+ * spring; shrinking back is quicker and free of overshoot, because a large surface that overshoots
+ * looks sloppy; the chip keeps a hint of bounce.
+ */
+private fun <T> Transition.Segment<ReaderPanelPhase>.spatialSpec(): FiniteAnimationSpec<T> = when {
+    targetState == ReaderPanelPhase.Settings -> spring(dampingRatio = 0.88f, stiffness = 500f)
+    initialState == ReaderPanelPhase.Settings -> spring(dampingRatio = 1f, stiffness = 900f)
+    else -> spring(dampingRatio = 0.78f, stiffness = 900f)
+}
+
+/**
+ * Opacity is an effect rather than a size, so it is timed instead of sprung. Fading down to the
+ * chip waits for the shrink to finish, otherwise the panel turns translucent while it is still wide.
+ */
+private fun Transition.Segment<ReaderPanelPhase>.alphaSpec(): FiniteAnimationSpec<Float> =
+    if (targetState == ReaderPanelPhase.Chip) {
+        tween(durationMillis = 250, delayMillis = 300)
+    } else {
+        tween(durationMillis = 150)
+    }
+
+/**
+ * Cross-fade between the contents of two phases, nudged along the axis the panel grows in. The
+ * card is sized by the very same transition, so the content must not animate its size on its own.
+ */
+private fun AnimatedContentTransitionScope<ReaderPanelPhase>.contentSpec(): ContentTransform {
+    val direction = if (targetState.ordinal > initialState.ordinal) 1 else -1
+    return ContentTransform(
+        targetContentEnter = fadeIn(animationSpec = tween(200, delayMillis = 80)) +
+            slideInVertically(animationSpec = tween(300)) { height -> direction * height / 16 },
+        initialContentExit = fadeOut(animationSpec = tween(140)) +
+            slideOutVertically(animationSpec = tween(300)) { height -> -direction * height / 16 },
+        sizeTransform = null
+    )
+}
 
 /**
  * State of a floating reader panel: whether it is shrunk to a chip, whether it shows its settings
@@ -179,26 +228,29 @@ fun FloatingReaderControlPanel(
         exit = fadeOut() + slideOutVertically { it },
         modifier = modifier
     ) {
-        val isCollapsed = collapseState.isCollapsed
-        val showSettings = settingsContent != null && collapseState.isSettingsShown
-        val sizeSpec = spring<Dp>(
-            dampingRatio = Spring.DampingRatioLowBouncy,
-            stiffness = Spring.StiffnessMedium
-        )
-        val fractionSpec = spring<Float>(
-            dampingRatio = Spring.DampingRatioLowBouncy,
-            stiffness = Spring.StiffnessMedium
-        )
+        val hasSettings = settingsContent != null
+        val phase by remember(collapseState, hasSettings) {
+            derivedStateOf {
+                when {
+                    collapseState.isCollapsed -> ReaderPanelPhase.Chip
+                    hasSettings && collapseState.isSettingsShown -> ReaderPanelPhase.Settings
+                    else -> ReaderPanelPhase.Controls
+                }
+            }
+        }
+        // The card grows from its anchored corner, so its content is anchored the same way and is
+        // simply unveiled instead of being re-laid out on every frame of the animation.
+        val panelAlignment = when (alignment) {
+            READER_PANEL_BOTTOM_LEFT -> Alignment.BottomStart
+            READER_PANEL_BOTTOM_CENTER -> Alignment.BottomCenter
+            else -> Alignment.BottomEnd
+        }
 
         BoxWithConstraints(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-            contentAlignment = when (alignment) {
-                READER_PANEL_BOTTOM_LEFT -> Alignment.BottomStart
-                READER_PANEL_BOTTOM_CENTER -> Alignment.BottomCenter
-                else -> Alignment.BottomEnd
-            }
+            contentAlignment = panelAlignment
         ) {
             // The settings take a share of what the reader leaves free instead of a fixed height,
             // so the card never grows past the space between the insets.
@@ -206,33 +258,37 @@ fun FloatingReaderControlPanel(
                 maxHeight * SETTINGS_HEIGHT_FRACTION,
                 SETTINGS_MAX_HEIGHT
             ).coerceAtLeast(expandedHeight).coerceAtMost(maxHeight)
+            val panelWidth = maxWidth
 
-            val panelHeight by animateDpAsState(
-                targetValue = when {
-                    isCollapsed -> COLLAPSED_HEIGHT
-                    showSettings -> settingsHeight
-                    else -> expandedHeight
-                },
-                animationSpec = sizeSpec
-            )
-            val panelWidthFraction by animateFloatAsState(
-                targetValue = if (isCollapsed) collapsedWidthFraction else 1f,
-                animationSpec = fractionSpec
-            )
-            val panelCorner by animateDpAsState(
-                targetValue = if (isCollapsed) 20.dp else 28.dp,
-                animationSpec = sizeSpec
-            )
-            // Fading in the chip is delayed until the shrink animation is over, otherwise the panel
-            // turns translucent while it is still wide.
-            val panelAlpha by animateFloatAsState(
-                targetValue = if (isCollapsed) collapsedAlpha else 1f,
-                animationSpec = if (isCollapsed) {
-                    tween(durationMillis = 300, delayMillis = 300)
-                } else {
-                    tween(durationMillis = 150)
+            val transition = updateTransition(targetState = phase, label = "ReaderPanelPhase")
+            val panelHeight by transition.animateDp(
+                transitionSpec = { spatialSpec() },
+                label = "PanelHeight"
+            ) { target ->
+                when (target) {
+                    ReaderPanelPhase.Chip -> COLLAPSED_HEIGHT
+                    ReaderPanelPhase.Controls -> expandedHeight
+                    ReaderPanelPhase.Settings -> settingsHeight
                 }
-            )
+            }
+            val panelWidthFraction by transition.animateFloat(
+                transitionSpec = { spatialSpec() },
+                label = "PanelWidth"
+            ) { target ->
+                if (target == ReaderPanelPhase.Chip) collapsedWidthFraction else 1f
+            }
+            val panelCorner by transition.animateDp(
+                transitionSpec = { spatialSpec() },
+                label = "PanelCorner"
+            ) { target ->
+                if (target == ReaderPanelPhase.Chip) COLLAPSED_CORNER else EXPANDED_CORNER
+            }
+            val panelAlpha by transition.animateFloat(
+                transitionSpec = { alphaSpec() },
+                label = "PanelAlpha"
+            ) { target ->
+                if (target == ReaderPanelPhase.Chip) collapsedAlpha else 1f
+            }
 
             Card(
                 modifier = Modifier
@@ -246,50 +302,39 @@ fun FloatingReaderControlPanel(
                 ),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
             ) {
-                if (isCollapsed) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        content = collapsedContent
-                    )
-                } else {
-                    AnimatedContent(
-                        targetState = showSettings,
-                        modifier = Modifier.fillMaxSize(),
-                        // The card animates its own height, so the content transform must not.
-                        transitionSpec = {
-                            val direction = if (targetState) 1 else -1
-                            (
-                                fadeIn(animationSpec = tween(220, delayMillis = 90)) +
-                                    slideInVertically(animationSpec = tween(280)) {
-                                        direction * it / 8
-                                    }
-                                ).togetherWith(
-                                    fadeOut(animationSpec = tween(150)) +
-                                        slideOutVertically(animationSpec = tween(280)) {
-                                            -direction * it / 8
-                                        }
-                                ) using null
-                        }
-                    ) { settingsVisible ->
-                        if (settingsVisible && settingsContent != null) {
+                transition.AnimatedContent(
+                    modifier = Modifier.fillMaxSize(),
+                    transitionSpec = { contentSpec() },
+                    contentAlignment = panelAlignment
+                ) { target ->
+                    when (target) {
+                        ReaderPanelPhase.Chip -> Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .requiredHeight(COLLAPSED_HEIGHT)
+                                .padding(horizontal = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                            content = collapsedContent
+                        )
+
+                        ReaderPanelPhase.Controls -> Column(
+                            modifier = Modifier
+                                .requiredWidth(panelWidth)
+                                .requiredHeight(expandedHeight)
+                                .padding(horizontal = 16.dp, vertical = 12.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.SpaceBetween,
+                            content = expandedContent
+                        )
+
+                        ReaderPanelPhase.Settings -> if (settingsContent != null) {
                             Column(
                                 modifier = Modifier
-                                    .fillMaxSize()
+                                    .requiredWidth(panelWidth)
+                                    .requiredHeight(settingsHeight)
                                     .padding(vertical = 12.dp),
                                 content = settingsContent
-                            )
-                        } else {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                content = expandedContent
                             )
                         }
                     }
